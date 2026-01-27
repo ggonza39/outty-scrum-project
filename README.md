@@ -1,7 +1,7 @@
 # Outty – Adventure Matching App
 
 ## Team Name
-Outty Solo Scrum Team
+Outty Scrum Team
 
 ## Team Roster & Scrum Roles
 - Gilberto Gonzalez  
