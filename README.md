@@ -7,7 +7,7 @@ Outty Scrum Team
 - Gilberto Gonzalez  
   - Product Owner  
   - Scrum Master  
-  - Developer  
+  - Developers
 
 ## Project Overview
 Outty is an adventure-focused matching application designed to connect outdoor enthusiasts based on shared activities, skill levels, and exploration preferences. Unlike traditional dating apps, Outty prioritizes meaningful activity-based compatibility for users seeking adventure partners.
