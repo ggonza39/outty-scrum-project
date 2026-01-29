@@ -8,7 +8,7 @@ The backlog item has a clear, concise, and descriptive title that accurately ref
 ### 2. User Story Format
 The backlog item is written using the standard user story format:
 
-> As a *[type of user]*, I want *[some goal]* so that *[some reason]*.
+- As a *[type of user]*, I want *[some goal]* so that *[some reason]*.
 
 ### 3. Additional Details
 The backlog item includes sufficient information to be clearly understood by the development team, including:
