@@ -4,13 +4,23 @@
 Outty Scrum Team
 
 ## Team Roster & Scrum Roles
-- Gilberto Gonzalez  
+- Gilberto Gonzalez
+- Hunter Blake
+- Heidi Wilder
+- Takeshia Banks
+- Anthony Nguyen
+- Gibson Garner
+  - Roles TBD:   
   - Product Owner  
   - Scrum Master  
   - Developers
 
 ## Project Overview
-Outty is an adventure-focused matching application designed to connect outdoor enthusiasts based on shared activities, skill levels, and exploration preferences. Unlike traditional dating apps, Outty prioritizes meaningful activity-based compatibility for users seeking adventure partners.
+Outty is an adventure-focused matching application designed to connect individuals who are interested in outdoor and experiential activities such as hiking, camping, climbing, and travel-based exploration. The primary goal of the application is to support meaningful connections by matching users based on shared activity interests, experience levels, and availability rather than relying solely on profile-based or appearance-driven matching.
+
+Unlike traditional dating or social networking applications, Outty emphasizes activity compatibility as the core matching criterion. Users create profiles that capture relevant preferences, skill levels, and interests, which are then used to support a structured matching process. The application is intended to support both social and dating use cases, allowing users to connect with others who share similar interests in outdoor and adventure-oriented experiences.
+
+From a software engineering perspective, this project focuses on applying agile development practices to the design and implementation of a real-world, user-centered web application. The system is designed as a modern web application using a component-based front-end, a cloud-hosted backend, and an integrated authentication and data storage solution. The project will be developed incrementally using Scrum, with an emphasis on backlog refinement, iterative delivery, and collaborative development.
 
 ## Repository Structure
 - /Product-Vision
