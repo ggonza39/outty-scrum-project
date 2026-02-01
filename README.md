@@ -4,16 +4,15 @@
 Outty Scrum Team
 
 ## Team Roster & Scrum Roles
-- Gilberto Gonzalez
 - Hunter Blake
-- Heidi Wilder
 - Takeshia Banks
 - Anthony Nguyen
 - Gibson Garner
   - Roles TBD:   
   - Product Owner  
-  - Scrum Master  
+  - Scrum Master (possibly Gilberto Gonzalez)  
   - Developers
+      -Heidi Wilder (UI/UX Design)
 
 ## Project Overview
 Outty is an adventure-focused matching application designed to connect individuals who are interested in outdoor and experiential activities such as hiking, camping, climbing, and travel-based exploration. The primary goal of the application is to support meaningful connections by matching users based on shared activity interests, experience levels, and availability rather than relying solely on profile-based or appearance-driven matching.
