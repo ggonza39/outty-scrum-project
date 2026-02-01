@@ -21,6 +21,20 @@ Unlike traditional dating or social networking applications, Outty emphasizes ac
 
 From a software engineering perspective, this project focuses on applying agile development practices to the design and implementation of a real-world, user-centered web application. The system is designed as a modern web application using a component-based front-end, a cloud-hosted backend, and an integrated authentication and data storage solution. The project will be developed incrementally using Scrum, with an emphasis on backlog refinement, iterative delivery, and collaborative development.
 
+## Tools & Collaboration
+
+The Outty project uses the following tools to support collaboration, design, and agile project management:
+
+- **Version Control & Project Management:** GitHub  
+  GitHub is used to host the source code repository, manage the product backlog, track issues, and document project artifacts. GitHub Issues and project boards support sprint planning and task coordination.
+
+- **UI/UX Design:** Figma  
+  Figma is used to collaboratively design and prototype the user interface. One team member is proficient with Figma and leads UI/UX design efforts.
+
+- **Team Communication:** Microsoft Teams  
+  Microsoft Teams is used for team communication, including meetings, discussions, and coordination throughout the Scrum process.
+
+
 ## Repository Structure
 - /Product-Vision
 - /Backlog
