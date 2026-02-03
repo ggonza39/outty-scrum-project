@@ -7,7 +7,7 @@ Outty Scrum Team
 - Hunter Blake
 - Takeshia Banks
 - Anthony Nguyen
-- Connor McDonald
+- Gibson Garner
   - Roles TBD:   
   - Product Owner  
   - Scrum Master
