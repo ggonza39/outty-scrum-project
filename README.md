@@ -15,7 +15,7 @@ Outty Scrum Team
   - Gilberto Gonzalez 
 - Developers
   - Heidi Wilder (UI/UX Design)
-  - Frontend Design
+  - Takeshia Banks (Frontend Design)
   - Hunter Blake (Backend Design)
   - Gibson Garner (Unit/System Tester)
 
