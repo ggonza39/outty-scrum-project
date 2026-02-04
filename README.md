@@ -15,7 +15,7 @@ Outty Scrum Team
 - Developers
   - Heidi Wilder (UI/UX Design)
   - Frontend Design
-  - Backend Design
+  - Hunter Blake (Backend Design)
   - Gibson Garner (Unit/System Tester)
 
 ## Project Overview
