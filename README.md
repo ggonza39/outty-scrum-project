@@ -7,6 +7,7 @@ Outty Scrum Team
 - Hunter Blake
 - Takeshia Banks
 - Heidi Wilder
+- 
 -Roles TBD:   
 - Product Owner
   - Anthony Nguyen 
