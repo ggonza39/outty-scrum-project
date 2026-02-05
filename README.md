@@ -4,11 +4,6 @@
 Outty Scrum Team
 
 ## Team Roster & Scrum Roles
-- Hunter Blake
-- Takeshia Banks
-- Heidi Wilder
-- 
--Roles TBD:   
 - Product Owner
   - Anthony Nguyen 
 - Scrum Master
