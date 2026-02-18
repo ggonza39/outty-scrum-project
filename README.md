@@ -34,6 +34,9 @@ The Outty project uses the following tools to support collaboration, design, and
 - **Backend Design:** Supabase  
   Supabase is used to provide backend infrastructure, supporting rapid development through a centrally managed PostgreSQL database, built-in user authentication, API services, and real-time data capabilities for the application.
 
+- **Frontend Development:** Next.js (React + TypeScript)
+  Next.js is used to implement the component-based frontend of the web application. Tyscript is used to enhance maintainability and reduce runtime errors.
+  
 - **Team Communication:** Microsoft Teams  
   Microsoft Teams is used for team communication, including meetings, discussions, and coordination throughout the Scrum process.
 
