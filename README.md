@@ -31,13 +31,13 @@ The Outty project uses the following tools to support collaboration, design, and
 - **UI/UX Design:** Figma  
   Figma is used to collaboratively design and prototype the user interface. One team member is proficient with Figma and leads UI/UX design efforts.
 
-### Frontend Development
-**Next.js (React + TypeScript)**
+- ### Frontend Development
+  - **Next.js (React + TypeScript)**
 
 Next.js is used to implement the component-based frontend of the web application. It provides routing, server-side rendering capabilities, and a structured development environment suitable for scalable web applications. TypeScript is used to improve maintainability, enhance code reliability, and reduce runtime errors through static type checking.
 
-### Backend & Database Infrastructure
-**Supabase (PostgreSQL, Authentication, APIs)**
+- ### Backend & Database Infrastructure
+  - **Supabase (PostgreSQL, Authentication, APIs)**
 
 Supabase provides backend infrastructure for the application, including:
 
@@ -48,8 +48,8 @@ Supabase provides backend infrastructure for the application, including:
 
 This enables rapid development while maintaining a structured and scalable backend architecture.
 
-### Runtime & Package Management
-**Node.js and npm**
+- ### Runtime & Package Management
+  - **Node.js and npm**
 
 Node.js provides the runtime environment for developing and running the Next.js application. npm is used for dependency management, package installation, and project scripts, ensuring consistent development environments across team members.
   
