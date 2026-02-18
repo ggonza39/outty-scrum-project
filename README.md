@@ -45,6 +45,11 @@ The Outty project uses the following tools to support collaboration, design, and
 
 - **Runtime & Package Management** Node.js and npm  
   Node.js provides the runtime environment for developing and running the Next.js application. npm is used for dependency management, package installation, and project scripts, ensuring consistent development environments across team members.
+
+
+- **Hosting** Vercel  
+  Vercel is used to host and deploy the Next.js application. It provides automated builds, continuous deployment from the GitHub repository, and environment variable management. Vercel also supports preview deployments, allowing the team to test changes safely before production release.
+
   
 - **Team Communication:** Microsoft Teams  
   Microsoft Teams is used for team communication, including meetings, discussions, and coordination throughout the Scrum process.
