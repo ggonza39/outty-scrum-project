@@ -19,3 +19,6 @@ Once matching is established, viewing matched profiles and in-app messaging are 
 
 Enhancement features such as photo uploads, profile editing, and secure logout are placed later in the backlog. While important for usability, security, and user experience, these items are lower risk and depend on previously implemented core functionality. Prioritizing them later allows the team to focus first on delivering and validating the most critical aspects of the product.
 
+**Note:** Story points were assigned during backlog refinement by estimating items sequentially from the top of the backlog downward using relative comparison.
+
+
