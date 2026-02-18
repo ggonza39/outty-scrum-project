@@ -43,7 +43,8 @@ The Outty project uses the following tools to support collaboration, design, and
 
   This enables rapid development while maintaining a structured and scalable backend architecture.
 
-- **Runtime & Package Management** Node.js and npm  
+- **Runtime & Package Management** Node.js and npm
+
   Node.js provides the runtime environment for developing and running the Next.js application. npm is used for dependency management, package installation, and project scripts, ensuring consistent development environments across team members.
   
 - **Team Communication:** Microsoft Teams  
