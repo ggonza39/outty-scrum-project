@@ -31,7 +31,7 @@ The Outty project uses the following tools to support collaboration, design, and
 - **UI/UX Design:** Figma  
   Figma is used to collaboratively design and prototype the user interface. One team member is proficient with Figma and leads UI/UX design efforts.
 
-- **Backend Design:** Supabase
+- **Backend Design:** Supabase  
   Supabase is used to provide backend infrastructure, supporting rapid development through a centrally managed PostgreSQL database, built-in user authentication, API services, and real-time data capabilities for the application.
 
 - **Team Communication:** Microsoft Teams  
