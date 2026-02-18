@@ -43,11 +43,11 @@ The Outty project uses the following tools to support collaboration, design, and
 
   This enables rapid development while maintaining a structured and scalable backend architecture.
 
-- **Runtime & Package Management** Node.js and npm  
+- **Runtime & Package Management:** Node.js and npm  
   Node.js provides the runtime environment for developing and running the Next.js application. npm is used for dependency management, package installation, and project scripts, ensuring consistent development environments across team members.
 
 
-- **Hosting** Vercel  
+- **Hosting:** Vercel  
   Vercel is used to host and deploy the Next.js application. It provides automated builds, continuous deployment from the GitHub repository, and environment variable management. Vercel also supports preview deployments, allowing the team to test changes safely before production release.
 
   
