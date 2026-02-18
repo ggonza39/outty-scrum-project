@@ -31,11 +31,27 @@ The Outty project uses the following tools to support collaboration, design, and
 - **UI/UX Design:** Figma  
   Figma is used to collaboratively design and prototype the user interface. One team member is proficient with Figma and leads UI/UX design efforts.
 
-- **Backend Design:** Supabase  
-  Supabase is used to provide backend infrastructure, supporting rapid development through a centrally managed PostgreSQL database, built-in user authentication, API services, and real-time data capabilities for the application.
+### Frontend Development
+**Next.js (React + TypeScript)**
 
-- **Frontend Design:** Next.js (React + TypeScript)  
-  Next.js is used to implement the component-based frontend of the web application. TypeScript is used to enhance maintainability and reduce runtime errors.
+Next.js is used to implement the component-based frontend of the web application. It provides routing, server-side rendering capabilities, and a structured development environment suitable for scalable web applications. TypeScript is used to improve maintainability, enhance code reliability, and reduce runtime errors through static type checking.
+
+### Backend & Database Infrastructure
+**Supabase (PostgreSQL, Authentication, APIs)**
+
+Supabase provides backend infrastructure for the application, including:
+
+- A centrally managed PostgreSQL database
+- Built-in user authentication and authorization
+- Auto-generated RESTful APIs
+- Real-time data capabilities
+
+This enables rapid development while maintaining a structured and scalable backend architecture.
+
+### Runtime & Package Management
+**Node.js and npm**
+
+Node.js provides the runtime environment for developing and running the Next.js application. npm is used for dependency management, package installation, and project scripts, ensuring consistent development environments across team members.
   
 - **Team Communication:** Microsoft Teams  
   Microsoft Teams is used for team communication, including meetings, discussions, and coordination throughout the Scrum process.
