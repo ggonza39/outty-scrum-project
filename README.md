@@ -50,6 +50,8 @@ The Outty project uses the following tools to support collaboration, design, and
 - **Hosting:** Vercel  
   Vercel is used to host and deploy the Next.js application. It provides automated builds, continuous deployment from the GitHub repository, and environment variable management. Vercel also supports preview deployments, allowing the team to test changes safely before production release.
 
+- **Testing:** JUnit will be used for basic unit testing and integration testing. Playwright will be used for end-to-end testing. Its cross-browser support will enable a flexible web app that works on many browsers. 
+
   
 - **Team Communication:** Microsoft Teams  
   Microsoft Teams is used for team communication, including meetings, discussions, and coordination throughout the Scrum process.
