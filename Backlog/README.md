@@ -4,6 +4,7 @@ The product backlog for the Outty project is managed using GitHub Projects.
 
 Backlog URL:
 https://github.com/users/ggonza39/projects/1
+---
 
 ## Backlog Ordering Rationale
 
@@ -18,29 +19,32 @@ Core matching functionality, including swipe-based discovery and distance filter
 Once matching is established, viewing matched profiles and in-app messaging are introduced to enable meaningful interaction and coordination between users. These features depend on successful matches and therefore logically follow the matching functionality.
 
 Enhancement features such as photo uploads, profile editing, and secure logout are placed later in the backlog. While important for usability, security, and user experience, these items are lower risk and depend on previously implemented core functionality. Prioritizing them later allows the team to focus first on delivering and validating the most critical aspects of the product.
+---
 
 ## Current Backlog (Ordered)
 
-- 1. User account creation – 5 pts
+1. User account creation – 5 pts
 
-- 2. Create adventure-based user profile – 3 pts
+2. Create adventure-based user profile – 3 pts
 
-- 3. Swipe and match with nearby adventurers – 8 pts
+3. Swipe and match with nearby adventurers – 8 pts
 
-- 4. Set adventure preferences – 3 pts
+4. Set adventure preferences – 3 pts
 
-- 5. Filter matches by distance – 5 pts
+5. Filter matches by distance – 5 pts
 
-- 6. View matched user profiles – 2 pts
+6. View matched user profiles – 2 pts
 
-- 7. Send in-app messages – 8 pts
+7. Send in-app messages – 8 pts
 
-- 8. Upload profile photos – 5 pts
+8. Upload profile photos – 5 pts
 
-- 9. Edit or delete profile – 3 pts
+9. Edit or delete profile – 3 pts
 
-- 10. Log out securely – 1 pt
+10. Log out securely – 1 pt
 
 **Note:** Story points were assigned during backlog refinement by estimating items sequentially from the top of the backlog downward using relative comparison. All items are written in standard user story format and include additional details and acceptance criteria within the GitHub Project board.
+
+---
 
 
