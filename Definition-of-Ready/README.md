@@ -11,9 +11,15 @@ The backlog item is written using the standard user story format:
 - As a *[type of user]*, I want *[some goal]* so that *[some reason]*.
 
 ### 3. Additional Details
-The backlog item includes sufficient information to be clearly understood by the development team, including:
-- Acceptance criteria or clarifying notes, when applicable  
-- Identified dependencies, assumptions, or constraints  
+The backlog item includes sufficient information to be clearly understood by the development team. This includes:
+
+- Acceptance criteria or clarifying notes
+
+- Identified dependencies, assumptions, or constraints
+
+- Any relevant technical or functional considerations
+
+These details reduce ambiguity and help ensure shared understanding.
 
 ### 4. Estimated in Story Points
 The backlog item has been estimated using story points based on relative complexity, effort, and uncertainty.
