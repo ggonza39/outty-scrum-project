@@ -19,6 +19,7 @@ Core matching functionality, including swipe-based discovery and distance filter
 Once matching is established, viewing matched profiles and in-app messaging are introduced to enable meaningful interaction and coordination between users. These features depend on successful matches and therefore logically follow the matching functionality.
 
 Enhancement features such as photo uploads, profile editing, and secure logout are placed later in the backlog. While important for usability, security, and user experience, these items are lower risk and depend on previously implemented core functionality. Prioritizing them later allows the team to focus first on delivering and validating the most critical aspects of the product.
+
 ---
 
 ## Current Backlog (Ordered)
