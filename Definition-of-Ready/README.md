@@ -22,9 +22,8 @@ The backlog item includes sufficient information to be clearly understood by the
 These details reduce ambiguity and help ensure shared understanding.
 
 ### 4. Estimated in Story Points
-The backlog item has been estimated using story points based on relative complexity, effort, and uncertainty.
-Estimation is performed by comparing the item to other backlog items rather than using time-based estimates.
+The backlog item has been estimated in story points using relative estimation based on complexity, effort, and uncertainty. Estimation is performed by comparing the item to other backlog items rather than using time-based estimates.
 
-Backlog items that do not meet all of the above criteria are considered **not ready** and will remain in the product backlog until they are refined.
+Backlog items that do not meet all of the above criteria are considered Not Ready and will remain in the Product Backlog until they are refined.
 
 
