@@ -46,7 +46,11 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 10. Log out securely – 1 pt
 
 ### **Estimation Approach**
-Story points were assigned using relative estimation rather than time-based estimation. The team considered factors such as technical complexity, required effort, uncertainty, and potential dependencies. Each item was compared against previously estimated items to determine whether it was smaller, similar in size, or larger in scope. Higher story points reflect greater implementation complexity or uncertainty, while lower story points represent well-understood or narrowly scoped functionality. In addition, story points were assigned during backlog refinement by estimating items sequentially from the top of the backlog downward to ensure consistent relative comparison across items.
+Story points were assigned using relative estimation rather than time-based estimation. The team considered factors such as technical complexity, required effort, uncertainty, and potential dependencies.
+
+Each Product Backlog Item (PBI) was compared against previously estimated items to determine whether it was smaller, similar in size, or larger in scope. Higher story points reflect greater implementation complexity or uncertainty, while lower story points represent well-understood or narrowly scoped functionality.
+
+Estimation was performed sequentially, starting at the top of the backlog and working downward to the bottom, to ensure consistent relative comparison across all items.
 
 **Note:** All items are written in standard user story format and include additional details and acceptance criteria within the GitHub Project board.
 
