@@ -52,7 +52,7 @@ Each Product Backlog Item (PBI) was compared against previously estimated items 
 
 Estimation was performed sequentially, starting at the top of the backlog and working downward to the bottom, to ensure consistent relative comparison across all items.
 
-**Note:** All items are written in standard user story format and include additional details and acceptance criteria within the GitHub Project board.
+**Note:** Each product backlog item is listed by its summary title on the project board. The full user stories and other detailed technical requirements are documented within the description field of each individual backlog item.
 
 ---
 
