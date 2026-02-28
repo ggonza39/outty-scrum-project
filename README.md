@@ -25,8 +25,29 @@ From a software engineering perspective, this project focuses on applying agile 
 
 The Outty project uses the following tools to support collaboration, design, and agile project management:
 
-- **Version Control & Project Management:** GitHub  
-  GitHub is used to host the source code repository, manage the product backlog, track issues, and document project artifacts. GitHub Issues and project boards support sprint planning and task coordination.
+- **Version Control & Project Management:** GitHub and Zenhub
+  GitHub is used to host the source code repository, manage the product backlog, track issues, and document project artifacts. GitHub Issues serve as the foundation for user stories, tasks, and technical work items, ensuring traceability between requirements and implementation.
+
+  To enhance Scrum-based project management, ZenHub is integrated directly with the GitHub repository. While GitHub manages the codebase and issue tracking, ZenHub provides advanced agile planning capabilities, including:
+
+  - Assigning and estimating user stories using story points
+
+  - Organizing issues into Epics
+
+  - Sprint planning and sprint management
+
+  - Generating the Sprint Burndown Chart
+
+  - Real-time tracking of story points remaining
+
+  ZenHub is primarily used for sprint planning and burndown tracking because it provides more structured story point management and automatic burndown chart generation than GitHub Projects alone.
+
+  Both tools are used in conjunction:
+
+  GitHub → source control, issue tracking, documentation
+  ZenHub → sprint planning, story point estimation, burndown tracking, and Scrum workflow visualization
+
+  This integration ensures accurate progress tracking while maintaining tight alignment between development work and agile project management practices.
 
 - **UI/UX Design:** Figma  
   Figma is used to collaboratively design and prototype the user interface. One team member is proficient with Figma and leads UI/UX design efforts.
