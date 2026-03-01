@@ -9,7 +9,7 @@ The team consists of 6 members contributing approximately 6 hours per week each.
 Accounting for role distribution (Product Owner, Scrum Master, UI/UX) and onboarding to new technologies (Next.js, Supabase, Playwright), the estimated effective development capacity is approximately 45–50 hours.
 
 ## Forecasted Velocity
-Based on relative estimation and expected team capacity, the team forecasts completing 18 story points during Sprint 1.
+Based on relative estimation and expected team capacity, the team forecasts completing 17 story points during Sprint 1.
 
 ## Selected Sprint Backlog Items
 
