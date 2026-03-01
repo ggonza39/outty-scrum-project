@@ -7,7 +7,7 @@
 ---
 
 # Template
----
+
 # Sprint 1 – Daily Scrum Documentation
 
 **Date:** YYYY-MM-DD  
