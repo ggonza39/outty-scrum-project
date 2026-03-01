@@ -85,4 +85,5 @@ The Outty project uses the following tools to support collaboration, design, and
 - /Definition-of-Ready
 - /Sprint-Planning
 - /Design
+- /application
 
