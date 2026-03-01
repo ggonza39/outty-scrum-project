@@ -3,7 +3,10 @@
 This folder contains documentation for all Daily Scrums conducted during Sprint 1.
 
 Each file represents one Daily Scrum meeting.
+---
 
+# Template
+---
 # Sprint 1 – Daily Scrum Documentation
 
 **Date:** YYYY-MM-DD  
