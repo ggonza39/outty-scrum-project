@@ -35,7 +35,7 @@ Sprint Goal: Establish the core authentication and profile management features o
 
 ---
 
-## Story 3 – Set Adventure Preferences (3 pts)
+## Story 4 – Set Adventure Preferences (3 pts)
 
 - Extend profile schema to include adventure preferences
 - Implement preferences selection UI (checkboxes/tags)
@@ -45,7 +45,7 @@ Sprint Goal: Establish the core authentication and profile management features o
 
 ---
 
-## Story 4 – Edit or Delete Profile (3 pts)
+## Story 9 – Edit or Delete Profile (3 pts)
 
 - Implement profile edit form pre-filled with existing data
 - Implement update profile API call
@@ -55,7 +55,7 @@ Sprint Goal: Establish the core authentication and profile management features o
 
 ---
 
-## Story 5 – Log Out Securely (1 pt)
+## Story 10 – Log Out Securely (1 pt)
 
 - Implement logout button in navigation
 - Connect logout to Supabase session termination
