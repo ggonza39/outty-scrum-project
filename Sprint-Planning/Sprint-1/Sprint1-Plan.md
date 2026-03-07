@@ -1,10 +1,10 @@
 # Sprint 1 Plan
 
 ## Sprint Duration
-2 weeks
+March 9 – March 24 (16 days, approximately 2 weeks).
 
 ## Team Capacity
-The team consists of 6 members contributing approximately 6 hours per week each. Over a 2-week sprint, this equals 72 total available hours.
+The team consists of 6 members contributing approximately 6 hours per week each. Over a sprint period of approximately 2 weeks, this equals 72 total available hours.
 
 Accounting for role distribution (Product Owner, Scrum Master, UI/UX) and onboarding to new technologies (Next.js, Supabase, Playwright), the estimated effective development capacity is approximately 45–50 hours.
 
