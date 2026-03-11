@@ -1,6 +1,6 @@
 # Sprint 1 – Daily Scrum Documentation
 
-**Date:** 2026-03-13  
+**Date:** 03-13-2026  
 
 ---
 
