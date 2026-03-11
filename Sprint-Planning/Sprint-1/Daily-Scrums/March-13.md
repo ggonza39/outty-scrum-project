@@ -43,7 +43,7 @@ Planned work
 **Anthony Nguyen:**  
 Planned work  
 
-**Gilberto Gonzalez:**
+**Gilberto Gonzalez:**  
 Planned work 
 
 ---
