@@ -21,7 +21,7 @@ Description of completed work
 **Anthony Nguyen:**  
 Description of completed work  
 
-**Gilberto Gonzalez:**
+**Gilberto Gonzalez:**  
 Description of completed work  
 
 ---
