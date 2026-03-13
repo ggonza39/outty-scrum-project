@@ -3,7 +3,7 @@
 **Date:** 03-13-2026
 
 **Recording Link:**
-  - https://kennesawedu-my.sharepoint.com/personal/tbanks70_students_kennesaw_edu/_layouts/15/stream.aspx?id=%2Fpersonal%2Ftbanks70%5Fstudents%5Fkennesaw%5Fedu%2FDocuments%2FRecordings%2FMeeting%20in%20SWE%206733%20%2D%20Group%203%2D20260313%5F191306%2DMeeting%20Recording%2Emp4&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Eaf737db1%2D0df1%2D49e4%2Db6e5%2Dd0cae27a1bde&ga=1&isDarkMode=false
+  - https://kennesawedu-my.sharepoint.com/:v:/g/personal/tbanks70_students_kennesaw_edu/IQBgVGuVTKZtTrwtQl9gy0nSAZKov0LP1baHzROGSxC-ASY?e=thW6vp&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D
 ---
 
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
