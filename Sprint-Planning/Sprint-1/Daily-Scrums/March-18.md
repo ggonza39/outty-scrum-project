@@ -48,10 +48,10 @@
 ## 3. Impediments
 
 **Identified Impediment:**  
-  - 
+  - Name issue(s)
 
 **Impediment Removal Plan:**  
-  - 
+  - What will the team do
 
 **Responsible (if applicable):**  
   - All team members
