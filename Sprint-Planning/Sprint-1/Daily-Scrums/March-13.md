@@ -12,7 +12,7 @@
   - Description of completed work  
 
 **Heidi Wilder:**  
-  - Description of completed work  
+Ive been working on the frontend development for the profile page within the app. focusing on bio, interests, location radius (for being "found" and to find. I have found some issues within my ui/ux approach wity tge user jouney for navigation on these pages.
 
 **Gibson Garner:**  
   - Description of completed work  
@@ -34,7 +34,7 @@
   - Planned work 
 
 **Heidi Wilder:**  
-  - Planned work 
+  - continuation of frontend development for profile page development and user journey tweaking. 
 
 **Gibson Garner:**  
   - Planned work 
