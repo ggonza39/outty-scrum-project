@@ -20,6 +20,11 @@ export default function SignUpPage() {
     event.preventDefault();
     setErrorMessage('');
 
+    if (password.length < 8) {
+      setErrorMessage('Password must be at least 8 characters long.');
+      return;
+    }
+
     if (password !== confirmPassword) {
       setErrorMessage('Passwords need to match before continuing.');
       return;
