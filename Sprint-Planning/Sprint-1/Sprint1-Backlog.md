@@ -39,15 +39,10 @@ Sprint Goal: Establish the core authentication and profile management features o
 ## Story 4 – Set Adventure Preferences (3 pts)
 
 - Extend profile schema to include adventure preferences
-- Implement preferences selection UI (checkboxes/tags)
+- Implement preferences selection UI
 - Persist preferences to database
 - Validate preference input
 - Write unit test for preference persistence
-
-  ### UI Tasks
-- Implement Adventure Interests selection  
-- Implement Preferences (partner preference, skill level)  
-- Implement preferred match distance selection  
 
 ---
 
