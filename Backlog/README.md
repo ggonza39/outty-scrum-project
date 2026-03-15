@@ -26,24 +26,25 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 ## Current Backlog (Ordered)
 
 1. User account creation – 5 pts
+2. User login – 3 pts
 
-2. Create adventure-based user profile – 3 pts
+3. Create adventure-based user profile – 3 pts
 
-3. Swipe and match with nearby adventurers – 8 pts
+4. Swipe and match with nearby adventurers – 8 pts
 
-4. Set adventure preferences – 3 pts
+5. Set adventure preferences – 3 pts
 
-5. Filter matches by distance – 5 pts
+6. Filter matches by distance – 5 pts
 
-6. View matched user profiles – 2 pts
+7. View matched user profiles – 2 pts
 
-7. Send in-app messages – 8 pts
+8. Send in-app messages – 8 pts
 
-8. Upload profile photos – 5 pts
+9. Upload profile photos – 5 pts
 
-9. Edit or delete profile – 3 pts
+10. Edit or delete profile – 3 pts
 
-10. Log out securely – 1 pt
+11. Log out securely – 1 pt
 
 ### **Estimation Approach**
 Story points were assigned using relative estimation rather than time-based estimation. The team considered factors such as technical complexity, required effort, uncertainty, and potential dependencies.
