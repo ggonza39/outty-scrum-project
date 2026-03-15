@@ -1,1 +1,17 @@
+# Environment files
 .env.local
+
+# Dependencies
+node_modules/
+application/frontend/node_modules/
+application/frontend/webapp/node_modules/
+
+# Next.js build output
+.next/
+application/frontend/.next/
+application/frontend/webapp/.next/
+
+# Optional: logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
