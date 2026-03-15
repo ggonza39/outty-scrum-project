@@ -9,7 +9,7 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-  - Description of completed work  
+  - I set up the foundation for the web app by initializing the frontend project, configured the .env.local file to communicate securely with Supabase using private keys, and updated version control settings to protect sensitive credentials. I also installed and connected the backend client and replaced the default landing page with a simple test page to validate local authentication and confirm the initial integration was working.
 
 **Heidi Wilder:**  
 Ive been working on the frontend development for the profile page within the app. focusing on bio, interests, location radius (for being "found" and to find. I have found some issues within my ui/ux approach wity tge user jouney for navigation on these pages.
@@ -31,7 +31,7 @@ Ive been working on the frontend development for the profile page within the app
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-  - Planned work 
+  - I will complete the authentication setup by configuring the project connection, enabling the authentication provider, and integrating user registration with the backend service. I will also add handling for authentication failures so clear error messages appear on the signup page, and test common signup scenarios including weak passwords, mismatched passwords, duplicate email attempts, and successful registration.
 
 **Heidi Wilder:**  
   - continuation of frontend development for profile page development and user journey tweaking. 
