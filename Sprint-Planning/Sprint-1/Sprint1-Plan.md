@@ -4,7 +4,7 @@
 March 9 – March 24 (16 days, approximately 2 weeks).
 
 ## Team Capacity
-The team consists of 6 members contributing approximately 6 hours per week each. Over a sprint period of approximately 2 weeks, this equals 72 total available hours.
+The team consists of 6 members contributing approximately 6 hours per week each. Over a sprint period, this equals 72 total available hours.
 
 Accounting for role distribution (Product Owner, Scrum Master, UI/UX) and onboarding to new technologies (Next.js, Supabase, Playwright), the estimated effective development capacity is approximately 45–50 hours.
 
@@ -13,12 +13,12 @@ Based on relative estimation and expected team capacity, the team forecasts comp
 
 ## Selected Sprint Backlog Items
 
-- User account creation – 5 pts
-- Use login - 3 pts
-- Create adventure-based user profile – 3 pts  
-- Set adventure preferences – 3 pts  
-- Edit or delete profile – 3 pts  
-- Log out securely – 1 pt  
+- Story 1 – User account creation – 5 pts  
+- Story 11 – User login – 3 pts  
+- Story 2 – Create adventure-based user profile – 3 pts  
+- Story 4 – Set adventure preferences – 3 pts  
+- Story 9 – Edit or delete profile – 3 pts  
+- Story 10 – Log out securely – 1 pt  
 
 Total: 18 story points
 
