@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
+import { supabase } from '@/lib/supabase';
+import { getAuthErrorMessage } from '@/lib/authErrors';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -11,16 +13,44 @@ export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setErrorMessage('');
 
     if (password !== confirmPassword) {
-      window.alert('Passwords need to match before continuing.');
+      setErrorMessage('Passwords need to match before continuing.');
       return;
     }
 
-    router.push('/profile-setup');
+    try {
+      setIsSubmitting(true);
+
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            display_name: name.trim(),
+          },
+        },
+      });
+
+      if (error) {
+        console.error('Supabase sign up error:', error);
+        setErrorMessage(getAuthErrorMessage(error));
+        return;
+      }
+
+      router.push('/profile-setup');
+    } catch (error) {
+      console.error('Unexpected sign up error:', error);
+      setErrorMessage(getAuthErrorMessage(error instanceof Error ? error : null));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -165,8 +195,13 @@ export default function SignUpPage() {
             />
           </div>
 
+          {errorMessage && (
+            <p style={{ color: '#b00020', marginBottom: 14 }}>{errorMessage}</p>
+          )}
+
           <button
             type="submit"
+            disabled={isSubmitting}
             style={{
               width: '100%',
               padding: '18px',
@@ -176,10 +211,11 @@ export default function SignUpPage() {
               color: '#fff',
               fontSize: '1.2rem',
               fontWeight: 700,
-              cursor: 'pointer',
+              cursor: isSubmitting ? 'not-allowed' : 'pointer',
+              opacity: isSubmitting ? 0.7 : 1,
             }}
           >
-            SIGN UP
+            {isSubmitting ? 'SIGNING UP...' : 'SIGN UP'}
           </button>
         </form>
 
