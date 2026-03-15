@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
+import { supabase } from "@/lib/supabase";
+import { getAuthErrorMessage } from "@/lib/authErrors"
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -10,15 +12,56 @@ export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (password !== confirmPassword) {
-      window.alert('Passwords need to match before continuing.');
+  // OLD - just client side validation and navigation
+  // const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   if (password !== confirmPassword) {
+  //     window.alert('Passwords need to match before continuing.');
+  //     return;
+  //   }
+  //   router.push('/profile-setup');
+  // };
+
+  // NEW - with Supabase sign up and error handling
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  setErrorMessage('');
+
+  if (password !== confirmPassword) {
+    setErrorMessage('Passwords need to match before continuing.');
+    return;
+  }
+
+  try {
+    setIsSubmitting(true);
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          display_name: name.trim(),
+        },
+      },
+    });
+
+    if (error) {
+      console.error('Supabase sign up error:', error);
+      setErrorMessage(getAuthErrorMessage(error));
       return;
     }
+
     router.push('/profile-setup');
-  };
+  } catch (error) {
+    console.error('Unexpected sign up error:', error);
+    setErrorMessage(getAuthErrorMessage(error instanceof Error ? error : null));
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <MobilePage showBottomNav={false}>
@@ -69,6 +112,11 @@ export default function SignUpPage() {
               required
             />
           </div>
+
+          {/* Show error message during signup */}
+          {errorMessage && (
+            <p style={{ color: '#b00020', marginTop: 14 }}>{errorMessage}</p>
+          )}
 
           <button type="submit" className="btn" style={{ width: '100%', marginTop: 18 }}>
             Continue to profile
