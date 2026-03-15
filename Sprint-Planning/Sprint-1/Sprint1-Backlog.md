@@ -25,6 +25,23 @@ Sprint Goal: Establish the core authentication and profile management features o
 - Write Playwright E2E test for account creation flow
 
 ---
+## Story 11 – User Login (3 pts)
+
+### Backend Tasks
+- Implement login API integration with Supabase
+- Handle authentication error responses
+- Verify session token handling
+
+### Frontend Tasks
+- Design login form UI
+- Implement login form component in Next.js
+- Add client-side validation for login credentials
+- Redirect authenticated user after login
+
+### Testing Tasks
+- Write unit test for login validation
+- Write integration test for successful login
+- Write Playwright E2E test for login flow
 
 ## Story 2 – Create Adventure-Based User Profile (3 pts)
 
