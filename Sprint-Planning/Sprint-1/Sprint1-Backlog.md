@@ -13,6 +13,7 @@ Sprint Goal: Establish the core authentication and profile management features o
 - Handle authentication error responses
 
 ### Frontend Tasks
+- Create Figma wireframes for Sprint 1
 - Design registration form in Figma
 - Implement registration form component in Next.js
 - Add client-side form validation (email, password strength)
