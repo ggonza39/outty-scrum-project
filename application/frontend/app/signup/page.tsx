@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
@@ -13,29 +14,40 @@ export default function SignUpPage() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (password !== confirmPassword) {
       window.alert('Passwords need to match before continuing.');
       return;
     }
+
     router.push('/profile-setup');
   };
 
   return (
     <MobilePage showBottomNav={false}>
       <section className="hero">
-        <h1>Create your account</h1>
-        <p>Set up your basics now and finish your profile in the next step.</p>
+        <h1>Sign Up</h1>
       </section>
 
       <main className="content">
         <form className="card" onSubmit={handleSubmit}>
           <div className="field">
-            <label className="label" htmlFor="name">Name</label>
-            <input id="name" className="input" value={name} onChange={(e) => setName(e.target.value)} required />
+            <label className="label" htmlFor="name">
+              Name
+            </label>
+            <input
+              id="name"
+              className="input"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
           </div>
 
           <div className="field" style={{ marginTop: 14 }}>
-            <label className="label" htmlFor="signup-email">Email</label>
+            <label className="label" htmlFor="signup-email">
+              Email
+            </label>
             <input
               id="signup-email"
               className="input"
@@ -47,7 +59,9 @@ export default function SignUpPage() {
           </div>
 
           <div className="field" style={{ marginTop: 14 }}>
-            <label className="label" htmlFor="signup-password">Password</label>
+            <label className="label" htmlFor="signup-password">
+              Password
+            </label>
             <input
               id="signup-password"
               className="input"
@@ -59,7 +73,9 @@ export default function SignUpPage() {
           </div>
 
           <div className="field" style={{ marginTop: 14 }}>
-            <label className="label" htmlFor="confirm-password">Confirm password</label>
+            <label className="label" htmlFor="confirm-password">
+              Confirm Password
+            </label>
             <input
               id="confirm-password"
               className="input"
@@ -71,9 +87,37 @@ export default function SignUpPage() {
           </div>
 
           <button type="submit" className="btn" style={{ width: '100%', marginTop: 18 }}>
-            Continue to profile
+            SIGN UP
           </button>
         </form>
+
+        <div style={{ textAlign: 'center', marginTop: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ flex: 1, height: '1px', backgroundColor: '#e7a8b5' }} />
+            <span style={{ fontWeight: 700 }}>OR</span>
+            <div style={{ flex: 1, height: '1px', backgroundColor: '#e7a8b5' }} />
+          </div>
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: 18 }}>
+          <p>Sign Up With</p>
+
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginTop: 10 }}>
+            <button type="button" className="btn" style={{ width: 48 }}>
+              G
+            </button>
+            <button type="button" className="btn" style={{ width: 48 }}>
+              f
+            </button>
+            <button type="button" className="btn" style={{ width: 48 }}>
+              X
+            </button>
+          </div>
+        </div>
+
+        <p style={{ textAlign: 'center', marginTop: 18 }}>
+          Already have an account? <Link href="/signin">Sign In.</Link>
+        </p>
       </main>
     </MobilePage>
   );
