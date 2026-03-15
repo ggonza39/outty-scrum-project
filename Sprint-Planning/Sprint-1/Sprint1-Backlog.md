@@ -32,13 +32,14 @@ Sprint Goal: Establish the core authentication and profile management features o
 - Implement profile submission API call
 - Associate profile with authenticated user ID
 - Write unit test for profile validation logic
+- Implement profile setup onboarding flow
 
 ---
 
 ## Story 4 – Set Adventure Preferences (3 pts)
 
 - Extend profile schema to include adventure preferences
-- Implement preferences selection UI (checkboxes/tags)
+- Implement preferences selection UI
 - Persist preferences to database
 - Validate preference input
 - Write unit test for preference persistence
