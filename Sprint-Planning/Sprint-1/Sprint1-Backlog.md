@@ -32,14 +32,7 @@ Sprint Goal: Establish the core authentication and profile management features o
 - Implement profile submission API call
 - Associate profile with authenticated user ID
 - Write unit test for profile validation logic
-
-  ### UI Tasks
-- Create `/profile-setup` route and onboarding container  
-- Build Basic Info step (name, age, zip code, bio)  
-- Create profile review screen  
-- Implement Save Profile functionality  
-- Implement sticky navigation buttons  
-- Add responsive mobile styling  
+- Implement profile setup onboarding flow
 
 ---
 
