@@ -25,6 +25,16 @@ export default function SignUpPage() {
       return;
     }
 
+    if (!/[A-Z]/.test(password)) {
+      setErrorMessage('Password must include at least one uppercase letter.');
+      return;
+    }
+
+    if (!/[0-9]/.test(password)) {
+      setErrorMessage('Password must include at least one number.');
+      return;
+    }
+    
     if (password !== confirmPassword) {
       setErrorMessage('Passwords need to match before continuing.');
       return;
