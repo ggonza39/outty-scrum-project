@@ -33,6 +33,14 @@ Sprint Goal: Establish the core authentication and profile management features o
 - Associate profile with authenticated user ID
 - Write unit test for profile validation logic
 
+  ### UI Tasks
+- Create `/profile-setup` route and onboarding container  
+- Build Basic Info step (name, age, zip code, bio)  
+- Create profile review screen  
+- Implement Save Profile functionality  
+- Implement sticky navigation buttons  
+- Add responsive mobile styling  
+
 ---
 
 ## Story 4 – Set Adventure Preferences (3 pts)
@@ -42,6 +50,11 @@ Sprint Goal: Establish the core authentication and profile management features o
 - Persist preferences to database
 - Validate preference input
 - Write unit test for preference persistence
+
+  ### UI Tasks
+- Implement Adventure Interests selection  
+- Implement Preferences (partner preference, skill level)  
+- Implement preferred match distance selection  
 
 ---
 
