@@ -77,10 +77,3 @@ Sprint Goal: Establish the core authentication and profile management features o
 - Write unit test for logout behavior
 
 ---
-
-## Story 6 – View Matched Profiles (UI Stub) (2 pts)
-
-- Create mock matched user dataset
-- Design matched profile card UI component
-- Render list of matched profile cards
-- Add placeholder routing for future matching logic
