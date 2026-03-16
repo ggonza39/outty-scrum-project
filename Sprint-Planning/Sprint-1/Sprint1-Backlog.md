@@ -36,7 +36,7 @@ Sprint Goal: Establish the core authentication and profile management features o
 - Implement login redirect and session handling
 
 ### Testing Tasks
-- Test login autentication flow
+- Test login authentication flow
 
 ## Story 2 – Create Adventure-Based User Profile (3 pts)
 
@@ -91,7 +91,7 @@ Sprint Goal: Establish the core authentication and profile management features o
 
 ### Frontend Tasks  
 - Implement logout button in navigation
-- - Redirect user to login page after logout
+- Redirect user to login page after logout
 
 ### Testing Tasks  
 - Write unit test for logout behavior
