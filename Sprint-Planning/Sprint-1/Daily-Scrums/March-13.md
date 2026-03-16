@@ -18,7 +18,7 @@
   - Description of completed work  
 
 **Takeshia Banks:**  
-  - Description of completed work  
+  - Updated the code for the sign-up page to match the Figma design.  
 
 **Anthony Nguyen:**  
   - Description of completed work  
@@ -40,7 +40,7 @@
   - Planned work 
 
 **Takeshia Banks:**  
-  - Planned work 
+  - Implement email format validation, password strength validation, and ensure that validation errors are displayed to the user. Connect the frontend registration form to the Supabase authentication API. 
 
 **Anthony Nguyen:**  
   - Planned work  
