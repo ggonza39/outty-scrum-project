@@ -7,6 +7,22 @@ import MobilePage from '@/components/MobilePage';
 import { supabase } from '../../webapp/src/lib/supabase'
 import { getAuthErrorMessage } from '../../webapp/src/lib/authErrors'
 
+function validatePassword(password: string): string | null {
+  if (password.length < 8) {
+    return 'Password must be at least 8 characters long.';
+  }
+
+  if (!/[A-Z]/.test(password)) {
+    return 'Password must include at least one uppercase letter.';
+  }
+
+  if (!/[0-9]/.test(password)) {
+    return 'Password must include at least one number.';
+  }
+
+  return null;
+}
+
 export default function SignUpPage() {
   const router = useRouter();
   const [name, setName] = useState('');
@@ -20,26 +36,18 @@ export default function SignUpPage() {
     event.preventDefault();
     setErrorMessage('');
 
-    if (password.length < 8) {
-      setErrorMessage('Password must be at least 8 characters long.');
+    const passwordValidationError = validatePassword(password);
+
+    if (passwordValidationError) {
+      setErrorMessage(passwordValidationError);
       return;
     }
 
-    if (!/[A-Z]/.test(password)) {
-      setErrorMessage('Password must include at least one uppercase letter.');
-      return;
-    }
-
-    if (!/[0-9]/.test(password)) {
-      setErrorMessage('Password must include at least one number.');
-      return;
-    }
-    
     if (password !== confirmPassword) {
       setErrorMessage('Passwords need to match before continuing.');
       return;
     }
-
+    
     try {
       setIsSubmitting(true);
 
