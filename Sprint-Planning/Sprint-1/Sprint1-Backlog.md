@@ -40,20 +40,30 @@ Sprint Goal: Establish the core authentication and profile management features o
 
 ## Story 2 – Create Adventure-Based User Profile (3 pts)
 
-- Design PostgreSQL profile table schema in Supabase
-- Create profile creation form UI component
+### Backend Tasks
+- Design PostgreSQL profile table schema in Supabas
 - Implement profile submission API call
 - Associate profile with authenticated user ID
-- Write unit test for profile validation logic
+
+### Frontend Tasks  
+- Create profile creation form UI component
 - Implement profile setup onboarding flow
+
+### Testing Tasks  
+- Write unit test for profile validation logic
 
 ---
 
 ## Story 4 – Set Adventure Preferences (3 pts)
 
+### Backend Tasks 
 - Extend profile schema to include adventure preferences
-- Implement preferences selection UI
 - Persist preferences to database
+
+### Frontend Tasks  
+- Implement preferences selection UI
+
+### Testing Tasks  
 - Validate preference input
 - Write unit test for preference persistence
 
@@ -61,19 +71,29 @@ Sprint Goal: Establish the core authentication and profile management features o
 
 ## Story 9 – Edit or Delete Profile (3 pts)
 
-- Implement profile edit form pre-filled with existing data
+### Backend Tasks  
 - Implement update profile API call
 - Implement delete profile functionality
+
+### Frontend Tasks  
+- Implement profile edit form pre-filled with existing data
 - Add confirmation modal for deletion
+
+### Testing Tasks  
 - Write unit test for update/delete logic
 
 ---
 
 ## Story 10 – Log Out Securely (1 pt)
 
-- Implement logout button in navigation
+### Backend Tasks  
 - Connect logout to Supabase session termination
-- Redirect user to login page after logout
+
+### Frontend Tasks  
+- Implement logout button in navigation
+- - Redirect user to login page after logout
+
+### Testing Tasks  
 - Write unit test for logout behavior
 
 ---
