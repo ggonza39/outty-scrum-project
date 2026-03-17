@@ -21,8 +21,7 @@
   - Updated the code for the sign-up page to match the Figma design.  
 
 **Anthony Nguyen:**  
-  - I've been validating the current build against our Product Vision. I reviewed the UI updates in the repository to ensure they meet our 'Adventure-First' matching criteria. Today, I'll be focused on refining the backlog for the next set of tasks.
-
+  - I've been validating the current build against our Product Vision. I reviewed the UI updates in the repository to ensure they meet our 'Adventure-First' matching criteria. 
 **Gilberto Gonzalez:**  
   - Set up the project infrastructure and collaboration environment for Sprint 1. This included configuring the GitHub repository structure, creating the product backlog and user stories, decomposing stories into tasks, and organizing the project board workflow. Additionally, integrated ZenHub with GitHub to enable sprint planning, story point tracking, and the Sprint Burndown chart. Repository folders for frontend, backend, testing, shared resources, and Scrum artifacts were also created to support team development.
 
@@ -43,7 +42,7 @@
   - Implement email format validation, password strength validation, and ensure that validation errors are displayed to the user. Connect the frontend registration form to the Supabase authentication API. 
 
 **Anthony Nguyen:**  
-  - Planned work  
+  - Today, I'll be focused on refining the backlog for the next set of tasks.
 
 **Gilberto Gonzalez:**  
   - Review the assignment requirements to ensure all project artifacts and Sprint 1 documentation align with course expectations. Continue supporting the team by reviewing design documents, validating the Sprint backlog setup, and assisting with any GitHub or ZenHub issues as development begins.
