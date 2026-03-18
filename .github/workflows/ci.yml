@@ -34,9 +34,10 @@ jobs:
         working-directory: ./application/frontend
         run: npm run build
         env:
-          # This gives GitHub the "keys" to the database for the build step
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          # This is the bridge: 
+          # [Code Name] : [GitHub Secret Name]
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
 
   # --- JOB 2: VERCEL DEPLOYMENT TRIGGER ---
   deploy:
