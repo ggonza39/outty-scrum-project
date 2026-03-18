@@ -79,11 +79,11 @@ The Outty project uses the following tools to support collaboration, design, and
   - **Integrated Testing Gate:** We configured a custom build command (`npm run test && npm run build`) that ensures our **Vitest** suite passes before any code is deployed.
   - **Continuous Deployment (CD):** Upon a successful test run and build, Vercel automatically deploys the application to a live production environment.
 
-- **Evidence & Links**
- - **Live Production Environment:** https://outty-scrum-project.vercel.app
- - **CI/CD Provider:** [Vercel](https://vercel.com)
- - **Test Suite:** [Vitest](https://vitest.dev/)
- - **Build Status:** ![Vercel Deployment Status](https://deploy-badge.vercel.app/api/ggonza39/outty-scrum-project?style=flat)
+  - **Evidence & Links**
+     - **Live Production Environment:** https://outty-scrum-project.vercel.app
+     - **CI/CD Provider:** [Vercel](https://vercel.com)
+     - **Test Suite:** [Vitest](https://vitest.dev/)
+     - **Build Status:** ![Vercel Deployment Status](https://deploy-badge.vercel.app/api/ggonza39/outty-scrum-project?style=flat)
 
 - **Team Communication:** Microsoft Teams  
   Microsoft Teams is used for team communication, including meetings, discussions, and coordination throughout the Scrum process.
