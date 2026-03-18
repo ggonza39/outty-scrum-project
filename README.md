@@ -78,15 +78,15 @@ The Outty project uses the following tools to support collaboration, design, and
 
   - **Continuous Integration** (GitHub Actions)  
     Every push or Pull Request to the `main` branch triggers our **Frontend Validation** suite.
-  - **Automated Testing:** We utilize **Vitest** to run our Unit and BDD (Behavior-Driven Development) test suites.
-  - **Quality Gate:** GitHub Actions acts as the primary gatekeeper. If any of our 12 tests fail, the pipeline stops immediately, and the deployment is blocked.
-  - **Build Verification:** The pipeline verifies the Next.js build and ensures all environment variables (Supabase) are correctly mapped.
+    - **Automated Testing:** We utilize **Vitest** to run our Unit and BDD (Behavior-Driven Development) test suites.
+    - **Quality Gate:** GitHub Actions acts as the primary gatekeeper. If any of our 12 tests fail, the pipeline stops immediately, and the deployment is blocked.
+    - **Build Verification:** The pipeline verifies the Next.js build and ensures all environment variables (Supabase) are correctly mapped.
 
   - **Continuous Deployment** (Vercel)  
     Once GitHub Actions confirms the code is stable (Green), the "handshake" occurs with Vercel for the final rollout.
-  - **Automated Production Build:** Vercel executes the final production build using `next build`.
-  - **Instant Rollouts:** Upon a successful build, the application is automatically deployed to our live production environment.
-  - **Environment Sync:** We configured Vercel's Root Directory settings to manage our monorepo structure (`application/frontend`) seamlessly.
+    - **Automated Production Build:** Vercel executes the final production build using `next build`.
+    - **Instant Rollouts:** Upon a successful build, the application is automatically deployed to our live production environment.
+    - **Environment Sync:** We configured Vercel's Root Directory settings to manage our monorepo structure (`application/frontend`) seamlessly.
 
    - **Evidence & Links**
      - **Live Production Environment:** [Outty-App](https://outty-scrum-project.vercel.app)
