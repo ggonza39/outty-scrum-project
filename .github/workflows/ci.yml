@@ -54,5 +54,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.ORG_ID }}
           vercel-project-id: ${{ secrets.PROJECT_ID }}
-          working-directory: ./application/frontend
+          # REMOVE the working-directory line here if it's already at the top
+          # OR set it to '.' if you keep the top-level working-directory
           vercel-args: '--prod'
+          working-directory: ./application/frontend
