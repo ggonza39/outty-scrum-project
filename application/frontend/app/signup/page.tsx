@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
-import { supabase } from '../../webapp/src/lib/supabase'
-import { getAuthErrorMessage } from '../../webapp/src/lib/authErrors'
-import { validatePassword } from '../../webapp/src/lib/validation';
+import { supabase } from '../../lib/supabase';
+import { getAuthErrorMessage } from '../../lib/authErrors'
+import { validatePassword } from '../../lib/validation';
 
 export default function SignUpPage() {
   const router = useRouter();
