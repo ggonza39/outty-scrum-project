@@ -25,14 +25,18 @@ jobs:
         working-directory: ./application/frontend
         run: npm ci
 
-      # --- TEMPORARILY DISABLED UNTIL VITEST FILES ARE PUSHED ---
-      # - name: Run Vitest (Unit & BDD)
-      #   working-directory: ./application/frontend
-      #   run: npm run test
+      # --- ACTIVATED: Running the 12 verified tests ---
+      - name: Run Vitest (Unit & BDD)
+        working-directory: ./application/frontend
+        run: npm run test
 
       - name: Check Build Quality
         working-directory: ./application/frontend
         run: npm run build
+        env:
+          # This gives GitHub the "keys" to the database for the build step
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
   # --- JOB 2: VERCEL DEPLOYMENT TRIGGER ---
   deploy:
