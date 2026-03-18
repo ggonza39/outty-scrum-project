@@ -89,10 +89,11 @@ The Outty project uses the following tools to support collaboration, design, and
 
 
 ## Repository Structure
-- /Product-Vision
 - /Backlog
 - /Definition-of-Ready
-- /Sprint-Planning
 - /Design
+- /Presentation
+- /Product-Vision
+- /Sprint-Planning
 - /application
 
