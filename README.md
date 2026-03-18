@@ -67,14 +67,26 @@ The Outty project uses the following tools to support collaboration, design, and
 - **Runtime & Package Management:** Node.js and npm  
   Node.js provides the runtime environment for developing and running the Next.js application. npm is used for dependency management, package installation, and project scripts, ensuring consistent development environments across team members.
 
-
 - **Hosting:** Vercel  
   Vercel is used to host and deploy the Next.js application. It provides automated builds, continuous deployment from the GitHub repository, and environment variable management. Vercel also supports preview deployments, allowing the team to test changes safely before production release.
 
 - **Testing:** JUnit and Playwright  
-  JUnit will be used for basic unit testing and integration testing. Playwright will be used for end-to-end testing. Its cross-browser support will enable a flexible web app that works on many browsers. 
+  JUnit will be used for basic unit testing and integration testing. Playwright will be used for end-to-end testing. Its cross-browser support will enable a flexible web app that works on many browsers.
 
-  
+  ## 🚀 CI/CD Pipeline & Automated Testing
+
+- **CI/CD:** Vercel 
+  We chose **Vercel** as our CI/CD platform because of its native integration with **Next.js** and **GitHub**. It allows for:
+* **Automated Builds:** Every merge to the `main` branch triggers an automatic build.
+* **Integrated Testing Gate:** We configured a custom build command (`npm run test && npm run build`) that ensures our **Vitest** suite passes before any code is deployed.
+* **Continuous Deployment (CD):** Upon a successful test run and build, Vercel automatically deploys the application to a live production environment.
+
+- **Evidence & Links**
+* **Live Production Environment:** https://outty-scrum-project.vercel.app
+* **CI/CD Provider:** [Vercel](https://vercel.com)
+* **Test Suite:** [Vitest](https://vitest.dev/)
+* **Build Status:** ![Vercel Deployment Status](https://deploy-badge.vercel.app/api/ggonza39/outty-scrum-project?style=flat)
+
 - **Team Communication:** Microsoft Teams  
   Microsoft Teams is used for team communication, including meetings, discussions, and coordination throughout the Scrum process.
 
