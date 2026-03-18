@@ -4,12 +4,12 @@
 # Dependencies
 node_modules/
 application/frontend/node_modules/
-application/frontend/webapp/node_modules/
+application/old-files/webapp/node_modules/
 
 # Next.js build output
 .next/
 application/frontend/.next/
-application/frontend/webapp/.next/
+application/old-files/webapp/.next/
 
 # Optional: logs
 npm-debug.log*
