@@ -15,7 +15,7 @@
   - Ive been working on the frontend development for the profile page within the app. focusing on bio, interests, location radius (for being "found" and to find. I have found some issues within my ui/ux approach wity tge user jouney for navigation on these pages.
 
 **Gibson Garner:**  
-  - Description of completed work  
+  - I wrote the BDD scenarios in Gherkin and wrote the plain-language unit test cases for the login functionality.  
 
 **Takeshia Banks:**  
   - Updated the code for the sign-up page to match the Figma design.  
@@ -37,7 +37,7 @@
   - Continuation of frontend development for profile page development and user journey tweaking. 
 
 **Gibson Garner:**  
-  - Planned work 
+  - I will set up the test environment and run the password validation unit tests. I will then work with the frontend designer to ensure they all pass.
 
 **Takeshia Banks:**  
   - Implement email format validation, password strength validation, and ensure that validation errors are displayed to the user. Connect the frontend registration form to the Supabase authentication API. 
