@@ -39,7 +39,7 @@ jobs:
           # RIGHT SIDE: The EXACT name from your screenshot
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
 
-  # --- JOB 2: VERCEL DEPLOYMENT TRIGGER ---
+ # --- JOB 2: VERCEL DEPLOYMENT TRIGGER ---
   deploy:
     needs: [frontend-validation]
     runs-on: ubuntu-latest
@@ -54,7 +54,6 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.ORG_ID }}
           vercel-project-id: ${{ secrets.PROJECT_ID }}
-          # REMOVE the working-directory line here if it's already at the top
-          # OR set it to '.' if you keep the top-level working-directory
           vercel-args: '--prod'
+          # This should point to the folder containing your package.json
           working-directory: ./application/frontend
