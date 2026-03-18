@@ -55,5 +55,5 @@ jobs:
           vercel-org-id: ${{ secrets.ORG_ID }}
           vercel-project-id: ${{ secrets.PROJECT_ID }}
           vercel-args: '--prod'
-          # This should point to the folder containing your package.json
-          working-directory: ./application/frontend
+          # This tells the Action: "Stay at the root, Vercel knows where to go"
+          working-directory: .
