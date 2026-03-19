@@ -23,7 +23,7 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 
 ---
 
-## Current Backlog (Ordered)
+## Current Backlog (Ordered) - 46 total pts
 
 1. User account creation – 5 pts
 2. User login – 3 pts
