@@ -20,7 +20,11 @@
   - Description of completed work  
 
 **Gilberto Gonzalez:**  
-  - Description of completed work
+  - CI/CD Infrastructure: Successfully implemented a two-stage pipeline using GitHub Actions and Vercel.
+  - Automated Testing: Developed and integrated 12 Vitest cases (Unit & BDD) to serve as a "Quality Gate" for the main branch.
+  - Environment Configuration: Resolved critical deployment blockers related to Supabase environment variable mapping and Vercel monorepo pathing (application/frontend).
+  - Documentation: Updated the project README.md with the new CI/CD architecture and provided a status update to the team regarding the new "Green" deployment status.
+  - Project Presentation: Developed the core slide deck for the project; approximately 70% complete.
 
 ---
 
@@ -42,19 +46,22 @@
   - Planned work  
 
 **Gilberto Gonzalez:**  
-  - Planned work
+  - Technical Handoff: Support the Tester in transitioning from the initial Vitest scaffolding to the official team test files.
+  - Refactoring: Clean up the temporary test files once the official suite is integrated to maintain a clean repository.
+  - Feature Development: Begin transitioning focus to Sprint 2 backlog items now that the deployment pipeline is stable.
+  - Branch Protection: Look into setting up GitHub branch protection rules to ensure no code can be merged to main without passing the automated tests.
 ---
 
 ## 3. Impediments
 
 **Identified Impediment:**  
-  - Name issue(s)
+  - Initial deployment failures due to recursive pathing in Vercel settings and "act(...)" errors in production React builds during testing.
 
 **Impediment Removal Plan:**  
-  - What will the team do
+  - Decoupled the testing and building phases. Moved testing to GitHub Actions (CI) and restricted Vercel to only the production build (CD). Overrode Vercel default build commands to npm run build.
 
 **Responsible (if applicable):**  
-  - All team members
+  - Gilberto Gonzalez
 
 ---
 
