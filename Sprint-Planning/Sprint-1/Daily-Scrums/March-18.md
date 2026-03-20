@@ -27,7 +27,8 @@
   - Description of completed work  
 
 **Gibson Garner:**  
-  - Description of completed work  
+  - Completed unit tests for signup page
+  - Wrote Playwright end-to-end tests for signup page  
 
 **Takeshia Banks:**  
   - Completed frontend work for US11 (Sign In & Session Handling)
@@ -67,7 +68,9 @@
   - Planned work 
 
 **Gibson Garner:**  
-  - Planned work 
+  - Write integration tests for signup page
+  - Write tests for signin page
+  - Complete e2e tests for signup page
 
 **Takeshia Banks:**  
   - US2 profile setup work
