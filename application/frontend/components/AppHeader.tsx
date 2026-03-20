@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { supabase } from '@/lib/supabase';
 
 const links = [
   { href: '/', label: 'Home' },
-  { href: '/signin', label: 'Sign in' },
+  { href: '/signinTEMP', label: 'Sign in' },
   { href: '/signup', label: 'Sign up' },
   { href: '/profile-setup', label: 'Profile' },
   { href: '/match', label: 'Match' },
@@ -16,7 +17,24 @@ const links = [
 
 export default function AppHeader() {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut({ scope: 'local' });
+
+      if (error) {
+        console.error('Supabase sign out error:', error);
+        return;
+      }
+
+      setOpen(false);
+      router.push('/signinTEMP');
+    } catch (error) {
+      console.error('Unexpected sign out error:', error);
+    }
+  };
 
   return (
     <>
@@ -46,6 +64,15 @@ export default function AppHeader() {
               {link.label}
             </Link>
           ))}
+
+          <button
+            type="button"
+            className="menu-link"
+            onClick={handleLogout}
+            style={{ width: '100%', textAlign: 'left', background: 'none', border: 'none' }}
+          >
+            Log out
+          </button>
         </nav>
       )}
     </>

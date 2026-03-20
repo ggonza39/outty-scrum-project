@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
 import { supabase } from '@/lib/supabase';
 import { getAuthErrorMessage } from '@/lib/authErrors';
@@ -12,6 +12,21 @@ export default function SignInPage() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error('Session check error:', error);
+        return;
+      }
+
+      console.log('Current session on sign-in page:', data.session);
+    };
+
+    checkSession();
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
