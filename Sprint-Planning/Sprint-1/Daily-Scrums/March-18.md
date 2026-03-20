@@ -23,7 +23,11 @@
   - Description of completed work  
 
 **Takeshia Banks:**  
-  - Description of completed work  
+  - Completed frontend work for US11 (Sign In & Session Handling)
+  - Built Sign In page and connected it to Supabase auth
+  - Added validation and error handling
+  - Implemented session-based redirects and route protection
+  - Updated UI to mathc Figma design  
 
 **Anthony Nguyen:**  
   - Description of completed work  
