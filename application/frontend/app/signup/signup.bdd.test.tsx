@@ -16,6 +16,15 @@ vi.mock('../../lib/supabase', () => ({
   supabase: {
     auth: {
       signUp: vi.fn(() => Promise.resolve({ data: { user: {} }, error: null })),
+      getSession: vi.fn(() => Promise.resolve({ data: { session: null } })),
+      onAuthStateChange: vi.fn(() => ({
+        data: {
+          subscription: {
+            unsubscribe: vi.fn(),
+          },
+        },
+      })),
+      signOut: vi.fn(() => Promise.resolve({ error: null })),
     },
   },
 }));
