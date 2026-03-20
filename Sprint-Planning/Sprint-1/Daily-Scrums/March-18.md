@@ -6,15 +6,25 @@
 
 **Hunter Blake:**  
 
-#### US1 – User Account Creation
+##### US1 – User Account Creation
 - Connected the app to Supabase using private URL and API keys located in `.env.local` and through `lib/supabase.ts`.
 - Added `lib/authErrors.ts` to provide clear and user-friendly authentication error messages.
 - Built and verified the signup flow in `app/signup/page.tsx`, including local testing of successful signup and expected failure cases.
 
-#### US11 – User Login
+##### US11 – User Login
 - Integrated the login flow by sending email and password credentials in a sign-in request to Supabase.
 - Implemented login handling for both successful and failed authentications, including clear error messages.
 - Tested the login flow locally to confirm both successful and failed sign-in behavior.
+
+##### US10 – Log Out Securely
+- Added sign-out logic to navigation.
+- Implemented logout handling to terminate the active session.
+- Tested the logout flow to confirm the session is cleared successfully.
+
+##### US2 – Create Adventure-Based User Profile
+- Updated the `profiles` schema to support the current profile setup fields, including age, location, bio, and interests.
+- Implemented profile submission logic in `app/profile-setup/page.tsx` to save profile data for the authenticated user.
+- Verified locally and in Supabase that profile data is saved correctly and linked to the authenticated user ID.
 
 **Heidi Wilder:**  
   - Description of completed work  
@@ -44,9 +54,17 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-  - Add Supabase sign-out logic
-  - Redirect users to the temporary sign-in page after logout
-  - Verify that the active session is cleared successfully
+  ##### US4 – Set Adventure Preferences
+  - Extend the Supabase `profiles` schema to include adventure preference fields needed for Sprint 1.
+  - Update the database structure in Supabase while preserving existing profile functionality.
+  - Implement saving of selected adventure preferences to each user’s profile.
+  - Verify that preference data is stored, linked to the correct user, and does not introduce data integrity issues.
+  
+  ##### US9 – Edit or Delete Profile
+  - Implement the backend logic needed to update an existing profile when changes are submitted from the edit form.
+  - Ensure updated profile data is saved successfully in Supabase and that proper error handling is included.
+  - Implement secure delete functionality so authenticated users can remove their own profile records from the database.
+  - Verify that profile deletion works correctly and is restricted to the authenticated user only.
 
 **Heidi Wilder:**  
   - Planned work 
