@@ -11,17 +11,21 @@ vi.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams(),
 }));
 
-// 2. Mock Supabase to prevent "supabaseUrl is required" error
+// 2. Mock Supabase to prevent "supabaseUrl is required" and "not a function" errors
 vi.mock('../../lib/supabase', () => ({
   supabase: {
     auth: {
+      // Mock the signup for the test logic
       signUp: vi.fn(() => Promise.resolve({ data: { user: {} }, error: null })),
-      getSession: vi.fn(() => Promise.resolve({ data: { session: null } })),
+signUp: vi.fn(() => Promise.resolve({ data: { user: {} }, error: null })),
+      
+      // Combined Mocks: Session + AuthStateChange + SignOut
+      getSession: vi.fn(() => 
+        Promise.resolve({ data: { session: null }, error: null })
+      ),
       onAuthStateChange: vi.fn(() => ({
-        data: {
-          subscription: {
-            unsubscribe: vi.fn(),
-          },
+        data: { 
+          subscription: { unsubscribe: vi.fn() } 
         },
       })),
       signOut: vi.fn(() => Promise.resolve({ error: null })),
