@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
 import { supabase } from '../../lib/supabase';
 import { getAuthErrorMessage } from '../../lib/authErrors';
@@ -14,6 +14,18 @@ export default function SignInPage() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+
+      if (data.session) {
+        router.replace('/profile-setup');
+      }
+    };
+
+    checkSession();
+  }, [router]);
+  
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrorMessage('');
@@ -42,7 +54,7 @@ export default function SignInPage() {
         return;
       }
 
-      router.push('/profile-setup');
+      router.replace('/profile-setup');
     } catch (error) {
       console.error('Unexpected sign in error:', error);
       setErrorMessage(getAuthErrorMessage(error instanceof Error ? error : null));
