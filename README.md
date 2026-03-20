@@ -73,25 +73,26 @@ The Outty project uses the following tools to support collaboration, design, and
 - **Testing:** JUnit and Playwright  
   JUnit will be used for basic unit testing and integration testing. Playwright will be used for end-to-end testing. Its cross-browser support will enable a flexible web app that works on many browsers.
 
-- **CI/CD Pipeline:** GitHub Actions & Vercel  
+- **CI/CD Pipeline:** GitHub Actions & Vercel
   We implemented a multi-stage **Continuous Integration and Continuous Deployment (CI/CD)** pipeline to ensure code quality and automated delivery. By separating our testing and deployment environments, we created a "Quality Gate" that prevents broken code from ever reaching our users.
 
-  - **Continuous Integration** (GitHub Actions)  
-    Every push or Pull Request to the `main` branch triggers our **Frontend Validation** suite.
-    - **Automated Testing:** We utilize **Vitest** to run our Unit and BDD (Behavior-Driven Development) test suites.
-    - **Quality Gate:** GitHub Actions acts as the primary gatekeeper. If any of our 12 tests fail, the pipeline stops immediately, and the deployment is blocked.
-    - **Build Verification:** The pipeline verifies the Next.js build and ensures all environment variables (Supabase) are correctly mapped.
+- **Continuous Integration** (GitHub Actions)
+  Every push or Pull Request to the `main` branch triggers our **Frontend Validation** suite.
+  - **Automated Testing:** We utilize **Vitest** to run our Unit and BDD (Behavior-Driven Development) test suites.
+  - **Quality Gate:** GitHub Actions acts as the primary gatekeeper. **Enforced Branch Protection Rules** ensure that if any of our 12 tests fail, the "Merge" button is disabled and the deployment is blocked.
+  - **Build Verification:** The pipeline verifies the Next.js build and ensures all environment variables (Supabase) are correctly mapped.
 
-  - **Continuous Deployment** (Vercel)  
-    Once GitHub Actions confirms the code is stable (Green), the "handshake" occurs with Vercel for the final rollout.
-    - **Automated Production Build:** Vercel executes the final production build using `next build`.
-    - **Instant Rollouts:** Upon a successful build, the application is automatically deployed to our live production environment.
-    - **Environment Sync:** We configured Vercel's Root Directory settings to manage our monorepo structure (`application/frontend`) seamlessly.
+- **Continuous Deployment** (Vercel)
+  Once GitHub Actions confirms the code is stable (Green), the "handshake" occurs with Vercel for the final rollout.
+  - **Automated Production Build:** Vercel executes the final production build using `next build`.
+  - **Integrated Deployment Logs:** We configured the pipeline to stream Vercel build logs directly into the **GitHub Actions console**. This allows the team to monitor progress and debug errors in real-time without needing separate Vercel dashboard access.
+  - **Instant Rollouts:** Upon a successful build, the application is automatically deployed to our live production environment.
+  - **Environment Sync:** We configured Vercel's Root Directory settings to manage our monorepo structure (`application/frontend`) seamlessly.
 
-   - **Evidence & Links**
-     - **Live Production Environment:** [Outty-App](https://outty-scrum-project.vercel.app)
-     - **Deployment History:** [Vercel Project Deployments](https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments)
-     - **Latest CI Run:** [GitHub Actions Workflow](https://github.com/ggonza39/outty-scrum-project/actions)
+- **Evidence & Links**
+  - **Live Production Environment:** [Outty-App](https://outty-scrum-project.vercel.app)
+  - **Deployment History:** [Vercel Project Deployments](https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments)
+  - **Latest CI Run:** [GitHub Actions Workflow](https://github.com/ggonza39/outty-scrum-project/actions)
 
 - **Team Communication:** Microsoft Teams  
   Microsoft Teams is used for team communication, including meetings, discussions, and coordination throughout the Scrum process.
