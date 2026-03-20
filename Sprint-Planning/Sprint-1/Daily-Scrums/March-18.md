@@ -5,10 +5,16 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-  - Connected the active application/frontend app to Supabase with .env.local and lib/supabase.ts.
-  - Built and verified the Supabase-backed signup flow in app/signup/page.tsx.
-  - Added user-friendly authentication error handling with lib/authErrors.ts.
-  - Created the profiles table, security policies, and auto-create trigger in Supabase.
+
+#### US1 – User Account Creation
+- Connected the app to Supabase using private URL and API keys located in `.env.local` and through `lib/supabase.ts`.
+- Added `lib/authErrors.ts` to provide clear and user-friendly authentication error messages.
+- Built and verified the signup flow in `app/signup/page.tsx`, including local testing of successful signup and expected failure cases.
+
+#### US11 – User Login
+- Integrated the login flow by sending email and password credentials in a sign-in request to Supabase.
+- Implemented login handling for both successful and failed authentications, including clear error messages.
+- Tested the login flow locally to confirm both successful and failed sign-in behavior.
 
 **Heidi Wilder:**  
   - Description of completed work  
@@ -34,11 +40,9 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-  - Connect the login form to the Supabase authentication API.
-  - Send the submitted email and password in a login request.
-  - Handle successful login by receiving and storing the authenticated session.
-  - Handle failed login by returning clear error messages.
-  - Test the login flow locally for both success and failure cases.
+  - Add Supabase sign-out logic
+  - Redirect users to the temporary sign-in page after logout
+  - Verify that the active session is cleared successfully
 
 **Heidi Wilder:**  
   - Planned work 
