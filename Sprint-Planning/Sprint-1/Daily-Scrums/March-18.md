@@ -55,7 +55,9 @@
   - Planned work 
 
 **Takeshia Banks:**  
-  - Planned work 
+  - US2 profile setup work
+  - Build profile creating form UI component (#25)
+  - Onboarding flow (#51) 
 
 **Anthony Nguyen:**  
   - Planned work  
