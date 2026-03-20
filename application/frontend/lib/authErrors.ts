@@ -21,7 +21,7 @@ export function getAuthErrorMessage(error: AuthError | Error | null): string {
   if (
     message.includes('password should be at least') || message.includes('password is too short')
   ) {
-    return 'Password must be at least 6 characters long.'
+    return 'Password must be at least 8 characters long.'
   }
 
   if (message.includes('signup is disabled')) {
