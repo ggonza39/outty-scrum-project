@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 
 const links = [
@@ -19,6 +19,26 @@ export default function AppHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setIsAuthenticated(!!data.session);
+    };
+
+    checkSession();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -30,7 +50,7 @@ export default function AppHeader() {
       }
 
       setOpen(false);
-      router.push('/signin');
+      router.replace('/signin');
     } catch (error) {
       console.error('Unexpected sign out error:', error);
     }
@@ -52,6 +72,7 @@ export default function AppHeader() {
           {open ? '×' : '☰'}
         </button>
       </header>
+
       {open && (
         <nav className="menu-panel">
           {links.map((link) => (
@@ -65,14 +86,16 @@ export default function AppHeader() {
             </Link>
           ))}
 
-          <button
-            type="button"
-            className="menu-link"
-            onClick={handleLogout}
-            style={{ width: '100%', textAlign: 'left', background: 'none', border: 'none' }}
-          >
-            Log out
-          </button>
+          {isAuthenticated && (
+            <button
+              type="button"
+              className="menu-link"
+              onClick={handleLogout}
+              style={{ width: '100%', textAlign: 'left', background: 'none', border: 'none' }}
+            >
+              Log out
+            </button>
+          )}
         </nav>
       )}
     </>

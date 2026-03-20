@@ -17,8 +17,9 @@ vi.mock('../../lib/supabase', () => ({
     auth: {
       // Mock the signup for the test logic
       signUp: vi.fn(() => Promise.resolve({ data: { user: {} }, error: null })),
+signUp: vi.fn(() => Promise.resolve({ data: { user: {} }, error: null })),
       
-      // ADD THESE to prevent the AppHeader/Session crash:
+      // Combined Mocks: Session + AuthStateChange + SignOut
       getSession: vi.fn(() => 
         Promise.resolve({ data: { session: null }, error: null })
       ),
@@ -27,6 +28,7 @@ vi.mock('../../lib/supabase', () => ({
           subscription: { unsubscribe: vi.fn() } 
         },
       })),
+      signOut: vi.fn(() => Promise.resolve({ error: null })),
     },
   },
 }));
