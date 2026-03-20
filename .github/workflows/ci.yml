@@ -39,7 +39,7 @@ jobs:
           # RIGHT SIDE: The EXACT name from your screenshot
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
 
- # --- JOB 2: VERCEL DEPLOYMENT TRIGGER ---
+# --- JOB 2: VERCEL DEPLOYMENT TRIGGER ---
   deploy:
     needs: [frontend-validation]
     runs-on: ubuntu-latest
@@ -54,6 +54,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.ORG_ID }}
           vercel-project-id: ${{ secrets.PROJECT_ID }}
-          vercel-args: '--prod'
+          # UPDATED: Added --logs to stream the build output into the GitHub console
+          vercel-args: '--prod --logs' 
           # This tells the Action: "Stay at the root, Vercel knows where to go"
           working-directory: .
