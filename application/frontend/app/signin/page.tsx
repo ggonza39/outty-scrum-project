@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
-import { supabase } from '@/lib/supabase';
-import { getAuthErrorMessage } from '@/lib/authErrors';
+import { supabase } from '../../lib/supabase';
+import { getAuthErrorMessage } from '../../lib/authErrors';
 
 export default function SignInPage() {
   const router = useRouter();
@@ -140,10 +140,9 @@ export default function SignInPage() {
               color: '#e77797',
               fontWeight: 600,
               marginBottom: '28px',
-              cursor: 'pointer',
             }}
           >
-            Forgot password ?
+            Forgot password?
           </p>
 
           {errorMessage && (
