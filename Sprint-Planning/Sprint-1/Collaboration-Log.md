@@ -4,7 +4,7 @@ This document provides evidence of collaborative development activities such as 
 
 ---
 
-## Mob Programming Sessions (if applicable)
+## Mob Programming Session(s)
 
 **Date:** 03/20/2026  
 - Link:
