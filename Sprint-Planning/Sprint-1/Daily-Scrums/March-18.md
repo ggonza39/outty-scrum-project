@@ -5,7 +5,10 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-  - Description of completed work  
+  - Connected the active application/frontend app to Supabase with .env.local and lib/supabase.ts.
+  - Built and verified the Supabase-backed signup flow in app/signup/page.tsx.
+  - Added user-friendly authentication error handling with lib/authErrors.ts.
+  - Created the profiles table, security policies, and auto-create trigger in Supabase.
 
 **Heidi Wilder:**  
   - Description of completed work  
@@ -31,7 +34,11 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-  - Planned work 
+  - Connect the login form to the Supabase authentication API.
+  - Send the submitted email and password in a login request.
+  - Handle successful login by receiving and storing the authenticated session.
+  - Handle failed login by returning clear error messages.
+  - Test the login flow locally for both success and failure cases.
 
 **Heidi Wilder:**  
   - Planned work 
