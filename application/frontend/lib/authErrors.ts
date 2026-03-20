@@ -27,6 +27,11 @@ export function getAuthErrorMessage(error: AuthError | Error | null): string {
   if (message.includes('signup is disabled')) {
     return 'Account creation is currently unavailable.'
   }
+  if (
+    message.includes('invalid login credentials') || message.includes('email not confirmed') || message.includes('invalid credentials')
+  ) {
+  return 'Invalid email or password. Please try again.'
+}
 
   return error.message || 'An unexpected authentication error occurred.'
 }
