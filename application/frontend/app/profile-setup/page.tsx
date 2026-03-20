@@ -1,8 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
+import { supabase } from '../../lib/supabase';
 
 export default function ProfileSetupPage() {
   const router = useRouter();
@@ -10,6 +11,18 @@ export default function ProfileSetupPage() {
   const [location, setLocation] = useState('Madison, WI');
   const [bio, setBio] = useState('UX designer who loves coffee, road trips, and trying new brunch spots.');
   const [interests, setInterests] = useState('Design systems, live music, hiking');
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+
+      if (!data.session) {
+        router.replace('/signin');
+      }
+    };
+
+    checkSession();
+  }, [router]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
