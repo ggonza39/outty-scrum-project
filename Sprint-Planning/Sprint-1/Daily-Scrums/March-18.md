@@ -37,7 +37,8 @@
   - Updated UI to mathc Figma design  
 
 **Anthony Nguyen:**  
-  - Description of completed work  
+  - Validating the current development project to the overal project vision.
+  - Tracking and making sure our sprint meets the submission requirements.
 
 **Gilberto Gonzalez:**  
   - CI/CD Infrastructure: Successfully implemented a two-stage pipeline using GitHub Actions and Vercel.
@@ -74,7 +75,7 @@
   - Onboarding flow (#51) 
 
 **Anthony Nguyen:**  
-  - Planned work  
+  - Continue to check and manage pull requests that are meeting the standard to the project vision.
 
 **Gilberto Gonzalez:**  
   - Technical Handoff: Support the Tester in transitioning from the initial Vitest scaffolding to the official team test files.
