@@ -5,7 +5,7 @@ create table public.profiles (
   id uuid not null references auth.users(id) on delete cascade,
   display_name text,
   bio text,
-  preferences text[] default '{}',
+  interests text[] default '{}',
   created_at timestamptz default now(),
   updated_at timestamptz default now(),
   primary key (id)

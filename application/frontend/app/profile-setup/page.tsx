@@ -11,6 +11,8 @@ export default function ProfileSetupPage() {
   const [location, setLocation] = useState('Madison, WI');
   const [bio, setBio] = useState('UX designer who loves coffee, road trips, and trying new brunch spots.');
   const [interests, setInterests] = useState('Design systems, live music, hiking');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -24,10 +26,66 @@ export default function ProfileSetupPage() {
     checkSession();
   }, [router]);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  setErrorMessage('');
+
+  try {
+    setIsSubmitting(true);
+
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+    if (sessionError) {
+      console.error('Session retrieval error:', sessionError);
+      setErrorMessage('Unable to verify your session. Please sign in again.');
+      return;
+    }
+
+    const user = sessionData.session?.user;
+
+    if (!user) {
+      setErrorMessage('You must be signed in to save your profile.');
+      router.replace('/signinTEMP');
+      return;
+    }
+
+    const parsedAge = age.trim() ? Number(age) : null;
+
+    if (parsedAge !== null && Number.isNaN(parsedAge)) {
+      setErrorMessage('Please enter a valid age.');
+      return;
+    }
+
+    const interestsArray = interests
+      .split(',')
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    const { error: updateError } = await supabase
+      .from('profiles')
+      .update({
+        age: parsedAge,
+        location: location.trim(),
+        bio: bio.trim(),
+        interests: interestsArray,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', user.id);
+
+    if (updateError) {
+      console.error('Profile update error:', updateError);
+      setErrorMessage(updateError.message || 'Failed to save profile.');
+      return;
+    }
+
     router.push('/add-photos');
-  };
+  } catch (error) {
+    console.error('Unexpected profile submission error:', error);
+    setErrorMessage('An unexpected error occurred while saving your profile.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <MobilePage>
@@ -59,9 +117,25 @@ export default function ProfileSetupPage() {
             <input id="interests" className="input" value={interests} onChange={(e) => setInterests(e.target.value)} />
           </div>
 
-          <button type="submit" className="btn" style={{ width: '100%', marginTop: 18 }}>
-            Save and add photos
+          {errorMessage && (
+            <p style={{ color: '#b00020', marginTop: 14 }}>{errorMessage}</p>
+          )}
+
+          <button
+            type="submit"
+            className="btn"
+            style={{
+              width: '100%',
+              marginTop: 18,
+              backgroundColor: isSubmitting ? '#9e9e9e' : '',
+              color: isSubmitting ? '#f5f5f5' : '',
+              cursor: isSubmitting ? 'not-allowed' : 'pointer',
+            }}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Saving profile...' : 'Save and add photos'}
           </button>
+
         </form>
       </main>
     </MobilePage>
