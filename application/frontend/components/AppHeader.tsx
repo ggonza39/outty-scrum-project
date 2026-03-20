@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabase';
 
 const links = [
   { href: '/', label: 'Home' },
-  { href: '/signinTEMP', label: 'Sign in' },
+  { href: '/signin', label: 'Sign in' },
   { href: '/signup', label: 'Sign up' },
   { href: '/profile-setup', label: 'Profile' },
   { href: '/match', label: 'Match' },
@@ -30,7 +30,7 @@ export default function AppHeader() {
       }
 
       setOpen(false);
-      router.push('/signinTEMP');
+      router.push('/signin');
     } catch (error) {
       console.error('Unexpected sign out error:', error);
     }
