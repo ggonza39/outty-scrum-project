@@ -25,7 +25,7 @@ export default function SignInPage() {
 
     checkSession();
   }, [router]);
-  
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrorMessage('');
