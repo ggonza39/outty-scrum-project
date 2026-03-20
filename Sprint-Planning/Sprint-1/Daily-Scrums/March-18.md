@@ -35,7 +35,8 @@
   - Built Sign In page and connected it to Supabase auth
   - Added validation and error handling
   - Implemented session-based redirects and route protection
-  - Updated UI to mathc Figma design  
+  - Updated UI to mathc Figma design
+  - Completed US10 logout functionality, including authenticated navigation button, session clearing, and redirect flow  
 
 **Anthony Nguyen:**  
   - Validating the current development project to the overal project vision.
