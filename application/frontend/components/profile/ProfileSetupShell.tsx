@@ -5,42 +5,12 @@ import { useRouter } from "next/navigation";
 import BasicInfoStep from "./BasicInfoStep";
 import AdventureInterestsStep from "./AdventureInterestsStep";
 import PreferencesStep from "./PreferencesStep";
-import PhotosStep from "./PhotosStep";
 import SocialsStep from "./SocialsStep";
 import ProfilePreviewStep from "./ProfilePreviewStep";
 import BottomNav from "@/components/BottomNav";
 
-/**
- * MATCHING + PROFILE DATA NOTES FOR BACKEND
- *
- * Frontend collects these fields for matching:
- * - zipCode
- * - distance
- * - interests
- * - partnerPreference
- * - skillLevel
- *
- * Intended backend behavior:
- * 1. Convert zipCode -> latitude/longitude
- * 2. Store coordinates with user profile
- * 3. Use distance as the user's search radius in miles
- * 4. Filter potential matches by:
- *    - distance from ZIP-based coordinates
- *    - shared adventure interests
- *    - compatible skill level
- *    - partner preference
- *
- * Suggested future API endpoints:
- * - POST /api/profile
- * - GET /api/profile/:id
- * - PUT /api/profile/:id
- * - DELETE /api/profile/:id
- * - GET /api/matches
- * - POST /api/swipes
- * - GET /api/messages/:matchId
- */
-
 export type ProfileFormData = {
+  mainPhoto: string | null;
   displayName: string;
   age: string;
   zipCode: string;
@@ -49,7 +19,6 @@ export type ProfileFormData = {
   partnerPreference: string;
   skillLevel: string;
   distance: number;
-  photos: string[];
   instagram: string;
   tiktok: string;
   facebook: string;
@@ -60,7 +29,6 @@ const steps = [
   "About You",
   "Adventure Interests",
   "Preferences",
-  "Photos",
   "Socials",
   "Preview",
 ];
@@ -69,12 +37,12 @@ const stepDescriptions = [
   "Share a few basics so people know who you are.",
   "Select the kinds of adventures you enjoy.",
   "Tell us what kind of adventure partner you’re looking for.",
-  "Add photos that represent you.",
   "Optionally link your social profiles.",
   "Review your profile before continuing.",
 ];
 
 const defaultData: ProfileFormData = {
+  mainPhoto: null,
   displayName: "",
   age: "",
   zipCode: "",
@@ -83,7 +51,6 @@ const defaultData: ProfileFormData = {
   partnerPreference: "",
   skillLevel: "",
   distance: 25,
-  photos: [],
   instagram: "",
   tiktok: "",
   facebook: "",
@@ -112,31 +79,17 @@ export default function ProfileSetupShell() {
   };
 
   const skip = () => {
-    if (step === 3 || step === 4) {
-      next();
-    }
+    next();
   };
 
   const saveProfile = () => {
     setIsSaving(true);
-
-    /**
-     * Backend note:
-     * This is currently frontend-only behavior.
-     * Replace localStorage with an API call such as:
-     * POST /api/profile or PUT /api/profile/:id
-     */
     localStorage.setItem("outty-profile", JSON.stringify(formData));
-
-    /**
-     * Backend note:
-     * After successful persistence, route user to the matching area.
-     * Current frontend route assumption: /match
-     */
     router.push("/match");
   };
 
   const progress = ((step + 1) / steps.length) * 100;
+  const isPreviewStep = step === steps.length - 1;
 
   const renderStep = () => {
     switch (step) {
@@ -152,17 +105,13 @@ export default function ProfileSetupShell() {
       case 2:
         return <PreferencesStep formData={formData} updateField={updateField} />;
       case 3:
-        return <PhotosStep formData={formData} updateField={updateField} />;
-      case 4:
         return <SocialsStep formData={formData} updateField={updateField} />;
-      case 5:
+      case 4:
         return <ProfilePreviewStep formData={formData} />;
       default:
         return null;
     }
   };
-
-  const isPreviewStep = step === steps.length - 1;
 
   return (
     <div className="profile-setup-shell">
@@ -200,7 +149,7 @@ export default function ProfileSetupShell() {
             </div>
 
             <div className="profile-step-actions__right">
-              {!isPreviewStep && (step === 3 || step === 4) && (
+              {step === 3 && (
                 <button className="ghost-btn" onClick={skip} type="button">
                   Skip
                 </button>
