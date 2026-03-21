@@ -2,7 +2,6 @@
 
 ## What Went Well
 - Positive collaboration
-- Effective estimation
 - Strong communication
 
 ---
