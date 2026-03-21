@@ -11,24 +11,11 @@ vi.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams(),
 }));
 
-// 2. Mock Supabase to prevent "supabaseUrl is required" and "not a function" errors
+// 2. Mock Supabase to prevent "supabaseUrl is required" error
 vi.mock('../../lib/supabase', () => ({
   supabase: {
     auth: {
-      // Mock the signup for the test logic
       signUp: vi.fn(() => Promise.resolve({ data: { user: {} }, error: null })),
-signUp: vi.fn(() => Promise.resolve({ data: { user: {} }, error: null })),
-      
-      // Combined Mocks: Session + AuthStateChange + SignOut
-      getSession: vi.fn(() => 
-        Promise.resolve({ data: { session: null }, error: null })
-      ),
-      onAuthStateChange: vi.fn(() => ({
-        data: { 
-          subscription: { unsubscribe: vi.fn() } 
-        },
-      })),
-      signOut: vi.fn(() => Promise.resolve({ error: null })),
     },
   },
 }));
@@ -76,4 +63,38 @@ describe('Sign Up Feature (BDD)', () => {
       expect(error.getAttribute('style')).toContain('color: rgb(176, 0, 32)');
     });
   });
+});
+
+describe('Valid Entry Tests', () => {
+
+    it('Tests if having non-matching passwords returns the expected error message', async () => {
+        // GIVEN: The user is on the Sign Up page
+        render(<SignUpPage />);
+
+        // Find all necessary inputs
+        const nameInput = screen.getByLabelText(/name/i);
+        const emailInput = screen.getByLabelText(/email/i);
+        const passwordInput = screen.getByLabelText(/password/i, { selector: 'input#signup-password' });
+        const confirmInput = screen.getByLabelText(/confirm password/i);
+
+        // Find the form element specifically
+        const form = screen.getByRole('main').querySelector('form')!;
+
+        // WHEN: The user fills out the form but provides different passwords in the password fields
+        fireEvent.change(nameInput, { target: { value: 'Gilberto' } });
+        fireEvent.change(emailInput, { target: { value: 'test@kennesaw.edu' } });
+        fireEvent.change(passwordInput, { target: { value: 'Password123' } });
+        fireEvent.change(confirmInput, { target: { value: 'Password456' } });
+
+        // Submit the form directly to trigger the handleSubmit function
+        fireEvent.submit(form);
+
+        // THEN: The user should see the specific validation error message on the screen
+        await waitFor(() => {
+            const error = screen.getByText(/Passwords need to match before continuing./i);
+            expect(error).toBeDefined();
+            // Verify visual feedback (Red color #b00020)
+            expect(error.getAttribute('style')).toContain('color: rgb(176, 0, 32)');
+        });
+    });
 });
