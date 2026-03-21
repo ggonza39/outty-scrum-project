@@ -23,7 +23,7 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 
 ---
 
-## Refined Product Backlog - 46 total pts (03/21/2026)
+## Refined Backlog - 46 total pts (03/21/2026)
 
 1. User account creation – 5 pts
 2. User login – 3 pts
