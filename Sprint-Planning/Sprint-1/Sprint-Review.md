@@ -24,4 +24,9 @@ Brief description of what was demonstrated during the Sprint Review.
 ---
 
 ## Incomplete Work (if applicable)
-- User Story X – Reason not completed
+- User Story 2: Create adventure-based user profile – 3 pts
+  - Reason:
+- User Story 4: Set adventure preferences – 3 pts
+  - Reason:
+- User Story 9: Edit or delete profile – 3 pts
+  - Reason:
