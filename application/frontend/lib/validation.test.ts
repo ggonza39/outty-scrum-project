@@ -15,36 +15,45 @@ describe('Password Validation Unit Tests', () => {
     expect(validatePassword('Abcdef1')).toBe('Password must be at least 8 characters long.');
   });
 
+  it('4. should return error for long password (73 chars)', () => {
+      expect(validatePassword('0123456789012345678901234567890123456789012345678901234567890123456789Abc')).toBe('Password must be less than 73 characters long.');
+  });
+
   // --- UPPERCASE TESTS ---
-  it('4. should return error for missing uppercase (lowercase + numbers)', () => {
+  it('5. should return error for missing uppercase (lowercase + numbers)', () => {
     expect(validatePassword('password123')).toBe('Password must include at least one uppercase letter.');
   });
 
-  it('5. should return error for only numbers (8+ chars)', () => {
+  it('6. should return error for only numbers (8+ chars)', () => {
+    expect(validatePassword('1234567890')).toBe('Password must include at least one uppercase letter.');
+  });
+
+    // --- LOWERCASECASE TESTS ---
+  it('7. should return error for missing lowercase (uppercase + numbers)', () => {
+    expect(validatePassword('PASSWORD123')).toBe('Password must include at least one lowercase letter.');
+  });
+
+  it('8. should return error for only numbers (8+ chars)', () => {
     expect(validatePassword('1234567890')).toBe('Password must include at least one uppercase letter.');
   });
 
   // --- NUMBER TESTS ---
-  it('6. should return error for missing number (uppercase + lowercase)', () => {
+  it('9. should return error for missing number (uppercase + lowercase)', () => {
     expect(validatePassword('PasswordOnly')).toBe('Password must include at least one number.');
   });
 
-  it('7. should return error for uppercase only (8+ chars)', () => {
-    expect(validatePassword('ABCDEFGH')).toBe('Password must include at least one number.');
-  });
-
   // --- EDGE CASES & SYMBOLS ---
-  it('8. should return error if password is just 8 spaces', () => {
+  it('10. should return error if password is just 8 spaces', () => {
     // Spaces don't count as Uppercase or Numbers
     expect(validatePassword('        ')).toBe('Password must include at least one uppercase letter.');
   });
 
-  it('9. should handle special characters but still check for numbers/uppercase', () => {
+  it('11. should handle special characters but still check for numbers/uppercase', () => {
     expect(validatePassword('!@#$%^&*')).toBe('Password must include at least one uppercase letter.');
   });
 
   // --- SUCCESS CASE ---
-  it('10. should return null for a valid password (8 chars, 1 upper, 1 number)', () => {
+  it('12. should return null for a valid password (8 chars, 1 upper, 1 lower, 1 number)', () => {
     expect(validatePassword('Secure12')).toBeNull();
   });
 });
