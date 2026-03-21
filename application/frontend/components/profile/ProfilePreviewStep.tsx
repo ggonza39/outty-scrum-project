@@ -9,12 +9,16 @@ type Props = {
 export default function ProfilePreviewStep({ formData }: Props) {
   return (
     <div className="preview-card">
-      {formData.photos[0] && (
+      {formData.mainPhoto ? (
         <img
           className="preview-hero-image"
-          src={formData.photos[0]}
+          src={formData.mainPhoto}
           alt="Profile preview"
         />
+      ) : (
+        <div className="preview-hero-placeholder">
+          No profile photo added yet
+        </div>
       )}
 
       <h2>
