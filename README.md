@@ -70,8 +70,13 @@ The Outty project uses the following tools to support collaboration, design, and
 - **Hosting:** Vercel  
   Vercel is used to host and deploy the Next.js application. It provides automated builds, continuous deployment from the GitHub repository, and environment variable management. Vercel also supports preview deployments, allowing the team to test changes safely before production release.
 
-- **Testing:** JUnit and Playwright  
-  JUnit will be used for basic unit testing and integration testing. Playwright will be used for end-to-end testing. Its cross-browser support will enable a flexible web app that works on many browsers.
+- **Testing:** Vitest and Playwright  
+  - **Unit & Integration Testing:** Vitest:
+    - We use Vitest for fast, isolated testing of individual components, utility functions, and Supabase integration logic. Its speed allows for a rapid development cycle and immediate feedback during the Red-Green-Refactor process.
+  - **End-to-End Testing:** Playwright
+    -  We use Playwright to simulate real user journeys across multiple browsers (Chromium, Firefox, and WebKit). This ensures that critical flows—like account creation and profile matching—work perfectly on any device.
+  - **Automated Quality Gate:**
+    - Both test suites are integrated into our GitHub Actions CI/CD pipeline. A Pull Request cannot be merged to main until all Vitest and Playwright checks pass and receive approval from the Code Owner.
 
 - **CI/CD Pipeline:** GitHub Actions & Vercel  
   We implemented a multi-stage **Continuous Integration and Continuous Deployment (CI/CD)** pipeline to ensure code quality and automated delivery. By separating our testing and deployment environments, we created a "Quality Gate" that prevents broken code from ever reaching our users.
