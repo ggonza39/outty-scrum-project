@@ -7,6 +7,18 @@ import MobilePage from '@/components/MobilePage';
 import { supabase } from '../../lib/supabase';
 import { getAuthErrorMessage } from '../../lib/authErrors';
 
+function validateInput(email: string, password: string): string | null {
+  if (!email.trim()) {
+    return 'Email is required.';
+  }
+
+  if (!password.trim()) {
+    return 'Password is required.';
+  }
+
+  return null;
+}
+
 export default function SignInPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -30,13 +42,10 @@ export default function SignInPage() {
     event.preventDefault();
     setErrorMessage('');
 
-    if (!email.trim()) {
-      setErrorMessage('Email is required.');
-      return;
-    }
+    const inputError = validateInput(email, password);
 
-    if (!password.trim()) {
-      setErrorMessage('Password is required.');
+    if (inputError) {
+      setErrorMessage(inputError);
       return;
     }
 
