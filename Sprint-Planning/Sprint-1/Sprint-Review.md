@@ -6,9 +6,9 @@
 ---
 
 ## Completed Work
-- User Story 1 (X Story Points)
-- User Story 2 (X Story Points)
-
+- User Story 1: User account creation – 5 pts
+- User Story 11: User login – 3 pts
+- User Story 11: Logout - 1 pt
 ---
 
 ## Demonstration Summary
