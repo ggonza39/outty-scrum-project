@@ -23,27 +23,32 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 
 ---
 
-## Current Backlog (Ordered) - 46 total pts
+## Refined Product Backlog - 46 total pts (03/21/2026)
 
 1. User account creation – 5 pts
 2. User login – 3 pts
-
-3. Create adventure-based user profile – 3 pts
-
-4. Swipe and match with nearby adventurers – 8 pts
-
+3. Log out securely – 1 pt
+4. Create adventure-based user profile – 3 pts
 5. Set adventure preferences – 3 pts
+6. Edit or delete profile – 3 pts
+7. Swipe and match with nearby adventurers – 8 pts
+8. Filter matches by distance – 5 pts
+9. View matched user profiles – 2 pts
+10. Send in-app messages – 8 pts
+11. Upload profile photos – 5 pts
 
+## Original Backlog (Ordered) - 46 total pts
+
+1. User account creation – 5 pts
+2. User login – 3 pts
+3. Create adventure-based user profile – 3 pts
+4. Swipe and match with nearby adventurers – 8 pts
+5. Set adventure preferences – 3 pts
 6. Filter matches by distance – 5 pts
-
 7. View matched user profiles – 2 pts
-
 8. Send in-app messages – 8 pts
-
 9. Upload profile photos – 5 pts
-
 10. Edit or delete profile – 3 pts
-
 11. Log out securely – 1 pt
 
 ### **Estimation Approach**
