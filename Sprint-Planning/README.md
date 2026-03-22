@@ -17,5 +17,6 @@ Each sprint has its own subfolder that includes:
 ## Sprints
 
 - [Sprint 1](./Sprint-1)
+- [Sprint 2](./Sprint-2)
 
 Future sprints will be documented in separate subfolders to maintain clear organization and traceability.
