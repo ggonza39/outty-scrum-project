@@ -7,7 +7,7 @@ import MobilePage from '@/components/MobilePage';
 import { supabase } from '../../lib/supabase';
 import { getAuthErrorMessage } from '../../lib/authErrors';
 
-function validateInput(email: string, password: string): string | null {
+export function validateInput(email: string, password: string): string | null {
   if (!email.trim()) {
     return 'Email is required.';
   }
