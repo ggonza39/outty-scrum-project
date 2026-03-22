@@ -1,33 +1,34 @@
 # Sprint 1 – Sprint Retrospective
 
 ## What Went Well
-**Hunter Blake:**  
+- **Hunter Blake:**  
   - 
-**Heidi Wilder:**  
+- **Heidi Wilder:**  
   - 
-**Gibson Garner:**  
+- **Gibson Garner:**  
   - 
-**Takeshia Banks:**  
+- **Takeshia Banks:**  
   - 
-**Anthony Nguyen:**  
+- **Anthony Nguyen:**  
   - 
-**Gilberto Gonzalez:**  
+- **Gilberto Gonzalez:**  
   - 
 
 ---
 
 ## What Could Be Improved
-**Hunter Blake:**  
+
+- **Hunter Blake:**  
   - 
-**Heidi Wilder:**  
+- **Heidi Wilder:**  
   - 
-**Gibson Garner:**  
+- **Gibson Garner:**  
   - 
-**Takeshia Banks:**  
+- **Takeshia Banks:**  
   - 
-**Anthony Nguyen:**  
+- **Anthony Nguyen:**  
   - 
-**Gilberto Gonzalez:**  
+- **Gilberto Gonzalez:**  
   - 
 
 ---
