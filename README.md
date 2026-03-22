@@ -96,7 +96,8 @@ The Outty project uses the following tools to support collaboration, design, and
 
   - **Evidence & Links**
     - **Live Production Environment:** [Outty-App](https://outty-scrum-project.vercel.app)
-    - **Deployment History:** [Vercel Project Deployments](https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments)
+    - **Deployment Logs & CI History:** [Vercel Project Deployments](https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments)
+      - If Vercel link is not visible due to "hobby" account restrictions, use [GitHub Actions Workflow](https://github.com/ggonza39/outty-scrum-project/actions)
     - **Latest CI Run:** [GitHub Actions Workflow](https://github.com/ggonza39/outty-scrum-project/actions)
 
 - **Team Communication:** Microsoft Teams  
