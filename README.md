@@ -95,7 +95,7 @@ The Outty project uses the following tools to support collaboration, design, and
     - **Environment Sync:** We configured Vercel's Root Directory settings to manage our monorepo structure (`application/frontend`) seamlessly.
 
   - **Evidence & Links**
-    - **Live Production Environment:** [Outty-App](https://outty-scrum-project.vercel.app)
+    - **Live Production Environment:** [Outty-App](https://outty-scrum-project.vercel.app/)
     - **Primary Deployment Logs:** [Vercel Project Deployments](https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments)
     - **CI/CD Quality Gate (fallback):** [GitHub Actions Workflow History](https://github.com/ggonza39/outty-scrum-project/actions)
       - All logs can be viewed using GitHub Actions due to Vercel Hobby Tier account restrictions.
