@@ -17,7 +17,6 @@ vi.mock('../../lib/supabase', () => ({
     auth: {
       // Mock the signup for the test logic
       signUp: vi.fn(() => Promise.resolve({ data: { user: {} }, error: null })),
-signUp: vi.fn(() => Promise.resolve({ data: { user: {} }, error: null })),
       
       // Combined Mocks: Session + AuthStateChange + SignOut
       getSession: vi.fn(() => 
