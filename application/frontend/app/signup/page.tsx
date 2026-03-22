@@ -8,6 +8,20 @@ import { supabase } from '../../lib/supabase';
 import { getAuthErrorMessage } from '../../lib/authErrors'
 import { validatePassword } from '../../lib/validation';
 
+function validateEmail(email: string): string | null {
+  if (!email.trim()) {
+    return 'Email is required.';
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    return 'Please enter a valid email address.';
+  }
+
+  return null;
+}
+
 export default function SignUpPage() {
   const router = useRouter();
   const [name, setName] = useState('');
@@ -20,6 +34,17 @@ export default function SignUpPage() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrorMessage('');
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setErrorMessage('');
+
+    const emailValidationError = validateEmail(email);
+
+    if (emailValidationError) {
+      setErrorMessage(emailValidationError);
+      return;
+    }
 
     const passwordValidationError = validatePassword(password);
 
