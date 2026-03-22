@@ -13,6 +13,7 @@ Each sprint has its own subfolder that includes:
 - Sprint Retrospective notes
 - Evidence of pairing or mob programming
 - Deployment link for the sprint increment
+- Test Traceability 
 
 ## Sprints
 
