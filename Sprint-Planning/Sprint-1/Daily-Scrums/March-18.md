@@ -24,16 +24,12 @@
 - Implemented profile submission logic in `app/profile-setup/page.tsx` to save profile data for the authenticated user.
 
 **Heidi Wilder:**  
-currently working on - [US4] [Frontend] [UI/UX] Implement preferences selection UI #28
-currently working on - [US9] [Frontend] Implement profile edit form pre-filled with existing data #32
-
-Completed:
-[US11] [UI/UX] Design Login Form UI in Figma
-[US2] [Frontend] [UI/UX] Implement profile setup onboarding flow
-[US1] [UI/UX] Design registration form in Figma - completed
-[US11] [UI/UX] Design Login Form UI in Figma #60 - completed
-[US2] [Frontend] [UI/UX] Implement profile setup onboarding flow #51
-
+  - Completed:
+    - [US11] [UI/UX] Design Login Form UI in Figma
+    - [US2] [Frontend] [UI/UX] Implement profile setup onboarding flow
+    - [US1] [UI/UX] Design registration form in Figma - completed
+    - [US11] [UI/UX] Design Login Form UI in Figma #60 - completed
+    - [US2] [Frontend] [UI/UX] Implement profile setup onboarding flow #51
 
 **Gibson Garner:**  
   - Completed unit tests for signup page
@@ -75,7 +71,8 @@ Completed:
   - Verify that profile deletion works correctly and is restricted to the authenticated user only.
 
 **Heidi Wilder:**  
-  - Planned work 
+  - Currently working on - [US4] [Frontend] [UI/UX] Implement preferences selection UI #28
+  - Currently working on - [US9] [Frontend] Implement profile edit form pre-filled with existing data #32
 
 **Gibson Garner:**  
   - Write integration tests for signup page
