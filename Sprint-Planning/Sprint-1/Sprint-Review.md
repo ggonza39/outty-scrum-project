@@ -1,14 +1,14 @@
 # Sprint 1 – Sprint Review
 
 ## Sprint Goal
-(State the Sprint Goal here)
+- Establish the core authentication and profile management features of Outty, enabling users to create accounts, define preferences, and manage their profiles securely.
 
 ---
 
 ## Completed Work
-- User Story 1 (X Story Points)
-- User Story 2 (X Story Points)
-
+- User Story 1: User account creation – 5 pts
+- User Story 11: User login – 3 pts
+- User Story 10: Log out securely - 1 pt
 ---
 
 ## Demonstration Summary
@@ -24,4 +24,9 @@ Brief description of what was demonstrated during the Sprint Review.
 ---
 
 ## Incomplete Work (if applicable)
-- User Story X – Reason not completed
+- User Story 2: Create adventure-based user profile – 3 pts
+  - Reason:
+- User Story 4: Set adventure preferences – 3 pts
+  - Reason:
+- User Story 9: Edit or delete profile – 3 pts
+  - Reason:

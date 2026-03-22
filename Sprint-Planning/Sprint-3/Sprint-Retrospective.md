@@ -1,4 +1,4 @@
-# Sprint 1 – Sprint Retrospective
+# Sprint 3 – Sprint Retrospective
 
 ## What Went Well
 
@@ -37,4 +37,3 @@
 ## Action Items for Next Sprint
 - Improve story point calibration
 - Start integration testing earlier
-  

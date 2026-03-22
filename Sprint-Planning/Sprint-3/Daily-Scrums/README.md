@@ -1,0 +1,53 @@
+# Sprint 3 – Daily Scrums
+
+  This folder contains documentation for all Daily Scrums conducted during Sprint 3.
+
+  Each file represents one Daily Scrum meeting.
+
+---
+
+# Template
+
+---
+
+# Sprint 3 – Daily Scrum Documentation
+
+**Date:** MM-DD-YYYY  
+
+---
+
+## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
+
+**Member Name:**  
+Description of completed work  
+
+**Member Name:**  
+Description of completed work  
+
+---
+
+## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
+
+**Member Name:**  
+Planned work  
+
+**Member Name:**  
+Planned work  
+
+---
+
+## 3. Impediments
+
+**Identified Impediment:**  
+Description  
+
+**Impediment Removal Plan:**  
+How the team plans to resolve it  
+
+**Responsible (if applicable):**  
+Name  
+
+---
+
+*Note: Multiple Daily Scrums were conducted throughout the sprint. This entry serves as documented evidence in the repository.*
+
