@@ -11,4 +11,5 @@ Artifacts included:
 - Sprint Review notes
 - Sprint Retrospective notes
 - Pair/mob programming evidence
-- Deployment link for Sprint 1 increment
+- Deployment link for Sprint 2 increment
+- Test Traceability & Metrics Report
