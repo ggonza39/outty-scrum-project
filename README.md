@@ -95,10 +95,10 @@ The Outty project uses the following tools to support collaboration, design, and
     - **Environment Sync:** We configured Vercel's Root Directory settings to manage our monorepo structure (`application/frontend`) seamlessly.
 
   - **Evidence & Links**
-    - **Live Production Environment:** [Outty-App](https://outty-scrum-project.vercel.app)
-    - **Deployment Logs & CI History:** [Vercel Project Deployments](https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments)
-      - If Vercel link is not visible due to "hobby" account restrictions, use [GitHub Actions Workflow](https://github.com/ggonza39/outty-scrum-project/actions)
-    - **Latest CI Run:** [GitHub Actions Workflow](https://github.com/ggonza39/outty-scrum-project/actions)
+    - **Live Production Environment:** [Outty-App](https://outty-app.vercel.app)
+    - **Primary Deployment Logs:** [Vercel Project Deployments](https://vercel.com/ggonza39/outty-project/deployments)
+    - **CI/CD Quality Gate (Fallback):** [GitHub Actions Workflow History](https://github.com/ggonza39/outty-scrum-project/actions)
+    - **Latest Successful CI Run:** [View Latest Run](https://github.com/ggonza39/outty-scrum-project/actions/runs/LATEST_ID)
 
 - **Team Communication:** Microsoft Teams  
   Microsoft Teams is used for team communication, including meetings, discussions, and coordination throughout the Scrum process.
