@@ -1,6 +1,7 @@
 # Sprint 1 – Sprint Retrospective
 
 ## What Went Well
+
 - **Hunter Blake:**  
   - 
 - **Heidi Wilder:**  
