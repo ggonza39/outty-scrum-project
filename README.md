@@ -96,9 +96,9 @@ The Outty project uses the following tools to support collaboration, design, and
 
   - **Evidence & Links**
     - **Live Production Environment:** [Outty-App](https://outty-app.vercel.app)
-    - **Primary Deployment Logs:** [Vercel Project Deployments](https://vercel.com/ggonza39/outty-project/deployments)
-    - **CI/CD Quality Gate (Fallback):** [GitHub Actions Workflow History](https://github.com/ggonza39/outty-scrum-project/actions)
-    - **Latest Successful CI Run:** [View Latest Run](https://github.com/ggonza39/outty-scrum-project/actions/runs/LATEST_ID)
+    - **Primary Deployment Logs:** [Vercel Project Deployments](https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments)
+    - **CI/CD Quality Gate (fallback):** [GitHub Actions Workflow History](https://github.com/ggonza39/outty-scrum-project/actions)
+      - All logs can be viewed using GitHub Actions due to Vercel Hobby Tier account restrictions.
 
 - **Team Communication:** Microsoft Teams  
   Microsoft Teams is used for team communication, including meetings, discussions, and coordination throughout the Scrum process.
