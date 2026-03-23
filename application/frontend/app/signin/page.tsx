@@ -6,18 +6,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
 import { supabase } from '../../lib/supabase';
 import { getAuthErrorMessage } from '../../lib/authErrors';
-
-function validateInput(email: string, password: string): string | null {
-  if (!email.trim()) {
-    return 'Email is required.';
-  }
-
-  if (!password.trim()) {
-    return 'Password is required.';
-  }
-
-  return null;
-}
+import { validateInput } from '../../lib/signinValidation';
 
 export default function SignInPage() {
   const router = useRouter();
