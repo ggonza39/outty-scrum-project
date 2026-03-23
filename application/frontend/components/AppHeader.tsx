@@ -94,9 +94,7 @@ export default function AppHeader() {
         <div>
           <div className="brand">Outty</div>
           <div className="subtle">
-            {isAuthenticated && welcomeMessage
-              ? welcomeMessage
-              : 'Mobile-first social app demo'}
+            {isAuthenticated ? 'Welcome back' : 'Mobile-first social app demo'}
           </div>
         </div>
 
