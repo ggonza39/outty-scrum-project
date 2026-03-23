@@ -8,6 +8,7 @@ import PreferencesStep from "./PreferencesStep";
 import SocialsStep from "./SocialsStep";
 import ProfilePreviewStep from "./ProfilePreviewStep";
 import BottomNav from "@/components/BottomNav";
+import { supabase } from "@/lib/supabase";
 
 export type ProfileFormData = {
   mainPhoto: string | null;
@@ -82,11 +83,51 @@ export default function ProfileSetupShell() {
     next();
   };
 
-  const saveProfile = () => {
-    setIsSaving(true);
-    localStorage.setItem("outty-profile", JSON.stringify(formData));
+  // OLD saveProfile function. Delete if no longer needed...
+  // const saveProfile = () => {
+  //   setIsSaving(true);
+  //   localStorage.setItem("outty-profile", JSON.stringify(formData));
+  //   router.push("/match");
+  // };
+
+  const saveProfile = async () => {
+  setIsSaving(true);
+
+  try {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError) throw userError;
+    if (!user) throw new Error("No authenticated user found.");
+
+    const { error: profileError } = await supabase.from("profiles").upsert({
+      id: user.id,
+      display_name: formData.displayName || null,
+      age: formData.age ? Number(formData.age) : null,
+      zip_code: formData.zipCode || null,
+      bio: formData.bio || null,
+      interests: formData.interests,
+      partner_preference: formData.partnerPreference || null,
+      skill_level: formData.skillLevel || null,
+      distance: formData.distance ?? null,
+      instagram: formData.instagram || null,
+      tiktok: formData.tiktok || null,
+      facebook: formData.facebook || null,
+      linkedin: formData.linkedin || null,
+    });
+
+    if (profileError) throw profileError;
+
     router.push("/match");
-  };
+  } catch (error) {
+    console.error("Error saving profile:", error);
+    alert("There was a problem saving your profile.");
+  } finally {
+    setIsSaving(false);
+  }
+};
 
   const progress = ((step + 1) / steps.length) * 100;
   const isPreviewStep = step === steps.length - 1;
