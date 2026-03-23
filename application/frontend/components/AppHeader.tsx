@@ -20,11 +20,24 @@ export default function AppHeader() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [welcomeMessage, setWelcomeMessage] = useState('');
 
   useEffect(() => {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
-      setIsAuthenticated(!!data.session);
+      const session = data.session;
+
+      setIsAuthenticated(!!session);
+
+      if (session?.user) {
+        const displayName =
+          session.user.user_metadata?.display_name ||
+          session.user.email ||
+          'Welcome back';
+        setWelcomeMessage(`Welcome, ${displayName}`);
+      } else {
+        setWelcomeMessage('');
+      }
     };
 
     checkSession();
@@ -33,6 +46,16 @@ export default function AppHeader() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session);
+
+      if (session?.user) {
+        const displayName =
+          session.user.user_metadata?.display_name ||
+          session.user.email ||
+          'Welcome back';
+        setWelcomeMessage(`Welcome, ${displayName}`);
+      } else {
+        setWelcomeMessage('');
+      }
     });
 
     return () => {
@@ -50,19 +73,33 @@ export default function AppHeader() {
       }
 
       setOpen(false);
+      alert('You have been successfully logged out.');
       router.replace('/signin');
     } catch (error) {
       console.error('Unexpected sign out error:', error);
     }
   };
 
+  const visibleLinks = links.filter((link) => {
+    if (!isAuthenticated) {
+      return !['/profile-setup', '/match', '/message'].includes(link.href);
+    }
+
+    return !['/signin', '/signup'].includes(link.href);
+  });
+
   return (
     <>
       <header className="topbar">
         <div>
           <div className="brand">Outty</div>
-          <div className="subtle">Mobile-first social app demo</div>
+          <div className="subtle">
+            {isAuthenticated && welcomeMessage
+              ? welcomeMessage
+              : 'Mobile-first social app demo'}
+          </div>
         </div>
+
         <button
           type="button"
           className="icon-button"
@@ -75,7 +112,7 @@ export default function AppHeader() {
 
       {open && (
         <nav className="menu-panel">
-          {links.map((link) => (
+          {visibleLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
