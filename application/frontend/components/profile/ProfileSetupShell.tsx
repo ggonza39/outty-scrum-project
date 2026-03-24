@@ -58,11 +58,15 @@ const defaultData: ProfileFormData = {
   linkedin: "",
 };
 
-export function validatePreferences(data: ProfileFormData): string | null {
+export function validateInterests(data: ProfileFormData): string | null {
   if (!data.interests || data.interests.length === 0) {
     return 'Please select at least one interest.';
   }
 
+  return null;
+}
+
+export function validatePreferences(data: ProfileFormData): string | null {
   if (!data.partnerPreference) {
     return 'Please select a partner preference.';
   }
@@ -89,18 +93,29 @@ export default function ProfileSetupShell() {
   };
 
   const next = () => {
-  if (step === 2) {
-    const error = validatePreferences(formData);
+    // Validate Adventure Interests step
+    if (step === 1) {
+      const error = validateInterests(formData);
 
-    if (error) {
-      setErrorMessage(error);
-      return;
+      if (error) {
+        setErrorMessage(error);
+        return;
+      }
     }
-  }
 
-  setErrorMessage("");
-  setStep((prev) => Math.min(prev + 1, steps.length - 1));
-};
+    // Validate Preferences step
+    if (step === 2) {
+      const error = validatePreferences(formData);
+
+      if (error) {
+        setErrorMessage(error);
+        return;
+      }
+    }
+
+    setErrorMessage("");
+    setStep((prev) => Math.min(prev + 1, steps.length - 1));
+  };
 
   const back = () => {
     setStep((prev) => Math.max(prev - 1, 0));
