@@ -58,11 +58,28 @@ const defaultData: ProfileFormData = {
   linkedin: "",
 };
 
+export function validatePreferences(data: ProfileFormData): string | null {
+  if (!data.interests || data.interests.length === 0) {
+    return 'Please select at least one interest.';
+  }
+
+  if (!data.partnerPreference) {
+    return 'Please select a partner preference.';
+  }
+
+  if (!data.skillLevel) {
+    return 'Please select a skill level.';
+  }
+
+  return null;
+}
+
 export default function ProfileSetupShell() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<ProfileFormData>(defaultData);
   const [isSaving, setIsSaving] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const updateField = <K extends keyof ProfileFormData>(
     key: K,
@@ -72,8 +89,18 @@ export default function ProfileSetupShell() {
   };
 
   const next = () => {
-    setStep((prev) => Math.min(prev + 1, steps.length - 1));
-  };
+  if (step === 2) {
+    const error = validatePreferences(formData);
+
+    if (error) {
+      setErrorMessage(error);
+      return;
+    }
+  }
+
+  setErrorMessage("");
+  setStep((prev) => Math.min(prev + 1, steps.length - 1));
+};
 
   const back = () => {
     setStep((prev) => Math.max(prev - 1, 0));
@@ -179,6 +206,10 @@ export default function ProfileSetupShell() {
           </div>
 
           <div className="profile-step-content">{renderStep()}</div>
+          
+          {errorMessage && (
+            <p style={{ color: "#b00020", marginTop: 10 }}>{errorMessage}</p>
+          )}
 
           <div className="profile-step-actions">
             <div className="profile-step-actions__left">
