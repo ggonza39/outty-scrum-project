@@ -225,6 +225,33 @@ export default function ProfileSetupShell() {
   }
 };
 
+  const deleteProfile = async () => {
+  try {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError) throw userError;
+    if (!user) throw new Error("No authenticated user found.");
+
+    const { error } = await supabase
+      .from("profiles")
+      .delete()
+      .eq("id", user.id);
+
+    if (error) throw error;
+
+    setFormData(defaultData);
+    setStep(0);
+    alert("Your profile has been deleted.");
+    router.replace("/profile-setup");
+  } catch (error) {
+    console.error("Error deleting profile:", error);
+    alert("There was a problem deleting your profile.");
+  }
+};
+
   const progress = ((step + 1) / steps.length) * 100;
   const isPreviewStep = step === steps.length - 1;
 
@@ -244,7 +271,12 @@ export default function ProfileSetupShell() {
       case 3:
         return <SocialsStep formData={formData} updateField={updateField} />;
       case 4:
-        return <ProfilePreviewStep formData={formData} />;
+        return (
+          <ProfilePreviewStep 
+            formData={formData} 
+            onDeleteProfile={deleteProfile}
+          />
+        );
       default:
         return null;
     }
