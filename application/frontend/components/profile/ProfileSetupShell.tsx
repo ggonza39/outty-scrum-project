@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import BasicInfoStep from "./BasicInfoStep";
 import AdventureInterestsStep from "./AdventureInterestsStep";
@@ -83,8 +83,62 @@ export default function ProfileSetupShell() {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<ProfileFormData>(defaultData);
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
+  useEffect(() => {
+  const loadProfile = async () => {
+    try {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError) throw userError;
+
+      if (!user) {
+        setIsLoadingProfile(false);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (error) {
+        setIsLoadingProfile(false);
+        return;
+      }
+
+      if (data) {
+        setFormData({
+          mainPhoto: null,
+          displayName: data.display_name || "",
+          age: data.age ? String(data.age) : "",
+          zipCode: data.zip_code || "",
+          bio: data.bio || "",
+          interests: data.interests || [],
+          partnerPreference: data.partner_preference || "",
+          skillLevel: data.skill_level || "",
+          distance: data.distance || 25,
+          instagram: data.instagram || "",
+          tiktok: data.tiktok || "",
+          facebook: data.facebook || "",
+          linkedin: data.linkedin || "",
+        });
+      }
+    } catch (error) {
+      console.error("Error loading profile:", error);
+    } finally {
+      setIsLoadingProfile(false);
+    }
+  };
+
+  loadProfile();
+}, []);
+  
   const updateField = <K extends keyof ProfileFormData>(
     key: K,
     value: ProfileFormData[K]
@@ -196,6 +250,19 @@ export default function ProfileSetupShell() {
     }
   };
 
+  if (isLoadingProfile) {
+  return (
+    <div className="profile-setup-shell">
+      <section className="profile-setup-content">
+        <div className="profile-setup-card">
+          <p>Loading profile...</p>
+        </div>
+      </section>
+      <BottomNav />
+    </div>
+  );
+}
+  
   return (
     <div className="profile-setup-shell">
       <section className="profile-setup-top">
