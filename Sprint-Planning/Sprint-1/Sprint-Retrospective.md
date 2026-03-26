@@ -2,34 +2,24 @@
 
 ## What Went Well
 
-- **Hunter Blake:**  
-  - 
-- **Heidi Wilder:**  
-  - 
-- **Gibson Garner:**  
-  - 
-- **Takeshia Banks:**  
-  - 
-- **Anthony Nguyen:**  
-  - 
-- **Gilberto Gonzalez:**  
-  - 
 
+
+
+
+
+- **Gibson Garner:**  
+  -
+  
 ---
 
 ## What Could Be Improved
 
-- **Hunter Blake:**  
-  - 
-- **Heidi Wilder:**  
-  - 
+
+
+
+
+
 - **Gibson Garner:**  
-  - 
-- **Takeshia Banks:**  
-  - 
-- **Anthony Nguyen:**  
-  - 
-- **Gilberto Gonzalez:**  
   - 
 
 ---

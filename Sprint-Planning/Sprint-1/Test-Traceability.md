@@ -6,10 +6,18 @@ This document tracks the cumulative test count across all Sprints to ensure the 
   - **Actual:** 16 Unit Tests / 2 BDD
   - **Status:** Requirement Met
   - **Files:**
-    - lib/signinValidation.test.ts (4 tests)
-    - lib/validation.test.ts (12 tests)
-    - app/signup/signup.bdd.test.tsx (2 tests) 177ms
+    - [signinValidation.test.ts](/application/frontend/lib/signinValidation.test.ts) (4 tests)
+    - [validation.test.ts](/application/frontend/lib/validation.test.ts) (12 tests)
+    - [signup.bdd.test.tsx](/application/frontend/app/signup/signup.bdd.test.tsx) (2 tests) 177ms
+   
+### GitHub Actions with Vercel Summary Logs
+- https://github.com/ggonza39/outty-scrum-project/actions/runs/23620432344
+
+### Vercel Logs
+- https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments
+  
+  - Warning: Link might not work due to Hobby Account restrictions.  GitHub Actions has Vercel logs embedded due to this restriction.
 
 ### **Current Count:** 
-  - Unit Tests = 10 
-  - BDD Tests = 1
+  - Unit Tests = 16
+  - BDD Tests = 2
