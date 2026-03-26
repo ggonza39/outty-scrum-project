@@ -7,7 +7,7 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-  - 
+  - Completed backend tasks for US4 & US9
 **Heidi Wilder:**  
   - 
 **Gibson Garner:**  
@@ -25,7 +25,7 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-  - 
+  - Address bug reports and refinements related to backend development tasks for Sprint 1
 **Heidi Wilder:**  
   - 
 **Gibson Garner:**  
