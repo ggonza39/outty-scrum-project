@@ -54,7 +54,7 @@
 ## 3. Impediments
 
 **Identified Impediment:**  
-  - - Security & Regression Audit: Identified a critical security "Ghost Session" bug in Story 10 (Secure Logout). Verified that cached sessions permitted unauthorized access via direct URL pasting; subsequently blocked the story from being marked "Done" to maintain our Definition of Done (DoD) and project security standards.
+  - Security & Regression Audit: Identified a critical security "Ghost Session" bug in Story 10 (Secure Logout). Verified that cached sessions permitted unauthorized access via direct URL pasting; subsequently blocked the story from being marked "Done" to maintain our Definition of Done (DoD) and project security standards.
 
 **Impediment Removal Plan:**  
   - Troubleshoot the bug with backend and testing.
