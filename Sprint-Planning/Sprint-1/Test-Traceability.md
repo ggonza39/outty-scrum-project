@@ -11,5 +11,5 @@ This document tracks the cumulative test count across all Sprints to ensure the 
     - app/signup/signup.bdd.test.tsx (2 tests) 177ms
 
 ### **Current Count:** 
-  - Unit Tests = 10 
-  - BDD Tests = 1
+  - Unit Tests = 16
+  - BDD Tests = 2
