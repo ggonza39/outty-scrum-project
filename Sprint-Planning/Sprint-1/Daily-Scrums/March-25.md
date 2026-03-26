@@ -14,10 +14,14 @@
   - Completed E2E tests for sign up
   - Completed E2E tests for sign in
   - Completed E2E tests for sign out
+  
 **Takeshia Banks:**  
   - 
 **Anthony Nguyen:**  
-  - 
+  - Identified security bypass via manual URL entry for protected routes
+  - Validated E2E test scripts for sign-out functionality
+  - Facilitated team alignment on server-side session enforcement requirements
+    
 **Gilberto Gonzalez:**  
   - 
 ---
@@ -32,10 +36,14 @@
   - Create unit tests for profile setup
   - Create E2E tests for profile setup
   - Write unit tests for preference persistance
+  
 **Takeshia Banks:**  
   - 
 **Anthony Nguyen:**  
-  - 
+  - Monitor implementation of Middleware for session verification
+  - Update "Definition of Done" to include server-side route protection
+  - Refine user story acceptance criteria for upcoming profile features
+
 **Gilberto Gonzalez:**  
   - 
 ---
