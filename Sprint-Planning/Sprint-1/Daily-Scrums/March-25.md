@@ -8,7 +8,7 @@
 
 **Hunter Blake:**  
   - Completed backend tasks for US4 & US9
----
+
 **Heidi Wilder:**  
   - 
 **Gibson Garner:**  
