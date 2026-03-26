@@ -8,12 +8,14 @@
 
 **Hunter Blake:**  
   - Completed backend tasks for US4 & US9
+---
 **Heidi Wilder:**  
   - 
 **Gibson Garner:**  
   - Completed E2E tests for sign up
   - Completed E2E tests for sign in
   - Completed E2E tests for sign out
+---
 **Takeshia Banks:**  
   - 
 **Anthony Nguyen:**  
@@ -35,12 +37,14 @@
 
 **Hunter Blake:**  
   - Address bug reports and refinements related to backend development tasks for Sprint 1
+---
 **Heidi Wilder:**  
   - 
 **Gibson Garner:**  
   - Create unit tests for profile setup
   - Create E2E tests for profile setup
   - Write unit tests for preference persistance
+---
 **Takeshia Banks:**  
   - 
 **Anthony Nguyen:**  
