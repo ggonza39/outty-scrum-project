@@ -6,6 +6,9 @@
 ## Screenshot
 (Insert screenshot here if required by instructor)
 
+## Sprint 1 Cumulative Flow Diagram
+- https://github.com/users/ggonza39/projects/1/insights/3
+
 ## Summary
 - Total Story Points Committed: 18
 - Total Story Points Completed: 9
