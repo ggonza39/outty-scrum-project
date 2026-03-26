@@ -19,7 +19,10 @@
 **Takeshia Banks:**  
   - 
 **Anthony Nguyen:**  
-  - 
+  - Identified security bypass via manual URL entry for protected routes
+  - Validated E2E test scripts for sign-out functionality
+  - Facilitated team alignment on server-side session enforcement requirements
+    
 **Gilberto Gonzalez:**  
   - ZenHub Workspace Restoration: Performed a comprehensive reset and reconfiguration of the ZenHub Project Board. Resolved a critical "Snapshot Lock" issue that was obstructing the Burndown chart’s ability to capture mid-sprint velocity.
 
@@ -48,7 +51,10 @@
 **Takeshia Banks:**  
   - 
 **Anthony Nguyen:**  
-  - 
+  - Monitor implementation of Middleware for session verification
+  - Update "Definition of Done" to include server-side route protection
+  - Refine user story acceptance criteria for upcoming profile features
+    
 **Gilberto Gonzalez:**  
   - Review acceptance criteria on completed user stories and pending user stories for sprint 1.
   - Conduct sprint review and retrospective to close Sprint 1.
