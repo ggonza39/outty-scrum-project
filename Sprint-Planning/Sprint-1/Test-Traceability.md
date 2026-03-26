@@ -6,10 +6,9 @@ This document tracks the cumulative test count across all Sprints to ensure the 
   - **Actual:** 16 Unit Tests / 2 BDD
   - **Status:** Requirement Met
   - **Files:**
-    - lib/signinValidation.test.ts (4 tests)
     - [signinValidation.test.ts](/application/frontend/lib/signinValidation.test.ts) (4 tests)
     - [validation.test.ts](/application/frontend/lib/validation.test.ts) (12 tests)
-    - [signup.bdd.test.tsx](application/frontend/lib/signup/signup.bdd.test.tsx) (2 tests) 177ms
+    - [signup.bdd.test.tsx](application/frontend/app/signup/signup.bdd.test.tsx) (2 tests) 177ms
 
 ### **Current Count:** 
   - Unit Tests = 16
