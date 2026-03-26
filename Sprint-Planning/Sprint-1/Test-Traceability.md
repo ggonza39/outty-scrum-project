@@ -7,7 +7,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
   - **Status:** Requirement Met
   - **Files:**
     - lib/signinValidation.test.ts (4 tests)
-    - [lib/signinValidation.test.ts](./lib/signinValidation.test.ts)
+    - [signinValidation.test.ts](signinValidation.test.ts)
     - lib/validation.test.ts (12 tests)
     - app/signup/signup.bdd.test.tsx (2 tests) 177ms
 
