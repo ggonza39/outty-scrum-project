@@ -12,7 +12,10 @@ This document tracks the cumulative test count across all Sprints to ensure the 
    
 ### GitHub Actions with Vercel Summary Logs
 - https://github.com/ggonza39/outty-scrum-project/actions/runs/23620432344
-  
+
+### Vercel Logs
+- https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments
+  - Link might not work due to Hobby Account restrictions.  GitHub Actions has Vercel logs embedded due to this restriction.
 
 ### **Current Count:** 
   - Unit Tests = 16
