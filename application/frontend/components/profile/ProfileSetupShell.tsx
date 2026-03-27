@@ -67,6 +67,24 @@ export function validateInterests(data: ProfileFormData): string | null {
 }
 
 export function validatePreferences(data: ProfileFormData): string | null {
+  if (!data.displayName || data.displayName.trim().length < 1 || data.displayName.trim().length > 17) {
+    return 'Please enter a name between 1 and 17 letters';
+  }
+
+  if (!data.age || !data.age.trim()) {
+    return 'Please enter an age.';
+  }
+
+  const ageNumber = Number(data.age);
+
+  if (!Number.isInteger(ageNumber) || ageNumber < 18 || ageNumber > 150) {
+    return 'Please enter an age between 18 and 150, to the nearest year.';
+  }
+
+  if (!/^\d{5}$/.test(data.zipCode)) {
+    return 'Please enter a valid ZIP code.';
+  }
+
   if (!data.partnerPreference) {
     return 'Please select a partner preference.';
   }
