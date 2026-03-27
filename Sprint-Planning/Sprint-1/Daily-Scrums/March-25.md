@@ -17,7 +17,11 @@
   - Completed E2E tests for sign out
 
 **Takeshia Banks:**  
-  - 
+  - Worked on US4 and US9
+  - Implemented profile setup validation
+  - Added profile pre-fill form from Supabase
+  - Built the delete confirmation modal
+    
 **Anthony Nguyen:**  
   - Identified security bypass via manual URL entry for protected routes
   - Validated E2E test scripts for sign-out functionality
@@ -49,6 +53,7 @@
   - Write unit tests for preference persistance
 
 **Takeshia Banks:**  
+  - Prepare for sprint review and support any final fixes or adjustments based on team feedback.
   - 
 **Anthony Nguyen:**  
   - Monitor implementation of Middleware for session verification
