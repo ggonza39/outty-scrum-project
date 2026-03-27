@@ -12,9 +12,6 @@
 - **Agile Resilience:** The team demonstrated high adaptability in bug-squashing and problem-solving, ensuring that completed User Stories met the full Definition of Done (DoD) despite mid-sprint technical hurdles.
 
 - **Deployment & Flow:** The CI/CD pipeline, PR system, and project structure remained stable and intuitive. Communication across all roles was frequent and transparent.
-
-- **Gibson Garner:**  
-  -
   
 ---
 
@@ -27,10 +24,6 @@
 - **Task Granularity & Time Management:** The UI/UX and Frontend teams experienced a significant "time crunch." Current task structures are too broad, making it difficult to balance design iterations with development deadlines.
 
 - **Acceptance Criteria (AC) Clarity:** Some AC verbiage was deemed too vague, making it difficult for the Product Owner and Testers to objectively verify if a story was "Done."
-
-
-- **Gibson Garner:**  
-  - 
 
 ---
 
