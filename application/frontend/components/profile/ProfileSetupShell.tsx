@@ -96,6 +96,12 @@ export function validatePreferences(data: ProfileFormData): string | null {
   return null;
 }
 
+export function validateBasicInfo(data: ProfileFormData): string | null {
+//Code for "About me" field validation
+
+    return null;
+}
+
 export default function ProfileSetupShell() {
   const router = useRouter();
   const [step, setStep] = useState(0);
