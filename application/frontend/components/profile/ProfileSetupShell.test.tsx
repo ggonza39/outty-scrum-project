@@ -67,6 +67,13 @@ describe('Input Validation Unit Tests', () => {
         expect(validatePreferences(testData)).toBe('Please select a partner preference.');
     });
 
+    it('should return error for invalid partner preference and invalid skill preference', () => {
+        const testData: ProfileFormData = structuredClone(defaultData);
+        testData.skillLevel = "";
+        testData.partnerPreference = "";
+        expect(validatePreferences(testData)).toBe('Please select a partner preference.');
+    });
+
 //Age
 
     it('should return null for valid integer age', () => {
