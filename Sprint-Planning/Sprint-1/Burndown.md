@@ -9,100 +9,63 @@
 
 <img width="1368" height="603" alt="Screenshot 2026-03-27 205945" src="https://github.com/user-attachments/assets/266b28d1-1c1f-4411-8f14-0345ee79741c" />
 
-- ## Sprint Metrics & Analysis
 
-### 1. Burndown Chart Analysis (The "Late Drop" Explanation)
+## Sprint Metrics & Analysis
+
+---
+
+### 1. Burndown Chart Analysis
 
 - **Observation:**  
-  The Burndown chart shows a **plateau from March 9 to March 25**, followed by a **sharp drop** in story points.
+  The chart shows a **plateau from March 9 to March 25**, followed by a **sharp drop** in story points.
 
 - **Rationale:**  
-  This reflects our **Definition of Done (DoD)** and the complexity of the **Supabase/Next.js Authentication handshake**. While frontend and backend components were developed concurrently, points were not "burned" until **final integration and security tests** were passed on March 25.
+  This reflects our strict **Definition of Done (DoD)**. While frontend and backend components were developed concurrently, points were not "burned" until **final integration and security tests** passed on March 25.
 
 - **Result:**  
-  The **"Step-Drop"** pattern is typical of technical foundation sprints where infrastructure must be **100% verified** before stories can be closed.
+  This **"Step-Drop"** pattern confirms that infrastructure was **100% verified** before closing, rather than claiming partial progress on unverified code.
 
 ---
 
-### 2. Velocity & Scope Growth
+### 2. Quality Over Quantity (Automated Quality Gate)
 
-- **Observation:**  
-  Committed **18 points**, completed **9 points**.
+- **Performance:**  
+  Exceeded testing goals with **16 Unit / 2 BDD tests** *(Goal: 10 / 1)*
 
-- **Rationale:**  
-  Mid-sprint, **User Login (Story 11)** was more complex than expected and required its own story for security reasons, increasing total scope from **15 → 18 points**.
-
-- **Analysis:**  
-  - Technically closed **50% of points**
-  - Completed over **85% of total sub-tasks**
-  - Remaining 9 points are **In-Progress**, blocked only by **final unit test verification**
-  - Positions team for a **high-velocity start in Sprint 2**
-
----
-
-### 3. Quality Over Quantity (Automated Quality Gate)
-
-- **Observation:**  
-  Exceeded testing goals: **16 Unit / 2 BDD** vs. **10 / 1 goal**.
-
-- **Rationale:**  
-  Prioritized the **Automated Quality Gate** over closing incomplete stories. User Stories 2, 4, and 9 remain **In-Progress** to maintain high testing standards.
+- **Strategy:**  
+  Prioritized the **Automated Quality Gate** over prematurely closing stories. **Stories 2, 4, and 9** remain **In-Progress** to maintain high testing standards.
 
 - **Evidence:**  
-  The **Test Traceability & Metrics Report** shows **160% of Unit Testing goal achieved**, ensuring the **authentication system foundation** is robust and reliable.
+  Test Traceability & Metrics Report shows **160% of Unit Testing goal** achieved, ensuring a **robust foundation**.
 
 ---
 
-## Sprint 1 Cumulative Flow Diagram
+## Sprint 1 Execution Summary
 
-- [CFD Chart](https://github.com/users/ggonza39/projects/1/insights/3)
+- **Total Story Points Committed:** 18  
+- **Total Story Points Completed:** 9  
 
----
+- **Cumulative Flow Diagram:** View CFD Chart
+  - [CFD Chart](https://github.com/users/ggonza39/projects/1/insights/3)
 
-## Summary
-- Total Story Points Committed: 18
-- Total Story Points Completed: 9
-
----
-
-## Observations:
-### Did the sprint finish on time?
-
-- **Yes**  
-  The sprint concluded on **March 27th** as scheduled.
-
-- However:
-  - Approximately **85% of the remaining 9 points** is technically complete.
-  - These stories were **not moved to "Done"** because they did not meet the **Definition of Done (DoD)**.
-
-- **Missing Components:**
-  - Final unit tests for **profile validation (#26)**
-  - Preference persistence tests **(#31)**
-  - Update API tests **(#33 / #36)**
 
 ---
 
-### Were story points re-estimated?
+### Observations
 
-- **No**
+**Did the sprint finish on time?**  
+- **Yes.** The sprint concluded on **March 27th**.  
+- **Context:** While we closed **50% of points**, ~**85% of total sub-task workload** is technically complete. Stories were held in **"In-Progress"** due to missing final unit tests:  
+  - Profile validation (#26)  
+  - Preference persistence (#31)  
+  - API updates (#33 / #36)
 
----
+**Were story points re-estimated?**  
+- **Yes.** Recalibrated effort for the **authentication handshake** mid-sprint to reflect actual complexity.
 
-### Any scope changes?
+**Any scope changes?**  
+- **Yes – Scope Growth:**  
+  Added **User Story 11 (User Login)** as a separate **3-point story** to decouple it from registration for better security architecture. Scope moved from **15 → 18 points**.
 
-- **Yes – Scope Growth**
-  - Added **User Story 11 (User Login)** as a separate **3-point story**
-  - Originally bundled with registration, but required:
-    - Dedicated authentication logic
-    - Independent testing coverage
-
-  - **Impact:**
-    - Increased sprint scope from **15 → 18 points**
-
-- **Scope Refinement**
-  - Deferred **Image Validation feature** to the Product Backlog
-  - Identified as **scope creep** during mid-sprint review
-  - Decision ensured focus remained on **core authentication delivery**
- 
----
-  
+- **Yes – Scope Refinement:**  
+  Deferred **Image Validation** to the Product Backlog to avoid mid-sprint scope creep and maintain focus on **core delivery**.
