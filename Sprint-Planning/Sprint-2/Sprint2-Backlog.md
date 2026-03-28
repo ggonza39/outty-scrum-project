@@ -37,7 +37,11 @@ Sprint Goal:
 
 ### Testing Tasks
 
-- **Task 10 (Unit):** Write unit tests for **Age Logic** to ensure the query correctly calculates age based on the `date_of_birth` column.  
+- **Task 10 (Unit):** Validate Multi-Criteria Age-Range Logic.  
+ - Test Case A (Boundaries): Verify the search query correctly includes or excludes users based on an integer age field (e.g., searching for 25–30 correctly excludes a 24-year-old and a 31-year-old).
+ - Test Case B (Null/Optional): Ensure the discovery feed remains functional and displays users even if their age field is null (if optional) or if the search filter is left blank.
+ -Test Case C (Integrity): Validate that the POST /profile API rejects non-integer or unrealistic age inputs (e.g., "abc", "-5", or "200") to prevent corrupting the
+discovery results.
 - **Task 11 (Unit):** Test the **Intersection Logic**: If "Hiking" AND "Men" are selected, results only show users who meet both criteria.  
 - **Task 12 (BDD):** **Scenario: Cross-category filtering**  
   - **Given** User A is looking for a travel buddy  
