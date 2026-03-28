@@ -101,3 +101,42 @@ discovery results.
   - **Then** the page correctly renders the explorer's **bio, adventure tags, and distance**
 
 ---
+
+## User Story 8: Upload & Manage Profile Photo Gallery (5 pts)
+
+**Goal:** As an adventurer, I want to upload, organize, and delete photos of my travels so that my profile accurately represents my personality and experience.
+
+---
+
+### UI/UX Tasks
+
+- **Task 1:** Design a **"Gallery Management"** interface with a clear **"Upload Photo"** button and a grid of existing user images.  
+- **Task 2:** Create **"Delete"** and **"Set as Primary"** overlays (e.g., a trash icon or star icon) that appear when hovering or tapping an image in the management view.  
+- **Task 3:** Design a **"Progress Indicator"** (spinner or bar) to show the user that their high-resolution image is currently being processed and uploaded.  
+
+---
+
+### Backend Tasks
+
+- **Task 4:** Configure a **Supabase Storage Bucket** named `profile-galleries` with specific RLS (Row Level Security) policies so users can only upload to/delete from their own folders.  
+- **Task 5:** Create a **database function** to automatically update the `profiles` table's `avatar_url` whenever a user selects a new **"Primary"** photo.  
+- **Task 6:** Implement a **Storage Cleanup Trigger**: Ensure that if a user deletes a photo from the UI, the physical file is also removed from Supabase Storage to save space.  
+
+---
+
+### Frontend Tasks
+
+- **Task 7:** Integrate the `supabase.storage.upload` method with a file picker that restricts uploads to **image formats** (.jpg, .png, .webp) and a **maximum file size** (e.g., 5MB).  
+- **Task 8:** Build **Client-Side Preview** logic so the user sees their photo immediately while the background upload is still finishing.  
+- **Task 9:** Add a "Preview Toggle" so the user can see how their uploaded photo will appear in both the "Circular Avatar" and the "Square Discovery Card" formats before they hit save.
+
+---
+
+### Testing Tasks
+
+- **Task 10 (Unit):** **File Type Validation**: Write a unit test to ensure the upload function rejects non-image files (e.g., .pdf, .exe) and provides a clear error message to the user.  
+- **Task 11 (Unit):** **Test the Security Policy**: Verify that User A cannot trigger a deletion of User B’s photos via a direct API call.  
+- **Task 12 (BDD):** **Scenario: Managing the gallery**  
+  - **Given** a user is on their **"Edit Profile"** page  
+  - **When** they upload a new photo and click **"Set as Primary"**  
+  - **Then** that photo becomes the main image shown on their **Discovery card** and in the header.
