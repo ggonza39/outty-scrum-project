@@ -10,14 +10,14 @@ Sprint Goal:
 ---
 ## Carryover from Sprint 1 (all in progress)
 
-- **User Story 2:**
-  - Create adventure-based user profile – 3 pts - 83% complete
+- **User Story 2:** 83% complete
+  - Create adventure-based user profile – 3 pts 
 
-- **User Story 4:**
-  - Set adventure preferences – 3 pts - 80% complete
+- **User Story 4:** 80% complete
+  - Set adventure preferences – 3 pts 
 
-- **User Story 9:**
-  - Edit or delete profile – 3 pts - 60% complete
+- **User Story 9:** 60% complete
+  - Edit or delete profile – 3 pts 
   
   - #### Follow link to review these user stories' tasks:  [Sprint 1 Backlog](/Sprint-Planning/Sprint-1/Sprint1-Backlog.md)
 
