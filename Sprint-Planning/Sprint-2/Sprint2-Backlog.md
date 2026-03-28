@@ -49,6 +49,55 @@ discovery results.
   - **Then** the feed refreshes to show only profiles matching all three specific requirements.  
 
 ---
+## User Story 6: View Explorer Profiles (4 pts)
 
+**Goal:** Allow users to click on any profile from the **Discovery Feed** to view a full-page, detailed summary of that adventurer before deciding to message them.
+
+---
+
+### UI/UX Tasks
+
+- **Task 1:** Design a **"Profile Detail" layout** with clear hierarchy:  
+  - High-resolution header (Profile Photo / Name / Age)  
+  - Middle section for **Adventure Tags**  
+  - Bottom section for **"About Me" bio**
+
+- **Task 2:** Design a **"Message" Floating Action Button (FAB)** or fixed footer button to keep the **Start Conversation** call-to-action always reachable while scrolling.
+
+- **Task 3:** Create a visual **"Back" navigation element** indicating the user is returning to their filtered Discovery results.
+
+---
+
+### Backend Tasks
+
+- **Task 4:** Develop a specialized `GET /profile/:id` API route.  
+  - Ensure this route returns only **public fields**, excluding private data (e.g., UUIDs, email addresses).
+
+- **Task 5:** Implement **"View Tracking"** in the database to increment a `profile_views` counter, allowing users to see engagement on their own profile.
+
+---
+
+### Frontend Tasks
+
+- **Task 6:** Build the **Dynamic Route** (`/discover/[username]`) in Next.js to fetch and render specific user data based on the URL parameter.
+
+- **Task 7:** Implement **Skeleton Loading** states to keep the page fast and responsive while fetching profile data from Supabase.
+
+- **Task 8:** Create a **"Share Profile"** utility that copies a direct link to the user's clipboard for external sharing.
+
+---
+
+### Testing Tasks
+
+- **Task 9 (Unit):** **Data Privacy Check**  
+  Verify that the profile API response does **not** contain the user's password hash, email, or precise physical address.
+
+- **Task 10 (Unit):** **Error Boundary Test**  
+  Ensure the UI displays a clean **"User Not Found"** message if a traveler tries to access a non-existent profile ID.
+
+- **Task 11 (BDD):** **Scenario: Deep-linking to an Explorer**  
+  - **Given** a user has a direct URL to an adventurer’s profile  
+  - **When** they navigate to that URL while logged in  
+  - **Then** the page correctly renders the explorer's **bio, adventure tags, and distance**
 
 ---
