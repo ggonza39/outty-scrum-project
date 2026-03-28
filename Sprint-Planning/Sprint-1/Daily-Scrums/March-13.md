@@ -3,7 +3,7 @@
 **Date:** 03-13-2026
 
 **Recording Link:**
-  - https://kennesawedu-my.sharepoint.com/:v:/g/personal/tbanks70_students_kennesaw_edu/IQBgVGuVTKZtTrwtQl9gy0nSAZKov0LP1baHzROGSxC-ASY?e=thW6vp&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D
+  - [Team Scum Meeting](https://kennesawedu-my.sharepoint.com/:v:/g/personal/tbanks70_students_kennesaw_edu/IQBgVGuVTKZtTrwtQl9gy0nSAZKov0LP1baHzROGSxC-ASY?e=thW6vp&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D)
 ---
 
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
