@@ -55,7 +55,7 @@
   The plateau between **March 15 and March 24** reflects the team’s focus on **Technical Debt and Infrastructure**. During this period, we established the **Supabase backend handshake** and built the **frontend templates**.
 
 - **Completion:**  
-  Points were only moved to **"Done"** once **integration tests** for the authentication handshake were successfully verified, resulting in the closure of **9 critical points** by the sprint deadline.
+  Points were only moved to **"Done"** once **integration tests** for the authentication handshake were successfully verified, resulting in the closure of **9 critical points** by the sprint deadline whieh helped the team meet 50% of the proposed sprint 1 backlog user stories.
 
 ---
 
