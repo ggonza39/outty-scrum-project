@@ -15,7 +15,7 @@
 
 - **User Story 11: User login (Added mid-sprint for architectural clarity)** – 3 pts
 
-- **User Story 10: Log out securely (Verified fix for session termination)** – 1 pt
+- **User Story 10: Log out securely (Verified bug fix for session termination)** – 1 pt
 
 - **Automated Quality Gate**  
   Exceeded testing goals with **16 Unit Tests** and **2 BDD Tests** *(Goal: 10 Unit / 1 BDD)*
@@ -47,19 +47,19 @@
   Acknowledged the shift from a **15-point forecast to an 18-point scope** due to separation of login and registration logic.
 
 - **Access Note**  
-  Discussed limitations of the **"Hobby Account"** for external integrations; the team provided logs and explanations to maintain transparency.
+  Discussed limitations of the **"Hobby Account"** in Vercel for external integrations; the team provided ended up using GitHub Actions with Vercel logs embedded to maintain transparency.
 
 ---
 
 ## Incomplete Work
 
-The following stories are **60–80% complete** but were not moved to **Done** to maintain a strict Definition of Done:
+The following stories are **60–83% complete** but were not moved to **Done** to maintain a strict Definition of Done:
 
-- **User Story 2: Create adventure-based user profile** – 3 pts  
-  - **Reason:** Core logic for handling complex profile data is complete, but final UI polish and validation were delayed due to the Story 10 regression fix.
+- **User Story 2: Create adventure-based user profile** – 3 pts  (83%)
+  - **Reason:**Awaiting Sub-issue #26 (Unit test for profile validation logic). We are holding this story to ensure that malformed profile data cannot hit the database.
 
-- **User Story 4: Set adventure preferences** – 3 pts  
-  - **Reason:** Dependent on the finalized data schema from User Story 2.
+- **User Story 4: Set adventure preferences** – 3 pts  (80%)
+  - **Reason:** Awaiting completion of Sub-issue #31 (Write unit test for preference persistence). To ensure reliability for the matching engine, we are requiring 100% test coverage on preference storage before closing the story.
 
-- **User Story 9: Edit or delete profile** – 3 pts  
-  - **Reason:** CRUD operations are functional in the backend, but frontend **Edit views** are not yet implemented.
+- **User Story 9: Edit or delete profile** – 3 pts  (60%)
+  - **Reason:** Awaiting Sub-issue #33 (Update profile API call) and Sub-issue #36 (Unit test for update/delete logic).
