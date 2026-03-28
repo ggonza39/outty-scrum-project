@@ -38,7 +38,7 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 7. Advanced Discovery & Multi-Criteria Filtering – 10 pts
 8. View explorer profiles – 4 pts
 9. Send in-app messages – 8 pts
-10. Upload profile photos – 5 pts
+10. Upload & Manage Profile Photo Gallery – 5 pts
 
 ## Original Backlog (Ordered) - 46 total pts
 
