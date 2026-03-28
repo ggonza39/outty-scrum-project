@@ -6,13 +6,13 @@ Sprint Goal:
 
 ## User Story 5: Advanced Discovery & Multi-Criteria Filtering (10 pts)
 
-**Goal:** Empower users to find specific travel partners by combining **location** (City, State, Zip, Distance), **demographics** (Age, Gender), and **Adventure Activity**.
+**Goal:** As an Adventurer looking for a compatible travel partner, I want to access a centralized discovery engine with advanced filters for location, demographics, and specific activities, so that I can find the most relevant travel companions who match my specific trip requirements, whether they are local or across the country.
 
 ---
 
 ### UI/UX Tasks
 
-- **Task 1:** Design an **"Advanced Search Drawer"** or Modal that neatly categorizes filters: **Location**, **Demographics**, and **Activities**.  
+- **Task 1:** Design an **"Advanced Search Drawer"** or Modal that neatly categorizes filters: **Location**, **Demographics**, **Skill Levels**, and **Activities**.  
 - **Task 2:** Create a **"Distance Slider"** UI component (e.g., 0 to 500+ miles) to complement the Zip/City search.  
 - **Task 3:** Design a **"Gender & Age Range"** selection tool (e.g., a dual-handle slider for age: 21–45).  
 
@@ -20,7 +20,7 @@ Sprint Goal:
 
 ### Backend Tasks
 
-- **Task 4:** Refactor the `GET /discover` API to support a complex `jsonb` query object containing `min_age`, `max_age`, `gender`, `activity_list[]`, and `location_data`.  
+- **Task 4:** Refactor the `GET /discover` API to support a complex `jsonb` query object containing `min_age`, `max_age`, `gender`, `activity_list[]`, `skill_level`, and `location_data`.  
 - **Task 5:** Build a **dynamic SQL query builder** (or use Supabase `.filter()`) that conditionally appends `WHERE` clauses only for the filters the user has active.  
 - **Task 6:** **PostGIS Integration:** Implement PostGIS on the Supabase profiles table to calculate distances between Zip Codes/Coordinates for the **Distance** filter.  
 
@@ -46,13 +46,58 @@ discovery results.
 - **Task 12 (BDD):** **Scenario: Cross-category filtering**  
   - **Given** User A is looking for a travel buddy  
   - **When** they filter for **"Activity: Camping" AND "Gender: Female" AND "State: Colorado"**  
-  - **Then** the feed refreshes to show only profiles matching all three specific requirements.  
+  - **Then** the feed refreshes to show only profiles matching all three specific requirements.
+
+---
+
+## User Story 3: Personal Profile Dashboard & View (4 pts)
+
+**Goal:** As a logged-in user, I want a dedicated **"My Profile"** page that displays my information exactly as others see it, serving as the central hub for managing my account.
+
+---
+
+### UI/UX Tasks
+
+- **Task 1:** Design the **"Self-View" Dashboard** layout.  
+  - Note: We ust use the exact same components in the **Explorer Profile (Story 6)** to ensure visual consistency across the app.  
+
+- **Task 2:** Add a prominent **"Edit Profile"** toggle button that, when clicked, renders the **Profile Edit Form (#32)** from Story 9.  
+
+- **Task 3:** Design a **"Settings/Danger Zone"** section at the bottom to house the **Delete Account button (#35)** from Story 9.  
+
+---
+
+### Backend Tasks
+
+- **Task 4:** Create a **GET `/profile/me` helper function**.  
+  - Use the user's Supabase Auth Session to fetch the correct record securely (no UUID in URL).  
+
+- **Task 5:** Map the **"View Count"** logic from Story 6 so the user can see their own total profile views on this dashboard.  
+
+---
+
+### Frontend Tasks
+
+- **Task 6:** Build **Route Protection**: Ensure `/profile` is a **Protected Route** that redirects unauthenticated visitors to the Login page.  
+
+- **Task 7:** Implement the **State Switcher**: Create a React state (e.g., `isEditing`) that toggles the UI between the **Read-Only Dashboard** and the **Edit Form**.  
+  - **Coordination Note:** This connects Story 3's layout to Story 9's existing form (#32).  
+
+---
+
+### Testing Tasks
+
+- **Task 8 (Unit):** **Session Persistence**: Verify that the profile page correctly re-loads the user's data after a page refresh if the session is still active.  
+
+- **Task 9 (BDD):** **Scenario: Accessing the Dashboard**  
+  - **Given** I am logged into Outty  
+  - **When** I click on **"My Profile"** in the navigation  
+  - **Then** I see my **photo, bio, and adventure tags** displayed in a non-editable view
 
 ---
 ## User Story 6: View Explorer Profiles (4 pts)
 
-**Goal:** Allow users to click on any profile from the **Discovery Feed** to view a full-page, detailed summary of that adventurer before deciding to message them.
-
+**Goal:** As a Discovering Adventurer browsing the national feed, I want to access a full-page, detailed profile view for any user who matches my search criteria, so that I can evaluate their bio, adventure experience, and location to ensure compatibility before initiating a direct conversation.
 ---
 
 ### UI/UX Tasks
@@ -143,47 +188,3 @@ discovery results.
  
 ---
 
-
-## User Story 3: Personal Profile Dashboard & View (4 pts)
-
-**Goal:** As a logged-in user, I want a dedicated **"My Profile"** page that displays my information exactly as others see it, serving as the central hub for managing my account.
-
----
-
-### UI/UX Tasks
-
-- **Task 1:** Design the **"Self-View" Dashboard** layout.  
-  - Note: We ust use the exact same components in the **Explorer Profile (Story 6)** to ensure visual consistency across the app.  
-
-- **Task 2:** Add a prominent **"Edit Profile"** toggle button that, when clicked, renders the **Profile Edit Form (#32)** from Story 9.  
-
-- **Task 3:** Design a **"Settings/Danger Zone"** section at the bottom to house the **Delete Account button (#35)** from Story 9.  
-
----
-
-### Backend Tasks
-
-- **Task 4:** Create a **GET `/profile/me` helper function**.  
-  - Use the user's Supabase Auth Session to fetch the correct record securely (no UUID in URL).  
-
-- **Task 5:** Map the **"View Count"** logic from Story 6 so the user can see their own total profile views on this dashboard.  
-
----
-
-### Frontend Tasks
-
-- **Task 6:** Build **Route Protection**: Ensure `/profile` is a **Protected Route** that redirects unauthenticated visitors to the Login page.  
-
-- **Task 7:** Implement the **State Switcher**: Create a React state (e.g., `isEditing`) that toggles the UI between the **Read-Only Dashboard** and the **Edit Form**.  
-  - **Coordination Note:** This connects Story 3's layout to Story 9's existing form (#32).  
-
----
-
-### Testing Tasks
-
-- **Task 8 (Unit):** **Session Persistence**: Verify that the profile page correctly re-loads the user's data after a page refresh if the session is still active.  
-
-- **Task 9 (BDD):** **Scenario: Accessing the Dashboard**  
-  - **Given** I am logged into Outty  
-  - **When** I click on **"My Profile"** in the navigation  
-  - **Then** I see my **photo, bio, and adventure tags** displayed in a non-editable view
