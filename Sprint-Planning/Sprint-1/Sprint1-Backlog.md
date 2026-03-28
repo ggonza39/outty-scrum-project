@@ -42,6 +42,8 @@
 ### Testing Tasks
 - Test login authentication flow
 
+---
+
 ## Story 2 – Create Adventure-Based User Profile (3 pts)
 
 ### Backend Tasks
