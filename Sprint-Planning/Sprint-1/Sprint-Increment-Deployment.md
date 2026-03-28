@@ -19,9 +19,8 @@
 
 ## Deployment Notes
 
-- **Version Deployed:**  
-  - **v1.1.0 (Stable Sprint 1 Release)**
-
+- **Version Deployed:** (Stable Sprint 1 Release)  
+  - **v1.1.0**
 ---
 
 ## Key Features Included
