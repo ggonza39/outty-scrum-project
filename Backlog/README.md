@@ -24,9 +24,12 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 
 ## Refined Backlog - 46 total pts (03/21/2026)
 
-1. User account creation – 5 pts
+-**Completed:**
+1. User account creation – 5 pts 
 2. User login – 3 pts
 3. Log out securely – 1 pt
+
+- **Pending:**
 4. Create adventure-based user profile – 3 pts
 5. Set adventure preferences – 3 pts
 6. Edit or delete profile – 3 pts
