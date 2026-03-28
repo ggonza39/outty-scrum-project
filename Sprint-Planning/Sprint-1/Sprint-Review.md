@@ -1,7 +1,7 @@
 # Sprint 1 – Sprint Review - Mar 27-2026
 
 ## Recording Link:
-= https://kennesawedu-my.sharepoint.com/:v:/g/personal/ggonza39_students_kennesaw_edu/IQDqxterx_1wR5joiafCyzx5Ae_rYYM1B_aiUelv7WL9VW8?e=cNcr6a&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D
+- https://kennesawedu-my.sharepoint.com/:v:/g/personal/ggonza39_students_kennesaw_edu/IQDqxterx_1wR5joiafCyzx5Ae_rYYM1B_aiUelv7WL9VW8?e=cNcr6a&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D
 
 ## Sprint Goal
 - Establish the core authentication and profile management features of Outty, enabling users to create accounts, define preferences, and manage their profiles securely.
