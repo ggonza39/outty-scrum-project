@@ -54,7 +54,7 @@
 
 **Takeshia Banks:**  
   - Prepare for sprint review and support any final fixes or adjustments based on team feedback.
-  - 
+    
 **Anthony Nguyen:**  
   - Monitor implementation of Middleware for session verification
   - Update "Definition of Done" to include server-side route protection
