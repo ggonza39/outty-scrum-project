@@ -98,6 +98,7 @@ discovery results.
 ## User Story 6: View Explorer Profiles (4 pts)
 
 **Goal:** As a Discovering Adventurer browsing the national feed, I want to access a full-page, detailed profile view for any user who matches my search criteria, so that I can evaluate their bio, adventure experience, and location to ensure compatibility before initiating a direct conversation.
+
 ---
 
 ### UI/UX Tasks
