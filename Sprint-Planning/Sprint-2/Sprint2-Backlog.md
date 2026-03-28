@@ -143,49 +143,6 @@ discovery results.
  
 ---
 
-## User Story 10: View & Manage Personal Profile (5 pts)
-
-**Goal:** As a logged-in adventurer, I want to view my own profile page exactly as others see it, with the added ability to edit my bio, tags, and personal details so my profile stays up to date.
-
----
-
-### UI/UX Tasks
-
-- **Task 1:** Design the **"Self-View" Dashboard** with **"Edit" icons** (pencils/buttons) next to each section.  
-- **Task 2:** Create an **"Edit Mode" UI toggle** that transforms static text into input fields, textareas, and tag selectors without leaving the page.  
-- **Task 3:** Design a **"Profile Completion" Progress Bar** to encourage users to fill out their bio and upload photos (e.g., "75% Complete").  
-
----
-
-### Backend Tasks
-
-- **Task 4:** Create a **PATCH `/profile/me` API endpoint**.  
-  - **Logic:** Use the user's JWT (Session Token) to ensure they can only update their own `user_id`.  
-
-- **Task 5:** Implement **Server-Side Validation** for profile updates:  
-  - Ensure the bio isn't too long (max 500 chars)  
-  - Adventure tags must come from a predefined list to prevent database "junk"  
-
----
-
-### Frontend Tasks
-
-- **Task 6:** Build the **"Private" Profile Route** (`/profile`) in Next.js, fetching the currently logged-in user’s data from the Supabase session automatically.  
-- **Task 7:** Implement **Optimistic UI Updates**: UI updates immediately when saving the bio, while the "Save" request completes in the background.  
-- **Task 8:** Create the **Tag-Selection Component**: an interactive multi-select tool allowing users to add/remove adventure activities (Hiking, Camping, etc.) from their profile.  
-
----
-
-### Testing Tasks
-
-- **Task 9 (Unit):** **Unauthorized Access Test**: Verify a user cannot PATCH another user's ID, even if manually altering the API call.  
-- **Task 10 (Unit):** **Profile Fetch Logic**: Ensure users not logged in are redirected to `/login` instead of seeing an empty `/profile` page.  
-- **Task 11 (BDD):** **Scenario: Updating the personal bio**  
-  - **Given** I am on my own profile page  
-  - **When** I click **"Edit"**, change my bio to `"Love the outdoors!"`, and click **"Save"**  
-  - **Then** the page refreshes with the new text and a **"Profile Updated"** toast notification appears
-
----
 
 ## User Story 3: Personal Profile Dashboard & View (4 pts)
 
