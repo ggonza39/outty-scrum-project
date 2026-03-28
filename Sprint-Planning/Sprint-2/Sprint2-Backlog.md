@@ -4,7 +4,7 @@ Sprint Goal:
 
 ---
 
-## User Story: Advanced Discovery & Multi-Criteria Filtering (10 pts)
+## User Story 5: Advanced Discovery & Multi-Criteria Filtering (10 pts)
 
 **Goal:** Empower users to find specific travel partners by combining **location** (City, State, Zip, Distance), **demographics** (Age, Gender), and **Adventure Activity**.
 
