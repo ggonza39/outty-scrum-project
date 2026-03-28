@@ -151,7 +151,7 @@ discovery results.
 
 ### UI/UX Tasks
 
-- **Task 1:** Design the **"Self-View" Dashboard**—identical to the Explorer Profile layout but with **"Edit" icons** (pencils/buttons) next to each section.  
+- **Task 1:** Design the **"Self-View" Dashboard** with **"Edit" icons** (pencils/buttons) next to each section.  
 - **Task 2:** Create an **"Edit Mode" UI toggle** that transforms static text into input fields, textareas, and tag selectors without leaving the page.  
 - **Task 3:** Design a **"Profile Completion" Progress Bar** to encourage users to fill out their bio and upload photos (e.g., "75% Complete").  
 
@@ -184,3 +184,49 @@ discovery results.
   - **Given** I am on my own profile page  
   - **When** I click **"Edit"**, change my bio to `"Love the outdoors!"`, and click **"Save"**  
   - **Then** the page refreshes with the new text and a **"Profile Updated"** toast notification appears
+
+---
+
+## User Story 3: Personal Profile Dashboard & View (4 pts)
+
+**Goal:** As a logged-in user, I want a dedicated **"My Profile"** page that displays my information exactly as others see it, serving as the central hub for managing my account.
+
+---
+
+### UI/UX Tasks
+
+- **Task 1:** Design the **"Self-View" Dashboard** layout.  
+  - Note: We ust use the exact same components in the **Explorer Profile (Story 6)** to ensure visual consistency across the app.  
+
+- **Task 2:** Add a prominent **"Edit Profile"** toggle button that, when clicked, renders the **Profile Edit Form (#32)** from Story 9.  
+
+- **Task 3:** Design a **"Settings/Danger Zone"** section at the bottom to house the **Delete Account button (#35)** from Story 9.  
+
+---
+
+### Backend Tasks
+
+- **Task 4:** Create a **GET `/profile/me` helper function**.  
+  - Use the user's Supabase Auth Session to fetch the correct record securely (no UUID in URL).  
+
+- **Task 5:** Map the **"View Count"** logic from Story 6 so the user can see their own total profile views on this dashboard.  
+
+---
+
+### Frontend Tasks
+
+- **Task 6:** Build **Route Protection**: Ensure `/profile` is a **Protected Route** that redirects unauthenticated visitors to the Login page.  
+
+- **Task 7:** Implement the **State Switcher**: Create a React state (e.g., `isEditing`) that toggles the UI between the **Read-Only Dashboard** and the **Edit Form**.  
+  - **Coordination Note:** This connects Story 3's layout to Story 9's existing form (#32).  
+
+---
+
+### Testing Tasks
+
+- **Task 8 (Unit):** **Session Persistence**: Verify that the profile page correctly re-loads the user's data after a page refresh if the session is still active.  
+
+- **Task 9 (BDD):** **Scenario: Accessing the Dashboard**  
+  - **Given** I am logged into Outty  
+  - **When** I click on **"My Profile"** in the navigation  
+  - **Then** I see my **photo, bio, and adventure tags** displayed in a non-editable view
