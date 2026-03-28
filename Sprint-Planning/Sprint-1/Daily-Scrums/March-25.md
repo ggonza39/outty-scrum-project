@@ -10,7 +10,8 @@
   - Completed backend tasks for US4 & US9
 
 **Heidi Wilder:**  
-  - 
+  - wirefames for users settings/account page.
+  - user journey mapping for profile ans settings
 **Gibson Garner:**  
   - Completed E2E tests for sign up
   - Completed E2E tests for sign in
