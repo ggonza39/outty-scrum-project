@@ -45,14 +45,10 @@ Transform 'Outty' into a high-utility discovery platform by launching a location
 ## Rationale
 
 The primary focus of Sprint 2 is to evolve Outty from a **collection of user records** into a **searchable social network**.
-
-- Prioritizing the **Advanced Discovery Engine (Story 5)** addresses the project’s most significant technical challenge: **location-aware, multi-criteria filtering**.
-
-- Completing carryover stories (**2, 4, 9**) is critical, as they provide the **data foundation** required for accurate filtering.
-
-- Implementing **Stories 3 and 6** ensures a **consistent and reusable UI experience**, aligning personal and public profile views.
-
-- Adding **Gallery Management (Story 8)** introduces the **visual trust factor**, increasing user engagement and authenticity.
+  - Prioritizing the **Advanced Discovery Engine (Story 5)** addresses the project’s most significant technical challenge: **location-aware, multi-criteria filtering**.
+  - Completing carryover stories (**2, 4, 9**) is critical, as they provide the **data foundation** required for accurate filtering.
+  - Implementing **Stories 3 and 6** ensures a **consistent and reusable UI experience**, aligning personal and public profile views.-
+  - Adding **Gallery Management (Story 8)** introduces the **visual trust factor**, increasing user engagement and authenticity.
 
 **Outcome:**  
 By April 17, the application will support a complete **"Search → View → Evaluate" loop**, enabling users to effectively discover and vet potential travel partners.
