@@ -8,14 +8,14 @@ March 30 – April 17
 - **Total Available Hours:** 108 hours *(6 members × 6 hours/week × 3 weeks)*  
 - **Effective Development Capacity:** 85–90 hours  
 - **Analysis:**   
-  - This is a slight increase from Sprint 1 (70–75 hours) because the team is now onboarded to the tech stack (**Next.js / Supabase**). Less time is spent *learning* and more time is spent *building*, though the **PostGIS integration in Story 5** will still require significant research effort.
+  This is a slight increase from Sprint 1 (70–75 hours) because the team is now onboarded to the tech stack (**Next.js / Supabase**). Less time is spent *learning* and more time is spent *building*, though the **PostGIS integration in Story 5** will still require significant research effort.
 
 ## Forecasted Velocity
 
 - **Forecasted Velocity:** 32 Story Points  
 - **Analysis:**  
-  - While 32 points is a significant jump from 18, **9 of these points are already "In Progress."**  
-    This means much of the logic and partial implementation already exists, leaving roughly **30–40% remaining work**.
+  While 32 points is a significant jump from 18, **9 of these points are already "In Progress."**  
+  This means much of the logic and partial implementation already exists, leaving roughly **30–40% remaining work**.
   - **New Work:** 23 points  
   - Represents a realistic **~25% productivity increase** as the team gains momentum and familiarity.
 
@@ -30,8 +30,7 @@ March 30 – April 17
 - **Story 5 – Advanced Discovery & Multi-Criteria Filtering** – 10 pts
 - **Story 3 – Personal Profile Dashboard & View** – 4 pts
 - **Story 6 – View Explorer Profiles** – 4 pts
-- **Story 8 – Upload & Manage Profile Photo Gallery** – 5 pts   
-
+- **Story 8 – Upload & Manage Profile Photo Gallery** – 5 pts
 
 - **Total:** **32 Story Points**
 
