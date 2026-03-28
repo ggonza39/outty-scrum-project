@@ -12,7 +12,7 @@
 
 ## Sprint Metrics & Analysis
 
-### 1. Burndown Chart Analysis
+### Burndown Chart Analysis
 
 - **Observation:**  
   The chart shows a **plateau from March 9 to March 25**, followed by a **sharp drop** in story points.
@@ -25,7 +25,7 @@
 
 ---
 
-### 2. Quality Over Quantity (Automated Quality Gate)
+### Quality Over Quantity (Automated Quality Gate)
 
 - **Performance:**  
   Exceeded testing goals with **16 Unit / 2 BDD tests** *(Goal: 10 / 1)*
