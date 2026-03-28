@@ -12,8 +12,6 @@
 
 ## Sprint Metrics & Analysis
 
----
-
 ### 1. Burndown Chart Analysis
 
 - **Observation:**  
@@ -54,7 +52,8 @@
 ### Observations
 
 **Did the sprint finish on time?**  
-- **Yes.** The sprint concluded on **March 27th**.  
+- **Yes.** The sprint concluded on **March 27th**.
+   
 - **Context:** While we closed **50% of points**, ~**85% of total sub-task workload** is technically complete. Stories were held in **"In-Progress"** due to missing final unit tests:  
   - Profile validation (#26)  
   - Preference persistence (#31)  
