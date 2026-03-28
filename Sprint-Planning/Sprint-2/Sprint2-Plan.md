@@ -21,17 +21,26 @@ March 30 – April 17
 ## Selected Sprint Backlog Items
 
 ### Carryover from Sprint 1
-- **Story 2 – Create adventure-based user profile** – 3 pts
-- **Story 4 – Set adventure preferences** – 3 pts
-- **Story 9 – Edit or delete profile** – 3 pts
+
+* **Story 2 – Create adventure-based user profile** – 3 pts
+
+* **Story 4 – Set adventure preferences** – 3 pts
+
+* **Story 9 – Edit or delete profile** – 3 pts
 
 ### New for Sprint 2
-- **Story 5 – Advanced Discovery & Multi-Criteria Filtering** – 10 pts
-- **Story 3 – Personal Profile Dashboard & View** – 4 pts
-- **Story 6 – View Explorer Profiles** – 4 pts
-- **Story 8 – Upload & Manage Profile Photo Gallery** – 5 pts
 
-- **Total: 32 Story Points**
+* **Story 5 – Advanced Discovery & Multi-Criteria Filtering** – 10 pts
+
+* **Story 3 – Personal Profile Dashboard & View** – 4 pts
+
+* **Story 6 – View Explorer Profiles** – 4 pts
+
+* **Story 8 – Upload & Manage Profile Photo Gallery** – 5 pts
+
+---
+
+* **Total: 32 Story Points**
 
 ## Sprint Goal
 
