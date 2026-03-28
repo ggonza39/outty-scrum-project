@@ -4,6 +4,11 @@ Sprint Goal:
 - Transform 'Outty' into a high-utility discovery platform by launching a location-intelligent search engine, personalized user dashboards, and a robust media gallery system to facilitate national adventurer connections.
 ---
 
+## Project Board Link:
+- [Project Board](https://github.com/users/ggonza39/projects/1/views/1?reload=1)
+
+---
+
 ## User Story 5: Advanced Discovery & Multi-Criteria Filtering (10 pts)
 
 **Goal:** As an Adventurer looking for a compatible travel partner, I want to access a centralized discovery engine with advanced filters for location, demographics, and specific activities, so that I can find the most relevant travel companions who match my specific trip requirements, whether they are local or across the country.
