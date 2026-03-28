@@ -1,7 +1,7 @@
 # Sprint 1: Contribution Analysis
 
 ## Executive Summary
-This report details the technical impact of each team member during Sprint 1 (Feb - March 2026). Metrics are derived from Git `numstat` data to provide a transparent view of feature implementation and refactoring efforts.
+This report details the technical impact of each team member during Sprint 1. Metrics are derived from Git `numstat` data to provide a transparent view of feature implementation and refactoring efforts.
 
 ## Contribution Matrix
 | Team Member | Added | Removed | Total Impact | Primary Focus |
