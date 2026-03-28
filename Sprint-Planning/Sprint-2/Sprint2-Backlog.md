@@ -13,15 +13,11 @@ Sprint Goal:
 
 **Goal:** As an Adventurer looking for a compatible travel partner, I want to access a centralized discovery engine with advanced filters for location, demographics, and specific activities, so that I can find the most relevant travel companions who match my specific trip requirements, whether they are local or across the country.
 
----
-
 ### UI/UX Tasks
 
 - **Task 1:** Design an **"Advanced Search Drawer"** or Modal that neatly categorizes filters: **Location**, **Demographics**, **Skill Levels**, and **Activities**.  
 - **Task 2:** Create a **"Distance Slider"** UI component (e.g., 0 to 500+ miles) to complement the Zip/City search.  
 - **Task 3:** Design a **"Gender & Age Range"** selection tool (e.g., a dual-handle slider for age: 21–45).  
-
----
 
 ### Backend Tasks
 
@@ -29,16 +25,12 @@ Sprint Goal:
 - **Task 5:** Build a **dynamic SQL query builder** (or use Supabase `.filter()`) that conditionally appends `WHERE` clauses only for the filters the user has active.  
 - **Task 6:** **PostGIS Integration:** Implement PostGIS on the Supabase profiles table to calculate distances between Zip Codes/Coordinates for the **Distance** filter.  
 
----
-
 ### Frontend Tasks
 
 - **Task 7:** Create a **"Search State" Provider** (using React Context or URL params) to manage the global state of all 7+ filter variables.  
 - **Task 8:** Implement **"Auto-Suggest"** for the City/State input to ensure users enter valid geographic data.  
 - **Task 9:** Build the **"Results Header"** that dynamically updates, e.g.:  
   *"Showing 14 Hikers, Men, Ages 25-40, within 50 miles of 30301."*  
-
----
 
 ### Testing Tasks
 
@@ -59,8 +51,6 @@ discovery results.
 
 **Goal:** As a logged-in user, I want a dedicated **"My Profile"** page that displays my information exactly as others see it, serving as the central hub for managing my account.
 
----
-
 ### UI/UX Tasks
 
 - **Task 1:** Design the **"Self-View" Dashboard** layout.  
@@ -70,8 +60,6 @@ discovery results.
 
 - **Task 3:** Design a **"Settings/Danger Zone"** section at the bottom to house the **Delete Account button (#35)** from Story 9.  
 
----
-
 ### Backend Tasks
 
 - **Task 4:** Create a **GET `/profile/me` helper function**.  
@@ -79,16 +67,12 @@ discovery results.
 
 - **Task 5:** Map the **"View Count"** logic from Story 6 so the user can see their own total profile views on this dashboard.  
 
----
-
 ### Frontend Tasks
 
 - **Task 6:** Build **Route Protection**: Ensure `/profile` is a **Protected Route** that redirects unauthenticated visitors to the Login page.  
 
 - **Task 7:** Implement the **State Switcher**: Create a React state (e.g., `isEditing`) that toggles the UI between the **Read-Only Dashboard** and the **Edit Form**.  
   - **Coordination Note:** This connects Story 3's layout to Story 9's existing form (#32).  
-
----
 
 ### Testing Tasks
 
@@ -100,11 +84,10 @@ discovery results.
   - **Then** I see my **photo, bio, and adventure tags** displayed in a non-editable view
 
 ---
+
 ## User Story 6: View Explorer Profiles (4 pts)
 
 **Goal:** As a Discovering Adventurer browsing the national feed, I want to access a full-page, detailed profile view for any user who matches my search criteria, so that I can evaluate their bio, adventure experience, and location to ensure compatibility before initiating a direct conversation.
-
----
 
 ### UI/UX Tasks
 
@@ -117,16 +100,12 @@ discovery results.
 
 - **Task 3:** Create a visual **"Back" navigation element** indicating the user is returning to their filtered Discovery results.
 
----
-
 ### Backend Tasks
 
 - **Task 4:** Develop a specialized `GET /profile/:id` API route.  
   - Ensure this route returns only **public fields**, excluding private data (e.g., UUIDs, email addresses).
 
 - **Task 5:** Implement **"View Tracking"** in the database to increment a `profile_views` counter, allowing users to see engagement on their own profile.
-
----
 
 ### Frontend Tasks
 
@@ -135,8 +114,6 @@ discovery results.
 - **Task 7:** Implement **Skeleton Loading** states to keep the page fast and responsive while fetching profile data from Supabase.
 
 - **Task 8:** Create a **"Share Profile"** utility that copies a direct link to the user's clipboard for external sharing.
-
----
 
 ### Testing Tasks
 
@@ -157,15 +134,11 @@ discovery results.
 
 **Goal:** As an adventurer, I want to upload, organize, and delete photos of my travels so that my profile accurately represents my personality and experience.
 
----
-
 ### UI/UX Tasks
 
 - **Task 1:** Design a **"Gallery Management"** interface with a clear **"Upload Photo"** button and a grid of existing user images.  
 - **Task 2:** Create **"Delete"** and **"Set as Primary"** overlays (e.g., a trash icon or star icon) that appear when hovering or tapping an image in the management view.  
 - **Task 3:** Design a **"Progress Indicator"** (spinner or bar) to show the user that their high-resolution image is currently being processed and uploaded.  
-
----
 
 ### Backend Tasks
 
@@ -173,15 +146,11 @@ discovery results.
 - **Task 5:** Create a **database function** to automatically update the `profiles` table's `avatar_url` whenever a user selects a new **"Primary"** photo.  
 - **Task 6:** Implement a **Storage Cleanup Trigger**: Ensure that if a user deletes a photo from the UI, the physical file is also removed from Supabase Storage to save space.  
 
----
-
 ### Frontend Tasks
 
 - **Task 7:** Integrate the `supabase.storage.upload` method with a file picker that restricts uploads to **image formats** (.jpg, .png, .webp) and a **maximum file size** (e.g., 5MB).  
 - **Task 8:** Build **Client-Side Preview** logic so the user sees their photo immediately while the background upload is still finishing.  
 - **Task 9:** Add a "Preview Toggle" so the user can see how their uploaded photo will appear in both the "Circular Avatar" and the "Square Discovery Card" formats before they hit save.
-
----
 
 ### Testing Tasks
 
