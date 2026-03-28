@@ -13,8 +13,7 @@
 
 ## Live Application Link
 
-- **Outty - Sprint 1 Production Build**  
- -  [Outty App](https://outty-scrum-project.vercel.app/)
+-  [Outty App](https://outty-scrum-project.vercel.app/)
 
 ---
 
