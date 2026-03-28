@@ -25,19 +25,19 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 ## Refined Backlog - 49 total pts (03/28/2026)
 
 - **Completed:**
-  1. User account creation – 5 pts
-  2. User login – 3 pts
-  3. Log out securely – 1 pt
+1. User account creation – 5 pts
+2. User login – 3 pts
+3. Log out securely – 1 pt
 - **In progress:**
-  4. Create adventure-based user profile – 3 pts
-  5. Set adventure preferences – 3 pts
-  6. Edit or delete profile – 3 pts
+4. Create adventure-based user profile – 3 pts
+5. Set adventure preferences – 3 pts
+6. Edit or delete profile – 3 pts
 - **Pending:**
-  7. Advanced Discovery & Multi-Criteria Filtering – 10 pts
-  8. Personal Profile Dashboard & View – 4 pts
-  9. View explorer profiles – 4 pts
-  10. Upload & Manage Profile Photo Gallery – 5 pts
-  11. Send in-app messages – 8 pts
+7. Advanced Discovery & Multi-Criteria Filtering – 10 pts
+8. Personal Profile Dashboard & View – 4 pts
+9. View explorer profiles – 4 pts
+10. Upload & Manage Profile Photo Gallery – 5 pts
+11. Send in-app messages – 8 pts
 
 --- 
 
