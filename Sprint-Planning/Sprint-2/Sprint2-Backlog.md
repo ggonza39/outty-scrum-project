@@ -67,7 +67,7 @@ Sprint Goal:
 ### UI/UX Tasks
 
 - **Task 1:** Design the **"Self-View" Dashboard** layout.  
-  - Note: We ust use the exact same components in the **Explorer Profile (Story 6)** to ensure visual consistency across the app.  
+  - Note: We must use the exact same components in the **Explorer Profile (Story 6)** to ensure visual consistency across the app.  
 - **Task 2:** Add a prominent **"Edit Profile"** toggle button that, when clicked, renders the **Profile Edit Form (#32)** from Story 9.  
 - **Task 3:** Design a **"Settings/Danger Zone"** section at the bottom to house the **Delete Account button (#35)** from Story 9.  
 
