@@ -44,8 +44,18 @@
 - **Total Story Points Completed:** 9  
 
 - **Cumulative Flow Diagram:** View CFD Chart
-  - [CFD Chart](https://github.com/users/ggonza39/projects/1/insights/3)
+  - [Sprint 1 CFD Chart](https://github.com/users/ggonza39/projects/1/insights/3)
 
+## Sprint 1 Cumulative Flow Diagram (CFD) Summary
+
+- **Scope Growth (Mar 14 – Mar 15):**  
+  The **green line** indicates an increase in total scope from **15 → 18 points**. This represents the strategic decision to **decouple User Login (Story 11) from Registration** to ensure a **more robust and secure authentication architecture**.
+
+- **Work-In-Progress (WIP) Stability:**  
+  The plateau between **March 15 and March 24** reflects the team’s focus on **Technical Debt and Infrastructure**. During this period, we established the **Supabase backend handshake** and built the **frontend templates**.
+
+- **Completion:**  
+  Points were only moved to **"Done"** once **integration tests** for the authentication handshake were successfully verified, resulting in the closure of **9 critical points** by the sprint deadline.
 
 ---
 
