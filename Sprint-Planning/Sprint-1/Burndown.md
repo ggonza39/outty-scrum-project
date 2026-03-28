@@ -16,7 +16,6 @@
 ---
 
 ## Observations:
-
 ### Did the sprint finish on time?
 
 - **Yes**  
