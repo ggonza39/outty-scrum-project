@@ -56,10 +56,13 @@
 The following stories are **60–83% complete** but were not moved to **Done** to maintain a strict Definition of Done:
 
 - **User Story 2: Create adventure-based user profile** – 3 pts  (83%)
-  - **Reason:**Awaiting Sub-issue #26 (Unit test for profile validation logic). We are holding this story to ensure that malformed profile data cannot hit the database.
+  - **Reason:**
+    Awaiting Sub-issue #26 (Unit test for profile validation logic). We are holding this story to ensure that malformed profile data cannot hit the database.
 
 - **User Story 4: Set adventure preferences** – 3 pts  (80%)
-  - **Reason:** Awaiting completion of Sub-issue #31 (Write unit test for preference persistence). To ensure reliability for the matching engine, we are requiring 100% test coverage on preference storage before closing the story.
+  - **Reason:**
+  Awaiting completion of Sub-issue #31 (Write unit test for preference persistence). To ensure reliability for the matching engine, we are requiring 100% test coverage on preference storage before closing the story.
 
 - **User Story 9: Edit or delete profile** – 3 pts  (60%)
-  - **Reason:** Awaiting Sub-issue #33 (Update profile API call) and Sub-issue #36 (Unit test for update/delete logic).
+  - **Reason:**
+  Awaiting Sub-issue #33 (Update profile API call) and Sub-issue #36 (Unit test for update/delete logic).
