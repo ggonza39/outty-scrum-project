@@ -4,10 +4,14 @@
 - [Burndown Chart](https://app.zenhub.com/workspaces/outty-scrum-workspace-69a15c1f78024f000f6d197b/reports/burndown?milestoneId=Z2lkOi8vcmFwdG9yL1NwcmludC80ODEzOTM0&selectedPipelines=Z2lkOi8vcmFwdG9yL1BpcGVsaW5lLzM1NDMyODc&showPRs=false)
 
 ## Screenshot
-(Insert screenshot here if required by instructor)
+
+<img width="1369" height="865" alt="Screenshot 2026-03-27 205736" src="https://github.com/user-attachments/assets/f0d51470-f92f-4f8d-a06d-16800faa5fd7" />
+
+<img width="1373" height="779" alt="Screenshot 2026-03-27 205756" src="https://github.com/user-attachments/assets/dd2af01b-2f5e-49b6-b1ad-42a324c175b3" />
 
 ## Sprint 1 Cumulative Flow Diagram
 - [CFD Chart](https://github.com/users/ggonza39/projects/1/insights/3)
+
 
 ## Summary
 - Total Story Points Committed: 18
