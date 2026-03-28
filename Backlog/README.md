@@ -37,8 +37,8 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 - **Pending:**
 7. Advanced Discovery & Multi-Criteria Filtering – 10 pts
 8. Personal Profile Dashboard & View - 4 pts
-9. View explorer profiles – 4 pts
-10: Upload & Manage Profile Photo Gallery - 5 pts
+9. View explorer profiles – 4 pts  
+10: Upload & Manage Profile Photo Gallery - 5 pts  
 11. Send in-app messages – 8 pts
 
 --- 
