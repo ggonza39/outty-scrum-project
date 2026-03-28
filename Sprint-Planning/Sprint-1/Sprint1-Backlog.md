@@ -2,6 +2,9 @@
 
 Sprint Goal: Establish the core authentication and profile management features of Outty.
 
+Project Board Link:
+- [Project Board](https://github.com/users/ggonza39/projects/1/views/1?reload=1)
+
 ---
 
 ## Story 1 – User Account Creation (5 pts)
