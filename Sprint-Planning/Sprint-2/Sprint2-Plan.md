@@ -14,17 +14,16 @@ March 30 – April 17
 
 - **Forecasted Velocity:** 32 Story Points  
 - **Analysis:**  
-  While 32 points is a significant jump from 18, **9 of these points are already "In Progress."**  
-  This means much of the logic and partial implementation already exists, leaving roughly **30–40% remaining work**.
-  - **New Work:** 23 points  
-  - Represents a realistic **~25% productivity increase** as the team gains momentum and familiarity.
+  While 32 points is a significant jump from 18, **9 of these points are already "In Progress."**  This means much of the logic and partial implementation already exists, leaving roughly **30–40% remaining work**.
+    - **New Work:** 23 points  
+    - Represents a realistic **~25% productivity increase** as the team gains momentum and familiarity.
 
 ## Selected Sprint Backlog Items
 
 ### Carryover from Sprint 1
-- **Story 2 – Create adventure-based user profile** – 3 pts  
-- **Story 4 – Set adventure preferences** – 3 pts  
-- **Story 9 – Edit or delete profile** – 3 pts  
+- **Story 2 – Create adventure-based user profile** – 3 pts
+- **Story 4 – Set adventure preferences** – 3 pts
+- **Story 9 – Edit or delete profile** – 3 pts
 
 ### New for Sprint 2
 - **Story 5 – Advanced Discovery & Multi-Criteria Filtering** – 10 pts
@@ -32,7 +31,7 @@ March 30 – April 17
 - **Story 6 – View Explorer Profiles** – 4 pts
 - **Story 8 – Upload & Manage Profile Photo Gallery** – 5 pts
 
-- **Total:** **32 Story Points**
+- **Total: 32 Story Points**
 
 ## Sprint Goal
 
