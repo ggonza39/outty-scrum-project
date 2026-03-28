@@ -58,15 +58,7 @@ const defaultData: ProfileFormData = {
   linkedin: "",
 };
 
-export function validateInterests(data: ProfileFormData): string | null {
-  if (!data.interests || data.interests.length === 0) {
-    return 'Please select at least one interest.';
-  }
-
-  return null;
-}
-
-export function validatePreferences(data: ProfileFormData): string | null {
+export function validateBasicInfo(data: ProfileFormData): string | null {
   if (!data.displayName || data.displayName.trim().length < 1 || data.displayName.trim().length > 17) {
     return 'Please enter a name between 1 and 17 letters';
   }
@@ -85,6 +77,18 @@ export function validatePreferences(data: ProfileFormData): string | null {
     return 'Please enter a valid ZIP code.';
   }
 
+  return null;
+}
+
+export function validateInterests(data: ProfileFormData): string | null {
+  if (!data.interests || data.interests.length === 0) {
+    return 'Please select at least one interest.';
+  }
+
+  return null;
+}
+
+export function validatePreferences(data: ProfileFormData): string | null {
   if (!data.partnerPreference) {
     return 'Please select a partner preference.';
   }
@@ -94,12 +98,6 @@ export function validatePreferences(data: ProfileFormData): string | null {
   }
 
   return null;
-}
-
-export function validateBasicInfo(data: ProfileFormData): string | null {
-//Code for "About me" field validation
-
-    return null;
 }
 
 export default function ProfileSetupShell() {
@@ -170,45 +168,44 @@ export default function ProfileSetupShell() {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const next = () => {
-    // Validate Adventure Interests step
-    if (step === 1) {
-      const error = validateInterests(formData);
+const next = () => {
+  if (step === 0) {
+    const error = validateBasicInfo(formData);
 
-      if (error) {
-        setErrorMessage(error);
-        return;
-      }
+    if (error) {
+      setErrorMessage(error);
+      return;
     }
+  }
 
-    // Validate Preferences step
-    if (step === 2) {
-      const error = validatePreferences(formData);
+  if (step === 1) {
+    const error = validateInterests(formData);
 
-      if (error) {
-        setErrorMessage(error);
-        return;
-      }
+    if (error) {
+      setErrorMessage(error);
+      return;
     }
+  }
 
-    setErrorMessage("");
-    setStep((prev) => Math.min(prev + 1, steps.length - 1));
+  if (step === 2) {
+    const error = validatePreferences(formData);
+
+    if (error) {
+      setErrorMessage(error);
+      return;
+    }
+  }
+
+  setErrorMessage("");
+  setStep((prev) => Math.min(prev + 1, steps.length - 1));
+};
+
+    const back = () => {
+      setStep((prev) => Math.max(prev - 1, 0));
   };
-
-  const back = () => {
-    setStep((prev) => Math.max(prev - 1, 0));
-  };
-
-  const skip = () => {
+    const skip = () => {
     next();
   };
-
-  // OLD saveProfile function. Delete if no longer needed...
-  // const saveProfile = () => {
-  //   setIsSaving(true);
-  //   localStorage.setItem("outty-profile", JSON.stringify(formData));
-  //   router.push("/match");
-  // };
 
   const saveProfile = async () => {
   setIsSaving(true);
