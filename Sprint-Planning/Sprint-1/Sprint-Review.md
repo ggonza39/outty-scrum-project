@@ -18,7 +18,7 @@
 - **User Story 10: Log out securely (Verified bug fix for session termination)** – 1 pt
 
 - **Automated Quality Gate**  
-  Exceeded testing goals with **16 Unit Tests** and **2 BDD Tests** *(Goal: 10 Unit / 1 BDD)*
+  - Exceeded testing goals with **16 Unit Tests** and **2 BDD Tests** *(Goal: 10 Unit / 1 BDD)*
 
 ---
 
