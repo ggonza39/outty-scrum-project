@@ -15,6 +15,9 @@ Sprint Goal:
 - ### User Story 4 – Set adventure preferences – 3 pts - 80% complete
 
 - ### User Story 9 – Edit or delete profile – 3 pts - 60% complete
+  
+- [Sprint 1 Backlog](Sprint-Planning/Sprint-1/Sprint1-Backlog.md)
+  - Follow link to review Sprint 1 User Stories tasks 
 
 ---
 
