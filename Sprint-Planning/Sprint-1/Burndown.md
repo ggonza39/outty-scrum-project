@@ -3,7 +3,7 @@
 ## ZenHub Burndown Link for Sprint 1: Mar 9 - Mar 27
 - [Burndown Chart](https://app.zenhub.com/workspaces/outty-scrum-workspace-69a15c1f78024f000f6d197b/reports/burndown?milestoneId=Z2lkOi8vcmFwdG9yL1NwcmludC80ODEzOTM0&selectedPipelines=Z2lkOi8vcmFwdG9yL1BpcGVsaW5lLzM1NDMyODc&showPRs=false)
 
-## Screenshot
+## Screenshots (if link does not work due to account restrictions)
 
 <img width="1369" height="865" alt="Screenshot 2026-03-27 205736" src="https://github.com/user-attachments/assets/f0d51470-f92f-4f8d-a06d-16800faa5fd7" />
 
