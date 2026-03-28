@@ -38,9 +38,7 @@ March 30 – April 17
 
 * **Story 8 – Upload & Manage Profile Photo Gallery** – 5 pts
 
----
-
-* **Total: 32 Story Points**
+  * **Total: 32 Story Points**
 
 ## Sprint Goal
 
