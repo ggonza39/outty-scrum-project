@@ -13,8 +13,10 @@
 - Total Story Points Committed: 18
 - Total Story Points Completed: 9
 
+---
+
 ## Observations:
-- 
+
 ### Did the sprint finish on time?
 
 - **Yes**  
@@ -52,4 +54,6 @@
   - Deferred **Image Validation feature** to the Product Backlog
   - Identified as **scope creep** during mid-sprint review
   - Decision ensured focus remained on **core authentication delivery**
+ 
+---
   
