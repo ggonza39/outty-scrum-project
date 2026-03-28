@@ -49,7 +49,7 @@
 
 ---
 
-### Observations
+## Observations
 
 **Did the sprint finish on time?**  
 - **Yes.** The sprint concluded on **March 27th**.
