@@ -14,19 +14,19 @@ March 30 – April 17
 
 - **Forecasted Velocity:** 32 Story Points  
 - **Analysis:**  
-  While 32 points is a significant jump from 18, **9 of these points are already "In Progress."**  This means much of the logic and partial implementation already exists, leaving roughly **30–40% remaining work**.
+  While 32 points is a significant jump from 18, **9 of these points are already "In Progress."**  This means much of the logic and partial implementation already exists, leaving roughly **20–40% remaining work**.
     - **New Work:** 23 points  
     - Represents a realistic **~25% productivity increase** as the team gains momentum and familiarity.
 
 ## Selected Sprint Backlog Items
 
-### Carryover from Sprint 1
+### Carryover from Sprint 1 (all in progress)
 
-* **Story 2 – Create adventure-based user profile** – 3 pts
+* **Story 2 – Create adventure-based user profile** – 3 pts - 83% complete
 
-* **Story 4 – Set adventure preferences** – 3 pts
+* **Story 4 – Set adventure preferences** – 3 pts - 80% complete
 
-* **Story 9 – Edit or delete profile** – 3 pts
+* **Story 9 – Edit or delete profile** – 3 pts - 60% complete
 
 ### New for Sprint 2
 
