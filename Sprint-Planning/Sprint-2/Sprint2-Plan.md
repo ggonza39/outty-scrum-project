@@ -1,29 +1,73 @@
-# Sprint 2 Plan
+## Sprint 2 Plan 
+
+---
 
 ## Sprint Duration
 March 30 – April 17
 
+---
+
 ## Team Capacity
+
+- **Total Available Hours:** 108 hours *(6 members × 6 hours/week × 3 weeks)*  
+- **Effective Development Capacity:** 85–90 hours  
+
+- **Analysis:**  
+  This is a slight increase from Sprint 1 (70–75 hours) because the team is now onboarded to the tech stack (**Next.js / Supabase**). Less time is spent *learning* and more time is spent *building*, though the **PostGIS integration in Story 5** will still require significant research effort.
+
+---
 
 ## Forecasted Velocity
 
+- **Forecasted Velocity:** 32 Story Points  
 
-## Selected Sprint Backlog Items  
-- In progress stories from Sprint 1:   
-  - Story 2 – Create adventure-based user profile – 3 pts  
-  - Story 4 – Set adventure preferences – 3 pts  
-  - Story 9 – Edit or delete profile – 3 pts
+- **Analysis:**  
+  While 32 points is a significant jump from 18, **9 of these points are already "In Progress."**  
+  This means much of the logic and partial implementation already exists, leaving roughly **30–40% remaining work**.
 
-- Added stories for this sprint:
-  - Story 5 - Advanced Discovery & Multi-Criteria Filtering – 10 pts
-  - Story 3 - Personal Profile Dashboard & View - 4 pts
-  - Story 6 - View explorer profiles – 4 pts
-  - Story 8 - Upload & Manage Profile Photo Gallery - 5 pts
- 
-Total: 32 story points (9 coming from in progress items from sprint 1)
+  - **New Work:** 23 points  
+  - Represents a realistic **~25% productivity increase** as the team gains momentum and familiarity.
+
+---
+
+## Selected Sprint Backlog Items
+
+### Carryover from Sprint 1
+
+- **Story 2 – Create adventure-based user profile** – 3 pts  
+- **Story 4 – Set adventure preferences** – 3 pts  
+- **Story 9 – Edit or delete profile** – 3 pts  
+
+---
+
+### New for Sprint 2
+
+- **Story 5 – Advanced Discovery & Multi-Criteria Filtering** – 10 pts  
+- **Story 3 – Personal Profile Dashboard & View** – 4 pts  
+- **Story 6 – View Explorer Profiles** – 4 pts  
+- **Story 8 – Upload & Manage Profile Photo Gallery** – 5 pts  
+
+---
+
+- **Total:** **32 Story Points**
+
+---
 
 ## Sprint Goal
 Transform 'Outty' into a high-utility discovery platform by launching a location-intelligent search engine, personalized user dashboards, and a robust media gallery system to facilitate national adventurer connections.
 
-
 ## Rationale
+
+The primary focus of Sprint 2 is to evolve Outty from a **collection of user records** into a **searchable social network**.
+
+- Prioritizing the **Advanced Discovery Engine (Story 5)** addresses the project’s most significant technical challenge: **location-aware, multi-criteria filtering**.
+
+- Completing carryover stories (**2, 4, 9**) is critical, as they provide the **data foundation** required for accurate filtering.
+
+- Implementing **Stories 3 and 6** ensures a **consistent and reusable UI experience**, aligning personal and public profile views.
+
+- Adding **Gallery Management (Story 8)** introduces the **visual trust factor**, increasing user engagement and authenticity.
+
+**Outcome:**  
+By April 17, the application will support a complete **"Search → View → Evaluate" loop**, enabling users to effectively discover and vet potential travel partners.
+
