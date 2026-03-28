@@ -8,6 +8,15 @@ Sprint Goal:
 - [Project Board](https://github.com/users/ggonza39/projects/1/views/1?reload=1)
 
 ---
+## Carryover from Sprint 1 (all in progress)
+
+### Story 2 – Create adventure-based user profile – 3 pts - 83% complete
+
+### Story 4 – Set adventure preferences – 3 pts - 80% complete
+
+### Story 9 – Edit or delete profile – 3 pts - 60% complete
+
+---
 
 ## User Story 5: Advanced Discovery & Multi-Criteria Filtering (10 pts)
 
