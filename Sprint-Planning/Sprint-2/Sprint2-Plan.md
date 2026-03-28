@@ -1,11 +1,7 @@
 ## Sprint 2 Plan 
 
----
-
 ## Sprint Duration
 March 30 – April 17
-
----
 
 ## Team Capacity
 
@@ -14,8 +10,6 @@ March 30 – April 17
 
 - **Analysis:**  
   This is a slight increase from Sprint 1 (70–75 hours) because the team is now onboarded to the tech stack (**Next.js / Supabase**). Less time is spent *learning* and more time is spent *building*, though the **PostGIS integration in Story 5** will still require significant research effort.
-
----
 
 ## Forecasted Velocity
 
@@ -28,8 +22,6 @@ March 30 – April 17
   - **New Work:** 23 points  
   - Represents a realistic **~25% productivity increase** as the team gains momentum and familiarity.
 
----
-
 ## Selected Sprint Backlog Items
 
 ### Carryover from Sprint 1
@@ -38,8 +30,6 @@ March 30 – April 17
 - **Story 4 – Set adventure preferences** – 3 pts  
 - **Story 9 – Edit or delete profile** – 3 pts  
 
----
-
 ### New for Sprint 2
 
 - **Story 5 – Advanced Discovery & Multi-Criteria Filtering** – 10 pts  
@@ -47,11 +37,7 @@ March 30 – April 17
 - **Story 6 – View Explorer Profiles** – 4 pts  
 - **Story 8 – Upload & Manage Profile Photo Gallery** – 5 pts  
 
----
-
 - **Total:** **32 Story Points**
-
----
 
 ## Sprint Goal
 Transform 'Outty' into a high-utility discovery platform by launching a location-intelligent search engine, personalized user dashboards, and a robust media gallery system to facilitate national adventurer connections.
