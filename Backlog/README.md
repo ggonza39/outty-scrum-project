@@ -29,10 +29,12 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 2. User login – 3 pts
 3. Log out securely – 1 pt
 
-- **Pending:**
+- **In progress:**
 4. Create adventure-based user profile – 3 pts
 5. Set adventure preferences – 3 pts
 6. Edit or delete profile – 3 pts
+
+- **Pending:**
 7. Swipe and match with nearby adventurers – 8 pts
 8. Filter matches by distance – 5 pts
 9. View matched user profiles – 2 pts
