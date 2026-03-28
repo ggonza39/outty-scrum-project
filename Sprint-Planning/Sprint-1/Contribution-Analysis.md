@@ -6,11 +6,11 @@ This report provides a comprehensive analysis of team contributions for the "Out
 ## Metric Definitions
 To ensure accurate interpretation of the data, the metrics are defined as follows:
 
-- Added: The total number of new lines of code, configuration, or documentation committed to the repository. High counts typically correlate with new feature implementation and initial project scaffolding.
+- **Added:** The total number of new lines of code, configuration, or documentation committed to the repository. High counts typically correlate with new feature implementation and initial project scaffolding.
 
-- Removed: The total number of lines deleted or replaced. In a Test-Driven Development (TDD) environment, a high "Removed" count is an indicator of Refactoring—the process of cleaning, optimizing, and maintaining code health without changing its external behavior.
+- **Removed:** The total number of lines deleted or replaced. In a Test-Driven Development (TDD) environment, a high "Removed" count is an indicator of Refactoring—the process of cleaning, optimizing, and maintaining code health without changing its external behavior.
 
-- Total Impact: The sum of Added and Removed lines, representing the total volume of technical interaction with the codebase.
+- **Total Impact:** The sum of Added and Removed lines, representing the total volume of technical interaction with the codebase.
 
 ## Contribution Matrix
 | Team Member | Added | Removed | Total Impact | Primary Focus |
