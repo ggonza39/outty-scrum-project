@@ -1,6 +1,6 @@
 # Sprint 1 Backlog
 
-Sprint Goal: Establish the core authentication and profile management features of Outty.
+- Sprint Goal: Establish the core authentication and profile management features of Outty.
 
 ---
 
