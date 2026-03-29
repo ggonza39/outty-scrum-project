@@ -14,7 +14,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
     - [signup.bdd.test.tsx](/application/frontend/app/signup/signup.bdd.test.tsx) (2 tests) 177ms
    
 ### GitHub Actions with Vercel Summary Logs
-- https://github.com/ggonza39/outty-scrum-project/actions/runs/23620432344
+- https://github.com/ggonza39/outty-scrum-project/actions/runs/23713772420
 
 ### Vercel Logs
 - https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments
