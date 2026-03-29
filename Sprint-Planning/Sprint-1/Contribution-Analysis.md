@@ -1,7 +1,7 @@
 # Sprint 1: Contribution Analysis
 
 ## Executive Summary
-This report provides a comprehensive analysis of team contributions for the "Outty" project during Sprint 1. Metrics are derived from Git numstat data across all branches to provide a transparent view of code volume and architectural development.
+This report provides a comprehensive analysis of cummulative team contributions for the "Outty" project through Sprint 1. Metrics are derived from Git numstat data across all branches to provide a transparent view of code volume and architectural development.
 
 ## Metric Definitions
 To ensure accurate interpretation of the data, the metrics are defined as follows:
