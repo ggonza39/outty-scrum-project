@@ -272,10 +272,14 @@ const next = () => {
 
     if (error) throw error;
 
+    const { error: signOutError } = await supabase.auth.signOut({ scope: "local" });
+
+    if (signOutError) throw signOutError;
+
     setFormData(defaultData);
     setStep(0);
     alert("Your profile has been deleted.");
-    router.replace("/profile-setup");
+    router.replace("/signin");
   } catch (error) {
     console.error("Error deleting profile:", error);
     alert("There was a problem deleting your profile.");
