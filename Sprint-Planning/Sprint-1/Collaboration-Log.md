@@ -8,7 +8,8 @@ This document provides evidence of collaborative development activities such as 
 
 **Date:** 03/20/2026  
 - Recording Link:
-  - https://kennesawedu-my.sharepoint.com/:v:/g/personal/anguy131_students_kennesaw_edu/IQCU3nPKONo_R49LUHSoWWhyAevAYeI2WAPeTIBqBJo-RYU?e=bHOaiu
+  - [Mob Programming Session](https://kennesawedu-my.sharepoint.com/:v:/g/personal/anguy131_students_kennesaw_edu/IQCU3nPKONo_R49LUHSoWWhyAevAYeI2WAPeTIBqBJo-RYU?e=bHOaiu)
+    
 - Participants:
   - Full Development Team
 - Focus Area:

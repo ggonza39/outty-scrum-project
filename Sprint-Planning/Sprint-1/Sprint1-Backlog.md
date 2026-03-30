@@ -1,6 +1,11 @@
 # Sprint 1 Backlog
 
-Sprint Goal: Establish the core authentication and profile management features of Outty.
+- Sprint Goal: Establish the core authentication and profile management features of Outty.
+
+---
+
+## Project Board Link:
+- [Project Board](https://github.com/users/ggonza39/projects/1/views/1?reload=1)
 
 ---
 
@@ -36,6 +41,8 @@ Sprint Goal: Establish the core authentication and profile management features o
 
 ### Testing Tasks
 - Test login authentication flow
+
+---
 
 ## Story 2 – Create Adventure-Based User Profile (3 pts)
 

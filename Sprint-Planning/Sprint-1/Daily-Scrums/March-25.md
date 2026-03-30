@@ -10,7 +10,8 @@
   - Completed backend tasks for US4 & US9
 
 **Heidi Wilder:**  
-  - 
+  - wirefames for users settings/account page.
+  - user journey mapping for profile ans settings
 **Gibson Garner:**  
   - Completed E2E tests for sign up
   - Completed E2E tests for sign in
@@ -54,7 +55,7 @@
 
 **Takeshia Banks:**  
   - Prepare for sprint review and support any final fixes or adjustments based on team feedback.
-  - 
+    
 **Anthony Nguyen:**  
   - Monitor implementation of Middleware for session verification
   - Update "Definition of Done" to include server-side route protection

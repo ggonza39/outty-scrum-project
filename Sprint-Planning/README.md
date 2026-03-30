@@ -14,6 +14,7 @@ Each sprint has its own subfolder that includes:
 - Evidence of pairing or mob programming
 - Deployment link for the sprint increment
 - Test Traceability & Metrics Report
+- Contribution Analysis
 
 ## Sprints
 
