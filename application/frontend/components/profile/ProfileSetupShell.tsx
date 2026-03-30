@@ -16,6 +16,7 @@ export type ProfileFormData = {
   age: string;
   zipCode: string;
   bio: string;
+  gender: string;
   interests: string[];
   partnerPreference: string;
   skillLevel: string;
@@ -48,6 +49,7 @@ const defaultData: ProfileFormData = {
   age: "",
   zipCode: "",
   bio: "",
+  gender: "",
   interests: [],
   partnerPreference: "",
   skillLevel: "",
@@ -75,6 +77,10 @@ export function validateBasicInfo(data: ProfileFormData): string | null {
 
   if (!/^\d{5}$/.test(data.zipCode)) {
     return 'Please enter a valid ZIP code.';
+  }
+
+  if (!data.gender || !data.gender.trim()) {
+    return 'Please enter a gender.';
   }
 
   return null;
@@ -141,6 +147,7 @@ export default function ProfileSetupShell() {
           age: data.age ? String(data.age) : "",
           zipCode: data.zip_code || "",
           bio: data.bio || "",
+          gender: data.gender || "",
           interests: data.interests || [],
           partnerPreference: data.partner_preference || "",
           skillLevel: data.skill_level || "",
@@ -225,6 +232,7 @@ const next = () => {
       age: formData.age ? Number(formData.age) : null,
       zip_code: formData.zipCode || null,
       bio: formData.bio || null,
+      gender: formData.gender || null,
       interests: formData.interests,
       partner_preference: formData.partnerPreference || null,
       skill_level: formData.skillLevel || null,
@@ -237,6 +245,7 @@ const next = () => {
 
     if (profileError) throw profileError;
 
+    alert("Profile saved successfully.");
     router.push("/match");
   } catch (error) {
     console.error("Error saving profile:", error);
@@ -263,10 +272,14 @@ const next = () => {
 
     if (error) throw error;
 
+    const { error: signOutError } = await supabase.auth.signOut({ scope: "local" });
+
+    if (signOutError) throw signOutError;
+
     setFormData(defaultData);
     setStep(0);
     alert("Your profile has been deleted.");
-    router.replace("/profile-setup");
+    router.replace("/signin");
   } catch (error) {
     console.error("Error deleting profile:", error);
     alert("There was a problem deleting your profile.");

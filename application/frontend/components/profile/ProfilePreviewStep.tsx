@@ -35,6 +35,7 @@ export default function ProfilePreviewStep({
         </h2>
 
         <p>{formData.zipCode ? `ZIP Code: ${formData.zipCode}` : "Your ZIP code"}</p>
+        <p>{formData.gender ? `Gender: ${formData.gender}` : "Gender not added"}</p>
 
         <section>
           <h3>About</h3>
