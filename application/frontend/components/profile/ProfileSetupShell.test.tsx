@@ -19,6 +19,7 @@ const defaultData: ProfileFormData = {
             age: "30",
             zipCode: "30067",
             bio: "asdf",
+            gender: "Female",
             interests: ["Fishing"],
             partnerPreference: "Female",
             skillLevel: "Expert",
@@ -158,6 +159,20 @@ describe('Input Validation Unit Tests', () => {
         testData.zipCode = "3006#";
             expect(validateBasicInfo(testData)).toBe('Please enter a valid ZIP code.');
         });
+    
+// Gender
+
+    it('should return error for empty gender', () => {
+        const testData: ProfileFormData = structuredClone(defaultData);
+        testData.gender = "";
+        expect(validateBasicInfo(testData)).toBe('Please enter a gender.');
+    });
+
+    it('should return null for valid gender', () => {
+        const testData: ProfileFormData = structuredClone(defaultData);
+        testData.gender = "Female";
+        expect(validateBasicInfo(testData)).toBe(null);
+    });
 
 
 });
