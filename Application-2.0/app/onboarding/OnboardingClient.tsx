@@ -290,7 +290,7 @@ export default function OnboardingClient() {
               Loading Outty...
             </div>
             {/* Optional: Add a subtle sub-text for extra polish */}
-            <div className="text-white/10 text-[12px] font-black uppercase tracking-[0.8em] animate-pulse delay-75">
+            <div className="text-white/1 text-[12px] font-black uppercase tracking-[0.8em] animate-pulse delay-75">
               Preparing your adventure
             </div>
           </div>
@@ -355,12 +355,11 @@ export default function OnboardingClient() {
         <div className="fixed inset-0 z-0 pointer-events-none">
           {/* 1. HIGH-RES FOREST: Increased opacity for more natural light */}
           <div
-            className="absolute inset-0 opacity-70 bg-cover bg-center transition-opacity duration-1000"
+            className="absolute inset-0 opacity-40 bg-cover bg-center transition-opacity duration-1000"
             style={{ backgroundImage: "url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80')" }}
           />
 
-          {/* 2. SUN RAY OVERLAY: Adds brightness to the top half to match 'My Profile' */}
-          <div className="absolute inset-0 bg-gradient-to-b from-emerald-400/10 via-transparent to-transparent" />
+
           </div>
 
         {/* MAIN CARD CONTAINER */}
