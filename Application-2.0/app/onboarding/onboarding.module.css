@@ -96,4 +96,29 @@
   .grid2 {
     grid-template-columns: 1fr !important;
   }
+/* Add this to onboarding.module.css */
+.progressBarContainer {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  width: 100%;
+}
+
+.progressSegment {
+  height: 6px;
+  flex: 1;
+  border-radius: 99px;
+  transition: all 0.4s ease;
+}
+
+.activeSegment {
+  background-color: #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+.inactiveSegment {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 }
