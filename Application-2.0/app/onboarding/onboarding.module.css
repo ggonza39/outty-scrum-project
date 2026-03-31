@@ -84,6 +84,29 @@
   cursor: not-allowed;
 }
 
+.progressBarContainer {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  width: 100%;
+  padding: 0 0.5rem;
+}
+
+.progressSegment {
+  height: 8px; /* Increased height */
+  flex: 1;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.05); /* Visible "empty" state */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.5s ease;
+}
+
+.progressSegmentActive {
+  background-color: #10b981;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+  border-color: #10b981;
+}
+
 /* Mobile Adjustments */
 @media (max-width: 640px) {
   .mainContainer {
@@ -96,29 +119,5 @@
   .grid2 {
     grid-template-columns: 1fr !important;
   }
-/* Add this to onboarding.module.css */
-.progressBarContainer {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 2.5rem;
-  width: 100%;
-}
-
-.progressSegment {
-  height: 6px;
-  flex: 1;
-  border-radius: 99px;
-  transition: all 0.4s ease;
-}
-
-.activeSegment {
-  background-color: #10b981;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-}
-
-.inactiveSegment {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
 
 }

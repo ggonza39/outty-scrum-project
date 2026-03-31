@@ -190,19 +190,15 @@ export default function OnboardingPage() {
       <main className={styles.mainContainer}>
         <div className={styles.glassCard}>
 
-          {/* PROGRESS INDICATOR */}
-          <div className="flex gap-3 mb-10 px-2">
-            {[1, 2, 3].map((s) => (
-              <div
-                key={s}
-                className={`h-2 flex-1 rounded-full transition-all duration-500 ${
-                  s <= step
-                    ? 'bg-emerald-500 shadow-[0_0_10px_#10b981]'
-                    : 'bg-white/5 border border-white/5'
-                }`}
-              />
-            ))}
-          </div>
+         {/* PROGRESS INDICATOR */}
+         <div className={styles.progressBarContainer}>
+           {[1, 2, 3].map((s) => (
+             <div
+               key={s}
+               className={`${styles.progressSegment} ${s <= step ? styles.progressSegmentActive : ''}`}
+             />
+           ))}
+         </div>
 
           {/* STEP 1: THE ESSENTIALS (Your Current Working UI) */}
           {step === 1 && (
