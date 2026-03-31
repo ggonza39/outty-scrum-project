@@ -20,8 +20,8 @@ export default function OnboardingPage() {
   const router = useRouter();
 
   // --- NAVIGATION STATE ---
-    const [step, setStep] = useState(1);
-    const totalSteps = 3; // 1: Essentials, 2: Adventures, 3: Photos/Socials
+  const [step, setStep] = useState(1);
+  const totalSteps = 3; // 1: Essentials, 2: Adventures, 3: Photos/Socials
 
   // --- STEP 1 STATES: THE BASICS ---
   const [firstName, setFirstName] = useState('');
@@ -175,11 +175,15 @@ export default function OnboardingPage() {
         <div className={styles.glassCard}>
 
           {/* PROGRESS INDICATOR */}
-          <div className="flex gap-2 mb-6">
+          <div className="flex gap-3 mb-10 px-2">
             {[1, 2, 3].map((s) => (
               <div
                 key={s}
-                className={`h-1 flex-1 rounded-full transition-all ${s <= step ? 'bg-emerald-500' : 'bg-white/10'}`}
+                className={`h-2 flex-1 rounded-full transition-all duration-500 ${
+                  s <= step
+                    ? 'bg-emerald-500 shadow-[0_0_10px_#10b981]'
+                    : 'bg-white/5 border border-white/5'
+                }`}
               />
             ))}
           </div>
