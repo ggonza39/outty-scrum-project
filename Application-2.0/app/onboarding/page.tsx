@@ -6,6 +6,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { useRouter } from 'next/navigation';
+import styles from './onboarding.module.css';
 
 // Global variable for the large zip library
 let zipData: any = null;
@@ -166,84 +167,98 @@ export default function OnboardingPage() {
   }
 
   return (
-    <main className="min-h-screen w-full bg-[#022c22] p-8 flex flex-col items-center">
-      <div className="z-10 w-full max-w-2xl p-8 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl">
-        <h1 className="text-3xl font-black italic tracking-tighter text-white mb-2 text-center uppercase">
-          The Essentials
-        </h1>
-        <p className="text-emerald-500/60 text-[10px] font-bold text-center uppercase tracking-[0.2em] mb-8">
-          Logged in as: {userEmail}
-        </p>
+      <main className={styles.mainContainer}>
+        <div className={styles.glassCard}>
+          <h1 className={styles.title}>The Essentials</h1>
+          <p className="text-emerald-500/60 text-[10px] font-bold text-center uppercase tracking-[0.2em] mb-8">
+            Logged in as: {userEmail}
+          </p>
 
-        <div className="space-y-4">
-          {/* Names */}
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              placeholder="First Name *"
-              className="p-4 rounded-xl bg-white/10 border border-white/10 text-white placeholder:text-white/20 outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
-              onChange={(e) => setFirstName(e.target.value)}
-              value={firstName}
-            />
-            <input
-              placeholder="Last Name *"
-              className="p-4 rounded-xl bg-white/10 border border-white/10 text-white placeholder:text-white/20 outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
-              onChange={(e) => setLastName(e.target.value)}
-              value={lastName}
-            />
-          </div>
-
-          {/* Username & Age */}
-          <div className="grid grid-cols-3 gap-4">
-            <input
-              placeholder="Age *"
-              className="p-4 rounded-xl bg-white/10 border border-white/10 text-white placeholder:text-white/20 outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
-              onChange={(e) => setAge(e.target.value.replace(/\D/g, ''))}
-              value={age}
-            />
-            <div className="col-span-2 relative">
+          <div className="space-y-4">
+            {/* Names */}
+            <div className={`grid grid-cols-2 gap-4 ${styles.grid2}`}>
               <input
-                placeholder="Username *"
-                className={`w-full p-4 rounded-xl bg-white/10 border ${usernameError ? 'border-red-500' : usernameSuccess ? 'border-emerald-500' : 'border-white/10'} text-white placeholder:text-white/20 outline-none focus:ring-2 focus:ring-emerald-500 transition-all`}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                  setUsernameSuccess(false);
-                }}
-                onBlur={(e) => checkUsername(e.target.value)}
-                value={username}
+                placeholder="First Name *"
+                className={styles.inputBase}
+                onChange={(e) => setFirstName(e.target.value)}
+                value={firstName}
               />
-              {checkingUsername && <span className="absolute right-4 top-5 text-[10px] text-emerald-400 font-bold animate-pulse">VERIFYING...</span>}
+              <input
+                placeholder="Last Name *"
+                className={styles.inputBase}
+                onChange={(e) => setLastName(e.target.value)}
+                value={lastName}
+              />
             </div>
-          </div>
 
-          {/* ZIP & Auto-City/State */}
-          <div className="grid grid-cols-12 gap-4">
-            <input
-              maxLength={5}
-              placeholder="ZIP *"
-              className="col-span-4 p-4 rounded-xl bg-white/10 border border-white/10 text-white placeholder:text-white/20 outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
-              onChange={(e) => setZipCode(e.target.value.replace(/\D/g, ''))}
-              value={zipCode}
+            {/* Username & Age */}
+            <div className="grid grid-cols-3 gap-4">
+              <input
+                placeholder="Age *"
+                className={styles.inputBase}
+                onChange={(e) => setAge(e.target.value.replace(/\D/g, ''))}
+                value={age}
+              />
+              <div className="col-span-2 relative">
+                <input
+                  placeholder="Username *"
+                  className={`${styles.inputBase} ${
+                    usernameError ? 'border-red-500' : usernameSuccess ? 'border-emerald-500' : ''
+                  }`}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    setUsernameSuccess(false);
+                  }}
+                  onBlur={(e) => checkUsername(e.target.value)}
+                  value={username}
+                />
+                {checkingUsername && (
+                  <span className="absolute right-4 top-5 text-[10px] text-emerald-400 font-bold animate-pulse">
+                    VERIFYING...
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* ZIP & Auto-City/State */}
+            <div className="grid grid-cols-12 gap-4">
+              <input
+                maxLength={5}
+                placeholder="ZIP *"
+                className={`${styles.inputBase} col-span-4`}
+                onChange={(e) => setZipCode(e.target.value.replace(/\D/g, ''))}
+                value={zipCode}
+              />
+              <input
+                placeholder="City"
+                disabled
+                className={`${styles.inputBase} ${styles.inputDisabled} col-span-5`}
+                value={city}
+              />
+              <input
+                placeholder="ST"
+                disabled
+                className={`${styles.inputBase} ${styles.inputDisabled} col-span-3 text-center`}
+                value={state}
+              />
+            </div>
+
+            <textarea
+              placeholder="Adventure Bio *"
+              className={`${styles.inputBase} min-h-[100px]`}
+              onChange={(e) => setBio(e.target.value)}
+              value={bio}
             />
-            <input placeholder="City" disabled className="col-span-5 p-4 rounded-xl bg-black/40 text-white/40 cursor-not-allowed italic font-bold" value={city} />
-            <input placeholder="ST" disabled className="col-span-3 p-4 rounded-xl bg-black/40 text-white/40 cursor-not-allowed text-center font-bold" value={state} />
+
+            <button
+              onClick={handleSaveProfile}
+              disabled={loading || !usernameSuccess || !zipCode || !city}
+              className={styles.submitButton}
+            >
+              {loading ? 'Processing...' : 'Save & Continue'}
+            </button>
           </div>
-
-          <textarea
-            placeholder="Adventure Bio *"
-            className="w-full p-4 rounded-xl bg-white/10 border border-white/10 text-white placeholder:text-white/20 outline-none focus:ring-2 focus:ring-emerald-500 min-h-[100px] transition-all"
-            onChange={(e) => setBio(e.target.value)}
-            value={bio}
-          />
-
-          <button
-            onClick={handleSaveProfile}
-            disabled={loading || !usernameSuccess || !zipCode || !city}
-            className="w-full py-5 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed text-white font-black uppercase tracking-widest rounded-xl transition-all shadow-xl italic mt-4"
-          >
-            {loading ? 'Processing...' : 'Save & Continue'}
-          </button>
         </div>
-      </div>
-    </main>
-  );
-}
+      </main>
+    );
+  }
