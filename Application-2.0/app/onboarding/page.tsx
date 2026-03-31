@@ -88,10 +88,21 @@ export default function OnboardingPage() {
           const mode = searchParams.get('mode') === 'edit';
           setIsEditMode(mode);
 
-          const { data, error } = await supabase.from('profiles')
+          const { data, error } = await supabase
+            .from('profiles')
             .select('*')
             .eq('id', user.id)
             .single();
+
+          if (error) {
+            // THIS WILL TELL US EXACTLY WHY THE 400/406 IS HAPPENING
+            console.error("Supabase Fetch Error Details:", {
+              message: error.message,
+              hint: error.hint,
+              details: error.details,
+              code: error.code
+            });
+          }
 
           if (data && !error) {
             // If they have a username and aren't editing, send them away
@@ -124,10 +135,9 @@ export default function OnboardingPage() {
             setLinkedin(data.linkedin || '');
           }
         } catch (err) {
-                console.error("Fetch error:", err);
-              } finally {
-          // This ensures the "LOADING OUTTY..." screen disappears
-          // regardless of whether the profile exists or not.
+          console.error("Initialization crash:", err);
+        } finally {
+          // This clears the loading screen no matter what happens
           setLoading(false);
         }
       }
