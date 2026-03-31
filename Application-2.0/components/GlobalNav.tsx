@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Home, MessagesSquare, User, Settings, LogOut, LayoutDashboard, Menu, X } from 'lucide-react';
 
+
 export default function GlobalNav() {
   /* -------------------------------------------------------------------------- */
   /* SECTION 2: STATE & HOOKS                                                   */

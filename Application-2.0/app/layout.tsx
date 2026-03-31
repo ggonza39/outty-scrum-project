@@ -16,6 +16,7 @@ import { ChatProvider } from "@/context/ChatContext";
 import GlobalNav from "@/components/GlobalNav";
 import FloatingChatShell from "@/components/messaging/FloatingChatShell";
 import ConditionalFooter from "@/components/ConditionalFooter";
+import { Suspense } from 'react';
 
 /* -------------------------------------------------------------------------- */
 /* SECTION 3: ASSETS & METADATA (Configuration)                               */
@@ -53,7 +54,9 @@ export default function RootLayout({
           <ChatProvider>
 
             {/* 4.2 Global Navigation: Fixed at the very top */}
+            <Suspense fallback={<div className="h-20" />}>
             <GlobalNav />
+            </Suspense>
 
             {/* 4.3 Page Wrapper: Flex column ensures footer is pushed to bottom */}
             <div className="relative min-h-screen flex flex-col">
@@ -62,11 +65,15 @@ export default function RootLayout({
               </main>
 
               {/* 4.4 Conditional Footer: Part of the flex flow */}
-              <ConditionalFooter />
+              <Suspense fallback={null}>
+                              <ConditionalFooter />
+                            </Suspense>
             </div>
 
             {/* 4.5 Global Overlays: Floating Chat stays on top of everything */}
-            <FloatingChatShell />
+            <Suspense fallback={null}>
+                          <FloatingChatShell />
+                        </Suspense>
 
           </ChatProvider>
         </PresenceProvider>
