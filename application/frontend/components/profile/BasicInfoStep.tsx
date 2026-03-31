@@ -85,6 +85,16 @@ export default function BasicInfoStep({ formData, updateField }: Props) {
         />
       </label>
 
+      <label>
+        Gender
+        <input
+          type="text"
+          value={formData.gender}
+          onChange={(e) => updateField("gender", e.target.value)}
+          placeholder="Enter your gender"
+        />
+      </label>
+
       <label className="full-width">
         Bio
         <textarea
