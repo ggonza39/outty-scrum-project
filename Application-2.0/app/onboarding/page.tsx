@@ -388,16 +388,108 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        {/* STEP 6: PREVIEW & FINALIZE */}
+        {/* STEP 6: EXACT PREVIEW CARD LAYOUT */}
         {step === 6 && (
-          <div className="text-center space-y-8">
-            <h1 className={styles.title}>Ready to Go?</h1>
-            <div className="bg-black/20 p-6 rounded-2xl border border-white/10 text-left">
-              <p className="text-emerald-400 font-bold uppercase text-xs">Profile Preview</p>
-              <h2 className="text-2xl font-black text-white">{firstName} {lastName}</h2>
-              <p className="text-white/60 italic">"{bio}"</p>
+          <div className="animate-in fade-in zoom-in duration-500 text-left">
+            <div className="bg-black/20 border border-white/10 rounded-[2rem] p-8 space-y-8 shadow-2xl overflow-y-auto max-h-[500px] custom-scrollbar">
+
+              {/* Profile Header */}
+              <div className="flex items-start gap-6 border-b border-white/5 pb-8">
+                <div className="relative shrink-0">
+                  <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-emerald-500 shadow-lg shadow-emerald-500/20">
+                    {/* Displaying the user's selected primary photo (index 0) */}
+                    <img src={photos[0] || ''} alt="Primary" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute -bottom-2 -right-2 bg-emerald-500 text-[#022c22] px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-tighter">
+                    {age || '??'} YR OLD
+                  </div>
+                </div>
+
+                <div className="space-y-0.5">
+                  <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter leading-none uppercase">
+                    {firstName} {lastName}
+                  </h3>
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em]">
+                        @{username} • {gender.toUpperCase()}
+                      </span>
+                    </div>
+                    <span className="text-white/40 text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
+                      <span className="text-emerald-500 text-xs">📍</span> {city}, {state} {zipCode}
+                    </span>
+                    <span className="text-emerald-400 text-[9px] font-black uppercase tracking-[0.2em] animate-pulse drop-shadow-[0_0_5px_rgba(52,211,153,0.8)]">
+                      Online Now
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bio Section */}
+              <div className="space-y-2">
+                <label className="text-emerald-400 text-[10px] font-black uppercase tracking-widest block">The Adventure Bio</label>
+                <p className="text-white/90 text-base font-medium leading-relaxed tracking-tight">"{bio || "No bio added yet."}"</p>
+              </div>
+
+              {/* Interests Tags */}
+              <div className="space-y-3">
+                <label className="text-emerald-400 text-[10px] font-black uppercase tracking-widest block">Adventure Interests</label>
+                <div className="flex flex-wrap gap-2">
+                  {selectedAdventures.map(adv => (
+                    <span key={adv} className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-bold rounded-full uppercase">
+                      {adv}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Metrics Grid */}
+              <div className="grid grid-cols-2 gap-y-8 gap-x-12 border-t border-white/5 pt-8">
+                <div className="space-y-1">
+                  <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">My Skill Levels</label>
+                  <p className="text-white text-base font-bold tracking-tight uppercase">
+                    {skillLevels.join(', ') || 'None'}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Partner Gender</label>
+                  <p className="text-white text-base font-bold tracking-tight uppercase">
+                    {genderPrefs.join(', ') || 'Any'}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Search Range</label>
+                  <p className="text-emerald-400 text-base font-bold tracking-tight uppercase">{mileRange} Miles</p>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Partner Skill Levels</label>
+                  <p className="text-white text-base font-bold tracking-tight leading-none uppercase">
+                    {skillPref.join(', ') || 'Any'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Socials Grid */}
+              <div className="space-y-4 border-t border-white/5 pt-8 pb-4">
+                <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Connected Socials</label>
+                <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+                  {[
+                    { label: 'Instagram', val: instagram },
+                    { label: 'TikTok', val: tiktok },
+                    { label: 'Facebook', val: facebook },
+                    { label: 'LinkedIn', val: linkedin }
+                  ].map(soc => (
+                    <div key={soc.label}>
+                      <p className="text-white/30 text-[9px] font-bold uppercase">{soc.label}</p>
+                      <p className={`text-xs font-bold truncate ${soc.val ? 'text-white' : 'text-emerald-500'}`}>
+                        {soc.val || 'Not added'}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
             </div>
-            <p className="text-white/40 text-sm italic">Review your details and finalize your adventure profile.</p>
           </div>
         )}
 
