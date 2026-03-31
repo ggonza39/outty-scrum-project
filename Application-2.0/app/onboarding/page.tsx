@@ -5,7 +5,7 @@
 /* -------------------------------------------------------------------------- */
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../supabaseClient';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import zipData from 'us-zips';
 import styles from './onboarding.module.css';
 
@@ -21,6 +21,12 @@ export default function OnboardingPage() {
   // --- NAVIGATION STATE ---
   const [step, setStep] = useState(1);
   const totalSteps = 6;
+
+  const searchParams = useSearchParams();
+    const [showCancelModal, setShowCancelModal] = useState(false);
+
+    // This flag determines the text on buttons/modals
+    const isEditMode = searchParams.get('mode') === 'edit';
 
   // --- STEP 1: THE BASICS ---
   const [firstName, setFirstName] = useState('');
@@ -85,16 +91,49 @@ export default function OnboardingPage() {
   /* SECTION 4: EFFECTS & HANDLERS                                              */
   /* -------------------------------------------------------------------------- */
   useEffect(() => {
-    async function checkUser() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) router.push('/login');
-      else {
+      async function checkUser() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          router.push('/login');
+          return;
+        }
+
         setUserEmail(user.email ?? "User");
+
+        // If in edit mode, fetch their existing profile data
+        if (isEditMode) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', user.id)
+            .single();
+
+          if (profile) {
+            setFirstName(profile.first_name || '');
+            setLastName(profile.last_name || '');
+            setUsername(profile.username || '');
+            setAge(profile.age?.toString() || '');
+            setBio(profile.bio || '');
+            setZipCode(profile.zip_code || '');
+            setGender(profile.gender || 'Female');
+            setSkillLevels(profile.skill_level || []);
+            setSelectedAdventures(profile.adventure_type || []);
+            setGenderPrefs(profile.gender_preference || []);
+            setSkillPref(profile.skill_preference || []);
+            setMileRange(profile.mile_range || 25);
+            setPhotos(profile.profile_pictures || []);
+            setInstagram(profile.instagram || '');
+            setTiktok(profile.tiktok || '');
+            setFacebook(profile.facebook || '');
+            setLinkedin(profile.linkedin || '');
+            // Mark username as success since it's already theirs
+            setUsernameSuccess(true);
+          }
+        }
         setLoading(false);
       }
-    }
-    checkUser();
-  }, [router]);
+      checkUser();
+    }, [router, isEditMode]);
 
   useEffect(() => {
     if (zipCode.length === 5) {
@@ -200,6 +239,23 @@ export default function OnboardingPage() {
     setLoading(false);
   };
 
+  // Triggered by the red Cancel button in the Top Nav
+    const handleCancelTrigger = () => {
+      setShowCancelModal(true);
+    };
+
+    // Triggered by the "Yes" buttons inside the Modal
+    const confirmCancelAction = async () => {
+      if (isEditMode) {
+        // If editing, just send them back to the dashboard/profile
+        router.push('/dashboard');
+      } else {
+        // If onboarding for the first time, cancel means logging out
+        await supabase.auth.signOut();
+        router.push('/login');
+      }
+    };
+
   /* -------------------------------------------------------------------------- */
   /* SECTION 5: RENDER                                                          */
   /* -------------------------------------------------------------------------- */
@@ -208,8 +264,56 @@ export default function OnboardingPage() {
   if (loading && step === 1) return <div className={styles.loadingScreen}>SYNCING OUTTY...</div>;
 
   return (
-    <main className={styles.mainContainer}>
-      <div className={styles.glassCard}>
+    return (
+        <main className="relative min-h-screen w-full flex flex-col items-center justify-start bg-[#022c22] p-4 pt-32 md:pt-12 text-center overflow-x-hidden">
+
+          {/* CANCEL MODAL */}
+          {showCancelModal && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 transition-all">
+              <div className="w-full max-w-sm bg-white/10 backdrop-blur-2xl border border-white/20 p-8 rounded-3xl shadow-2xl text-center">
+                <h3 className="text-2xl font-black italic text-white tracking-tighter mb-4">
+                  {isEditMode ? 'DISCARD CHANGES?' : 'ABANDON ADVENTURE?'}
+                </h3>
+                <p className="text-white/60 text-sm mb-8 font-bold uppercase tracking-widest leading-relaxed">
+                  {isEditMode
+                    ? "Your recent edits won't be saved. Return to your profile?"
+                    : "To view profiles, you must complete your own first. Exiting will log you out."
+                  }
+                </p>
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={confirmCancelAction}
+                    className="w-full py-4 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl hover:bg-red-400 transition-all"
+                  >
+                    {isEditMode ? 'Discard & Return' : 'Yes, Log Out'}
+                  </button>
+                  <button
+                    onClick={() => setShowCancelModal(false)}
+                    className="w-full py-4 bg-white/5 text-white/40 font-black uppercase tracking-widest rounded-xl hover:bg-white/10 transition-all"
+                  >
+                    {isEditMode ? 'Back to Editing' : 'Keep Building'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TOP NAV BAR */}
+          <div className="fixed top-0 left-0 right-0 z-50 px-6 py-8 md:px-12 pointer-events-none">
+            <div className="w-full flex justify-between items-center pointer-events-auto">
+              <div className="text-3xl md:text-4xl font-black italic tracking-tighter text-white drop-shadow-lg">OUTTY</div>
+              <button onClick={handleCancelTrigger} className="px-4 py-2 bg-red-500/20 border border-red-500/50 text-red-500 text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-red-500 hover:text-white transition-all">Cancel</button>
+            </div>
+          </div>
+
+          {/* BACKGROUND IMAGE */}
+          <div className="absolute inset-0 z-0 opacity-20 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80')" }}></div>
+
+          {/* MAIN CARD CONTAINER */}
+          <div className="z-10 w-full max-w-2xl p-8 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-500">
+            <h1 className="text-4xl font-black italic tracking-tighter text-white mb-2">
+              {isEditMode ? 'UPDATE YOUR PROFILE' : 'CREATE YOUR PROFILE'}
+            </h1>
 
         {/* PROGRESS BAR */}
         <div className="w-full h-1.5 bg-white/10 rounded-full mb-8 overflow-hidden">
