@@ -39,6 +39,21 @@ export default function OnboardingPage() {
   const [usernameSuccess, setUsernameSuccess] = useState(false);
   const [checkingUsername, setCheckingUsername] = useState(false);
 
+  // Step 2: Adventure Selection
+    const [selectedAdventures, setSelectedAdventures] = useState<string[]>([]);
+
+    const adventureOptions = [
+      'Hiking', 'Camping', 'Rock Climbing', 'Kayaking',
+      'Mountain Biking', 'Surfing', 'Skiing', 'Road Trips',
+      'Photography', 'Stargazing', 'Backpacking', 'Fishing'
+    ];
+
+    const toggleAdventure = (adv: string) => {
+      setSelectedAdventures(prev =>
+        prev.includes(adv) ? prev.filter(a => a !== adv) : [...prev, adv]
+      );
+    };
+
   /* -------------------------------------------------------------------------- */
   /* SECTION 3: AUTH & INITIALIZATION                                           */
   /* -------------------------------------------------------------------------- */
@@ -122,6 +137,7 @@ export default function OnboardingPage() {
         zip_code: zipCode,
         city: city,
         state: state,
+        adventures: selectedAdventures,
         latitude: coords?.latitude || null,
         longitude: coords?.longitude || null,
         updated_at: new Date().toISOString(),
@@ -284,16 +300,47 @@ export default function OnboardingPage() {
             </>
           )}
 
-          {/* STEP 2: ADVENTURES (Placeholder for next build) */}
+          {/* STEP 2: ADVENTURES */}
           {step === 2 && (
             <>
               <h1 className={styles.title}>Your Adventures</h1>
-              <div className="min-h-[300px] flex flex-col justify-center items-center">
-                <p className="text-white/50 italic mb-8">Adventure Selection Placeholder</p>
-                <div className="flex gap-4 w-full">
-                  <button onClick={() => setStep(1)} className={`${styles.submitButton} !bg-white/10 !mt-0`}>Back</button>
-                  <button onClick={() => setStep(3)} className={`${styles.submitButton} !mt-0`}>Next</button>
-                </div>
+              <p className="text-emerald-500/60 text-[10px] font-bold text-center uppercase tracking-[0.2em] mb-8">
+                Select at least 3 things you love
+              </p>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
+                {adventureOptions.map((adv) => {
+                  const isSelected = selectedAdventures.includes(adv);
+                  return (
+                    <button
+                      key={adv}
+                      onClick={() => toggleAdventure(adv)}
+                      className={`p-4 rounded-xl border font-bold transition-all text-sm ${
+                        isSelected
+                          ? 'bg-emerald-500 border-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.3)]'
+                          : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'
+                      }`}
+                    >
+                      {adv}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="flex gap-4 w-full">
+                <button
+                  onClick={() => setStep(1)}
+                  className={`${styles.submitButton} !bg-white/5 !mt-0 border border-white/10`}
+                >
+                  Back
+                </button>
+                <button
+                  onClick={() => setStep(3)}
+                  disabled={selectedAdventures.length < 3}
+                  className={`${styles.submitButton} !mt-0`}
+                >
+                  Next
+                </button>
               </div>
             </>
           )}
