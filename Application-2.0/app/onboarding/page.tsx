@@ -391,102 +391,101 @@ export default function OnboardingPage() {
         {/* STEP 6: EXACT PREVIEW CARD LAYOUT */}
         {step === 6 && (
           <div className="animate-in fade-in zoom-in duration-500 text-left">
-            <div className="bg-[#050505]/60 border border-white/10 rounded-[2rem] p-6 md:p-8 space-y-8 shadow-2xl overflow-y-auto max-h-[500px] scrollbar-thin scrollbar-thumb-emerald-500/20 scrollbar-track-transparent">
+            <div className="bg-black/20 border border-white/10 rounded-[2rem] p-8 space-y-8 shadow-2xl overflow-y-auto max-h-[500px] custom-scrollbar">
 
               {/* Profile Header */}
-              <div className="flex items-center gap-6 border-b border-white/5 pb-8">
+              <div className="flex items-start gap-6 border-b border-white/5 pb-8">
                 <div className="relative shrink-0">
-                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.2)] bg-white/5">
-                    {photos[0] ? (
-                      <img src={photos[0]} alt="Primary" className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-white/20 text-[10px] font-black uppercase tracking-tighter">No Photo</div>
-                    )}
+                  <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-emerald-500 shadow-lg shadow-emerald-500/20">
+                    {/* Displaying the user's selected primary photo (index 0) */}
+                    <img src={photos[0] || ''} alt="Primary" className="w-full h-full object-cover" />
                   </div>
-                  <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-[#022c22] px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-tighter shadow-xl">
+                  <div className="absolute -bottom-2 -right-2 bg-emerald-500 text-[#022c22] px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-tighter">
                     {age || '??'} YR OLD
                   </div>
                 </div>
 
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter leading-tight uppercase truncate">
+                <div className="space-y-0.5">
+                  <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter leading-none uppercase">
                     {firstName} {lastName}
                   </h3>
-                  <div className="flex flex-col gap-1.5 mt-1">
-                    <span className="text-emerald-400 font-black text-[10px] md:text-[11px] uppercase tracking-[0.15em]">
-                      @{username || 'adventurer'} • {gender.toUpperCase()}
-                    </span>
-                    <div className="flex items-center gap-3">
-                       <span className="text-white/40 text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
-                        <span className="text-emerald-500 text-xs">📍</span> {city || 'Exploring'}, {state || '??'}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]"></span>
-                        <span className="text-emerald-500/80 text-[9px] font-black uppercase tracking-widest">Live Now</span>
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em]">
+                        @{username} • {gender.toUpperCase()}
                       </span>
                     </div>
+                    <span className="text-white/40 text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
+                      <span className="text-emerald-500 text-xs">📍</span> {city}, {state} {zipCode}
+                    </span>
+                    <span className="text-emerald-400 text-[9px] font-black uppercase tracking-[0.2em] animate-pulse drop-shadow-[0_0_5px_rgba(52,211,153,0.8)]">
+                      Online Now
+                    </span>
                   </div>
                 </div>
               </div>
 
               {/* Bio Section */}
-              <div className="space-y-3">
-                <label className="text-emerald-500/50 text-[10px] font-black uppercase tracking-[0.2em] block">The Adventure Bio</label>
-                <p className="text-white/90 text-[15px] font-medium leading-relaxed italic border-l-2 border-emerald-500/30 pl-4">
-                  "{bio || "Ready for the next trail..."}"
-                </p>
+              <div className="space-y-2">
+                <label className="text-emerald-400 text-[10px] font-black uppercase tracking-widest block">The Adventure Bio</label>
+                <p className="text-white/90 text-base font-medium leading-relaxed tracking-tight">"{bio || "No bio added yet."}"</p>
               </div>
 
               {/* Interests Tags */}
-              <div className="space-y-4">
-                <label className="text-emerald-500/50 text-[10px] font-black uppercase tracking-[0.2em] block">Planned Adventures</label>
+              <div className="space-y-3">
+                <label className="text-emerald-400 text-[10px] font-black uppercase tracking-widest block">Adventure Interests</label>
                 <div className="flex flex-wrap gap-2">
-                  {selectedAdventures.length > 0 ? (
-                    selectedAdventures.map(adv => (
-                      <span key={adv} className="px-4 py-2 bg-emerald-500/5 border border-emerald-500/20 text-emerald-400 text-[10px] font-black rounded-xl uppercase tracking-wider hover:bg-emerald-500/10 transition-colors">
-                        {adv}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="text-white/20 text-[10px] font-bold uppercase italic">No adventures selected</span>
-                  )}
+                  {selectedAdventures.map(adv => (
+                    <span key={adv} className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-bold rounded-full uppercase">
+                      {adv}
+                    </span>
+                  ))}
                 </div>
               </div>
 
               {/* Metrics Grid */}
-              <div className="grid grid-cols-2 gap-8 border-t border-white/5 pt-8">
-                {[
-                  { label: 'My Skill', val: skillLevels.join(', ') },
-                  { label: 'Seeking', val: genderPrefs.join(', ') },
-                  { label: 'Radius', val: `${mileRange} Miles` },
-                  { label: 'Partner Skill', val: skillPref.join(', ') }
-                ].map((item, i) => (
-                  <div key={i} className="space-y-1">
-                    <label className="text-white/30 text-[9px] font-black uppercase tracking-widest block">{item.label}</label>
-                    <p className="text-white text-[13px] font-bold tracking-tight uppercase truncate">
-                      {item.val || 'Any'}
-                    </p>
-                  </div>
-                ))}
+              <div className="grid grid-cols-2 gap-y-8 gap-x-12 border-t border-white/5 pt-8">
+                <div className="space-y-1">
+                  <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">My Skill Levels</label>
+                  <p className="text-white text-base font-bold tracking-tight uppercase">
+                    {skillLevels.join(', ') || 'None'}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Partner Gender</label>
+                  <p className="text-white text-base font-bold tracking-tight uppercase">
+                    {genderPrefs.join(', ') || 'Any'}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Search Range</label>
+                  <p className="text-emerald-400 text-base font-bold tracking-tight uppercase">{mileRange} Miles</p>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Partner Skill Levels</label>
+                  <p className="text-white text-base font-bold tracking-tight leading-none uppercase">
+                    {skillPref.join(', ') || 'Any'}
+                  </p>
+                </div>
               </div>
 
-              {/* Socials - Clean minimalist row */}
-              <div className="border-t border-white/5 pt-8 pb-2">
-                <div className="flex flex-wrap gap-6">
+              {/* Socials Grid */}
+              <div className="space-y-4 border-t border-white/5 pt-8 pb-4">
+                <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Connected Socials</label>
+                <div className="grid grid-cols-2 gap-y-3 gap-x-4">
                   {[
-                    { label: 'IG', val: instagram },
-                    { label: 'TT', val: tiktok },
-                    { label: 'FB', val: facebook },
-                    { label: 'LN', val: linkedin }
-                  ].filter(s => s.val).map(soc => (
-                    <div key={soc.label} className="flex items-center gap-2">
-                      <span className="text-emerald-500 font-black text-[10px]">{soc.label}</span>
-                      <span className="text-white/60 text-[11px] font-bold truncate max-w-[100px]">@{soc.val.replace('@', '')}</span>
+                    { label: 'Instagram', val: instagram },
+                    { label: 'TikTok', val: tiktok },
+                    { label: 'Facebook', val: facebook },
+                    { label: 'LinkedIn', val: linkedin }
+                  ].map(soc => (
+                    <div key={soc.label}>
+                      <p className="text-white/30 text-[9px] font-bold uppercase">{soc.label}</p>
+                      <p className={`text-xs font-bold truncate ${soc.val ? 'text-white' : 'text-emerald-500'}`}>
+                        {soc.val || 'Not added'}
+                      </p>
                     </div>
                   ))}
-                  {!instagram && !tiktok && !facebook && !linkedin && (
-                     <span className="text-white/20 text-[10px] font-bold uppercase italic">No socials linked</span>
-                  )}
                 </div>
               </div>
 
