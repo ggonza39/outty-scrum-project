@@ -142,6 +142,13 @@ export default function PublicProfile() {
     setExpandedIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : pictures.length - 1));
   };
 
+  // Add this to handle the gender preference formatting safely
+    const formattedGenderPreference = Array.isArray(profile?.gender_preference)
+      ? profile.gender_preference.join(' | ')
+      : typeof profile?.gender_preference === 'string'
+        ? profile.gender_preference.replace(/[\[\]"]/g, '').split(',').map((s: string) => s.trim()).join(' | ')
+        : 'Not Set';
+
   /* -------------------------------------------------------------------------- */
   /* SECTION 5: CONDITIONAL RENDERING (LOADING/ERROR)                           */
   /* -------------------------------------------------------------------------- */
@@ -262,7 +269,11 @@ export default function PublicProfile() {
                {/* Line 1: Username & Gender */}
                <div className="flex items-center justify-center md:justify-start gap-3">
                  <p className="text-emerald-400 font-bold uppercase tracking-[0.2em] text-sm">
-                   @{profile?.username || 'explorer'} • {profile?.gender}
+                   @{profile?.username || 'explorer'} • {
+                     typeof profile?.gender === 'string'
+                       ? profile.gender.replace(/[\[\]"]/g, '').split(',').map((s: string) => s.trim()).join(' | ')
+                       : 'NOT SET'
+                   }
                  </p>
                </div>
 
@@ -346,9 +357,9 @@ export default function PublicProfile() {
                             <span className="text-white font-bold text-[11px] uppercase tracking-wider">
                               {Array.isArray(profile?.gender_preference)
                                 ? profile.gender_preference.join(' | ')
-                                : typeof profile?.gender_preference === 'string'
-                                  ? profile.gender_preference.replace(/[\[\]"]/g, '').split(',').map(s => s.trim()).join(' | ')
-                                  : 'Not Set'}
+                                      : typeof profile?.gender_preference === 'string'
+                                        ? profile.gender_preference.replace(/[\[\]"]/g, '').split(',').map((s: string) => s.trim()).join(' | ')
+                                        : 'Not Set'}
                             </span>
                           </div>
                         </div>
