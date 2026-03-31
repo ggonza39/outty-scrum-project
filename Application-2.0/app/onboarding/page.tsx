@@ -118,19 +118,45 @@ export default function OnboardingPage() {
   };
 
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
     setLoading(true);
     const { data: { user } } = await supabase.auth.getUser();
+
     if (user) {
-      const fileName = `${user.id}/${Math.random()}.${file.name.split('.').pop()}`;
-      const { error } = await supabase.storage.from('avatars').upload(fileName, file);
-      if (!error) {
-        const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(fileName);
-        setPhotos(prev => [...prev, publicUrl]);
-      }
+      // Convert FileList to Array and map each file to an upload promise
+      const uploadPromises = Array.from(files).map(async (file) => {
+        // Check limit before starting each individual upload
+        if (photos.length >= 6) return null;
+
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${user.id}/${Math.random()}.${fileExt}`;
+
+        const { error } = await supabase.storage
+          .from('avatars')
+          .upload(fileName, file);
+
+        if (!error) {
+          const { data: { publicUrl } } = supabase.storage
+            .from('avatars')
+            .getPublicUrl(fileName);
+          return publicUrl;
+        }
+        console.error("Upload error:", error);
+        return null;
+      });
+
+      const results = await Promise.all(uploadPromises);
+      const newUrls = results.filter((url): url is string => url !== null);
+
+      // Merge new photos with existing ones, capping at 6 total
+      setPhotos(prev => [...prev, ...newUrls].slice(0, 6));
     }
     setLoading(false);
+
+    // Reset input value so the same file can be uploaded again if deleted
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleSaveProfile = async () => {
@@ -266,19 +292,60 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        {/* STEP 4: PHOTOS */}
         {step === 4 && (
-          <div className="text-center">
-            <h1 className={styles.title}>Photos</h1>
-            <input type="file" accept="image/*" ref={fileInputRef} onChange={handlePhotoUpload} className="hidden" />
-            <button onClick={() => fileInputRef.current?.click()} className="w-full mb-6 py-5 bg-emerald-500/10 border-2 border-dashed border-emerald-500/30 text-emerald-400 font-black rounded-2xl">
-              Upload Photos ({photos.length}/6)
+          <div className="animate-in fade-in slide-in-from-right-4 duration-500">
+            <h2 className="text-3xl font-black text-white mb-2 uppercase italic tracking-tighter">Photos *</h2>
+            <p className="text-white/40 text-[10px] font-black uppercase mb-8 tracking-widest text-center">
+              Tap a photo to set as primary • Select multiple to batch upload
+            </p>
+
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={loading || photos.length >= 6}
+              className="w-full mb-10 py-5 bg-emerald-500/10 border-2 border-dashed border-emerald-500/30 text-emerald-400 font-black uppercase tracking-[0.2em] text-xs rounded-2xl hover:bg-emerald-500/20 hover:border-emerald-500/60 transition-all active:scale-[0.98]"
+            >
+              {loading ? 'Processing...' : `Upload Adventure Photos (${photos.length}/6)`}
             </button>
-            <div className="grid grid-cols-3 gap-4">
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {photos.map((url, idx) => (
-                <div key={idx} className="relative aspect-[4/5] rounded-xl overflow-hidden border border-white/10">
-                  <img src={url} className="w-full h-full object-cover" />
-                  <button onClick={() => setPhotos(photos.filter((_, i) => i !== idx))} className="absolute top-1 right-1 bg-black/40 p-1 rounded-lg text-white">X</button>
+                <div
+                  key={idx}
+                  onClick={() => makePrimary(idx)}
+                  className={`relative group aspect-[4/5] rounded-[1.5rem] overflow-hidden border-2 cursor-pointer transition-all duration-500
+                    ${idx === 0
+                      ? 'border-emerald-500 ring-4 ring-emerald-500/20 z-10 scale-[1.02]'
+                      : 'border-white/10 hover:border-white/40'}`}
+                >
+                  <img src={url} alt="Profile" className="w-full h-full object-cover" />
+
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {/* Primary Badge */}
+                  {idx === 0 ? (
+                    <div className="absolute top-3 left-3 bg-emerald-500 text-[#022c22] text-[9px] font-black px-2 py-1 rounded-lg flex items-center gap-1.5 shadow-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                      PRIMARY
+                    </div>
+                  ) : (
+                    <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-all transform translate-y-[-4px] group-hover:translate-y-0">
+                      <div className="bg-black/40 backdrop-blur-md text-white/70 text-[8px] font-black px-2 py-1 rounded-lg border border-white/10">
+                        SET PRIMARY
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Delete Button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setPhotos(photos.filter((_, i) => i !== idx));
+                    }}
+                    className="absolute top-3 right-3 bg-black/40 backdrop-blur-md p-2 rounded-xl opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 text-white border border-white/10"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                  </button>
                 </div>
               ))}
             </div>
