@@ -72,35 +72,45 @@ export default function OnboardingPage() {
 
   // SAVE HANDLER (The core of the onboarding)
   const handleSaveProfile = async () => {
-    setLoading(true);
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("No user found");
+      setLoading(true);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error("No user found");
 
-      // Payload Construction
-      const profileData = {
-        id: user.id,
-        first_name: firstName,
-        last_name: lastName,
-        updated_at: new Date().toISOString(),
-        // Reserved for: Latitude, Longitude, Adventures, etc.
-      };
+        // LOOKUP COORDINATES
+        // We cast to 'any' to avoid strict TypeScript errors with the large zip library
+        const coords = (zipData as any)[zipCode];
 
-      const { error } = await supabase.from('profiles').upsert(profileData);
+        const profileData = {
+          id: user.id,
+          first_name: firstName,
+          last_name: lastName,
+          username: username,
+          age: parseInt(age),
+          bio: bio,
+          zip_code: zipCode,
+          city: city,
+          state: state,
+          // Ensure these are numbers or null so the DB doesn't reject them
+          latitude: coords?.latitude || null,
+          longitude: coords?.longitude || null,
+          updated_at: new Date().toISOString(),
+        };
 
-      if (error) {
-        console.error("Save Error:", error.message);
-        alert(`Save failed: ${error.message}`);
-      } else {
-        alert("Success! Profile updated.");
-        // router.push('/dashboard');
+        const { error } = await supabase.from('profiles').upsert(profileData);
+
+        if (error) {
+          console.error("Save Error:", error.message);
+          alert(`Save failed: ${error.message}`);
+        } else {
+          alert("Basics Saved! Coordinates captured.");
+        }
+      } catch (err) {
+        console.error("Handler error:", err);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error("Handler error:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
 useEffect(() => {
     if (zipCode.length === 5) {
@@ -192,10 +202,11 @@ useEffect(() => {
            />
 
            <button
-             disabled={!firstName || !zipCode || city === ''}
+             onClick={handleSaveProfile} // <--- Change this
+             disabled={loading || !usernameSuccess || !zipCode || city === ''}
              className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black uppercase tracking-widest rounded-xl transition-all shadow-xl italic disabled:opacity-20"
            >
-             Continue
+             {loading ? 'Saving...' : 'Save & Continue'}
            </button>
          </div>
        </div>
