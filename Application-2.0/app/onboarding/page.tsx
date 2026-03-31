@@ -39,32 +39,29 @@ export default function OnboardingPage() {
   const [usernameSuccess, setUsernameSuccess] = useState(false);
   const [checkingUsername, setCheckingUsername] = useState(false);
 
-  // --- STEP 2: ADVENTURE SELECTION ---
-  const [selectedAdventures, setSelectedAdventures] = useState<string[]>([]);
-  const adventureOptions = [
-    'Hiking', 'Camping', 'Rock Climbing', 'Kayaking',
-    'Mountain Biking', 'Surfing', 'Skiing', 'Road Trips',
-    'Photography', 'Stargazing', 'Backpacking', 'Fishing'
-  ];
-  const toggleAdventure = (adv: string) => {
-    setSelectedAdventures(prev =>
-      prev.includes(adv) ? prev.filter(a => a !== adv) : [...prev, adv]
-    );
-  };
+  // Step 2: Adventure Selection
+    const [selectedAdventures, setSelectedAdventures] = useState<string[]>([]);
 
-  const isStep1Valid =
-    firstName.length > 0 &&
-    lastName.length > 0 &&
-    usernameSuccess &&
-    zipCode.length === 5 &&
-    city.length > 0 &&
-    bio.length > 0;
+    const adventureOptions = [
+      'Hiking', 'Camping', 'Rock Climbing', 'Kayaking',
+      'Mountain Biking', 'Surfing', 'Skiing', 'Road Trips',
+      'Photography', 'Stargazing', 'Backpacking', 'Fishing'
+    ];
 
-  // --- STEP 3: FINAL TOUCHES ---
-  const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
-  const [uploadingPhoto, setUploadingPhoto] = useState(false);
-  const [instagram, setInstagram] = useState('');
-  const [twitter, setTwitter] = useState('');
+    const toggleAdventure = (adv: string) => {
+      setSelectedAdventures(prev =>
+        prev.includes(adv) ? prev.filter(a => a !== adv) : [...prev, adv]
+      );
+    };
+
+    // Add these simple checks to your existing state list
+    const isStep1Valid =
+      firstName.length > 0 &&
+      lastName.length > 0 &&
+      usernameSuccess &&
+      zipCode.length === 5 &&
+      city.length > 0 &&
+      bio.length > 0;
 
   /* -------------------------------------------------------------------------- */
   /* SECTION 3: AUTH & INITIALIZATION                                           */
@@ -103,6 +100,8 @@ export default function OnboardingPage() {
   /* -------------------------------------------------------------------------- */
   /* SECTION 4: ACTIONS & HANDLERS                                              */
   /* -------------------------------------------------------------------------- */
+
+  /* --- SECTION 4 UPDATES --- */
   const checkUsername = async (val: string) => {
     if (!val) return;
     setCheckingUsername(true);
@@ -116,6 +115,7 @@ export default function OnboardingPage() {
         .eq('username', val)
         .maybeSingle();
 
+      // Success if NO ONE has the name, OR if the ID matches you
       if (!data || data.id === user?.id) {
         setUsernameSuccess(true);
         setUsernameError('');
@@ -127,35 +127,6 @@ export default function OnboardingPage() {
       console.error(err);
     } finally {
       setCheckingUsername(false);
-    }
-  };
-
-  const handlePhotoUpload = async () => {
-    if (!profilePhoto) return;
-
-    setUploadingPhoto(true);
-    try {
-      const fileExt = profilePhoto.name.split('.').pop();
-      const fileName = `${username}_${Date.now()}.${fileExt}`;
-      const { data, error: uploadError } = await supabase.storage
-        .from('profile-photos')
-        .upload(fileName, profilePhoto);
-
-      if (uploadError) throw uploadError;
-
-      const { data: urlData } = supabase.storage
-        .from('profile-photos')
-        .getPublicUrl(fileName);
-
-      const { data: { user } } = await supabase.auth.getUser();
-      await supabase.from('profiles').update({ photo_url: urlData.publicUrl }).eq('id', user?.id);
-
-      alert('Profile photo uploaded!');
-    } catch (err) {
-      console.error(err);
-      alert('Photo upload failed');
-    } finally {
-      setUploadingPhoto(false);
     }
   };
 
@@ -180,8 +151,6 @@ export default function OnboardingPage() {
         adventures: selectedAdventures,
         latitude: coords?.latitude || null,
         longitude: coords?.longitude || null,
-        instagram: instagram || null,
-        twitter: twitter || null,
         updated_at: new Date().toISOString(),
       };
 
@@ -190,8 +159,7 @@ export default function OnboardingPage() {
       if (error) {
         alert(`Save failed: ${error.message}`);
       } else {
-        alert("Profile Completed!");
-        router.push('/dashboard'); // Redirect after onboarding
+        alert("Basics Saved!");
       }
     } catch (err) {
       console.error("Handler error:", err);
@@ -230,119 +198,175 @@ export default function OnboardingPage() {
   }
 
   return (
-    <main className={styles.mainContainer}>
-      <div className={styles.glassCard}>
+      <main className={styles.mainContainer}>
+        <div className={styles.glassCard}>
 
-        {/* PROGRESS INDICATOR */}
-        <div className={styles.progressBarContainer}>
-          {[1, 2, 3].map((s) => (
-            <div
-              key={s}
-              className={`${styles.progressSegment} ${s <= step ? styles.progressSegmentActive : ''}`}
-            />
-          ))}
-        </div>
+         {/* PROGRESS INDICATOR */}
+         <div className={styles.progressBarContainer}>
+           {[1, 2, 3].map((s) => (
+             <div
+               key={s}
+               className={`${styles.progressSegment} ${s <= step ? styles.progressSegmentActive : ''}`}
+             />
+           ))}
+         </div>
 
-        {/* STEP 1: THE ESSENTIALS */}
-        {step === 1 && (
-          <>
-            <h1 className={styles.title}>The Essentials</h1>
-            <p className="text-emerald-500/60 text-[10px] font-bold text-center uppercase tracking-[0.2em] mb-8">
-              Logged in as: {userEmail}
-            </p>
+          {/* STEP 1: THE ESSENTIALS (Your Current Working UI) */}
+          {step === 1 && (
+            <>
+              <h1 className={styles.title}>The Essentials</h1>
+              <p className="text-emerald-500/60 text-[10px] font-bold text-center uppercase tracking-[0.2em] mb-8">
+                Logged in as: {userEmail}
+              </p>
 
-            <div className="space-y-4">
-              <div className={`grid grid-cols-2 gap-4 ${styles.grid2}`}>
-                <input placeholder="First Name *" className={styles.inputBase} onChange={e => setFirstName(e.target.value)} value={firstName} />
-                <input placeholder="Last Name *" className={styles.inputBase} onChange={e => setLastName(e.target.value)} value={lastName} />
+              <div className="space-y-4">
+                {/* Names */}
+                <div className={`grid grid-cols-2 gap-4 ${styles.grid2}`}>
+                  <input
+                    placeholder="First Name *"
+                    className={styles.inputBase}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    value={firstName}
+                  />
+                  <input
+                    placeholder="Last Name *"
+                    className={styles.inputBase}
+                    onChange={(e) => setLastName(e.target.value)}
+                    value={lastName}
+                  />
+                </div>
+
+                {/* Username & Age */}
+                <div className="grid grid-cols-3 gap-4">
+                  <input
+                    placeholder="Age *"
+                    className={styles.inputBase}
+                    onChange={(e) => setAge(e.target.value.replace(/\D/g, ''))}
+                    value={age}
+                  />
+                  <div className="col-span-2 relative">
+                    <input
+                      placeholder="Username *"
+                      className={`${styles.inputBase} ${
+                        usernameError ? 'border-red-500' : usernameSuccess ? 'border-emerald-500' : ''
+                      }`}
+                      onChange={(e) => {
+                        setUsername(e.target.value);
+                        setUsernameSuccess(false);
+                      }}
+                      onBlur={(e) => checkUsername(e.target.value)}
+                      value={username}
+                    />
+                    {checkingUsername && (
+                      <span className="absolute right-4 top-5 text-[10px] text-emerald-400 font-bold animate-pulse">
+                        VERIFYING...
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* ZIP & Auto-City/State */}
+                <div className="grid grid-cols-12 gap-4">
+                  <input
+                    maxLength={5}
+                    placeholder="ZIP *"
+                    className={`${styles.inputBase} col-span-4`}
+                    onChange={(e) => setZipCode(e.target.value.replace(/\D/g, ''))}
+                    value={zipCode}
+                  />
+                  <input
+                    placeholder="City"
+                    disabled
+                    className={`${styles.inputBase} ${styles.inputDisabled} col-span-5`}
+                    value={city}
+                  />
+                  <input
+                    placeholder="ST"
+                    disabled
+                    className={`${styles.inputBase} ${styles.inputDisabled} col-span-3 text-center`}
+                    value={state}
+                  />
+                </div>
+
+                <textarea
+                  placeholder="Adventure Bio *"
+                  className={`${styles.inputBase} min-h-[100px]`}
+                  onChange={(e) => setBio(e.target.value)}
+                  value={bio}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setStep(2)}
+                  // Using the new validation check from Section 2
+                  disabled={loading || !isStep1Valid}
+                  className={styles.submitButton}
+                >
+                  {loading ? 'Processing...' : 'Continue to Adventures'}
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* STEP 2: ADVENTURES */}
+          {step === 2 && (
+            <>
+              <h1 className={styles.title}>Your Adventures</h1>
+              <p className="text-emerald-500/60 text-[10px] font-bold text-center uppercase tracking-[0.2em] mb-8">
+                Select at least 3 things you love
+              </p>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
+                {adventureOptions.map((adv) => {
+                  const isSelected = selectedAdventures.includes(adv);
+                  return (
+                    <button
+                      key={adv}
+                      onClick={() => toggleAdventure(adv)}
+                      className={`p-4 rounded-xl border font-bold transition-all text-sm ${
+                        isSelected
+                          ? 'bg-emerald-500 border-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.3)]'
+                          : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'
+                      }`}
+                    >
+                      {adv}
+                    </button>
+                  );
+                })}
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
-                <input placeholder="Age *" className={styles.inputBase} onChange={e => setAge(e.target.value.replace(/\D/g, ''))} value={age} />
-                <div className="col-span-2 relative">
-                  <input
-                    placeholder="Username *"
-                    className={`${styles.inputBase} ${usernameError ? 'border-red-500' : usernameSuccess ? 'border-emerald-500' : ''}`}
-                    onChange={e => { setUsername(e.target.value); setUsernameSuccess(false); }}
-                    onBlur={e => checkUsername(e.target.value)}
-                    value={username}
-                  />
-                  {checkingUsername && (
-                    <span className="absolute right-4 top-5 text-[10px] text-emerald-400 font-bold animate-pulse">
-                      VERIFYING...
-                    </span>
-                  )}
+              <div className="flex gap-4 w-full">
+                <button
+                  onClick={() => setStep(1)}
+                  className={`${styles.submitButton} !bg-white/5 !mt-0 border border-white/10`}
+                >
+                  Back
+                </button>
+                <button
+                  onClick={() => setStep(3)}
+                  disabled={selectedAdventures.length < 3}
+                  className={`${styles.submitButton} !mt-0`}
+                >
+                  Next
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* STEP 3: FINAL TOUCHES (Placeholder for next build) */}
+          {step === 3 && (
+            <>
+              <h1 className={styles.title}>Final Touch</h1>
+              <div className="min-h-[300px] flex flex-col justify-center items-center">
+                <p className="text-white/50 italic mb-8">Review and Finalize</p>
+                <div className="flex gap-4 w-full">
+                  <button onClick={() => setStep(2)} className={`${styles.submitButton} !bg-white/10 !mt-0`}>Back</button>
+                  <button onClick={handleSaveProfile} className={`${styles.submitButton} !mt-0`}>Complete</button>
                 </div>
               </div>
+            </>
+          )}
 
-              <div className="grid grid-cols-12 gap-4">
-                <input maxLength={5} placeholder="ZIP *" className={`${styles.inputBase} col-span-4`} onChange={e => setZipCode(e.target.value.replace(/\D/g, ''))} value={zipCode} />
-                <input placeholder="City" disabled className={`${styles.inputBase} ${styles.inputDisabled} col-span-5`} value={city} />
-                <input placeholder="ST" disabled className={`${styles.inputBase} ${styles.inputDisabled} col-span-3 text-center`} value={state} />
-              </div>
-
-              <textarea placeholder="Adventure Bio *" className={`${styles.inputBase} min-h-[100px]`} onChange={e => setBio(e.target.value)} value={bio} />
-
-              <button type="button" onClick={() => setStep(2)} disabled={loading || !isStep1Valid} className={styles.submitButton}>
-                {loading ? 'Processing...' : 'Continue to Adventures'}
-              </button>
-            </div>
-          </>
-        )}
-
-        {/* STEP 2: ADVENTURES */}
-        {step === 2 && (
-          <>
-            <h1 className={styles.title}>Your Adventures</h1>
-            <p className="text-emerald-500/60 text-[10px] font-bold text-center uppercase tracking-[0.2em] mb-8">
-              Select at least 3 things you love
-            </p>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
-              {adventureOptions.map((adv) => {
-                const isSelected = selectedAdventures.includes(adv);
-                return (
-                  <button key={adv} onClick={() => toggleAdventure(adv)}
-                    className={`p-4 rounded-xl border font-bold transition-all text-sm ${isSelected ? 'bg-emerald-500 border-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.3)]' : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'}`}>
-                    {adv}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="flex gap-4 w-full">
-              <button onClick={() => setStep(1)} className={`${styles.submitButton} !bg-white/5 !mt-0 border border-white/10`}>Back</button>
-              <button onClick={() => setStep(3)} disabled={selectedAdventures.length < 3} className={`${styles.submitButton} !mt-0`}>Next</button>
-            </div>
-          </>
-        )}
-
-        {/* STEP 3: FINAL TOUCHES */}
-        {step === 3 && (
-          <>
-            <h1 className={styles.title}>Final Touch</h1>
-            <div className="space-y-4 w-full max-w-md">
-
-              <label className="block text-white font-bold mb-2">Profile Photo</label>
-              <input type="file" accept="image/*" onChange={e => setProfilePhoto(e.target.files?.[0] ?? null)} className={styles.inputBase} />
-              <button onClick={handlePhotoUpload} disabled={!profilePhoto || uploadingPhoto} className={styles.submitButton}>
-                {uploadingPhoto ? 'Uploading...' : 'Upload Photo'}
-              </button>
-
-              <label className="block text-white font-bold mt-6 mb-2">Social Links (Optional)</label>
-              <input placeholder="Instagram" className={styles.inputBase} value={instagram} onChange={e => setInstagram(e.target.value)} />
-              <input placeholder="Twitter" className={styles.inputBase} value={twitter} onChange={e => setTwitter(e.target.value)} />
-
-              <div className="flex gap-4 w-full mt-6">
-                <button onClick={() => setStep(2)} className={`${styles.submitButton} !bg-white/10 !mt-0`}>Back</button>
-                <button onClick={handleSaveProfile} className={`${styles.submitButton} !mt-0`}>Complete Onboarding</button>
-              </div>
-
-            </div>
-          </>
-        )}
-
-      </div>
-    </main>
-  );
-}
+        </div>
+      </main>
+    );
