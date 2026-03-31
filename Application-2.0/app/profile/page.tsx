@@ -82,6 +82,11 @@ export default function MyProfile() {
     </div>
   );
 
+const formattedGender = typeof profile?.gender === 'string'
+    ? profile.gender.replace(/[\[\]"]/g, '').split(',').map((s: string) => s.trim()).join(' | ')
+    : Array.isArray(profile?.gender)
+      ? profile.gender.join(' | ')
+      : 'NOT SET';
 
 
   return (
@@ -165,11 +170,7 @@ export default function MyProfile() {
                </h1>
 
                <p className="text-emerald-400 font-bold uppercase tracking-[0.2em] text-sm">
-                 @{profile?.username || 'explorer'} • {
-                   typeof profile?.gender === 'string'
-                     ? profile.gender.replace(/[\[\]"]/g, '').split(',').map((s: string) => s.trim()).join(' | ')
-                     : (Array.isArray(profile?.gender) ? profile.gender.join(', ') : 'NOT SET')
-                 }
+                 @{profile?.username || 'explorer'} • {formattedGender}
                </p>
 
                  {/* Location Row */}
