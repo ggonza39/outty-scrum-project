@@ -88,52 +88,64 @@ export default function OnboardingClient() {
   };
 
   /* -------------------------------------------------------------------------- */
-  /* SECTION 4: EFFECTS & HANDLERS                                              */
-  /* -------------------------------------------------------------------------- */
-  useEffect(() => {
-      async function checkUser() {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          router.push('/login');
-          return;
-        }
+    /* SECTION 4: EFFECTS & HANDLERS                                              */
+    /* -------------------------------------------------------------------------- */
+    useEffect(() => {
+        // 1. Define the flag at the top of the effect
+        let isMounted = true;
 
-        setUserEmail(user.email ?? "User");
+        async function checkUser() {
+          const { data: { user } } = await supabase.auth.getUser();
 
-        // If in edit mode, fetch their existing profile data
-        if (isEditMode) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', user.id)
-            .single();
+          // 2. Wrap everything in a check for the flag
+          if (!isMounted) return;
 
-          if (profile) {
-            setFirstName(profile.first_name || '');
-            setLastName(profile.last_name || '');
-            setUsername(profile.username || '');
-            setAge(profile.age?.toString() || '');
-            setBio(profile.bio || '');
-            setZipCode(profile.zip_code || '');
-            setGender(profile.gender || 'Female');
-            setSkillLevels(profile.skill_level || []);
-            setSelectedAdventures(profile.adventure_type || []);
-            setGenderPrefs(profile.gender_preference || []);
-            setSkillPref(profile.skill_preference || []);
-            setMileRange(profile.mile_range || 25);
-            setPhotos(profile.profile_pictures || []);
-            setInstagram(profile.instagram || '');
-            setTiktok(profile.tiktok || '');
-            setFacebook(profile.facebook || '');
-            setLinkedin(profile.linkedin || '');
-            // Mark username as success since it's already theirs
-            setUsernameSuccess(true);
+          if (!user) {
+            router.push('/login');
+            return;
           }
+
+          setUserEmail(user.email ?? "User");
+
+          // If in edit mode, fetch their existing profile data
+          if (isEditMode) {
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('id', user.id)
+              .single();
+
+            if (profile && isMounted) { // 3. Check flag before setting state
+              setFirstName(profile.first_name || '');
+              setLastName(profile.last_name || '');
+              setUsername(profile.username || '');
+              setAge(profile.age?.toString() || '');
+              setBio(profile.bio || '');
+              setZipCode(profile.zip_code || '');
+              setGender(profile.gender || 'Female');
+              setSkillLevels(profile.skill_level || []);
+              setSelectedAdventures(profile.adventure_type || []);
+              setGenderPrefs(profile.gender_preference || []);
+              setSkillPref(profile.skill_preference || []);
+              setMileRange(profile.mile_range || 25);
+              setPhotos(profile.profile_pictures || []);
+              setInstagram(profile.instagram || '');
+              setTiktok(profile.tiktok || '');
+              setFacebook(profile.facebook || '');
+              setLinkedin(profile.linkedin || '');
+              setUsernameSuccess(true);
+            }
+          }
+          if (isMounted) setLoading(false);
         }
-        setLoading(false);
-      }
-      checkUser();
-    }, [router, isEditMode]);
+
+        checkUser();
+
+        // 4. Return the cleanup function to toggle the flag
+        return () => {
+          isMounted = false;
+        };
+      }, [router, isEditMode]);
 
   useEffect(() => {
     if (zipCode.length === 5) {
@@ -248,7 +260,7 @@ export default function OnboardingClient() {
     const confirmCancelAction = async () => {
       if (isEditMode) {
         // If editing, just send them back to the dashboard/profile
-        router.push('/dashboard');
+        router.push('/profile');
       } else {
         // If onboarding for the first time, cancel means logging out
         await supabase.auth.signOut();
@@ -297,13 +309,27 @@ export default function OnboardingClient() {
           </div>
         )}
 
-        {/* TOP NAV BAR */}
-        <div className="fixed top-0 left-0 right-0 z-50 px-6 py-8 md:px-12 pointer-events-none">
-          <div className="w-full flex justify-between items-center pointer-events-auto">
-            <div className="text-3xl md:text-4xl font-black italic tracking-tighter text-white drop-shadow-lg">OUTTY</div>
-            <button onClick={handleCancelTrigger} className="px-4 py-2 bg-red-500/20 border border-red-500/50 text-red-500 text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-red-500 hover:text-white transition-all">Cancel</button>
+        {/* TOP NAV BAR - Fixed Clickability */}
+        <div className="fixed top-0 left-0 right-0 z-[60] px-6 py-8 md:px-12 pointer-events-none">
+          <div className="w-full flex justify-between items-center">
+            <div className="text-3xl md:text-4xl font-black italic tracking-tighter text-white drop-shadow-lg pointer-events-auto">
+              OUTTY
+            </div>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                handleCancelTrigger();
+              }}
+              className="pointer-events-auto px-4 py-2 bg-red-500/20 border border-red-500/50 text-red-500 text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-red-500 hover:text-white transition-all active:scale-95"
+            >
+              Cancel
+            </button>
           </div>
         </div>
+
+        {/* ... scroll down to the bottom ... */}
+
+
 
         {/* BACKGROUND IMAGE */}
         <div className="absolute inset-0 z-0 opacity-20 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80')" }}></div>
@@ -376,7 +402,7 @@ export default function OnboardingClient() {
           {/* STEP 3: PREFERENCES */}
           {step === 3 && (
             <div className="space-y-8 text-left">
-              <h1 className={styles.title}>Matching Prefs</h1>
+              <h1 className={styles.title}>Preferences</h1>
               <div>
                 <label className="text-white/60 text-xs font-bold uppercase block mb-3">Partner Gender *</label>
                 <div className="grid grid-cols-3 gap-2">
@@ -480,42 +506,151 @@ export default function OnboardingClient() {
             </div>
           )}
 
-          {/* STEP 6: PREVIEW */}
+          {/* STEP 6: EXACT PREVIEW CARD LAYOUT */}
           {step === 6 && (
+           <div className="space-y-4 text-left">
+                         <h1 className={styles.title}>Profile Preview</h1>
             <div className="animate-in fade-in zoom-in duration-500 text-left">
-              <div className={`border border-white/10 rounded-[2rem] p-6 md:p-8 space-y-8 shadow-2xl overflow-y-auto max-h-[500px] ${styles.previewInnerCard} ${styles.previewScrollbar}`}>
+              {/* Use the specific classes for scrolling and background depth */}
+              <div className="bg-black/20 border border-white/10 rounded-[2rem] p-8 space-y-8 shadow-2xl overflow-y-auto max-h-[500px] custom-scrollbar">
+
                 {/* Profile Header */}
-                <div className="flex items-center gap-6 border-b border-white/5 pb-8">
+                <div className="flex items-start gap-6 border-b border-white/5 pb-8">
                   <div className="relative shrink-0">
-                    <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.2)] bg-white/5">
+                    <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-emerald-500 shadow-lg shadow-emerald-500/20 bg-white/5">
                       <img src={photos[0] || ''} alt="Primary" className="w-full h-full object-cover" />
                     </div>
-                    <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-[#022c22] px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-tighter shadow-xl">
+                    <div className="absolute -bottom-2 -right-2 bg-emerald-500 text-[#022c22] px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-tighter">
                       {age || '??'} YR OLD
                     </div>
                   </div>
+
+
+
                   <div className="space-y-0.5">
-                    <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter leading-none uppercase">{firstName} {lastName}</h3>
+                    <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter leading-none uppercase">
+                      {firstName} {lastName}
+                    </h3>
                     <div className="flex flex-col gap-1">
-                      <span className="text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em]">@{username} • {gender.toUpperCase()}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em]">
+                          @{username} • {gender?.toUpperCase()}
+                        </span>
+                      </div>
                       <span className="text-white/40 text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
                         <span className="text-emerald-500 text-xs">📍</span> {city}, {state} {zipCode}
+                      </span>
+                      <span className="text-emerald-400 text-[9px] font-black uppercase tracking-[0.2em] animate-pulse drop-shadow-[0_0_5px_rgba(52,211,153,0.8)]">
+                        Online Now
                       </span>
                     </div>
                   </div>
                 </div>
-                {/* Bio & Details omitted for brevity but remain in your code logic */}
+
+                {/* Bio Section */}
+                <div className="space-y-2">
+                  <label className="text-emerald-400 text-[10px] font-black uppercase tracking-widest block">The Adventure Bio</label>
+                  <p className="text-white/90 text-base font-medium leading-relaxed tracking-tight">
+                    "{bio || "No bio added yet."}"
+                  </p>
+                </div>
+
+                {/* Interests Tags - Fixed with Correct Variable Name */}
+                <div className="space-y-3">
+                  <label className="text-emerald-400 text-[10px] font-black uppercase tracking-widest block">Adventure Interests</label>
+                  <div className="flex flex-wrap gap-2">
+                    {/* Swapping 'adventures' for 'selectedAdventures' */}
+                    {(selectedAdventures?.length || 0) > 0 ? selectedAdventures.map(adv => (
+                      <span key={adv} className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-bold rounded-full uppercase">
+                        {adv}
+                      </span>
+                    )) : (
+                      <span className="text-white/20 text-xs italic uppercase tracking-widest">No adventures selected</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Metrics Grid - Crash-Proof Version */}
+                <div className="grid grid-cols-2 gap-y-8 gap-x-12 border-t border-white/5 pt-8">
+
+                  {/* My Skill Levels - Now using White Transparent Pills */}
+                    <div className="space-y-3">
+                      <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">My Skill Levels</label>
+                      <div className="flex flex-wrap gap-2">
+                        {Array.isArray(skillLevels) && skillLevels.length > 0 ? (
+                          skillLevels.map((skill) => (
+                            <span key={skill} className="px-3 py-1 bg-white/5 border border-white/10 text-white text-[10px] font-bold rounded-full uppercase tracking-tight">
+                              {skill}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-white/20 text-[10px] uppercase font-bold italic">None Set</span>
+                        )}
+                      </div>
+                    </div>
+
+                  {/* Partner Gender - Using | separator and cleaning JSON artifacts */}
+                    <div className="space-y-1">
+                      <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Partner Gender</label>
+                      <p className="text-white text-base font-bold tracking-tight uppercase">
+                        {Array.isArray(genderPrefs)
+                          ? (genderPrefs.join(' | ') || 'Any')
+                          : typeof genderPrefs === 'string'
+                            ? genderPrefs.replace(/[\[\]"]/g, '').split(',').join(' | ')
+                            : 'Any'}
+                      </p>
+                    </div>
+
+                  <div className="space-y-1">
+                    <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Search Range</label>
+                    <p className="text-emerald-400 text-base font-bold tracking-tight uppercase">{mileRange} Miles</p>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Partner Skill Levels</label>
+                    <p className="text-white text-base font-bold tracking-tight leading-none uppercase">
+                      {Array.isArray(skillPref) ? (skillPref.join(' | ') || 'Any') : skillPref || 'Any'}
+                    </p>
+                  </div>
+
+                </div>                {/* Socials Grid */}
+                <div className="space-y-4 border-t border-white/5 pt-8 pb-4">
+                  <label className="text-white/40 text-[10px] font-black uppercase tracking-widest block">Connected Socials</label>
+                  <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+                    {[
+                      { label: 'Instagram', val: instagram },
+                      { label: 'TikTok', val: tiktok },
+                      { label: 'Facebook', val: facebook },
+                      { label: 'LinkedIn', val: linkedin }
+                    ].map(soc => (
+                      <div key={soc.label}>
+                        <p className="text-white/30 text-[9px] font-bold uppercase">{soc.label}</p>
+                        <p className={`text-xs font-bold truncate ${soc.val ? 'text-white' : 'text-emerald-500'}`}>
+                          {soc.val || 'Not added'}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
+            </div>
             </div>
           )}
 
-          {/* NAVIGATION */}
+          {/* NAVIGATION - Added Hover Effects */}
           <div className="flex gap-4 mt-10">
-            {step > 1 && <button onClick={() => setStep(step - 1)} className="flex-1 py-4 bg-white/5 text-white font-black uppercase rounded-xl border border-white/10">Back</button>}
+            {step > 1 && (
+              <button
+                onClick={() => setStep(step - 1)}
+                className="flex-1 py-4 bg-white/5 text-white/60 font-black uppercase rounded-xl border border-white/10 hover:bg-white/10 hover:border-white/30 hover:text-white transition-all active:scale-[0.98]"
+              >
+                Back
+              </button>
+            )}
             <button
               onClick={() => { if (step < totalSteps) setStep(step + 1); else handleSaveProfile(); }}
               disabled={loading || checkingUsername || !isStepValid()}
-              className="flex-[2] py-4 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-20 text-white font-black uppercase rounded-xl transition-all"
+              className="flex-[2] py-4 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-20 text-white font-black uppercase rounded-xl transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.98]"
             >
               {loading ? 'Processing...' : step < totalSteps ? 'Continue' : isEditMode ? 'Update Profile' : 'Finalize Profile'}
             </button>
