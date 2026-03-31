@@ -3,7 +3,7 @@
 /* -------------------------------------------------------------------------- */
 /* SECTION 1: IMPORTS & DEPENDENCIES                                          */
 /* -------------------------------------------------------------------------- */
-import { useState, useRef, useEffect } from 'react';
+
 import { supabase } from '../supabaseClient';
 import { useRouter, useSearchParams } from 'next/navigation';
 import zipData from 'us-zips';
