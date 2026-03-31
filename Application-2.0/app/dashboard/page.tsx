@@ -34,11 +34,25 @@ import {
   X 
 } from 'lucide-react';
 
+// 1. Define the interface so TypeScript knows what customCoords is
+  interface FilterState {
+    adventureType: string[];
+    skillLevel: string[];
+    city: string;
+    zipCode: string;
+    radius: string;
+    gender: string[];
+    minAge: string;
+    maxAge: string;
+    states: string[];
+    customCoords: { lat: number; lng: number } | null;
+  }
+
 export default function Dashboard() {
   /* -------------------------------------------------------------------------- */
   /* SECTION 2: STATE MANAGEMENT                                                */
   /* -------------------------------------------------------------------------- */
-  
+
   // UI State
   const [loading, setLoading] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -79,7 +93,8 @@ export default function Dashboard() {
     minAge: '18',
     maxAge: '',
     states: [],
-    customCoords: null
+    customCoords: null;
+
   });
 
  /* -------------------------------------------------------------------------- */
