@@ -1,290 +1,491 @@
 'use client';
 
+/* -------------------------------------------------------------------------- */
+/* SECTION 1: IMPORTS & CONFIGURATION                                         */
+/* -------------------------------------------------------------------------- */
+import { useEffect, useState, useCallback, useRef } from 'react'; // Added useRef
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+// API & Context
 import { supabase } from '../supabaseClient';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePresence } from '@/context/PresenceContext';
+import { useChat } from '@/context/ChatContext';
+
+// Components & Data
+import DashboardFilters from '@/components/DashboardFilters';
 import zipData from 'us-zips';
-import { useState, useRef, useEffect, Suspense } from 'react';
 
-// Main Page Component with Suspense Boundary
-export default function OnboardingPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-[#022c22] flex items-center justify-center">
-        <div className="animate-pulse text-emerald-400 font-black text-2xl tracking-tighter italic uppercase">
-          Initializing Adventure...
-        </div>
-      </div>
-    }>
-      <OnboardingContent />
-    </Suspense>
-  );
-}
+// Styles & Icons
+import styles from './Dashboard.module.css';
+import {
+  Settings,
+  ChevronLeft,
+  MessagesSquare,
+  User,
+  LogOut,
+  Shield,
+  Eye,
+  Trash2,
+  PauseCircle,
+  PlayCircle,
+  AlertTriangle,
+  X
+} from 'lucide-react';
 
-// Inner Content Component
-function OnboardingContent() {
-  const [step, setStep] = useState(1);
-  const totalSteps = 6;
+export default function Dashboard() {
+  /* -------------------------------------------------------------------------- */
+  /* SECTION 2: STATE MANAGEMENT                                                */
+  /* -------------------------------------------------------------------------- */
+
+  // UI State
   const [loading, setLoading] = useState(true);
-  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const searchParams = useSearchParams();
 
-  const isEditMode = searchParams.get('mode') === 'edit';
+  // Data State
+  const [profiles, setProfiles] = useState<any[]>([]);
+  const { onlineUsers } = usePresence();
+  const [unreadCount, setUnreadCount] = useState(0);
+  const { openFloatingChat } = useChat();
 
-  // --- State Management ---
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [username, setUsername] = useState('');
-  const [age, setAge] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [bio, setBio] = useState('');
-  const [gender, setGender] = useState('Female');
-  const [skillLevels, setSkillLevels] = useState<string[]>([]);
-  const [adventures, setAdventures] = useState<string[]>([]);
-  const [genderPrefs, setGenderPrefs] = useState<string[]>([]);
-  const [mileRange, setMileRange] = useState(25);
-  const [skillPref, setSkillPref] = useState<string[]>([]);
-  const [photos, setPhotos] = useState<string[]>([]);
-
-  // Socials
-  const [instagram, setInstagram] = useState('');
-  const [tiktok, setTiktok] = useState('');
-  const [facebook, setFacebook] = useState('');
-  const [linkedin, setLinkedin] = useState('');
-
-  // Validation
-  const [usernameError, setUsernameError] = useState('');
-  const [usernameSuccess, setUsernameSuccess] = useState(false);
-  const [ageError, setAgeError] = useState('');
-  const [checkingUsername, setCheckingUsername] = useState(false);
+  // Filter State
+  const [filters, setFilters] = useState({
+    adventureType: [],
+    skillLevel: [],
+    city: '',
+    zipCode: '',
+    radius: '50',
+    gender: [],
+    minAge: '18',
+    maxAge: '',
+    states: [],
+    customCoords: null as { lat: number, lng: number } | null
+  });
 
   /* -------------------------------------------------------------------------- */
-  /* SECTION 3: CONSTANTS & HELPERS                                             */
+  /* FIX: PREVENT BACKGROUND SCROLL (Vercel/SSR Friendly)                       */
   /* -------------------------------------------------------------------------- */
-  const adventureOptions = ['Backpacking', 'Ice-Fishing', 'Bow-Hunting', 'Fishing', 'Boating', 'Hiking', 'Skiing', 'Rock-Climbing', 'Hang-Gliding', 'Kayaking', 'Camping', 'Mountain-Biking', 'Trail-Running', 'Snowmobiling', 'Wildlife-Photography'];
+  useEffect(() => {
+    if (typeof window === 'undefined') return; // Safety check
 
-  const getArrayData = (data: any) => {
+    if (isFilterOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isFilterOpen]);
+
+  /* -------------------------------------------------------------------------- */
+  /* SECTION 3: SESSION STORAGE PERSISTENCE (Vercel/SSR Friendly)               */
+  /* -------------------------------------------------------------------------- */
+
+  // Load filters from storage on mount
+  useEffect(() => {
+    const saved = sessionStorage.getItem('outty_filters');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setFilters(parsed);
+      } catch (e) {
+        console.error("Failed to parse saved filters", e);
+      }
+    }
+  }, []);
+
+  // Sync filters to storage ONLY on change
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Prevents overwriting with defaults if the user hasn't interacted yet
+      if (filters.radius !== '50' || filters.adventureType.length > 0 || filters.zipCode !== '') {
+        sessionStorage.setItem('outty_filters', JSON.stringify(filters));
+      }
+    }
+  }, [filters]);
+
+  /* -------------------------------------------------------------------------- */
+  /* SECTION 4: UTILITY FUNCTIONS                                               */
+  /* -------------------------------------------------------------------------- */
+
+  const getArrayData = useCallback((data: any) => {
     if (Array.isArray(data)) return data;
-    if (typeof data === 'string' && data.startsWith('[')) {
-      try { return JSON.parse(data); } catch (e) { return []; }
+    if (!data) return [];
+    if (typeof data === 'string') {
+      if (data.startsWith('{')) {
+        return data
+          .replace(/[{}]/g, '')
+          .split(',')
+          .map(s => s.trim().replace(/^"|"$/g, ''))
+          .filter(s => s !== "");
+      }
+      if (data.startsWith('[')) {
+        try { return JSON.parse(data); } catch (e) { return []; }
+      }
     }
     return [];
-  };
+  }, []);
 
   /* -------------------------------------------------------------------------- */
-  /* SECTION 4: EFFECTS & DATA FETCHING                                         */
+  /* SECTION 5: DATA FETCHING & FILTERING LOGIC                                 */
   /* -------------------------------------------------------------------------- */
-  /* --- SECTION 4: UPDATED FETCHING --- */
+
+  const fetchProfiles = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) return;
+
+      let targetLat = 34.0522; // Default
+      let targetLong = -118.2437;
+
+      if (filters.customCoords?.lat && filters.customCoords?.lng) {
+        targetLat = filters.customCoords.lat;
+        targetLong = filters.customCoords.lng;
+      }
+      else if (filters.zipCode && filters.zipCode.length === 5) {
+        const coords = (zipData as any)[filters.zipCode];
+        if (coords) {
+          targetLat = coords.latitude;
+          targetLong = coords.longitude;
+        }
+      }
+      else {
+        const { data: currentUser } = await supabase
+          .from('profiles')
+          .select('latitude, longitude')
+          .eq('id', session.user.id)
+          .single();
+
+        if (currentUser?.latitude && currentUser?.longitude) {
+          targetLat = currentUser.latitude;
+          targetLong = currentUser.longitude;
+        }
+      }
+
+      const { data, error } = await supabase.rpc('get_profiles_within_radius', {
+        target_lat: targetLat,
+        target_long: targetLong,
+        radius_miles: parseFloat(filters.radius)
+      });
+
+      if (error) throw error;
+
+      const filteredResults = (data || []).filter((profile: any) => {
+        if (profile.id === session.user.id) return false;
+
+        const profileAdventures = getArrayData(profile.adventure_type);
+        const profileSkills = getArrayData(profile.skill_level);
+
+        const matchesAdventure = filters.adventureType.length === 0 ||
+          profileAdventures.some((a: string) => filters.adventureType.includes(a));
+
+        const matchesSkill = filters.skillLevel.length === 0 ||
+          profileSkills.some((s: string) => filters.skillLevel.includes(s));
+
+        const matchesGender = filters.gender.length === 0 ||
+          (profile.gender && filters.gender.some((g: string) => g.toLowerCase() === profile.gender.toLowerCase()));
+
+        const profileAge = profile.age || 0;
+        const minAge = parseInt(filters.minAge) || 18;
+        const maxAge = filters.maxAge ? parseInt(filters.maxAge) : 999;
+        const matchesAge = profileAge >= minAge && profileAge <= maxAge;
+
+        const matchesState = filters.states.length === 0 ||
+          (profile.state && filters.states.some((s: string) => s.toUpperCase() === profile.state.toUpperCase()));
+
+        const matchesCity = !filters.city ||
+          (profile.city && profile.city.toLowerCase().includes(filters.city.toLowerCase()));
+
+        return matchesAdventure && matchesSkill && matchesGender && matchesAge && matchesState && matchesCity;
+      });
+
+      setProfiles(filteredResults);
+    } catch (error) {
+      console.error("Fetch Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [filters, getArrayData]);
+
+  /* -------------------------------------------------------------------------- */
+  /* SECTION 6: REAL-TIME SERVICES & AUTH                                       */
+  /* -------------------------------------------------------------------------- */
+
   useEffect(() => {
-    async function checkAuthAndLoad() {
+    fetchProfiles();
+  }, [fetchProfiles]);
+
+  useEffect(() => {
+    let isMounted = true;
+    let channel: any;
+
+    const syncUnreadCount = async (userId: string) => {
+      const { count } = await supabase
+        .from('messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('receiver_id', userId)
+        .eq('is_read', false);
+      if (isMounted) setUnreadCount(count || 0);
+    };
+
+    async function initNotifications() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user || !isMounted) return;
+
+      const userId = session.user.id;
+      syncUnreadCount(userId);
+
+      channel = supabase.channel(`notifs-${userId}`)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'messages',
+          filter: `receiver_id=eq.${userId}`
+        }, () => syncUnreadCount(userId))
+        .subscribe();
+    }
+
+    initNotifications();
+    return () => {
+      isMounted = false;
+      if (channel) supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const handleStartConversation = async (targetProfile: any) => {
+    try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        router.push('/login');
+      if (!user || !targetProfile) return;
+
+      const [p1, p2] = [user.id, targetProfile.id].sort();
+
+      const { data, error } = await supabase
+        .from('conversations')
+        .upsert(
+          {
+            participant_1: p1,
+            participant_2: p2,
+            last_message_time: new Date().toISOString()
+          },
+          { onConflict: 'participant_1, participant_2' }
+        )
+        .select('id')
+        .single();
+
+      if (error) {
+        console.error("Upsert Error Details:", error.message);
         return;
       }
 
-      // Fetch the profile
-      const { data, error } = await supabase.from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-
-      // LOGIC: If they don't have a record OR they haven't finished the
-      // last required step (e.g., adventures or photos), stay here.
-      const isProfileComplete = data?.username && data?.adventure_type?.length > 0;
-
-      if (data && !error) {
-        if (isProfileComplete && !isEditMode) {
-          console.log("Profile complete, moving to dashboard");
-          router.replace('/dashboard');
-          return;
-        }
-
-        setFirstName(data.first_name || '');
-        setLastName(data.last_name || '');
-        setUsername(data.username || '');
-        setAge(data.age?.toString() || '');
-        setZipCode(data.zip_code || '');
-        setCity(data.city || '');
-        setState(data.state || '');
-        setBio(data.bio || '');
-        if (data.username) setUsernameSuccess(true);
-
-        setGender(Array.isArray(data.gender) ? data.gender[0] : (data.gender || 'Female'));
-
-        setSkillLevels(getArrayData(data.skill_level));
-        setAdventures(getArrayData(data.adventure_type));
-        setGenderPrefs(getArrayData(data.gender_preference));
-        setMileRange(data.mile_range || 25);
-        setSkillPref(getArrayData(data.skill_preference));
-        setPhotos(getArrayData(data.profile_pictures));
-        setInstagram(data.instagram || '');
-        setTiktok(data.tiktok || '');
-        setFacebook(data.facebook || '');
-        setLinkedin(data.linkedin || '');
-
-
-
-      } else if (error && error.code !== 'PGRST116') {
-            // PGRST116 is "no rows found", which is expected for brand new users
-            console.error("Error fetching profile:", error);
-          }
-
-          setLoading(false);
-        }
-        checkAuthAndLoad();
-      }, [router, isEditMode]);
-
-  useEffect(() => {
-    if (zipCode.length === 5) {
-      const fetchLocation = async () => {
-        try {
-          const response = await fetch(`https://api.zippopotam.us/us/${zipCode}`);
-          if (response.ok) {
-            const data = await response.json();
-            setCity(data.places[0]['place name']);
-            setState(data.places[0]['state abbreviation']);
-          }
-        } catch (error) { console.error("Location lookup failed", error); }
-      };
-      fetchLocation();
+      if (data?.id) {
+        openFloatingChat(data.id);
+      }
+    } catch (err) {
+      console.error("Critical Chat Error:", err);
     }
-  }, [zipCode]);
+  };
 
   /* -------------------------------------------------------------------------- */
-  /* SECTION 5: HANDLERS & LOGIC                                                */
+  /* SECTION 7: RENDER                                                          */
   /* -------------------------------------------------------------------------- */
-  const checkUsername = async (val: string) => {
-    if (!val) return;
-    setCheckingUsername(true);
-    setUsernameSuccess(false);
-    await new Promise(r => setTimeout(r, 600));
-    const { data: { user } } = await supabase.auth.getUser();
-    const { data } = await supabase.from('profiles').select('username, id').eq('username', val).single();
-    if (data && data.id !== user?.id) {
-      setUsernameError('not available, choose another one');
-    } else {
-      setUsernameError('');
-      setUsernameSuccess(true);
-    }
-    setCheckingUsername(false);
-  };
-
-  const validateAge = (val: string) => {
-    const ageNum = parseInt(val);
-    if (val && ageNum < 18) setAgeError('Must be 18+');
-    else setAgeError('');
-  };
-
-  const toggleSelection = (list: string[], setList: (val: string[]) => void, item: string) => {
-    if (list.includes(item)) setList(list.filter((i) => i !== item));
-    else setList([...list, item]);
-  };
-
-  const handleCancelTrigger = () => setShowCancelModal(true);
-
-  const confirmCancelAction = async () => {
-    if (isEditMode) {
-      router.push('/profile');
-    } else {
-      await supabase.auth.signOut();
-      localStorage.clear();
-      router.replace('/login');
-    }
-  };
-
-  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}/${Math.random()}.${fileExt}`;
-      const { error: uploadError } = await supabase.storage.from('avatars').upload(fileName, file);
-      if (uploadError) alert(uploadError.message);
-      else {
-        const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(fileName);
-        setPhotos((prev) => [...prev, publicUrl]);
-      }
-    }
-    setLoading(false);
-  };
-
-  const makePrimary = (index: number) => {
-    const newPhotos = [...photos];
-    const [selected] = newPhotos.splice(index, 1);
-    newPhotos.unshift(selected);
-    setPhotos(newPhotos);
-  };
-
-  const handleSaveProfile = async () => {
-    setLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const coords = (zipData as any)[zipCode];
-      const { error } = await supabase.from('profiles').upsert({
-        id: user.id,
-        first_name: firstName,
-        last_name: lastName,
-        username,
-        age: parseInt(age),
-        zip_code: zipCode,
-        city,
-        state,
-        latitude: coords?.latitude || null,
-        longitude: coords?.longitude || null,
-        gender,
-        gender_preference: genderPrefs,
-        adventure_type: adventures,
-        bio,
-        skill_level: skillLevels,
-        skill_preference: skillPref,
-        mile_range: mileRange,
-        profile_pictures: photos,
-        instagram,
-        tiktok,
-        facebook,
-        linkedin,
-        updated_at: new Date(),
-      });
-
-      if (error) {
-        alert(error.message);
-      } else {
-        sessionStorage.setItem('just_finished_onboarding', 'true');
-        router.push('/profile');
-      }
-    }
-    setLoading(false);
-  };
-
-  const isStepValid = () => {
-    switch (step) {
-      case 1: return firstName && lastName && username && usernameSuccess && age && !ageError && zipCode.length === 5 && bio && skillLevels.length > 0;
-      case 2: return adventures.length > 0;
-      case 3: return genderPrefs.length > 0 && skillPref.length > 0;
-      case 4: return photos.length >= 1;
-      case 5: return true;
-      case 6: return true;
-      default: return true;
-    }
-  };
-
-  const progressWidth = `${(step / totalSteps) * 100}%`;
-
-  if (loading && step === 1) return (
-    <div className="min-h-screen bg-[#022c22] flex items-center justify-center">
-      <div className="animate-pulse text-emerald-400 font-black text-2xl tracking-tighter italic">LOADING OUTTY...</div>
-    </div>
-  );
-
   return (
-    <main className="relative min-h-screen w-full flex flex-col items-center justify-start bg-[#022c22] p-4 pt-32 md:pt-12 text-center overflow-x-hidden">
-      {/* UI unchanged */}
+    <main className={`${styles.dashboardMain} min-h-screen flex flex-col ${isFilterOpen ? 'hide-globals' : ''}`}>
+
+      {/* 7.1 DYNAMIC GLOBAL STYLES */}
+      {isFilterOpen && (
+        <style jsx global>{`
+          nav, header.fixed, .fixed.bottom-8.right-8, .chat-container {
+            display: none !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+          }
+        `}</style>
+      )}
+
+      <div className="flex-grow max-w-6xl mx-auto relative z-10 p-6 md:p-12 pt-48 md:pt-56 w-full">
+        <header className="flex flex-col gap-4 mb-12">
+          <div className="flex items-center gap-6">
+            <button
+              onClick={() => router.back()}
+              className="group p-4 bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl hover:bg-emerald-500/20 hover:border-emerald-500/50 transition-all duration-300 shadow-xl"
+            >
+              <ChevronLeft size={24} className="text-white group-hover:-translate-x-1 transition-transform" />
+            </button>
+
+            <div className="flex flex-col justify-center">
+              <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter text-white drop-shadow-2xl leading-none">
+                DASHBOARD
+              </h1>
+              <div className="flex items-center gap-2 px-1 mt-1">
+                <span className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.3em]">
+                  Partner Discovery Hub
+                </span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="flex justify-between items-end mb-10">
+          <div>
+            <h2 className="text-3xl font-black text-white mb-1">Adventurers Near You</h2>
+            <p className="text-emerald-400/60 font-bold uppercase text-[12px]">
+              Found {profiles.length} potential partners
+            </p>
+          </div>
+          <button
+            onClick={() => setIsFilterOpen(true)}
+            className="relative z-50 flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all shadow-xl"
+          >
+            <Settings size={16} strokeWidth={3} /> Refine Search
+          </button>
+        </div>
+
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20 opacity-40">
+            <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p className="text-white text-xs font-bold uppercase">Searching trails...</p>
+          </div>
+        ) : profiles.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {profiles.map((profile) => (
+              <div
+                key={profile.id}
+                className="group flex flex-col p-7 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-300 shadow-2xl h-full hover:border-emerald-500/60 hover:shadow-[0_0_35px_rgba(16,185,129,0.25)] hover:scale-[1.01] hover:bg-white/10"
+              >
+                <div className="flex items-start gap-6 mb-6">
+                  <div className="flex flex-col items-center gap-2 flex-shrink-0">
+                    <div
+                      className="relative w-20 h-20 flex items-center justify-center cursor-pointer group/avatar transition-transform hover:scale-105"
+                      onClick={() => router.push(`/profile/${profile.id}`)}
+                    >
+                      <div className={`absolute inset-0 rounded-full border-2 transition-all duration-700 z-10 pointer-events-none ${
+                        onlineUsers.includes(profile.id)
+                          ? 'border-emerald-500 animate-pulse shadow-[0_0_20px_rgba(16,185,129,0.7)]'
+                          : 'border-emerald-500 opacity-100'
+                      }`} />
+
+                      {profile.profile_pictures?.[0] ? (
+                        <img
+                          src={profile.profile_pictures[0]}
+                          className="w-full h-full rounded-full object-cover relative z-0"
+                          alt=""
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-emerald-500/20 rounded-full flex items-center justify-center text-3xl">
+                          🎒
+                        </div>
+                      )}
+                    </div>
+                    <span className="text-emerald-400 text-[9px] font-black uppercase tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20 w-20 text-center">
+                      {profile.gender}
+                    </span>
+                  </div>
+
+                  <div className="flex-1 min-w-0 pt-1">
+                    <p className="text-white font-black text-xl leading-tight truncate">
+                      {profile.first_name}, {profile.age}
+                    </p>
+                    <p className="text-emerald-400/80 text-[10px] font-black uppercase tracking-[0.15em] truncate mb-2">
+                      @{profile.username || 'explorer'}
+                    </p>
+                    <p className="text-white/70 text-[10px] font-bold uppercase truncate">
+                      📍 {profile.city ? `${profile.city}, ` : ''}{profile.state}
+                    </p>
+                    {onlineUsers.includes(profile.id) && (
+                      <p className="text-emerald-400 text-[9px] font-black uppercase tracking-[0.2em] mt-2 animate-pulse">
+                        Online Now
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex flex-col flex-grow">
+                  <div className="py-5 border-t border-white/5 min-h-[90px]">
+                    <p className="text-white/40 text-[9px] font-black uppercase tracking-widest mb-2">Bio</p>
+                    <p className="text-white/80 text-sm italic line-clamp-3">
+                      "{profile.bio || "No bio provided."}"
+                    </p>
+                  </div>
+
+                  <div className="py-5 border-t border-white/5 min-h-[85px]">
+                    <p className="text-white/40 text-[9px] font-black uppercase tracking-widest mb-3">Interests</p>
+                    <div className="flex flex-wrap gap-2">
+                      {getArrayData(profile.adventure_type).slice(0, 4).map((a: string) => (
+                        <span key={a} className="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[9px] font-black rounded-lg uppercase">
+                          {a}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 grid grid-cols-2 gap-4 pt-6 border-t border-white/10">
+                  <button
+                    onClick={() => handleStartConversation(profile)}
+                    className="py-4 bg-emerald-500 text-[#022c22] rounded-2xl text-[11px] font-black uppercase hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
+                  >
+                    Message
+                  </button>
+                  <Link href={`/profile/${profile.id}`} className="w-full">
+                    <button className="w-full py-4 bg-white/5 border border-white/10 text-white rounded-2xl text-[11px] font-black uppercase hover:bg-white/10 transition-all">
+                      View Profile
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-32 text-center bg-white/5 border border-white/5 rounded-3xl">
+            <div className="text-4xl mb-4">📍</div>
+            <h3 className="text-xl font-black text-white uppercase">No Explorers Found</h3>
+            <button
+              onClick={() => {
+                setFilters({
+                  adventureType: [],
+                  skillLevel: [],
+                  city: '',
+                  zipCode: '',
+                  radius: '50',
+                  gender: [],
+                  minAge: '18',
+                  maxAge: '',
+                  states: [],
+                  customCoords: null
+                });
+                fetchProfiles();
+              }}
+              className="mt-6 px-6 py-2 border border-emerald-500 text-emerald-500 rounded-full text-[10px] font-black uppercase hover:bg-emerald-500 hover:text-[#022c22] transition-all"
+            >
+              Clear All Filters
+            </button>
+          </div>
+        )}
+      </div>
+
+      <DashboardFilters
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        filters={filters}
+        setFilters={setFilters}
+        onApply={fetchProfiles}
+      />
+
+      <div
+        className={styles.landscapeOverlay}
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1491555103944-7c647fd857e6?auto=format&fit=crop&q=80')" }}
+      />
+      <div className={styles.gradientScrim} />
+
+      <div className={styles.snowContainer}>
+        <div className={`${styles.snow} ${styles.snow1}`}></div>
+        <div className={`${styles.snow} ${styles.snow2}`}></div>
+        <div className={`${styles.snow} ${styles.snow3}`}></div>
+      </div>
     </main>
   );
 }
