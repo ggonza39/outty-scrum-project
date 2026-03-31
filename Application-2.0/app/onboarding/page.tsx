@@ -481,12 +481,19 @@ export default function OnboardingPage() {
             {['Instagram', 'TikTok', 'Facebook', 'LinkedIn'].map((label) => (
               <div key={label}>
                 <label className="text-white/40 text-[10px] font-bold uppercase block mb-1">{label}</label>
-                <input type="text" placeholder={`@handle`} className={styles.inputBase} onChange={(e) => {
-                  if(label === 'Instagram') setInstagram(e.target.value);
-                  else if(label === 'TikTok') setTiktok(e.target.value);
-                  else if(label === 'Facebook') setFacebook(e.target.value);
-                  else setLinkedin(e.target.value);
-                }} />
+                <input
+                  type="text"
+                  placeholder={`@handle`}
+                  className={styles.inputBase}
+                  /* ADD VALUE HERE */
+                  value={label === 'Instagram' ? instagram : label === 'TikTok' ? tiktok : label === 'Facebook' ? facebook : linkedin}
+                  onChange={(e) => {
+                    if(label === 'Instagram') setInstagram(e.target.value);
+                    else if(label === 'TikTok') setTiktok(e.target.value);
+                    else if(label === 'Facebook') setFacebook(e.target.value);
+                    else setLinkedin(e.target.value);
+                  }}
+                />
               </div>
             ))}
           </div>
@@ -602,10 +609,16 @@ export default function OnboardingPage() {
           {step > 1 && <button onClick={() => setStep(step - 1)} className="flex-1 py-4 bg-white/5 text-white font-black uppercase rounded-xl border border-white/10">Back</button>}
           <button
             onClick={() => { if (step < totalSteps) setStep(step + 1); else handleSaveProfile(); }}
-            disabled={!isStepValid()}
+            disabled={loading || checkingUsername || !isStepValid()}
             className="flex-[2] py-4 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-20 text-white font-black uppercase rounded-xl transition-all"
           >
-            {step < totalSteps ? 'Continue' : 'Finalize Profile'}
+            {loading
+              ? 'Processing...'
+              : step < totalSteps
+                ? 'Continue'
+                : isEditMode
+                  ? 'Update Profile'
+                  : 'Finalize Profile'}
           </button>
         </div>
 
