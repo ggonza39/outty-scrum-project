@@ -74,50 +74,67 @@ export default function OnboardingPage() {
   /* -------------------------------------------------------------------------- */
   /* SECTION 4: EFFECTS & DATA FETCHING                                         */
   /* -------------------------------------------------------------------------- */
-  useEffect(() => {
-    async function checkAuthAndLoad() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { router.push('/login'); return; }
+  /* -------------------------------------------------------------------------- */
+    /* SECTION 4: EFFECTS & DATA FETCHING                                         */
+    /* -------------------------------------------------------------------------- */
+    useEffect(() => {
+      async function checkAuthAndLoad() {
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
 
-      const { data, error } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+          if (!user) {
+            router.push('/login');
+            return;
+          }
 
-      if (data && !error) {
+          const mode = searchParams.get('mode') === 'edit';
+          setIsEditMode(mode);
 
-      /* --- SURGICAL FIX: ALLOW EDIT MODE --- */
-                    // Only redirect if they have a username AND they are NOT explicitly editing
-                    if (data.username && !isEditMode) {
-                      router.replace('/dashboard');
-                      return;
-                    }
-            /* --- END FIX --- */
-              setFirstName(data.first_name || '');
-              setLastName(data.last_name || '');
-              setUsername(data.username || '');
-              setAge(data.age?.toString() || '');
-              setZipCode(data.zip_code || '');
-              setCity(data.city || '');
-              setState(data.state || '');
-              setBio(data.bio || '');
-              if (data.username) setUsernameSuccess(true);
+          const { data, error } = await supabase.from('profiles')
+            .select('*')
+            .eq('id', user.id)
+            .single();
 
-              // CLEANER: Ensures My Gender is always a single string, even if DB returns an array
-              setGender(Array.isArray(data.gender) ? data.gender[0] : (data.gender || 'Female'));
-
-              setSkillLevels(getArrayData(data.skill_level));
-              setAdventures(getArrayData(data.adventure_type));
-              setGenderPrefs(getArrayData(data.gender_preference));
-              setMileRange(data.mile_range || 25);
-              setSkillPref(getArrayData(data.skill_preference));
-              setPhotos(getArrayData(data.profile_pictures));
-              setInstagram(data.instagram || '');
-              setTiktok(data.tiktok || '');
-              setFacebook(data.facebook || '');
-              setLinkedin(data.linkedin || '');
+          if (data && !error) {
+            // If they have a username and aren't editing, send them away
+            if (data.username && !mode) {
+              router.replace('/dashboard');
+              return;
             }
-      setLoading(false);
-    }
-    checkAuthAndLoad();
-  }, [router, isEditMode]);
+
+            // Populate states
+            setFirstName(data.first_name || '');
+            setLastName(data.last_name || '');
+            setUsername(data.username || '');
+            setAge(data.age?.toString() || '');
+            setZipCode(data.zip_code || '');
+            setCity(data.city || '');
+            setState(data.state || '');
+            setBio(data.bio || '');
+            if (data.username) setUsernameSuccess(true);
+
+            setGender(Array.isArray(data.gender) ? data.gender[0] : (data.gender || 'Female'));
+            setSkillLevels(getArrayData(data.skill_level));
+            setAdventures(getArrayData(data.adventure_type));
+            setGenderPrefs(getArrayData(data.gender_preference));
+            setMileRange(data.mile_range || 25);
+            setSkillPref(getArrayData(data.skill_preference));
+            setPhotos(getArrayData(data.profile_pictures));
+            setInstagram(data.instagram || '');
+            setTiktok(data.tiktok || '');
+            setFacebook(data.facebook || '');
+            setLinkedin(data.linkedin || '');
+          }
+        } catch (err) {
+          console.error("Auth/Load Error:", err);
+        } finally {
+          // This ensures the "LOADING OUTTY..." screen disappears
+          // regardless of whether the profile exists or not.
+          setLoading(false);
+        }
+      }
+      checkAuthAndLoad();
+    }, [router, searchParams]);
 
   useEffect(() => {
     if (zipCode.length === 5) {
@@ -207,8 +224,10 @@ export default function OnboardingPage() {
   const handleSaveProfile = async () => {
         setLoading(true);
         const { data: { user } } = await supabase.auth.getUser();
+
         if (user) {
-          const coords = zipData?.[zipCode]; // ✅ ONLY HERE
+
+          const coords = zipData?.[zipCode];
 
           const { error } = await supabase.from('profiles').upsert({
             id: user.id,
@@ -272,6 +291,8 @@ export default function OnboardingPage() {
       default: return true;
     }
   };
+
+
 
   /* -------------------------------------------------------------------------- */
   /* SECTION 6: RENDER                                                          */
