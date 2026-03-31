@@ -7,6 +7,21 @@ import { useState, useRef, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { useRouter, useSearchParams } from 'next/navigation';
 import zipData from 'us-zips';
+import { useState, useRef, useEffect, Suspense } from 'react';
+
+export default function OnboardingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#022c22] flex items-center justify-center">
+        <div className="animate-pulse text-emerald-400 font-black text-2xl tracking-tighter italic uppercase">
+          Initializing Adventure...
+        </div>
+      </div>
+    }>
+      <OnboardingContent />
+    </Suspense>
+  );
+}
 
 export default function OnboardingPage() {
   /* -------------------------------------------------------------------------- */
