@@ -63,6 +63,14 @@ export default function OnboardingPage() {
     else setList([...list, item]);
   };
 
+  const makePrimary = (index: number) => {
+    if (index === 0) return;
+    const newPhotos = [...photos];
+    const [selectedPhoto] = newPhotos.splice(index, 1);
+    newPhotos.unshift(selectedPhoto);
+    setPhotos(newPhotos);
+  };
+
   const isStepValid = () => {
     switch (step) {
       case 1: return firstName && lastName && usernameSuccess && age && zipCode.length === 5 && bio && skillLevels.length > 0;
@@ -298,6 +306,16 @@ export default function OnboardingPage() {
             <p className="text-white/40 text-[10px] font-black uppercase mb-8 tracking-widest text-center">
               Tap a photo to set as primary • Select multiple to batch upload
             </p>
+
+            {/* INSERT THE INPUT HERE */}
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  ref={fileInputRef}
+                  onChange={handlePhotoUpload}
+                  className="hidden"
+                />
 
             <button
               onClick={() => fileInputRef.current?.click()}
