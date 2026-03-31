@@ -230,52 +230,56 @@ export default function OnboardingPage() {
   };
 
   const handleSaveProfile = async () => {
-        setLoading(true);
-        const { data: { user } } = await supabase.auth.getUser();
+    setLoading(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("No user");
 
-        if (user) {
+      // Move coords logic here (safely handle the Line 9 issue)
+      const coords = zipData?.[zipCode] || { lat: 0, lng: 0 };
 
-
-
-          const { error } = await supabase.from('profiles').upsert({
-            id: user.id,
-            first_name: firstName,
-            last_name: lastName,
-            username,
-            age: parseInt(age),
-            zip_code: zipCode,
-            city,
-            state,
-            latitude: coords?.latitude || null,
-            longitude: coords?.longitude || null,
-            gender,
-            gender_preference: genderPrefs,
-            adventure_type: adventures,
-            bio,
-            skill_level: skillLevels,
-            skill_preference: skillPref,
-            mile_range: mileRange,
-            profile_pictures: photos,
-            instagram,
-            tiktok,
-            facebook,
-            linkedin,
-            updated_at: new Date(),
-
-          });
-
-          if (error) {
-            alert(error.message);
-          } else {
-            // --- ADD THIS LINE HERE ---
-            sessionStorage.setItem('just_finished_onboarding', 'true');
-
-            // Redirecting to the profile page
-            router.push('/profile');
-          }
-        }
-        setLoading(false);
+      const profileData = {
+        id: user.id,
+        first_name: firstName,
+        last_name: lastName,
+        username: username,
+        age: parseInt(age) || 0, // Ensure Integer
+        gender: gender,
+        bio: bio,
+        zip_code: zipCode,
+        city: city || 'Unknown',
+        state: state || 'NA',
+        latitude: Number(coords.lat), // Ensure Double Precision
+        longitude: Number(coords.lng), // Ensure Double Precision
+        adventure_type: adventures, // Ensure Array
+        skill_level: skillLevels,
+        gender_preference: genderPrefs.join(', '), // DB expects TEXT, not Array
+        mile_range: mileRange,
+        skill_preference: skillPref,
+        profile_pictures: photos,
+        instagram,
+        tiktok,
+        facebook,
+        linkedin,
+        updated_at: new Date().toISOString(),
       };
+
+      const { error } = await supabase
+        .from('profiles')
+        .upsert(profileData);
+
+      if (error) {
+         console.error("Detailed DB Error:", error.message, error.hint);
+         alert(`Save failed: ${error.message}`);
+      } else {
+         router.push('/dashboard');
+      }
+    } catch (err) {
+      console.error("Save crash:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     async function loadZipData() {
