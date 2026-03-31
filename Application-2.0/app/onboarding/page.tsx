@@ -71,9 +71,7 @@ export default function OnboardingPage() {
     return [];
   };
 
-  /* -------------------------------------------------------------------------- */
-  /* SECTION 4: EFFECTS & DATA FETCHING                                         */
-  /* -------------------------------------------------------------------------- */
+
   /* -------------------------------------------------------------------------- */
     /* SECTION 4: EFFECTS & DATA FETCHING                                         */
     /* -------------------------------------------------------------------------- */
@@ -126,8 +124,8 @@ export default function OnboardingPage() {
             setLinkedin(data.linkedin || '');
           }
         } catch (err) {
-          console.error("Auth/Load Error:", err);
-        } finally {
+                console.error("Fetch error:", err);
+              } finally {
           // This ensures the "LOADING OUTTY..." screen disappears
           // regardless of whether the profile exists or not.
           setLoading(false);
@@ -227,7 +225,7 @@ export default function OnboardingPage() {
 
         if (user) {
 
-          const coords = zipData?.[zipCode];
+
 
           const { error } = await supabase.from('profiles').upsert({
             id: user.id,
