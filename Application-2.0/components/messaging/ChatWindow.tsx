@@ -71,12 +71,23 @@ export default function ChatWindow({ conversationId }: { conversationId: string 
       ]);
 
       if (profileRes.data) {
-        const conv = profileRes.data;
-        setOtherUser(conv.participant_1.id === user.id ? conv.participant_2 : conv.participant_1);
-      }
-      if (messagesRes.data) setMessages(messagesRes.data);
+              // We cast as 'any' to allow accessing the joined profile objects
+              const conv = profileRes.data as any;
 
-      setIsLoading(false);
+              // Safety check to ensure participants exist before accessing .id
+              if (conv.participant_1 && conv.participant_2) {
+                const recipient = conv.participant_1.id === user.id
+                  ? conv.participant_2
+                  : conv.participant_1;
+                setOtherUser(recipient);
+              }
+            }
+
+            if (messagesRes.data) {
+              setMessages(messagesRes.data);
+            }
+
+            setIsLoading(false);
           }
 
           fetchChatDetails();
