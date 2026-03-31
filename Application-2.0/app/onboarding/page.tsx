@@ -264,7 +264,7 @@ export default function OnboardingPage() {
   if (loading && step === 1) return <div className={styles.loadingScreen}>SYNCING OUTTY...</div>;
 
   return (
-    return (
+
         <main className="relative min-h-screen w-full flex flex-col items-center justify-start bg-[#022c22] p-4 pt-32 md:pt-12 text-center overflow-x-hidden">
 
           {/* CANCEL MODAL */}
