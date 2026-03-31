@@ -1,14 +1,11 @@
 'use client';
 
-/* -------------------------------------------------------------------------- */
-/* SECTION 1: IMPORTS & DEPENDENCIES                                          */
-/* -------------------------------------------------------------------------- */
-
 import { supabase } from '../supabaseClient';
 import { useRouter, useSearchParams } from 'next/navigation';
 import zipData from 'us-zips';
 import { useState, useRef, useEffect, Suspense } from 'react';
 
+// Main Page Component with Suspense Boundary
 export default function OnboardingPage() {
   return (
     <Suspense fallback={
@@ -23,21 +20,19 @@ export default function OnboardingPage() {
   );
 }
 
-export default function OnboardingPage() {
-  /* -------------------------------------------------------------------------- */
-  /* SECTION 2: STATE MANAGEMENT                                                */
-  /* -------------------------------------------------------------------------- */
+// Inner Content Component
+function OnboardingContent() {
   const [step, setStep] = useState(1);
   const totalSteps = 6;
   const [loading, setLoading] = useState(true);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const searchParams = useSearchParams(); // <--- Add this
+  const searchParams = useSearchParams();
 
   const isEditMode = searchParams.get('mode') === 'edit';
 
-  // Step 1: Profile Essentials
+  // --- State Management ---
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
@@ -48,25 +43,76 @@ export default function OnboardingPage() {
   const [bio, setBio] = useState('');
   const [gender, setGender] = useState('Female');
   const [skillLevels, setSkillLevels] = useState<string[]>([]);
-
-  // Step 2 & 3: Adventure & Preferences
   const [adventures, setAdventures] = useState<string[]>([]);
   const [genderPrefs, setGenderPrefs] = useState<string[]>([]);
   const [mileRange, setMileRange] = useState(25);
   const [skillPref, setSkillPref] = useState<string[]>([]);
-
-  // Step 4 & 5: Media & Socials
   const [photos, setPhotos] = useState<string[]>([]);
+
+  // Socials
   const [instagram, setInstagram] = useState('');
   const [tiktok, setTiktok] = useState('');
   const [facebook, setFacebook] = useState('');
   const [linkedin, setLinkedin] = useState('');
 
-  // Validation States
+  // Validation
   const [usernameError, setUsernameError] = useState('');
   const [usernameSuccess, setUsernameSuccess] = useState(false);
   const [ageError, setAgeError] = useState('');
   const [checkingUsername, setCheckingUsername] = useState(false);
+
+  // ... (Keep your existing useEffects and Handlers here) ...
+
+  return (
+    <main className="relative min-h-screen w-full flex flex-col items-center justify-start bg-[#022c22] p-4 pt-32 md:pt-12 text-center overflow-x-hidden">
+      {/* (Keep your Modals and Progress Bar here) */}
+
+      {/* Example of Step 1 Fix with value binding */}
+      {step === 1 && (
+        <div className="animate-in fade-in slide-in-from-right-4 duration-500 text-left space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              type="text"
+              placeholder="First Name *"
+              className="..."
+              onChange={(e) => setFirstName(e.target.value)}
+              value={firstName}
+            />
+            <input
+              type="text"
+              placeholder="Last Name *"
+              className="..."
+              onChange={(e) => setLastName(e.target.value)}
+              value={lastName}
+            />
+          </div>
+          {/* Add value={...} to all other inputs similarly */}
+        </div>
+      )}
+
+      {/* Navigation Buttons */}
+      <div className="mt-8 flex gap-4 w-full max-w-2xl z-10">
+        {step > 1 && (
+          <button
+            onClick={() => setStep(step - 1)}
+            className="flex-1 py-4 bg-white/5 text-white font-bold rounded-xl border border-white/10"
+          >
+            Back
+          </button>
+        )}
+        <button
+          onClick={() => step === totalSteps ? handleSaveProfile() : setStep(step + 1)}
+          disabled={!isStepValid()}
+          className={`flex-[2] py-4 rounded-xl font-black uppercase tracking-widest transition-all ${
+            isStepValid() ? 'bg-emerald-500 text-white shadow-lg' : 'bg-white/10 text-white/20 cursor-not-allowed'
+          }`}
+        >
+          {step === totalSteps ? (isEditMode ? 'Update Profile' : 'Finish Adventure') : 'Continue'}
+        </button>
+      </div>
+    </main>
+  );
+}
 
   /* -------------------------------------------------------------------------- */
   /* SECTION 3: CONSTANTS & HELPERS                                             */
