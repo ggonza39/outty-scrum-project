@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 1: CORE THEME CONFIGURATION (Frontend Base)                        */
+/* Handles global colors, typography, and dark mode variables                 */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 2: GLOBAL UI COMPONENTS (Frontend Styles)                          */
+/* Reusable UI elements and scrollbar styling applied across the app          */
+/* -------------------------------------------------------------------------- */
+
+/* 2.1 Optimized Consolidated Scrollbar */
+/* Custom emerald styling for overflow containers */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 185, 129, 0.4) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.4);
+  border-radius: 20px;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  background-clip: content-box;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(52, 211, 153, 0.8);
+}
+
+/* 2.2 Scrollbar Arrow Buttons */
+/* Visual indicators for top/bottom navigation in lists */
+.custom-scrollbar::-webkit-scrollbar-button:single-button {
+  display: block;
+  height: 12px;
+  background-size: 8px;
+  background-repeat: no-repeat;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:vertical:decrement {
+  background-position: center bottom;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%2310b981'><polygon points='50,0 0,100 100,100'/></svg>");
+}
+
+.custom-scrollbar::-webkit-scrollbar-button:vertical:increment {
+  background-position: center top;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%2310b981'><polygon points='0,0 100,0 50,100'/></svg>");
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 3: VISUAL ANIMATIONS & EFFECTS (Frontend Effects)                  */
+/* Dynamic movement and environment effects for specific adventure themes     */
+/* -------------------------------------------------------------------------- */
+
+/* 3.1 Oceanic Theme Animations */
+/* Drift and shimmer effects for water-based environments */
+@keyframes ocean-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(2%, 1%) scale(1.05); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes shark-lurk {
+  0% { transform: translate(10%, 5%) rotate(0deg); opacity: 0.05; }
+  50% { transform: translate(-5%, -2%) rotate(-2deg); opacity: 0.15; }
+  100% { transform: translate(10%, 5%) rotate(0deg); opacity: 0.05; }
+}
+
+@keyframes caustic-shimmer {
+  0% { opacity: 0.1; background-position: 0% 0%; }
+  50% { opacity: 0.25; background-position: 50% 50%; }
+  100% { opacity: 0.1; background-position: 100% 100%; }
+}
+
+.animate-ocean { animation: ocean-drift 20s ease-in-out infinite; }
+.animate-shark { animation: shark-lurk 30s ease-in-out infinite; }
+.animate-caustics { animation: caustic-shimmer 8s ease-in-out infinite; }
+
+/* 3.2 Desert Theme Animations */
+/* Wind and sand particle movement for arid environments */
+@keyframes sand-drift {
+  0% { transform: translate(-10%, -10%) scale(1.1); }
+  50% { transform: translate(0%, 0%) scale(1); }
+  100% { transform: translate(-10%, -10%) scale(1.1); }
+}
+
+@keyframes sand-fall {
+  0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0; }
+}
+
+.animate-sand { animation: sand-fall linear infinite; }
+.animate-dune-drift { animation: sand-drift 30s ease-in-out infinite; }

@@ -1,0 +1,128 @@
+/* SECTION 1: BACKGROUND & LAYERS */
+.mainWrapper {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  background-color: #f3efe0;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.fixedBg {
+  position: fixed;
+  inset: 0;
+  opacity: 0.7;
+  background-image: url('https://images.unsplash.com/photo-1509316785289-025f5b846b35?q=80&w=2076');
+  background-size: cover;
+  background-position: center;
+  filter: saturate(1.2) brightness(0.75);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.gradientOverlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(to top right, rgba(2, 44, 34, 0.8), transparent, rgba(255, 255, 255, 0.1));
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* SECTION 2: PARTICLE ANIMATIONS */
+.particleLayer {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes windSwirl {
+  0% {
+    transform: translateX(-10vw) translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8; /* Higher visibility */
+  }
+  50% {
+    /* The "Swirl": move up and rotate mid-flight */
+    transform: translateX(50vw) translateY(-40px) rotate(10deg);
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(120vw) translateY(20px) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+.windParticle {
+  position: absolute;
+  /* Brighter, more substantial "sand" streaks */
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  border-radius: 9999px;
+  animation: windSwirl linear infinite;
+  filter: blur(1.5px);
+  will-change: transform; /* Performance optimization for many particles */
+}
+
+/* SECTION 3: MOBILE RESPONSIVENESS */
+
+@media (max-width: 768px) {
+  /* Pushing the header lower on mobile to clear the burger/logo */
+  :global(.z-20.w-full.max-w-7xl.mx-auto.px-8.pt-32) {
+    padding-top: 7rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  /* 2. Unified Container (Mobile) */
+  :global(.z-10.flex.w-full) {
+    /* Use 150px as a sweet spot for both views */
+    height: calc(100vh - 110px) !important;
+    width: calc(100% - 2rem) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex !important;
+    overflow: hidden !important;
+
+    /* Shared Aesthetics */
+    border: 1px solid rgba(16, 185, 129, 0.2) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    margin-bottom: 2rem;
+    border-radius: 1.5rem;
+  }
+
+  /* 3. State-Specific Overrides */
+  /* Only use this for minor adjustments that won't break the bottom alignment */
+  .mainWrapper:has(.chat-active) :global(.z-10.flex.w-full) {
+    /* We keep the height EXACTLY the same as above to prevent jumping */
+    height: calc(100vh - 150px) !important;
+    border-radius: 1.25rem !important;
+    margin-bottom: 0;
+  }
+  /* 4. Full Width for the Inbox/Sidebar */
+  :global(.flex-none) {
+    width: 100% !important;
+  }
+
+  /* 5. Particles - dialed back for readability during chat */
+  .particleLayer {
+    opacity: 0.25;
+  }
+}
+
+/* Force hidden horizontal overflow on the message components */
+:global(.custom-scrollbar) {
+  overflow-x: hidden !important;
+}
+
+/* Hide scrollbar track for a cleaner look if desired */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.2);
+  border-radius: 10px;
+}

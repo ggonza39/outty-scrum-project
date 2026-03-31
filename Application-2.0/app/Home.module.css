@@ -1,0 +1,78 @@
+@reference "./globals.css";
+/* -------------------------------------------------------------------------- */
+/* SECTION 1: LAYOUT & BACKGROUND (Frontend)                                  */
+/* -------------------------------------------------------------------------- */
+
+.mainContainer {
+  @apply relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#022c22];
+}
+
+.heroBackground {
+  @apply absolute inset-0 z-0 opacity-40 bg-cover bg-center;
+  background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80');
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 2: HERO COMPONENTS (Frontend)                                      */
+/* -------------------------------------------------------------------------- */
+
+.logoCircle {
+  @apply mb-8 inline-block p-5 rounded-full bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-transform hover:scale-110 duration-500;
+}
+
+.heroTitle {
+  @apply text-7xl md:text-9xl font-black text-white tracking-tighter mb-4 drop-shadow-2xl;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 3: BUTTONS & INTERACTIVES (Frontend)                               */
+/* -------------------------------------------------------------------------- */
+
+.primaryBtn {
+  @apply px-10 py-4 bg-emerald-500 text-white font-bold rounded-full transition-all shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:bg-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] hover:scale-105 active:scale-95;
+}
+
+.secondaryBtn {
+  @apply px-10 py-4 bg-white/5 backdrop-blur-md border border-white/10 text-white font-medium rounded-full hover:bg-white/10 hover:border-white/30 transition-all shadow-lg;
+}
+
+.loadingBtn {
+  @apply px-10 py-4 bg-emerald-500/50 text-white/50 font-bold rounded-full animate-pulse;
+}
+
+/* Home.module.css */
+
+@reference "./globals.css";
+
+/* ... (Existing Sections 1, 2, and 3) ... */
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 4: RESPONSIVE OVERRIDES (Mobile First Adjustments)                 */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  /* 4.1 Adjust Title Scale */
+  /* 9xl is too wide for most phones; scaling down to 5xl/6xl prevents horizontal overflow */
+  .heroTitle {
+    @apply text-6xl tracking-tight mb-2;
+  }
+
+  /* 4.2 Background Positioning */
+  /* On mobile, we want the focus of the mountain/hero image to stay centered */
+  .heroBackground {
+    @apply opacity-50; /* Slightly higher opacity for better visibility on small screens */
+    background-position: 65% center;
+  }
+
+  /* 4.3 Content Spacing */
+  /* Reducing the margin-bottom for the description so buttons are visible without scrolling */
+  .mainContainer p {
+    @apply text-lg mb-8 px-2;
+  }
+
+  /* 4.4 Button Refinement */
+  /* Making buttons slightly taller for easier thumb-tapping */
+  .primaryBtn, .secondaryBtn, .loadingBtn {
+    @apply py-5 w-full max-w-[280px];
+  }
+}

@@ -1,0 +1,64 @@
+/* -------------------------------------------------------------------------- */
+/* SECTION 1: MAIN WRAPPER & CORE LAYOUT                                      */
+/* -------------------------------------------------------------------------- */
+.mainWrapper {
+  position: relative;
+  min-h: 100vh;
+  width: 100%;
+  background-color: #022c22;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 2: BACKGROUND LAYERS & ATMOSPHERE                                  */
+/* -------------------------------------------------------------------------- */
+
+/* 2.1: FIXED IMAGE LAYER */
+.fixedBg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=2070');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.4) saturate(1.2);
+}
+
+/* 2.2: GRADIENT VIGNETTE */
+.gradientOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent, rgba(0,0,0,0.8));
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 3: UI COMPONENTS (GLASSMORPHISM)                                   */
+/* -------------------------------------------------------------------------- */
+
+/* 3.1: MAIN SETTINGS CARD */
+.glassCard {
+  background: rgba(6, 78, 59, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(40px);
+  border-radius: 3rem;
+  padding: 2.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 4: RESPONSIVE OVERRIDES                                            */
+/* -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .glassCard {
+    padding: 3.5rem;
+  }
+}
+
+/* Add to Settings.module.css */
+.toggleThumb {
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}

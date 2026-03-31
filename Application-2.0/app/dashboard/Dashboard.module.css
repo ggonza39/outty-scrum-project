@@ -1,0 +1,145 @@
+/* Dashboard.module.css */
+
+@reference "../globals.css";
+/* -------------------------------------------------------------------------- */
+/* SECTION 1: CORE LAYOUT & CONTAINER                                         */
+/* -------------------------------------------------------------------------- */
+.dashboardMain {
+  position: relative;
+  width: 100%;
+  isolation: isolate;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 2: BACKEND LAYERS (POSITIONING & POINTER LOGIC)                    */
+/* -------------------------------------------------------------------------- */
+.landscapeOverlay,
+.gradientScrim,
+.snowContainer {
+  position: fixed;
+  inset: 0;
+  /* Push to the very bottom */
+  z-index: -1;
+  /* Allow clicks to pass through to the buttons underneath */
+  pointer-events: none !important;
+  user-select: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 3: FRONTEND VISUALS (TEXTURES & GRADIENTS)                         */
+/* -------------------------------------------------------------------------- */
+
+/* 3.1: PHOTOGRAPHIC OVERLAY */
+.landscapeOverlay {
+  opacity: 0.3;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+
+/* 3.2: COLOR SCRIM */
+.gradientScrim {
+  background: linear-gradient(
+    to bottom,
+    rgba(2, 44, 34, 0.8) 0%,
+    rgba(2, 44, 34, 0.4) 50%,
+    rgba(2, 44, 34, 0.9) 100%
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 4: ATMOSPHERIC EFFECTS (SNOW SYSTEM)                               */
+/* -------------------------------------------------------------------------- */
+
+/* 4.1: EFFECT CONTAINER */
+.snowContainer {
+  overflow: hidden;
+}
+
+/* 4.2: EFFECT TEXTURE */
+.snow {
+  position: absolute;
+  top: -600px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(4px 4px at 100px 50px, #fff, transparent),
+    radial-gradient(3px 3px at 200px 150px, #fff, transparent),
+    radial-gradient(5px 5px at 300px 250px, #fff, transparent);
+  background-size: 600px 600px;
+  /* Ensure the individual snow layers don't block clicks */
+  pointer-events: none !important;
+}
+
+/* 4.3: LAYERED DEPTH & VARIATION */
+.snow1 { animation: snowFall 10s linear infinite; opacity: 0.3; }
+.snow2 { animation: snowFall 15s linear infinite; background-size: 400px 400px; opacity: 0.2; filter: blur(1px); }
+.snow3 { animation: snowFall 20s linear infinite; background-size: 800px 800px; opacity: 0.1; filter: blur(2px); }
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 5: ANIMATION KEYFRAMES                                             */
+/* -------------------------------------------------------------------------- */
+@keyframes snowFall {
+  from { transform: translateY(0); }
+  to { transform: translateY(600px); }
+}
+
+/* Dashboard.module.css */
+
+/* ... (Keep all your existing Sections 1 through 5) ... */
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 6: MOBILE RESPONSIVENESS SETTINGS                                  */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  /* 6.1 Header & Spacing Optimization */
+  /* Reduces the massive top padding so users see content immediately */
+  .dashboardMain :global(.max-w-6xl) {
+    @apply pt-32 px-4 pb-8;
+  }
+
+  /* 6.2 Typography Scaling */
+  /* Shrinks the "DASHBOARD" title so it doesn't overflow */
+  .dashboardMain h1 {
+    @apply text-5xl;
+  }
+
+  /* 6.3 Profile Grid Adjustments */
+  /* Ensure cards have consistent spacing and reduced internal padding */
+  .dashboardMain :global(.grid) {
+    @apply gap-4;
+  }
+
+  .dashboardMain :global(.group.flex-col) {
+    @apply p-5;
+  }
+
+  /* 6.4 Status & Interaction Improvements */
+  /* Makes the "Refine Search" button easier to tap */
+  .dashboardMain :global(.justify-between) {
+    @apply flex-col items-start gap-4 mb-8;
+  }
+
+  .dashboardMain :global(.z-50.flex.items-center) {
+    @apply w-full justify-center py-4 text-xs;
+  }
+
+  /* 6.5 Performance: Simplify Atmospheric Effects */
+  /* Reduces snow opacity to save battery/GPU on mobile devices */
+  .snow1, .snow2, .snow3 {
+    opacity: 0.05;
+  }
+}
+
+/* Extra small screen optimization (iPhone SE / Fold) */
+@media (max-width: 380px) {
+  .dashboardMain h1 {
+    @apply text-4xl;
+  }
+
+  .dashboardMain :global(.truncate) {
+    @apply text-lg;
+  }
+}

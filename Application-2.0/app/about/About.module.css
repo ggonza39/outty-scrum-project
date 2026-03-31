@@ -1,0 +1,113 @@
+@reference "../globals.css";
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 1: LAYOUT & BACKGROUNDS (Frontend)                                 */
+/* -------------------------------------------------------------------------- */
+
+.mainWrapper {
+  @apply relative min-h-screen w-full flex flex-col items-center py-20 bg-[#022c22] text-white font-sans;
+}
+
+.fixedBg {
+  @apply fixed inset-0 z-0 opacity-20 bg-cover bg-center;
+  background-image: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&q=80');
+}
+
+.gradientOverlay {
+  @apply fixed inset-0 z-0 bg-gradient-to-b from-[#022c22]/80 via-transparent to-[#022c22]/90;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 2: COMPONENTS & CARDS (Frontend)                                   */
+/* -------------------------------------------------------------------------- */
+
+.navHomeBtn {
+  @apply flex items-center gap-2 bg-white/10 backdrop-blur-2xl border border-white/20 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white/20 hover:border-white/40 transition-all shadow-xl text-white;
+}
+
+.navDashBtn {
+  @apply flex items-center gap-2 bg-emerald-500 text-[#022c22] px-6 py-3 rounded-full text-xs font-extrabold uppercase tracking-widest hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20;
+}
+
+.protocolCard {
+  @apply flex flex-col h-full p-8 xl:p-12 rounded-[2.5rem] bg-black/70 backdrop-blur-3xl border border-white/20 hover:border-emerald-500 transition-all duration-500 shadow-2xl;
+}
+
+.safetySection {
+  @apply mb-32 bg-black/60 backdrop-blur-3xl border border-white/20 rounded-[4rem] p-12 md:p-20 shadow-2xl;
+}
+
+.safetyRow {
+  @apply flex gap-8 items-center p-8 bg-white/5 rounded-3xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all;
+}
+
+.ctaButton {
+  @apply inline-flex items-center gap-6 px-14 py-7 bg-emerald-500 text-[#022c22] font-black uppercase italic rounded-3xl hover:bg-emerald-400 hover:scale-105 transition-all shadow-[0_20px_40px_rgba(16,185,129,0.4)] text-xl;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 3: TYPOGRAPHY SYSTEM (Frontend)                                    */
+/* -------------------------------------------------------------------------- */
+
+.labelText { @apply text-xs font-black uppercase tracking-[0.25em] text-emerald-400 drop-shadow-sm; }
+.bodyText { @apply text-base md:text-lg leading-relaxed text-white/90 font-medium drop-shadow-sm; }
+.headingText { @apply font-black italic uppercase tracking-tighter drop-shadow-md text-white; }
+
+/* About.module.css */
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 4: RESPONSIVE OVERRIDES (Mobile & Tablet)                          */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  /* 4.1 Adjusting the Mission Section Grid */
+  /* On tablets, the side-by-side layout for "Redefining" becomes too tight */
+  .mainWrapper section:first-of-type {
+    @apply grid-cols-1 gap-8 pb-12;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 4.2 Header & Padding Adjustments */
+  .mainWrapper {
+    @apply py-10;
+  }
+
+  .mainWrapper > div:nth-child(3) {
+    @apply pt-20 px-4; /* Reducing top padding and side gutters */
+  }
+
+  /* 4.3 Headline Scaling */
+  /* Scaling down the 8xl/9xl text so it fits the screen width */
+  .headingText.text-6xl, .headingText.text-8xl {
+    @apply text-5xl leading-[0.9];
+  }
+
+  .headingText.text-7xl, .headingText.text-9xl {
+    @apply text-6xl mb-4;
+  }
+
+  /* 4.4 Card & Container Refinement */
+  .protocolCard {
+    @apply p-8 rounded-[2rem]; /* Slightly smaller rounding for small screens */
+  }
+
+  .safetySection {
+    @apply p-6 rounded-[2.5rem] mb-16;
+  }
+
+  .safetyRow {
+    @apply flex-col items-start gap-4 p-6; /* Stack the safety icons on top of text */
+  }
+
+  /* 4.5 Stats Grid */
+  /* Switching from 4 columns to 2 columns for better readability */
+  .mainWrapper .grid-cols-2.md\:grid-cols-4 {
+    @apply gap-6 py-10;
+  }
+
+  /* 4.6 Call to Action Button */
+  .ctaButton {
+    @apply px-8 py-5 text-lg w-full justify-center;
+  }
+}
