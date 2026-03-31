@@ -77,15 +77,28 @@ function OnboardingContent() {
   /* -------------------------------------------------------------------------- */
   /* SECTION 4: EFFECTS & DATA FETCHING                                         */
   /* -------------------------------------------------------------------------- */
+  /* --- SECTION 4: UPDATED FETCHING --- */
   useEffect(() => {
     async function checkAuthAndLoad() {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { router.push('/login'); return; }
+      if (!user) {
+        router.push('/login');
+        return;
+      }
 
-      const { data, error } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+      // Fetch the profile
+      const { data, error } = await supabase.from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      // LOGIC: If they don't have a record OR they haven't finished the
+      // last required step (e.g., adventures or photos), stay here.
+      const isProfileComplete = data?.username && data?.adventure_type?.length > 0;
 
       if (data && !error) {
-        if (data.username && !isEditMode) {
+        if (isProfileComplete && !isEditMode) {
+          console.log("Profile complete, moving to dashboard");
           router.replace('/dashboard');
           return;
         }
@@ -112,11 +125,18 @@ function OnboardingContent() {
         setTiktok(data.tiktok || '');
         setFacebook(data.facebook || '');
         setLinkedin(data.linkedin || '');
-      }
-      setLoading(false);
-    }
-    checkAuthAndLoad();
-  }, [router, isEditMode]);
+
+
+
+      } else if (error && error.code !== 'PGRST116') {
+            // PGRST116 is "no rows found", which is expected for brand new users
+            console.error("Error fetching profile:", error);
+          }
+
+          setLoading(false);
+        }
+        checkAuthAndLoad();
+      }, [router, isEditMode]);
 
   useEffect(() => {
     if (zipCode.length === 5) {
