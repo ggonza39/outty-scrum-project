@@ -11,14 +11,23 @@
 .glassCard {
   z-index: 10;
   width: 100%;
-  max-width: 42rem; /* max-w-2xl */
+  max-width: 42rem;
   padding: 2rem;
   border-radius: 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* Brighter glass effect */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(40px); /* Increased blur for "crispness" */
+  -webkit-backdrop-filter: blur(40px);
+  /* Stronger top-light border */
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.previewInnerCard {
+  /* Use white-based glass instead of black-based for the preview */
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
 }
 
 .title {

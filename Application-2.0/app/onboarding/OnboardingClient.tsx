@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import zipData from 'us-zips';
 import styles from './onboarding.module.css';
 
+
 export default function OnboardingClient() {
   /* -------------------------------------------------------------------------- */
   /* SECTION 2: STATE MANAGEMENT                                                */
@@ -17,6 +18,8 @@ export default function OnboardingClient() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+
 
   // --- NAVIGATION STATE ---
   const [step, setStep] = useState(1);
@@ -273,10 +276,30 @@ export default function OnboardingClient() {
     /* -------------------------------------------------------------------------- */
     const progressWidth = `${(step / totalSteps) * 100}%`;
 
-    if (loading && step === 1) return <div className={styles.loadingScreen}>SYNCING OUTTY...</div>;
+    if (loading && step === 1) {
+      return (
+        <div className="min-h-screen bg-[#022c22] flex items-center justify-center relative overflow-hidden">
+          {/* Background Elements to match the 'My Profile' feel */}
+          <div className="absolute inset-0 z-0 opacity-40 bg-cover bg-center pointer-events-none"
+               style={{ backgroundImage: "url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80')" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/60 via-transparent to-transparent z-1" />
+
+          {/* The Loading Text */}
+          <div className="relative z-10 flex flex-col items-center gap-4">
+            <div className="animate-pulse text-emerald-400 font-black tracking-[0.4em] text-2xl md:text-3xl uppercase italic drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]">
+              Loading Outty...
+            </div>
+            {/* Optional: Add a subtle sub-text for extra polish */}
+            <div className="text-white/10 text-[12px] font-black uppercase tracking-[0.8em] animate-pulse delay-75">
+              Preparing your adventure
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     return (
-      <main className="relative min-h-screen w-full flex flex-col items-center justify-start bg-[#022c22] p-4 pt-32 md:pt-12 text-center overflow-x-hidden">
+      <main className="relative min-h-screen w-full flex flex-col items-center justify-between bg-[#011a14] p-4 pt-32 md:pt-20 text-center overflow-x-hidden">
 
         {/* CANCEL MODAL */}
         {showCancelModal && (
@@ -327,12 +350,18 @@ export default function OnboardingClient() {
           </div>
         </div>
 
-        {/* ... scroll down to the bottom ... */}
 
+        {/* BACKGROUND IMAGE & GRADIENT LAYER - LIGHT VERSION */}
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          {/* 1. HIGH-RES FOREST: Increased opacity for more natural light */}
+          <div
+            className="absolute inset-0 opacity-70 bg-cover bg-center transition-opacity duration-1000"
+            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80')" }}
+          />
 
-
-        {/* BACKGROUND IMAGE */}
-        <div className="absolute inset-0 z-0 opacity-20 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80')" }}></div>
+          {/* 2. SUN RAY OVERLAY: Adds brightness to the top half to match 'My Profile' */}
+          <div className="absolute inset-0 bg-gradient-to-b from-emerald-400/10 via-transparent to-transparent" />
+          </div>
 
         {/* MAIN CARD CONTAINER */}
         <div className="z-10 w-full max-w-2xl p-8 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-500">
@@ -595,9 +624,8 @@ export default function OnboardingClient() {
                       <p className="text-white text-base font-bold tracking-tight uppercase">
                         {Array.isArray(genderPrefs)
                           ? (genderPrefs.join(' | ') || 'Any')
-                          : typeof genderPrefs === 'string'
-                            ? genderPrefs.replace(/[\[\]"]/g, '').split(',').join(' | ')
-                            : 'Any'}
+                          : (genderPrefs ? String(genderPrefs).replace(/[\[\]"]/g, '').split(',').join(' | ') : 'Any')
+                        }
                       </p>
                     </div>
 
@@ -657,6 +685,7 @@ export default function OnboardingClient() {
           </div>
 
         </div> {/* <-- This closes the Main Card Container correctly */}
+        <div className="pb-12 w-full"></div>
       </main>
     );
   }
