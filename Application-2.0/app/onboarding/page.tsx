@@ -20,24 +20,36 @@ export default function OnboardingPage() {
   const router = useRouter();
 
   // --- NAVIGATION STATE ---
-  const [step, setStep] = useState(1);
-  const totalSteps = 3; // 1: Essentials, 2: Adventures, 3: Photos/Socials
+    const [step, setStep] = useState(1);
+    const totalSteps = 6; // Matching the reference
 
-  // --- STEP 1 STATES: THE BASICS ---
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [username, setUsername] = useState('');
-  const [age, setAge] = useState('');
-  const [gender, setGender] = useState('Female');
-  const [bio, setBio] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
+    // --- STEP 1: THE BASICS ---
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [username, setUsername] = useState('');
+    const [age, setAge] = useState('');
+    const [gender, setGender] = useState('Female');
+    const [bio, setBio] = useState('');
+    const [zipCode, setZipCode] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [skillLevels, setSkillLevels] = useState<string[]>([]);
 
-  // Validation States
-  const [usernameError, setUsernameError] = useState('');
-  const [usernameSuccess, setUsernameSuccess] = useState(false);
-  const [checkingUsername, setCheckingUsername] = useState(false);
+    // --- STEP 2 & 3: ADVENTURES & PREFS ---
+    const [selectedAdventures, setSelectedAdventures] = useState<string[]>([]);
+    const [genderPrefs, setGenderPrefs] = useState<string[]>([]);
+    const [mileRange, setMileRange] = useState(25);
+    const [skillPref, setSkillPref] = useState<string[]>([]);
+
+    // --- STEP 4 & 5: MEDIA & SOCIALS ---
+    const [photos, setPhotos] = useState<string[]>([]);
+    const [instagram, setInstagram] = useState('');
+    const [tiktok, setTiktok] = useState('');
+    const [facebook, setFacebook] = useState('');
+    const [linkedin, setLinkedin] = useState('');
+
+    // Validation Checkers
+    const isStep1Valid = firstName && lastName && usernameSuccess && age && zipCode.length === 5 && bio && skillLevels.length > 0;
 
   // Step 2: Adventure Selection
     const [selectedAdventures, setSelectedAdventures] = useState<string[]>([]);
@@ -131,42 +143,57 @@ export default function OnboardingPage() {
   };
 
   const handleSaveProfile = async () => {
-    setLoading(true);
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("No user found");
+      setLoading(true);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error("No user found");
 
-      const coords = zipData?.[zipCode];
+        const coords = zipData?.[zipCode];
 
-      const profileData = {
-        id: user.id,
-        first_name: firstName,
-        last_name: lastName,
-        username: username,
-        age: parseInt(age) || 0,
-        bio: bio,
-        zip_code: zipCode,
-        city: city,
-        state: state,
-        adventures: selectedAdventures,
-        latitude: coords?.latitude || null,
-        longitude: coords?.longitude || null,
-        updated_at: new Date().toISOString(),
-      };
+        const { error } = await supabase.from('profiles').upsert({
+          id: user.id,
+          first_name: firstName,
+          last_name: lastName,
+          username,
+          age: parseInt(age),
+          zip_code: zipCode,
+          city,
+          state,
+          latitude: coords?.latitude || null,
+          longitude: coords?.longitude || null,
+          gender,
+          gender_preference: genderPrefs,
+          adventure_type: selectedAdventures,
+          bio,
+          skill_level: skillLevels,
+          skill_preference: skillPref,
+          mile_range: mileRange,
+          profile_pictures: photos,
+          instagram,
+          tiktok,
+          facebook,
+          linkedin,
+          updated_at: new Date().toISOString(),
+        });
 
-      const { error } = await supabase.from('profiles').upsert(profileData);
-
-      if (error) {
-        alert(`Save failed: ${error.message}`);
-      } else {
-        alert("Basics Saved!");
+        if (error) throw error;
+        router.push('/profile');
+      } catch (err: any) {
+        alert(`Save failed: ${err.message}`);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error("Handler error:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    const isStepValid = () => {
+      switch (step) {
+        case 1: return isStep1Valid;
+        case 2: return selectedAdventures.length >= 3;
+        case 3: return genderPrefs.length > 0 && skillPref.length > 0;
+        case 4: return photos.length >= 1;
+        default: return true;
+      }
+    };
 
   useEffect(() => {
     if (zipCode.length === 5) {
@@ -200,173 +227,83 @@ export default function OnboardingPage() {
   return (
       <main className={styles.mainContainer}>
         <div className={styles.glassCard}>
+          {/* PROGRESS INDICATOR */}
+          <div className={styles.progressBarContainer}>
+            {Array.from({ length: totalSteps }).map((_, i) => (
+              <div key={i} className={`${styles.progressSegment} ${i + 1 <= step ? styles.progressSegmentActive : ''}`} />
+            ))}
+          </div>
 
-         {/* PROGRESS INDICATOR */}
-         <div className={styles.progressBarContainer}>
-           {[1, 2, 3].map((s) => (
-             <div
-               key={s}
-               className={`${styles.progressSegment} ${s <= step ? styles.progressSegmentActive : ''}`}
-             />
-           ))}
-         </div>
-
-          {/* STEP 1: THE ESSENTIALS (Your Current Working UI) */}
+          {/* STEP 1: ESSENTIALS */}
           {step === 1 && (
-            <>
+            <div className="space-y-4 text-left">
               <h1 className={styles.title}>The Essentials</h1>
-              <p className="text-emerald-500/60 text-[10px] font-bold text-center uppercase tracking-[0.2em] mb-8">
-                Logged in as: {userEmail}
-              </p>
-
-              <div className="space-y-4">
-                {/* Names */}
-                <div className={`grid grid-cols-2 gap-4 ${styles.grid2}`}>
-                  <input
-                    placeholder="First Name *"
-                    className={styles.inputBase}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    value={firstName}
-                  />
-                  <input
-                    placeholder="Last Name *"
-                    className={styles.inputBase}
-                    onChange={(e) => setLastName(e.target.value)}
-                    value={lastName}
-                  />
-                </div>
-
-                {/* Username & Age */}
-                <div className="grid grid-cols-3 gap-4">
-                  <input
-                    placeholder="Age *"
-                    className={styles.inputBase}
-                    onChange={(e) => setAge(e.target.value.replace(/\D/g, ''))}
-                    value={age}
-                  />
-                  <div className="col-span-2 relative">
-                    <input
-                      placeholder="Username *"
-                      className={`${styles.inputBase} ${
-                        usernameError ? 'border-red-500' : usernameSuccess ? 'border-emerald-500' : ''
-                      }`}
-                      onChange={(e) => {
-                        setUsername(e.target.value);
-                        setUsernameSuccess(false);
-                      }}
-                      onBlur={(e) => checkUsername(e.target.value)}
-                      value={username}
-                    />
-                    {checkingUsername && (
-                      <span className="absolute right-4 top-5 text-[10px] text-emerald-400 font-bold animate-pulse">
-                        VERIFYING...
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* ZIP & Auto-City/State */}
-                <div className="grid grid-cols-12 gap-4">
-                  <input
-                    maxLength={5}
-                    placeholder="ZIP *"
-                    className={`${styles.inputBase} col-span-4`}
-                    onChange={(e) => setZipCode(e.target.value.replace(/\D/g, ''))}
-                    value={zipCode}
-                  />
-                  <input
-                    placeholder="City"
-                    disabled
-                    className={`${styles.inputBase} ${styles.inputDisabled} col-span-5`}
-                    value={city}
-                  />
-                  <input
-                    placeholder="ST"
-                    disabled
-                    className={`${styles.inputBase} ${styles.inputDisabled} col-span-3 text-center`}
-                    value={state}
-                  />
-                </div>
-
-                <textarea
-                  placeholder="Adventure Bio *"
-                  className={`${styles.inputBase} min-h-[100px]`}
-                  onChange={(e) => setBio(e.target.value)}
-                  value={bio}
-                />
-
-                <button
-                  type="button"
-                  onClick={() => setStep(2)}
-                  // Using the new validation check from Section 2
-                  disabled={loading || !isStep1Valid}
-                  className={styles.submitButton}
-                >
-                  {loading ? 'Processing...' : 'Continue to Adventures'}
-                </button>
+              <div className="grid grid-cols-2 gap-4">
+                <input placeholder="First Name *" className={styles.inputBase} onChange={(e) => setFirstName(e.target.value)} value={firstName} />
+                <input placeholder="Last Name *" className={styles.inputBase} onChange={(e) => setLastName(e.target.value)} value={lastName} />
               </div>
-            </>
+              <div className="grid grid-cols-3 gap-2">
+                {['Male', 'Female', 'Other'].map(g => (
+                  <button key={g} onClick={() => setGender(g)} className={`py-3 rounded-xl border text-xs font-bold transition-all ${gender === g ? 'bg-emerald-500 text-white' : 'bg-white/5 text-white/40 border-white/10'}`}>{g}</button>
+                ))}
+              </div>
+              <div className="grid grid-cols-12 gap-4">
+                <input maxLength={5} placeholder="ZIP *" className={`${styles.inputBase} col-span-4`} onChange={(e) => setZipCode(e.target.value.replace(/\D/g, ''))} value={zipCode} />
+                <input placeholder="City" disabled className={`${styles.inputBase} ${styles.inputDisabled} col-span-8`} value={city} />
+              </div>
+              <textarea placeholder="Adventure Bio *" className={`${styles.inputBase} min-h-[100px]`} onChange={(e) => setBio(e.target.value)} value={bio} />
+              <div className="grid grid-cols-4 gap-2">
+                {['Beginner', 'Intermediate', 'Advanced', 'Expert'].map(s => (
+                  <button key={s} onClick={() => toggleSelection(skillLevels, setSkillLevels, s)} className={`py-2 rounded-xl border text-[10px] font-bold transition-all ${skillLevels.includes(s) ? 'bg-emerald-500 text-white' : 'bg-white/5 border-white/10 text-white/40'}`}>{s}</button>
+                ))}
+              </div>
+            </div>
           )}
 
-          {/* STEP 2: ADVENTURES */}
-          {step === 2 && (
-            <>
-              <h1 className={styles.title}>Your Adventures</h1>
-              <p className="text-emerald-500/60 text-[10px] font-bold text-center uppercase tracking-[0.2em] mb-8">
-                Select at least 3 things you love
-              </p>
+          {/* STEP 2: ADVENTURES (Already implemented in your code) */}
+          {/* ... Include your existing Adventure mapping here ... */}
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
-                {adventureOptions.map((adv) => {
-                  const isSelected = selectedAdventures.includes(adv);
-                  return (
-                    <button
-                      key={adv}
-                      onClick={() => toggleAdventure(adv)}
-                      className={`p-4 rounded-xl border font-bold transition-all text-sm ${
-                        isSelected
-                          ? 'bg-emerald-500 border-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.3)]'
-                          : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'
-                      }`}
-                    >
-                      {adv}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="flex gap-4 w-full">
-                <button
-                  onClick={() => setStep(1)}
-                  className={`${styles.submitButton} !bg-white/5 !mt-0 border border-white/10`}
-                >
-                  Back
-                </button>
-                <button
-                  onClick={() => setStep(3)}
-                  disabled={selectedAdventures.length < 3}
-                  className={`${styles.submitButton} !mt-0`}
-                >
-                  Next
-                </button>
-              </div>
-            </>
-          )}
-
-          {/* STEP 3: FINAL TOUCHES (Placeholder for next build) */}
+          {/* STEP 3: MATCHING PREFS */}
           {step === 3 && (
-            <>
-              <h1 className={styles.title}>Final Touch</h1>
-              <div className="min-h-[300px] flex flex-col justify-center items-center">
-                <p className="text-white/50 italic mb-8">Review and Finalize</p>
-                <div className="flex gap-4 w-full">
-                  <button onClick={() => setStep(2)} className={`${styles.submitButton} !bg-white/10 !mt-0`}>Back</button>
-                  <button onClick={handleSaveProfile} className={`${styles.submitButton} !mt-0`}>Complete</button>
-                </div>
+            <div className="space-y-6 text-left">
+              <h1 className={styles.title}>Matching Preferences</h1>
+              <div>
+                <label className="text-white/40 text-[10px] font-black uppercase mb-2 block">Search Distance: {mileRange} miles</label>
+                <input type="range" min="5" max="100" step="5" value={mileRange} onChange={(e) => setMileRange(parseInt(e.target.value))} className="w-full accent-emerald-500" />
               </div>
-            </>
+              <div className="grid grid-cols-2 gap-2">
+                {['Beginner', 'Intermediate', 'Advanced', 'Expert'].map(s => (
+                  <button key={s} onClick={() => toggleSelection(skillPref, setSkillPref, s)} className={`py-3 rounded-xl border text-xs font-bold transition-all ${skillPref.includes(s) ? 'bg-emerald-500 text-white' : 'bg-white/5 border-white/10 text-white/40'}`}>{s}</button>
+                ))}
+              </div>
+            </div>
           )}
 
+          {/* STEP 6: PREVIEW (Final Step) */}
+          {step === 6 && (
+             <div className="text-left space-y-6">
+               <h1 className={styles.title}>Review Profile</h1>
+               <div className="bg-black/20 p-6 rounded-2xl border border-white/10">
+                 <h3 className="text-xl font-black text-white italic">{firstName} {lastName}</h3>
+                 <p className="text-emerald-400 font-bold text-xs uppercase">@{username} • {city}, {state}</p>
+                 <p className="text-white/70 text-sm mt-4 italic">"{bio}"</p>
+               </div>
+             </div>
+          )}
+
+          {/* DYNAMIC NAVIGATION BUTTONS */}
+          <div className="flex gap-4 w-full mt-8">
+            {step > 1 && (
+              <button onClick={() => setStep(step - 1)} className={`${styles.submitButton} !bg-white/5 !mt-0`}>Back</button>
+            )}
+            <button
+              onClick={() => { if (step < totalSteps) setStep(step + 1); else handleSaveProfile(); }}
+              disabled={loading || !isStepValid()}
+              className={`${styles.submitButton} !mt-0`}
+            >
+              {loading ? 'Processing...' : step < totalSteps ? 'Continue' : 'Finalize Profile'}
+            </button>
+          </div>
         </div>
       </main>
     );
