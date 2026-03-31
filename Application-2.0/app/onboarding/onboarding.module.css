@@ -93,18 +93,16 @@
 }
 
 .progressSegment {
-  height: 8px; /* Increased height */
+  height: 8px;
   flex: 1;
   border-radius: 99px;
-  background: rgba(255, 255, 255, 0.05); /* Visible "empty" state */
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1); /* Visible gray track */
   transition: all 0.5s ease;
 }
 
 .progressSegmentActive {
   background-color: #10b981;
   box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
-  border-color: #10b981;
 }
 
 /* Mobile Adjustments */

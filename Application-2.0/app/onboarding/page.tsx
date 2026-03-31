@@ -54,6 +54,15 @@ export default function OnboardingPage() {
       );
     };
 
+    // Add these simple checks to your existing state list
+    const isStep1Valid =
+      firstName.length > 0 &&
+      lastName.length > 0 &&
+      usernameSuccess &&
+      zipCode.length === 5 &&
+      city.length > 0 &&
+      bio.length > 0;
+
   /* -------------------------------------------------------------------------- */
   /* SECTION 3: AUTH & INITIALIZATION                                           */
   /* -------------------------------------------------------------------------- */
@@ -92,28 +101,30 @@ export default function OnboardingPage() {
   /* SECTION 4: ACTIONS & HANDLERS                                              */
   /* -------------------------------------------------------------------------- */
 
+  /* --- SECTION 4 UPDATES --- */
   const checkUsername = async (val: string) => {
     if (!val) return;
     setCheckingUsername(true);
     setUsernameError('');
-    setUsernameSuccess(false);
 
     try {
+      const { data: { user } } = await supabase.auth.getUser();
       const { data } = await supabase
         .from('profiles')
-        .select('username')
+        .select('username, id')
         .eq('username', val)
         .maybeSingle();
 
-      if (data) {
-        setUsernameError('Taken');
-        setUsernameSuccess(false);
-      } else {
-        setUsernameError('');
+      // Success if NO ONE has the name, OR if the ID matches you
+      if (!data || data.id === user?.id) {
         setUsernameSuccess(true);
+        setUsernameError('');
+      } else {
+        setUsernameSuccess(false);
+        setUsernameError('Taken');
       }
     } catch (err) {
-      setUsernameSuccess(true);
+      console.error(err);
     } finally {
       setCheckingUsername(false);
     }
@@ -287,10 +298,11 @@ export default function OnboardingPage() {
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  disabled={loading || !usernameSuccess || !zipCode || !city}
+                  // Using the new validation check from Section 2
+                  disabled={loading || !isStep1Valid}
                   className={styles.submitButton}
                 >
-                  Continue to Adventures
+                  {loading ? 'Processing...' : 'Continue to Adventures'}
                 </button>
               </div>
             </>
