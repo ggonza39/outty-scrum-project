@@ -17,9 +17,21 @@ export default function OnboardingPage() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const router = useRouter();
 
-  // Step 1 States (The Basics)
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  // --- STEP 1 STATES: THE BASICS ---
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [username, setUsername] = useState('');
+    const [age, setAge] = useState('');
+    const [gender, setGender] = useState('Female');
+    const [bio, setBio] = useState('');
+    const [zipCode, setZipCode] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+
+    // Validation States
+    const [usernameError, setUsernameError] = useState('');
+    const [usernameSuccess, setUsernameSuccess] = useState(false);
+    const [checkingUsername, setCheckingUsername] = useState(false);
 
   // Reserved for: Step 2 States (Adventure/ZIP)
   // Reserved for: Step 3 States (Socials/Photos)
@@ -90,6 +102,24 @@ export default function OnboardingPage() {
     }
   };
 
+useEffect(() => {
+    if (zipCode.length === 5) {
+      const fetchLocation = async () => {
+        try {
+          const response = await fetch(`https://api.zippopotam.us/us/${zipCode}`);
+          if (response.ok) {
+            const data = await response.json();
+            setCity(data.places[0]['place name']);
+            setState(data.places[0]['state abbreviation']);
+          }
+        } catch (error) {
+          console.error("Location lookup failed", error);
+        }
+      };
+      fetchLocation();
+    }
+  }, [zipCode]);
+
   /* -------------------------------------------------------------------------- */
   /* SECTION 5: RENDER LOGIC                                                    */
   /* -------------------------------------------------------------------------- */
@@ -101,53 +131,73 @@ export default function OnboardingPage() {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-10">
-      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-        <h1 className="text-3xl font-bold mb-6 text-center">Setup Profile</h1>
+ return (
+     <main className="min-h-screen w-full bg-[#022c22] p-8 flex flex-col items-center">
+       <div className="z-10 w-full max-w-2xl p-8 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl">
+         <h1 className="text-3xl font-black italic tracking-tighter text-white mb-8 text-center uppercase">
+           The Essentials
+         </h1>
 
-        {/* STEP 1: BASICS */}
-        <div className="space-y-4">
-          <p className="text-sm text-gray-500">Logged in as: {userEmail}</p>
+         <div className="space-y-4">
+           {/* Names */}
+           <div className="grid grid-cols-2 gap-4">
+             <input
+               placeholder="First Name *"
+               className="p-4 rounded-xl bg-white/10 border border-white/20 text-white outline-none focus:ring-2 focus:ring-emerald-500"
+               onChange={(e) => setFirstName(e.target.value)}
+               value={firstName}
+             />
+             <input
+               placeholder="Last Name *"
+               className="p-4 rounded-xl bg-white/10 border border-white/20 text-white outline-none focus:ring-2 focus:ring-emerald-500"
+               onChange={(e) => setLastName(e.target.value)}
+               value={lastName}
+             />
+           </div>
 
-          <div>
-            <label className="block text-sm font-medium">First Name</label>
-            <input
-              className="w-full border p-2 rounded mt-1"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="John"
-            />
-          </div>
+           {/* Username & Age */}
+           <div className="grid grid-cols-3 gap-4">
+             <input
+               placeholder="Age *"
+               className="p-4 rounded-xl bg-white/10 border border-white/20 text-white outline-none focus:ring-2 focus:ring-emerald-500"
+               onChange={(e) => setAge(e.target.value.replace(/\D/g, ''))}
+               value={age}
+             />
+             <input
+               placeholder="Username *"
+               className="col-span-2 p-4 rounded-xl bg-white/10 border border-white/20 text-white outline-none focus:ring-2 focus:ring-emerald-500"
+               onChange={(e) => setUsername(e.target.value)}
+               value={username}
+             />
+           </div>
 
-          <div>
-            <label className="block text-sm font-medium">Last Name</label>
-            <input
-              className="w-full border p-2 rounded mt-1"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Doe"
-            />
-          </div>
+           {/* ZIP & Auto-City/State */}
+           <div className="grid grid-cols-12 gap-4">
+             <input
+               maxLength={5}
+               placeholder="ZIP *"
+               className="col-span-4 p-4 rounded-xl bg-white/10 border border-white/20 text-white outline-none focus:ring-2 focus:ring-emerald-500"
+               onChange={(e) => setZipCode(e.target.value.replace(/\D/g, ''))}
+               value={zipCode}
+             />
+             <input placeholder="City" disabled className="col-span-5 p-4 rounded-xl bg-black/20 text-white/30 cursor-not-allowed" value={city} />
+             <input placeholder="ST" disabled className="col-span-3 p-4 rounded-xl bg-black/20 text-white/30 cursor-not-allowed text-center" value={state} />
+           </div>
 
-          <button
-            onClick={handleSaveProfile}
-            className="w-full bg-[#00df9a] text-black font-bold py-3 rounded-lg hover:bg-[#00c88a] transition"
-          >
-            Save Profile
-          </button>
-        </div>
+           <textarea
+             placeholder="Adventure Bio *"
+             className="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white outline-none focus:ring-2 focus:ring-emerald-500 min-h-[100px]"
+             onChange={(e) => setBio(e.target.value)}
+             value={bio}
+           />
 
-        {/* UTILITY BUTTONS */}
-        <div className="mt-8 border-t pt-4">
-          <button
-            onClick={handleSignOut}
-            className="w-full text-red-500 text-sm hover:underline"
-          >
-            Not you? Sign Out
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
+           <button
+             disabled={!firstName || !zipCode || city === ''}
+             className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black uppercase tracking-widest rounded-xl transition-all shadow-xl italic disabled:opacity-20"
+           >
+             Continue
+           </button>
+         </div>
+       </div>
+     </main>
+   );
