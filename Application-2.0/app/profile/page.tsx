@@ -190,7 +190,7 @@ export default function MyProfile() {
                  )}
                </div>
              </div>
-           </div>
+
             {/* 5.2 Bio & Matching Details */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="space-y-8">
