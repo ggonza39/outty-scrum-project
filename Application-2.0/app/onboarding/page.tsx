@@ -391,16 +391,16 @@ export default function OnboardingPage() {
         {/* STEP 6: EXACT PREVIEW CARD LAYOUT */}
         {step === 6 && (
           <div className="animate-in fade-in zoom-in duration-500 text-left">
-            <div className="bg-black/20 border border-white/10 rounded-[2rem] p-8 space-y-8 shadow-2xl overflow-y-auto max-h-[500px] custom-scrollbar">
+            {/* Using your new CSS module classes for the scrollbar and inner card */}
+            <div className={`border border-white/10 rounded-[2rem] p-6 md:p-8 space-y-8 shadow-2xl overflow-y-auto max-h-[500px] ${styles.previewInnerCard} ${styles.previewScrollbar}`}>
 
               {/* Profile Header */}
-              <div className="flex items-start gap-6 border-b border-white/5 pb-8">
+              <div className="flex items-center gap-6 border-b border-white/5 pb-8">
                 <div className="relative shrink-0">
-                  <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-emerald-500 shadow-lg shadow-emerald-500/20">
-                    {/* Displaying the user's selected primary photo (index 0) */}
+                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.2)] bg-white/5">
                     <img src={photos[0] || ''} alt="Primary" className="w-full h-full object-cover" />
                   </div>
-                  <div className="absolute -bottom-2 -right-2 bg-emerald-500 text-[#022c22] px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-tighter">
+                  <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-[#022c22] px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-tighter shadow-xl">
                     {age || '??'} YR OLD
                   </div>
                 </div>
