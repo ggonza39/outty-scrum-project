@@ -118,4 +118,39 @@
     grid-template-columns: 1fr !important;
   }
 
+  /* Custom Scrollbar for the Preview Card */
+  .previewScrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .previewScrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .previewScrollbar::-webkit-scrollbar-thumb {
+    background: rgba(16, 185, 129, 0.2); /* emerald-500 with low opacity */
+    border-radius: 10px;
+  }
+
+  .previewScrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(16, 185, 129, 0.5);
+  }
+
+  /* Specific Glass variant for the Preview Inner Box */
+  .previewInnerCard {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Animation for the "Online Now" pulse if not using Tailwind */
+  @keyframes softPulse {
+    0%, 100% { opacity: 1; filter: drop-shadow(0 0 2px #10b981); }
+    50% { opacity: 0.5; filter: drop-shadow(0 0 8px #10b981); }
+  }
+
+  .pulseGreen {
+    animation: softPulse 2s infinite;
+  }
+
 }
