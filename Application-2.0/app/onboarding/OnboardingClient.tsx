@@ -248,7 +248,7 @@ export default function OnboardingClient() {
         instagram, tiktok, facebook, linkedin,
         updated_at: new Date()
       });
-      if (!error) router.push('/dashboard');
+      if (!error) router.push('/profile');
       else alert(error.message);
     }
     setLoading(false);
