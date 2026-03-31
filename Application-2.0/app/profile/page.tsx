@@ -82,6 +82,7 @@ export default function MyProfile() {
     </div>
   );
 
+// Add this logic here to keep the JSX clean
 const formattedGender = typeof profile?.gender === 'string'
     ? profile.gender.replace(/[\[\]"]/g, '').split(',').map((s: string) => s.trim()).join(' | ')
     : Array.isArray(profile?.gender)
