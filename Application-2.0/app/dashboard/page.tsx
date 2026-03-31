@@ -83,17 +83,17 @@ export default function Dashboard() {
   const { openFloatingChat } = useChat();
 
   // Filter State
-  const [filters, setFilters] = useState({
-    adventureType: [],
-    skillLevel: [],
-    city: '',
-    zipCode: '',
-    radius: '50',
-    gender: [],
-    minAge: '18',
-    maxAge: '',
-    states: [],
-    customCoords: null;
+  const [filters, setFilters] = useState<FilterState>({
+      adventureType: [],
+      skillLevel: [],
+      city: '',
+      zipCode: '',
+      radius: '50',
+      gender: [],
+      minAge: '18',
+      maxAge: '',
+      states: [],
+      customCoords: null,
 
   });
 
