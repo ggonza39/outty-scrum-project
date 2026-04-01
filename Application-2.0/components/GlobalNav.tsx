@@ -55,20 +55,24 @@ export default function GlobalNav() {
   /* SECTION 3: LIFECYCLE EFFECTS (LRS & AUTH)                                  */
   /* -------------------------------------------------------------------------- */
 
- // 3.1a: WATCHER (Handles Activation & Scrubbing)
+ // 3.1a: SURGICAL WATCHER (Activation & History Scrub)
    useEffect(() => {
-     // Check if the logout param exists
      const params = new URLSearchParams(window.location.search);
-     const isLogoutSuccess = params.get('logout') === 'success';
-
-     if (isLogoutSuccess) {
+     if (params.get('logout') === 'success') {
+       // 1. Trigger the visuals
        setShowToast(true);
        setIsExiting(false);
 
-       // Clean up the URL bar immediately so the user sees a clean /login
-       router.replace(pathname, { scroll: false });
+       // 2. THE SURGERY: Native Browser History Scrub
+       // This changes the URL in the browser's address bar WITHOUT a reload
+       // and ensures that hitting 'Refresh' or 'Back' sees a clean URL.
+       const cleanUrl = window.location.pathname;
+       window.history.replaceState({}, '', cleanUrl);
+
+       // 3. Sync the Next.js router state so it doesn't get confused
+       router.replace(cleanUrl, { scroll: false });
      }
-   }, [pathname, router]); // Run once on mount (and if path changes)
+   }, [router]); // Only runs on mount
 
   // 3.1b: LIFECYCLE (Handles the exit countdown)
   // This ONLY runs when showToast becomes true.
