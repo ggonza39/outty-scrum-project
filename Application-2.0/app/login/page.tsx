@@ -27,15 +27,7 @@ function LoginContent() {
     }
   }, [message, isError]);
 
-  // --- SURGICAL FIX: CONSUME LOGOUT PARAMETER ---
-    useEffect(() => {
-      if (searchParams.get('logout') === 'success') {
-        // This removes the "?logout=success" from the URL
-        // without triggering a full page reload.
-        router.replace('/login');
-      }
-    }, [searchParams, router]);
-    // ----------------------------------------------
+
 
   const validatePassword = (pass: string) => {
     if (pass.length < 8) return "Password must be at least 8 characters.";

@@ -55,32 +55,38 @@ export default function GlobalNav() {
   /* SECTION 3: LIFECYCLE EFFECTS (LRS & AUTH)                                  */
   /* -------------------------------------------------------------------------- */
 
- // 3.1 LOGOUT TOAST LOGIC (With URL Cleanup)
+ // 3.1a: WATCHER (Handles Activation & Scrubbing)
    useEffect(() => {
-     const isLogoutSuccess = searchParams.get('logout') === 'success';
+     // Check if the logout param exists
+     const params = new URLSearchParams(window.location.search);
+     const isLogoutSuccess = params.get('logout') === 'success';
 
      if (isLogoutSuccess) {
        setShowToast(true);
        setIsExiting(false);
 
-       // --- SURGICAL ADDITION: SCRUB THE URL ---
-       // This removes "?logout=success" from the browser bar without reloading
-       const newUrl = pathname;
-       router.replace(newUrl);
-       // ----------------------------------------
-
-       const exitTimer = setTimeout(() => setIsExiting(true), 4000);
-       const removeTimer = setTimeout(() => {
-         setShowToast(false);
-         setIsExiting(false);
-       }, 5000);
-
-       return () => {
-         clearTimeout(exitTimer);
-         clearTimeout(removeTimer);
-       };
+       // Clean up the URL bar immediately so the user sees a clean /login
+       router.replace(pathname, { scroll: false });
      }
-   }, [searchParams, pathname, router]);
+   }, [pathname, router]); // Run once on mount (and if path changes)
+
+  // 3.1b: LIFECYCLE (Handles the exit countdown)
+  // This ONLY runs when showToast becomes true.
+  // It doesn't care about the URL anymore.
+  useEffect(() => {
+    if (showToast) {
+      const exitTimer = setTimeout(() => setIsExiting(true), 4000);
+      const removeTimer = setTimeout(() => {
+        setShowToast(false);
+        setIsExiting(false);
+      }, 5000);
+
+      return () => {
+        clearTimeout(exitTimer);
+        clearTimeout(removeTimer);
+      };
+    }
+  }, [showToast]);
 
   // 3.2 HISTORY & CACHE GUARD
   useEffect(() => {
@@ -98,28 +104,6 @@ export default function GlobalNav() {
      /* SECTION 3: LIFECYCLE EFFECTS (LRS & AUTH)                                  */
      /* -------------------------------------------------------------------------- */
 
-     // 3.1 LOGOUT TOAST LOGIC (Smoother Timing)
-     useEffect(() => {
-       const isLogoutSuccess = searchParams.get('logout') === 'success';
-
-       if (isLogoutSuccess) {
-         setShowToast(true);
-         setIsExiting(false);
-
-         // Show for 4 seconds total
-         const exitTimer = setTimeout(() => setIsExiting(true), 4000);
-         // Allow 1 second for the CSS opacity transition to finish
-         const removeTimer = setTimeout(() => {
-           setShowToast(false);
-           setIsExiting(false);
-         }, 5000);
-
-         return () => {
-           clearTimeout(exitTimer);
-           clearTimeout(removeTimer);
-         };
-       }
-     }, [searchParams]);
 
      // 3.2 AUTH & BOUNCER (Stable Guard)
      useEffect(() => {
@@ -255,7 +239,7 @@ export default function GlobalNav() {
 
     {/* 5.2 LOGOUT SUCCESS TOAST */}
         {showToast && (
-          <div className={`fixed z-[100] transition-all duration-[3000ms] ease-in-out left-1/2 -translate-x-1/2 top-28 md:top-10 ${isExiting ? 'opacity-0 blur-2xl scale-90 pointer-events-none' : 'opacity-100 blur-0 scale-100 animate-in fade-in zoom-in'}`}>
+          <div className={`fixed z-[100] transition-all duration-[500ms] ease-in-out left-1/2 -translate-x-1/2 top-28 md:top-10 ${isExiting ? 'opacity-0 blur-2xl scale-90 pointer-events-none' : 'opacity-100 blur-0 scale-100 animate-in fade-in zoom-in'}`}>
             <div className="bg-[#064e3b]/95 backdrop-blur-3xl border border-emerald-500/30 px-5 py-3 rounded-2xl flex items-center gap-3 text-emerald-50 font-black uppercase tracking-[0.2em] text-[9px] shadow-[0_0_40px_rgba(0,0,0,0.7)] whitespace-nowrap">
                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]" />
                Adventure Paused • <span className="text-emerald-400">Logged Out</span>
