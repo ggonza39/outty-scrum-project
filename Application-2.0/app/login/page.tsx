@@ -5,7 +5,7 @@
 /* -------------------------------------------------------------------------- */
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './Login.module.css';
 
 export default function LoginPage() {
@@ -18,6 +18,9 @@ export default function LoginPage() {
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
   const router = useRouter();
+
+  const searchParams = useSearchParams(); // Make sure this is imported from 'next/navigation'
+
 
   // Effect to clear success message after 5 seconds and prompt login
   useEffect(() => {
@@ -131,6 +134,7 @@ export default function LoginPage() {
       {/* ------------------------------------------------------------------ */}
       {/* SECTION 4: LOGIN CONTAINER                                         */}
       {/* ------------------------------------------------------------------ */}
+
       <div className={`${styles.glassCard} z-10 w-full max-w-md p-10 mx-4 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-500`}>
         <h2 className={`${styles.glassTitle} text-4xl font-black text-white mb-2 text-center tracking-tighter uppercase italic`}>Join the Adventure</h2>
         <p className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em] text-center mb-8">Outty Identity Portal</p>

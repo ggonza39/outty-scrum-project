@@ -34,30 +34,50 @@ export default function GlobalNav() {
   const isOnboardingPage = pathname === '/onboarding';
   const isAboutPage = pathname === '/about';
 
+  const [authLoading, setAuthLoading] = useState(true); // Start as true
+
+
+  // Add these temporarily to your GlobalNav
+  useEffect(() => {
+    console.count("RENDER: GlobalNav");
+  });
+
+  useEffect(() => {
+    console.log("TRIGGER: Auth Listener fired", user?.email);
+  }, [user]);
+
+  useEffect(() => {
+    console.log("TRIGGER: Toast Logic fired", searchParams.get('logout'));
+  }, [searchParams]);
+
+/* SECTION 2: Add an authLoading state */
   /* -------------------------------------------------------------------------- */
   /* SECTION 3: LIFECYCLE EFFECTS (LRS & AUTH)                                  */
   /* -------------------------------------------------------------------------- */
 
-  // 3.1 LOGOUT TOAST LOGIC
-  useEffect(() => {
-    const hasShownSuccess = sessionStorage.getItem('logout_toast_shown');
-    const isLogoutSuccess = searchParams.get('logout') === 'success';
+  /// 3.1 LOGOUT TOAST LOGIC
+   useEffect(() => {
+     const isLogoutSuccess = searchParams.get('logout') === 'success';
 
-    if (isLogoutSuccess && !hasShownSuccess) {
-      setShowToast(true);
-      sessionStorage.setItem('logout_toast_shown', 'true');
+     if (isLogoutSuccess) {
+       setShowToast(true);
+       setIsExiting(false);
 
-      const exitTimer = setTimeout(() => setIsExiting(true), 3000);
-      const removeTimer = setTimeout(() => {
-        setShowToast(false);
-        setIsExiting(false);
-        const newUrl = window.location.pathname;
-        window.history.replaceState(null, '', newUrl);
-      }, 4000);
+       // After 2 seconds, trigger the fade-out (isExiting = true)
+       const fadeTimer = setTimeout(() => setIsExiting(true), 2000);
 
-      return () => { clearTimeout(exitTimer); clearTimeout(removeTimer); };
-    }
-  }, [searchParams, pathname]);
+       // After 5 seconds total, remove the component from the DOM
+       const removeTimer = setTimeout(() => {
+         setShowToast(false);
+         setIsExiting(false);
+       }, 5000);
+
+       return () => {
+         clearTimeout(fadeTimer);
+         clearTimeout(removeTimer);
+       };
+     }
+   }, [searchParams]);
 
   // 3.2 HISTORY & CACHE GUARD
   useEffect(() => {
@@ -70,62 +90,74 @@ export default function GlobalNav() {
     return () => window.removeEventListener('pageshow', handlePageShow);
   }, []);
 
-  // 3.3 THE BOUNCER EFFECT
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      const isPublicPage = isHomePage || isLoginPage || isOnboardingPage || isAboutPage;
 
-      if (!session && !isPublicPage) {
-        setShowSessionModal(true);
-      }
-    };
-    checkSession();
-  }, [pathname, isHomePage, isLoginPage, isOnboardingPage, isAboutPage]);
+   /* -------------------------------------------------------------------------- */
+     /* SECTION 3: LIFECYCLE EFFECTS (LRS & AUTH)                                  */
+     /* -------------------------------------------------------------------------- */
 
-  // 3.4 LOGIN HISTORY TRAP
-  useEffect(() => {
-    const isLogoutReturn = searchParams.get('logout') === 'success';
+     // 3.1 LOGOUT TOAST LOGIC (Smoother Timing)
+     useEffect(() => {
+       const isLogoutSuccess = searchParams.get('logout') === 'success';
 
-    if (isLoginPage && isLogoutReturn) {
-      const floodTrap = () => {
-        for (let i = 0; i < 5; i++) {
-          window.history.pushState(null, '', window.location.href);
-        }
-      };
-      floodTrap();
+       if (isLogoutSuccess) {
+         setShowToast(true);
+         setIsExiting(false);
 
-      const handlePopState = (event: PopStateEvent) => {
-        window.history.pushState(null, '', window.location.href);
-      };
+         // Show for 4 seconds total
+         const exitTimer = setTimeout(() => setIsExiting(true), 4000);
+         // Allow 1 second for the CSS opacity transition to finish
+         const removeTimer = setTimeout(() => {
+           setShowToast(false);
+           setIsExiting(false);
+         }, 5000);
 
-      window.addEventListener('popstate', handlePopState);
-      return () => {
-        window.removeEventListener('popstate', handlePopState);
-      };
-    }
-  }, [isLoginPage, searchParams]);
+         return () => {
+           clearTimeout(exitTimer);
+           clearTimeout(removeTimer);
+         };
+       }
+     }, [searchParams]);
 
-  // 3.5 AUTH LISTENER
-  useEffect(() => {
-    async function getInitialUser() {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-    }
-    getInitialUser();
+     // 3.2 AUTH & BOUNCER (Stable Guard)
+     useEffect(() => {
+       let mounted = true;
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
-        setUser(session?.user ?? null);
-      }
-      if (event === 'SIGNED_OUT') {
-        setUser(null);
-        setUnreadCount(0);
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, []);
+       const initAuth = async () => {
+         const { data: { session } } = await supabase.auth.getSession();
+         if (!mounted) return;
 
+         setUser(session?.user ?? null);
+         setAuthLoading(false); // Auth check confirmed
+
+         const isPublicPage = isHomePage || isLoginPage || isOnboardingPage || isAboutPage;
+         // Only show modal if we are SURE there is no session on a private page
+         if (!session && !isPublicPage) {
+           setShowSessionModal(true);
+         }
+       };
+
+       initAuth();
+
+       const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+         if (mounted) {
+           setUser(session?.user ?? null);
+           setAuthLoading(false);
+
+           if (event === 'SIGNED_OUT') {
+             setUnreadCount(0);
+             const isPublicPage = isHomePage || isLoginPage || isOnboardingPage || isAboutPage;
+             if (!isPublicPage) {
+               setShowSessionModal(true);
+             }
+           }
+         }
+       });
+
+       return () => {
+         mounted = false;
+         subscription.unsubscribe();
+       };
+     }, [pathname, isHomePage, isLoginPage, isOnboardingPage, isAboutPage]);
   // 3.6 REAL-TIME UNREAD MESSAGES
   useEffect(() => {
     if (!user) {
@@ -162,13 +194,17 @@ export default function GlobalNav() {
           .update({ is_online: false, last_seen: new Date().toISOString() })
           .eq('id', user.id);
       }
+
+      // Clean up Supabase
       const channels = supabase.getChannels();
       channels.forEach(ch => supabase.removeChannel(ch));
       await supabase.auth.signOut();
+
+      // Clear storage
       window.localStorage.clear();
       window.sessionStorage.clear();
-      sessionStorage.removeItem('logout_toast_shown');
-      window.history.replaceState(null, '', '/login');
+
+      // Direct redirect - don't do window.history.replaceState here
       window.location.href = '/login?logout=success';
     } catch (error) {
       console.error('Logout failed:', error);
@@ -186,13 +222,14 @@ export default function GlobalNav() {
       <style jsx global>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
       `}</style>
 
       {/* 5.1 SESSION EXPIRED MODAL */}
-      {showSessionModal && (
+      {!authLoading && showSessionModal && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center p-6">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-xl" />
-          <div className="relative w-full max-w-sm bg-[#1a1a1a]/90 border border-white/10 p-10 rounded-[2.5rem] shadow-2xl text-center overflow-hidden animate-in fade-in zoom-in duration-300">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-2xl" /> {/* Darkened for focus */}
+          <div className="relative w-full max-w-sm bg-[#1a1a1a]/90 border border-white/10 p-10 rounded-[2.5rem] shadow-2xl text-center overflow-hidden animate-in fade-in zoom-in duration-500">
             <div className="absolute -top-24 -left-24 w-48 h-48 bg-red-500/10 blur-[80px]" />
             <h2 className="text-2xl font-black text-white mb-3 uppercase italic tracking-tighter">
               Adventure Timed Out
@@ -206,21 +243,35 @@ export default function GlobalNav() {
                 onClick={() => window.location.replace('/login')}
                 className="w-full py-4 bg-red-500 hover:bg-red-400 text-white font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-red-500/20 active:scale-95"
               >
-                Okay
+                Return to Portal
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* 5.2 LOGOUT SUCCESS TOAST */}
-      {showToast && (
-        <div className={`fixed top-10 left-1/2 -translate-x-1/2 z-[100] transition-all duration-1000 ${isExiting ? 'opacity-0' : 'opacity-100'}`}>
-          <div className="bg-[#064e3b]/90 backdrop-blur-2xl border border-emerald-500/30 px-6 py-3 rounded-full flex items-center gap-3 text-emerald-50 font-black uppercase tracking-[0.2em] text-[10px]">
-             Adventure Paused • <span className="text-emerald-400">Logged Out</span>
-          </div>
+    {/* 5.2 LOGOUT SUCCESS TOAST */}
+    {showToast && (
+      <div className={`
+        /* Mobile: Top Right Corner | Desktop: Top Center */
+        fixed z-[100] transition-all duration-[3000ms] ease-in-out
+        top-6 right-6 md:left-1/2 md:-translate-x-1/2 md:right-auto md:top-10
+        ${isExiting
+          ? 'opacity-0 translate-x-8 blur-2xl scale-90 pointer-events-none'
+          : 'opacity-100 translate-x-0 blur-0 scale-100 animate-in slide-in-from-right-8'
+        }
+      `}>
+        <div className="
+          bg-[#064e3b]/95 backdrop-blur-3xl border border-emerald-500/30
+          px-5 py-3 rounded-2xl flex items-center gap-3
+          text-emerald-50 font-black uppercase tracking-[0.2em] text-[9px]
+          shadow-[0_0_40px_rgba(0,0,0,0.7)]
+        ">
+           <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]" />
+           Adventure Paused • <span className="text-emerald-400">Logged Out</span>
         </div>
-      )}
+      </div>
+    )}
 
       {/* 5.3 HALF-SCREEN MOBILE MENU (Refined Stickiness) */}
       {user && isMobileMenuOpen && (
@@ -282,7 +333,7 @@ export default function GlobalNav() {
 
       {/* 5.4 GLOBAL HEADER & NAVIGATION */}
       {!showSessionModal && (
-        <header className="fixed top-0 left-0 right-0 z-50 px-6 py-8 md:px-12 pointer-events-none">
+       <header className="fixed top-0 left-0 right-0 z-50 px-6 py-8 md:px-12 pointer-events-none">
           <div className="w-full flex justify-between items-center pointer-events-auto">
 
             <Link
