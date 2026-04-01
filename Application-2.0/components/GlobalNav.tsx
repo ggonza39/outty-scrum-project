@@ -251,27 +251,14 @@ export default function GlobalNav() {
       )}
 
     {/* 5.2 LOGOUT SUCCESS TOAST */}
-    {showToast && (
-      <div className={`
-        /* Mobile: Top Right Corner | Desktop: Top Center */
-        fixed z-[100] transition-all duration-[3000ms] ease-in-out
-        top-6 right-6 md:left-1/2 md:-translate-x-1/2 md:right-auto md:top-10
-        ${isExiting
-          ? 'opacity-0 translate-x-8 blur-2xl scale-90 pointer-events-none'
-          : 'opacity-100 translate-x-0 blur-0 scale-100 animate-in slide-in-from-right-8'
-        }
-      `}>
-        <div className="
-          bg-[#064e3b]/95 backdrop-blur-3xl border border-emerald-500/30
-          px-5 py-3 rounded-2xl flex items-center gap-3
-          text-emerald-50 font-black uppercase tracking-[0.2em] text-[9px]
-          shadow-[0_0_40px_rgba(0,0,0,0.7)]
-        ">
-           <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]" />
-           Adventure Paused • <span className="text-emerald-400">Logged Out</span>
-        </div>
-      </div>
-    )}
+        {showToast && (
+          <div className={`fixed z-[100] transition-all duration-[3000ms] ease-in-out top-6 right-6 md:left-1/2 md:-translate-x-1/2 md:right-auto md:top-10 ${isExiting ? 'opacity-0 translate-x-8 blur-2xl scale-90 pointer-events-none' : 'opacity-100 translate-x-0 blur-0 scale-100 animate-in slide-in-from-right-8'}`}>
+            <div className="bg-[#064e3b]/95 backdrop-blur-3xl border border-emerald-500/30 px-5 py-3 rounded-2xl flex items-center gap-3 text-emerald-50 font-black uppercase tracking-[0.2em] text-[9px] shadow-[0_0_40px_rgba(0,0,0,0.7)]">
+               <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]" />
+               Adventure Paused • <span className="text-emerald-400">Logged Out</span>
+            </div>
+          </div>
+        )}
 
       {/* 5.3 HALF-SCREEN MOBILE MENU (Refined Stickiness) */}
       {user && isMobileMenuOpen && (
