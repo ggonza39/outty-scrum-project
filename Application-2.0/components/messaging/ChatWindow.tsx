@@ -71,17 +71,18 @@ export default function ChatWindow({ conversationId }: { conversationId: string 
       ]);
 
       if (profileRes.data) {
-              // We cast as 'any' to allow accessing the joined profile objects
-              const conv = profileRes.data as any;
+        const conv = profileRes.data as any;
 
-              // Safety check to ensure participants exist before accessing .id
-              if (conv.participant_1 && conv.participant_2) {
-                const recipient = conv.participant_1.id === user.id
-                  ? conv.participant_2
-                  : conv.participant_1;
-                setOtherUser(recipient);
-              }
-            }
+        // 1. Safely extract the profile object, whether it's an array or a single object
+        const p1 = Array.isArray(conv.participant_1) ? conv.participant_1[0] : conv.participant_1;
+        const p2 = Array.isArray(conv.participant_2) ? conv.participant_2[0] : conv.participant_2;
+
+        // 2. Perform the ID check on the extracted objects
+        if (p1 && p2) {
+          const recipient = p1.id === user.id ? p2 : p1;
+          setOtherUser(recipient);
+        }
+      }
 
             if (messagesRes.data) {
               setMessages(messagesRes.data);

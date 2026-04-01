@@ -102,15 +102,19 @@ export default function FloatingChatShell() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none" />
 
           {view === 'list' ? (
-            <ConversationList onSelect={(id) => {
-              openFloatingChat(id);
-              setView('chat');
-            }} />
-          ) : (activeFloatingId && isFloatingOpen) && (
-            <ChatWindow key={activeFloatingId} conversationId={activeFloatingId} />
+            <ConversationList
+              onSelect={(id) => {
+                openFloatingChat(id);
+                setView('chat');
+              }}
+            />
+          ) : (
+            /* Use a cleaner check here to avoid Turbopack confusion */
+            activeFloatingId && isFloatingOpen ? (
+              <ChatWindow key={activeFloatingId} conversationId={activeFloatingId} />
+            ) : null
           )}
        </div>
-     </div>
 
      {/* 3.4 FLOATING ACTION BUTTON (FAB) */}
      <button
