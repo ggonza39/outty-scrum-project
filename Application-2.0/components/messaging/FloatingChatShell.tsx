@@ -115,6 +115,7 @@ export default function FloatingChatShell() {
             ) : null
           )}
        </div>
+       </div>
 
      {/* 3.4 FLOATING ACTION BUTTON (FAB) */}
      <button
