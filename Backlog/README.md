@@ -28,15 +28,15 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 1. User account creation – 5 pts
 2. User login – 3 pts
 3. Log out securely – 1 pt
-- **In progress:**
 4. Create adventure-based user profile – 3 pts
 5. Set adventure preferences – 3 pts
 6. Edit or delete profile – 3 pts
-- **Pending:**
+- **In progress:**
 7. Personal Profile Dashboard & View – 4 pts
 8. View explorer profiles – 4 pts
 9. Upload & Manage Profile Photo Gallery – 5 pts
 10. Advanced Discovery & Multi-Criteria Filtering – 10 pts
+- **Pending:**
 11. Send in-app messages – 8 pts
 
 --- 
