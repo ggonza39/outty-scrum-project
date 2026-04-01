@@ -13,8 +13,8 @@ test('Signup creates profile in supabase table', async ({ page }) => {
     const randomString = Math.random().toString(36).substring(2, 12); // Generates a random 10-character string
     const email = `${randomString}@${'gmail.com'}`
 
-    await page.goto('https://outty-scrum-project.vercel.app/');
-    await page.getByRole('link', { name: 'Sign in' }).click();
+    //await page.goto('https://outty-scrum-project.vercel.app/');
+    //await page.getByRole('link', { name: 'Sign in' }).click();
     await page.goto('https://outty-scrum-project.vercel.app/');
     await page.getByRole('link', { name: 'Create account' }).click();
     await page.getByRole('textbox', { name: 'Name' }).click();
@@ -47,8 +47,8 @@ test('Long password rejects registration', async ({ page }) => {
     const randomString = Math.random().toString(36).substring(2, 12); // Generates a random 10-character string
     const email = `${randomString}@${'gmail.com'}`
 
-    await page.goto('https://outty-scrum-project.vercel.app/');
-    await page.getByRole('link', { name: 'Sign in' }).click();
+    //await page.goto('https://outty-scrum-project.vercel.app/');
+    //await page.getByRole('link', { name: 'Sign in' }).click();
     await page.goto('https://outty-scrum-project.vercel.app/');
     await page.getByRole('link', { name: 'Create account' }).click();
     await page.getByRole('textbox', { name: 'Name' }).click();
@@ -68,8 +68,8 @@ test('Long password rejects registration', async ({ page }) => {
 test('Used Email rejects registration', async ({ page }) => {
 
 
-    await page.goto('https://outty-scrum-project.vercel.app/');
-    await page.getByRole('link', { name: 'Sign in' }).click();
+    //await page.goto('https://outty-scrum-project.vercel.app/');
+    //await page.getByRole('link', { name: 'Sign in' }).click();
     await page.goto('https://outty-scrum-project.vercel.app/');
     await page.getByRole('link', { name: 'Create account' }).click();
     await page.getByRole('textbox', { name: 'Name' }).click();

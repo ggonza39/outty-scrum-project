@@ -50,6 +50,8 @@ test('Profile creation stores preferences in supabase table', async ({ page }) =
     await page.getByRole('textbox', { name: 'Age' }).fill(defaultData.age);
     await page.getByRole('textbox', { name: 'ZIP Code' }).click();
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(defaultData.zipCode);
+    await page.getByRole('textbox', { name: 'Gender' }).click();
+    await page.getByRole('textbox', { name: 'Gender' }).fill('Male');
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill('My bio.');
     await page.getByRole('button', { name: 'Continue' }).click();
@@ -134,6 +136,8 @@ test('Profile submission shows confirmation message', async ({ page }) => {
     await page.getByRole('textbox', { name: 'Age' }).fill(defaultData.age);
     await page.getByRole('textbox', { name: 'ZIP Code' }).click();
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(defaultData.zipCode);
+    await page.getByRole('textbox', { name: 'Gender' }).click();
+    await page.getByRole('textbox', { name: 'Gender' }).fill('Male');
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill('My bio.');
     await page.getByRole('button', { name: 'Continue' }).click();
@@ -351,6 +355,8 @@ test('Empty interests throws error on Interests page', async ({ page }) => {
     await page.getByRole('textbox', { name: 'Age' }).fill('30');
     await page.getByRole('textbox', { name: 'ZIP Code' }).click();
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill('30067');
+    await page.getByRole('textbox', { name: 'Gender' }).click();
+    await page.getByRole('textbox', { name: 'Gender' }).fill('Male');
     await page.getByRole('button', { name: 'Continue' }).click(); 
 
     await expect(page.getByText('Adventure Interests')).toBeVisible();

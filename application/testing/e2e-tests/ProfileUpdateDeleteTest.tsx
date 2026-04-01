@@ -46,8 +46,8 @@ test('Profile fields can be changed and update in database', async ({ page }) =>
     const randomString = Math.random().toString(36).substring(2, 12); // Generates a random 10-character string
     const email = `${randomString}@${'gmail.com'}`
 
-    await page.goto('https://outty-scrum-project.vercel.app/');
-    await page.getByRole('link', { name: 'Sign in' }).click();
+    //await page.goto('https://outty-scrum-project.vercel.app/');
+    //await page.getByRole('link', { name: 'Sign in' }).click();
     await page.goto('https://outty-scrum-project.vercel.app/');
     await page.getByRole('link', { name: 'Create account' }).click();
     await page.getByRole('textbox', { name: 'Name' }).click();
@@ -66,6 +66,8 @@ test('Profile fields can be changed and update in database', async ({ page }) =>
     await page.getByRole('textbox', { name: 'Age' }).fill(defaultData.age);
     await page.getByRole('textbox', { name: 'ZIP Code' }).click();
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(defaultData.zipCode);
+    await page.getByRole('textbox', { name: 'Gender' }).click();
+    await page.getByRole('textbox', { name: 'Gender' }).fill('Male');
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill('My bio.');
     await page.getByRole('button', { name: 'Continue' }).click();
@@ -128,6 +130,8 @@ test('Profile fields can be changed and update in database', async ({ page }) =>
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(updatedData.zipCode);
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill(updatedData.bio);
+    await page.getByRole('textbox', { name: 'Gender' }).click();
+    await page.getByRole('textbox', { name: 'Gender' }).fill('Female');
     await page.getByRole('button', { name: 'Continue' }).click();
     //await page.getByRole('button', { name: 'Backpacking' }).click();
     await page.getByRole('button', { name: 'Ice-Fishing' }).click();
@@ -210,8 +214,8 @@ test('Delete button at profile preview removes profile from database', async ({ 
     const name = `00test${randomString}`
     const email = `${randomString}@${'gmail.com'}`
 
-    await page.goto('https://outty-scrum-project.vercel.app/');
-    await page.getByRole('link', { name: 'Sign in' }).click();
+    //await page.goto('https://outty-scrum-project.vercel.app/');
+    //await page.getByRole('link', { name: 'Sign in' }).click();
     await page.goto('https://outty-scrum-project.vercel.app/');
     await page.getByRole('link', { name: 'Create account' }).click();
     await page.getByRole('textbox', { name: 'Name' }).click();
@@ -230,6 +234,8 @@ test('Delete button at profile preview removes profile from database', async ({ 
     await page.getByRole('textbox', { name: 'Age' }).fill(updatedData.age);
     await page.getByRole('textbox', { name: 'ZIP Code' }).click();
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(updatedData.zipCode);
+    await page.getByRole('textbox', { name: 'Gender' }).click();
+    await page.getByRole('textbox', { name: 'Gender' }).fill('Male');
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill(updatedData.bio);
     await page.getByRole('button', { name: 'Continue' }).click();
@@ -256,10 +262,9 @@ test('Delete button at profile preview removes profile from database', async ({ 
     });
     await page.getByRole('button', { name: 'Yes, Delete' }).click();
     await page.locator('body').press('Enter');
-    await page.getByRole('button', { name: 'Continue' }).click();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.locator('body').press('Enter');
 
-    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/profile-setup');
+    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/signin');
 
     // 2. Use the Supabase client to check the database directly
     const { data: afterData, error: afterError } = await supabase.from('profiles').select().eq('display_name', name);
@@ -279,8 +284,8 @@ test('Invalid updates are not submitted to database', async ({ page }) => {
     const randomString = Math.random().toString(36).substring(2, 12); // Generates a random 10-character string
     const email = `${randomString}@${'gmail.com'}`
 
-    await page.goto('https://outty-scrum-project.vercel.app/');
-    await page.getByRole('link', { name: 'Sign in' }).click();
+    //await page.goto('https://outty-scrum-project.vercel.app/');
+    //await page.getByRole('link', { name: 'Sign in' }).click();
     await page.goto('https://outty-scrum-project.vercel.app/');
     await page.getByRole('link', { name: 'Create account' }).click();
     await page.getByRole('textbox', { name: 'Name' }).click();
@@ -299,6 +304,8 @@ test('Invalid updates are not submitted to database', async ({ page }) => {
     await page.getByRole('textbox', { name: 'Age' }).fill(defaultData.age);
     await page.getByRole('textbox', { name: 'ZIP Code' }).click();
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(defaultData.zipCode);
+    await page.getByRole('textbox', { name: 'Gender' }).click();
+    await page.getByRole('textbox', { name: 'Gender' }).fill('Male');
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill('My bio.');
     await page.getByRole('button', { name: 'Continue' }).click();
@@ -360,40 +367,6 @@ test('Invalid updates are not submitted to database', async ({ page }) => {
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
-    //await page.getByRole('textbox', { name: 'ZIP Code' }).click();
-    //await page.getByRole('textbox', { name: 'ZIP Code' }).fill(updatedData.zipCode);
-    //await page.getByRole('textbox', { name: 'Bio' }).click();
-    //await page.getByRole('textbox', { name: 'Bio' }).fill(updatedData.bio);
-    //await page.getByRole('button', { name: 'Continue' }).click();
-    ////await page.getByRole('button', { name: 'Backpacking' }).click();
-    //await page.getByRole('button', { name: 'Ice-Fishing' }).click();
-    //await page.getByRole('button', { name: 'Bow-Hunting' }).click();
-    //await page.getByRole('button', { name: 'Fishing', exact: true }).click();
-    //await page.getByRole('button', { name: 'Boating' }).click();
-    //await page.getByRole('button', { name: 'Hiking' }).click();
-    //await page.getByRole('button', { name: 'Skiing' }).click();
-    //await page.getByRole('button', { name: 'Rock-Climbing' }).click();
-    //await page.getByRole('button', { name: 'Hang-Gliding' }).click();
-    //await page.getByRole('button', { name: 'Kayaking' }).click();
-    //await page.getByRole('button', { name: 'Camping' }).click();
-    //await page.getByRole('button', { name: 'Mountain-Biking' }).click();
-    //await page.getByRole('button', { name: 'Trail-Running' }).click();
-    //await page.getByRole('button', { name: 'Snowmobiling' }).click();
-    //await page.getByRole('button', { name: 'Wildlife-Photography' }).click();
-    //await page.getByRole('button', { name: 'Continue' }).click();
-    //await page.getByRole('button', { name: 'Expert' }).click();
-    //await page.getByRole('button', { name: 'Female' }).click();
-    //await page.getByRole('button', { name: 'Continue' }).click();
-    //await page.getByRole('textbox', { name: 'Instagram' }).click();
-    //await page.getByRole('textbox', { name: 'Instagram' }).fill(updatedData.instagram);
-    //await page.getByRole('textbox', { name: 'TikTok' }).click();
-    //await page.getByRole('textbox', { name: 'TikTok' }).fill(updatedData.tiktok);
-    //await page.getByRole('textbox', { name: 'Facebook' }).click();
-    //await page.getByRole('textbox', { name: 'Facebook' }).fill(updatedData.facebook);
-    //await page.getByRole('textbox', { name: 'LinkedIn' }).click();
-    //await page.getByRole('textbox', { name: 'LinkedIn' }).fill(updatedData.linkedin);
-    //await page.getByRole('button', { name: 'Continue' }).click();
-    //await page.getByRole('button', { name: 'Save Profile' }).click();
 
     //await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/match');
 
