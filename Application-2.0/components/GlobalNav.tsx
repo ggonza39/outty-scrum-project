@@ -55,35 +55,36 @@ export default function GlobalNav() {
   /* SECTION 3: LIFECYCLE EFFECTS (LRS & AUTH)                                  */
   /* -------------------------------------------------------------------------- */
 
- // 3.1a: SURGICAL WATCHER (Activation & History Scrub)
+ // 3.1a: SURGICAL WATCHER (Animation & History Scrub)
    useEffect(() => {
      const params = new URLSearchParams(window.location.search);
+
      if (params.get('logout') === 'success') {
-       // 1. Trigger the visuals
-       setShowToast(true);
-       setIsExiting(false);
+       // 1. Trigger the Visuals with a tiny delay to ensure the fade-in animates
+       const animationTimer = setTimeout(() => {
+         setShowToast(true);
+         setIsExiting(false);
+       }, 75);
 
-       // 2. THE SURGERY: Native Browser History Scrub
-       // This changes the URL in the browser's address bar WITHOUT a reload
-       // and ensures that hitting 'Refresh' or 'Back' sees a clean URL.
-       const cleanUrl = window.location.pathname;
-       window.history.replaceState({}, '', cleanUrl);
+       // 2. THE FIX: Clear the URL effectively
+       router.replace(pathname, { scroll: false });
 
-       // 3. Sync the Next.js router state so it doesn't get confused
-       router.replace(cleanUrl, { scroll: false });
+       // 3. EXTRA SAFETY: Browser History Scrub
+       window.history.replaceState({}, '', pathname);
+
+       return () => clearTimeout(animationTimer);
      }
-   }, [router]); // Only runs on mount
-
+   }, [pathname, router]);
   // 3.1b: LIFECYCLE (Handles the exit countdown)
   // This ONLY runs when showToast becomes true.
   // It doesn't care about the URL anymore.
   useEffect(() => {
     if (showToast) {
-      const exitTimer = setTimeout(() => setIsExiting(true), 4000);
+      const exitTimer = setTimeout(() => setIsExiting(true), 3000);
       const removeTimer = setTimeout(() => {
         setShowToast(false);
         setIsExiting(false);
-      }, 5000);
+      }, 4000);
 
       return () => {
         clearTimeout(exitTimer);
@@ -243,7 +244,7 @@ export default function GlobalNav() {
 
     {/* 5.2 LOGOUT SUCCESS TOAST */}
         {showToast && (
-          <div className={`fixed z-[100] transition-all duration-[500ms] ease-in-out left-1/2 -translate-x-1/2 top-28 md:top-10 ${isExiting ? 'opacity-0 blur-2xl scale-90 pointer-events-none' : 'opacity-100 blur-0 scale-100 animate-in fade-in zoom-in'}`}>
+          <div className={`fixed z-[100] transition-all duration-[4500ms] ease-in-out left-1/2 -translate-x-1/2 top-28 md:top-10 ${isExiting ? 'opacity-0 blur-2xl scale-90 pointer-events-none' : 'opacity-100 blur-0 scale-100 animate-in fade-in zoom-in'}`}>
             <div className="bg-[#064e3b]/95 backdrop-blur-3xl border border-emerald-500/30 px-5 py-3 rounded-2xl flex items-center gap-3 text-emerald-50 font-black uppercase tracking-[0.2em] text-[9px] shadow-[0_0_40px_rgba(0,0,0,0.7)] whitespace-nowrap">
                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]" />
                Adventure Paused • <span className="text-emerald-400">Logged Out</span>
