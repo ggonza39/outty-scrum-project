@@ -55,7 +55,7 @@ export default function GlobalNav() {
   /* SECTION 3: LIFECYCLE EFFECTS (LRS & AUTH)                                  */
   /* -------------------------------------------------------------------------- */
 
-  /// 3.1 LOGOUT TOAST LOGIC
+ // 3.1 LOGOUT TOAST LOGIC (With URL Cleanup)
    useEffect(() => {
      const isLogoutSuccess = searchParams.get('logout') === 'success';
 
@@ -63,21 +63,24 @@ export default function GlobalNav() {
        setShowToast(true);
        setIsExiting(false);
 
-       // After 2 seconds, trigger the fade-out (isExiting = true)
-       const fadeTimer = setTimeout(() => setIsExiting(true), 2000);
+       // --- SURGICAL ADDITION: SCRUB THE URL ---
+       // This removes "?logout=success" from the browser bar without reloading
+       const newUrl = pathname;
+       router.replace(newUrl);
+       // ----------------------------------------
 
-       // After 5 seconds total, remove the component from the DOM
+       const exitTimer = setTimeout(() => setIsExiting(true), 4000);
        const removeTimer = setTimeout(() => {
          setShowToast(false);
          setIsExiting(false);
        }, 5000);
 
        return () => {
-         clearTimeout(fadeTimer);
+         clearTimeout(exitTimer);
          clearTimeout(removeTimer);
        };
      }
-   }, [searchParams]);
+   }, [searchParams, pathname, router]);
 
   // 3.2 HISTORY & CACHE GUARD
   useEffect(() => {
