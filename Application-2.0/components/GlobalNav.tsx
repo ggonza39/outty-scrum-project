@@ -1,0 +1,352 @@
+'use client'
+
+/* -------------------------------------------------------------------------- */
+/* SECTION 1: IMPORTS & DEPENDENCIES                                          */
+/* -------------------------------------------------------------------------- */
+import { useEffect, useState } from 'react';
+import { supabase } from '@/app/supabaseClient';
+import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Home, MessagesSquare, User, Settings, LogOut, LayoutDashboard, Menu, X } from 'lucide-react';
+
+
+export default function GlobalNav() {
+  /* -------------------------------------------------------------------------- */
+  /* SECTION 2: STATE & HOOKS                                                   */
+  /* -------------------------------------------------------------------------- */
+  const [user, setUser] = useState<any>(null);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Toast States
+  const [showToast, setShowToast] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+  const [showSessionModal, setShowSessionModal] = useState(false);
+
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Route Flags
+  const isHomePage = pathname === '/';
+  const isLoginPage = pathname === '/login';
+  const isOnboardingPage = pathname === '/onboarding';
+  const isAboutPage = pathname === '/about';
+
+  /* -------------------------------------------------------------------------- */
+  /* SECTION 3: LIFECYCLE EFFECTS (LRS & AUTH)                                  */
+  /* -------------------------------------------------------------------------- */
+
+  // 3.1 LOGOUT TOAST LOGIC
+  useEffect(() => {
+    const hasShownSuccess = sessionStorage.getItem('logout_toast_shown');
+    const isLogoutSuccess = searchParams.get('logout') === 'success';
+
+    if (isLogoutSuccess && !hasShownSuccess) {
+      setShowToast(true);
+      sessionStorage.setItem('logout_toast_shown', 'true');
+
+      const exitTimer = setTimeout(() => setIsExiting(true), 3000);
+      const removeTimer = setTimeout(() => {
+        setShowToast(false);
+        setIsExiting(false);
+        const newUrl = window.location.pathname;
+        window.history.replaceState(null, '', newUrl);
+      }, 4000);
+
+      return () => { clearTimeout(exitTimer); clearTimeout(removeTimer); };
+    }
+  }, [searchParams, pathname]);
+
+  // 3.2 HISTORY & CACHE GUARD
+  useEffect(() => {
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
+    window.addEventListener('pageshow', handlePageShow);
+    return () => window.removeEventListener('pageshow', handlePageShow);
+  }, []);
+
+  // 3.3 THE BOUNCER EFFECT
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      const isPublicPage = isHomePage || isLoginPage || isOnboardingPage || isAboutPage;
+
+      if (!session && !isPublicPage) {
+        setShowSessionModal(true);
+      }
+    };
+    checkSession();
+  }, [pathname, isHomePage, isLoginPage, isOnboardingPage, isAboutPage]);
+
+  // 3.4 LOGIN HISTORY TRAP
+  useEffect(() => {
+    const isLogoutReturn = searchParams.get('logout') === 'success';
+
+    if (isLoginPage && isLogoutReturn) {
+      const floodTrap = () => {
+        for (let i = 0; i < 5; i++) {
+          window.history.pushState(null, '', window.location.href);
+        }
+      };
+      floodTrap();
+
+      const handlePopState = (event: PopStateEvent) => {
+        window.history.pushState(null, '', window.location.href);
+      };
+
+      window.addEventListener('popstate', handlePopState);
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+      };
+    }
+  }, [isLoginPage, searchParams]);
+
+  // 3.5 AUTH LISTENER
+  useEffect(() => {
+    async function getInitialUser() {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    }
+    getInitialUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
+        setUser(session?.user ?? null);
+      }
+      if (event === 'SIGNED_OUT') {
+        setUser(null);
+        setUnreadCount(0);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // 3.6 REAL-TIME UNREAD MESSAGES
+  useEffect(() => {
+    if (!user) {
+      setUnreadCount(0);
+      return;
+    }
+    const fetchUnreads = async () => {
+      const { count, error } = await supabase
+        .from('messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('receiver_id', user.id)
+        .eq('is_read', false);
+      if (!error) setUnreadCount(count || 0);
+    };
+    fetchUnreads();
+    const channel = supabase
+      .channel(`global-nav-unreads-${user.id}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'messages', filter: `receiver_id=eq.${user.id}` }, () => fetchUnreads())
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [user]);
+
+  /* -------------------------------------------------------------------------- */
+  /* SECTION 4: EVENT HANDLERS                                                  */
+  /* -------------------------------------------------------------------------- */
+  const shouldHideGlobalNav = isLoginPage || isOnboardingPage;
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      if (user) {
+        await supabase
+          .from('profiles')
+          .update({ is_online: false, last_seen: new Date().toISOString() })
+          .eq('id', user.id);
+      }
+      const channels = supabase.getChannels();
+      channels.forEach(ch => supabase.removeChannel(ch));
+      await supabase.auth.signOut();
+      window.localStorage.clear();
+      window.sessionStorage.clear();
+      sessionStorage.removeItem('logout_toast_shown');
+      window.history.replaceState(null, '', '/login');
+      window.location.href = '/login?logout=success';
+    } catch (error) {
+      console.error('Logout failed:', error);
+      setIsLoggingOut(false);
+    }
+  };
+
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+  /* -------------------------------------------------------------------------- */
+  /* SECTION 5: RENDER LOGIC                                                    */
+  /* -------------------------------------------------------------------------- */
+  return (
+    <>
+      <style jsx global>{`
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
+
+      {/* 5.1 SESSION EXPIRED MODAL */}
+      {showSessionModal && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-6">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-xl" />
+          <div className="relative w-full max-w-sm bg-[#1a1a1a]/90 border border-white/10 p-10 rounded-[2.5rem] shadow-2xl text-center overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div className="absolute -top-24 -left-24 w-48 h-48 bg-red-500/10 blur-[80px]" />
+            <h2 className="text-2xl font-black text-white mb-3 uppercase italic tracking-tighter">
+              Adventure Timed Out
+            </h2>
+            <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.3em] leading-relaxed mb-8">
+              Your session has expired. <br />
+              <span className="text-red-500/80">Please re-authenticate to continue.</span>
+            </p>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => window.location.replace('/login')}
+                className="w-full py-4 bg-red-500 hover:bg-red-400 text-white font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-red-500/20 active:scale-95"
+              >
+                Okay
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 5.2 LOGOUT SUCCESS TOAST */}
+      {showToast && (
+        <div className={`fixed top-10 left-1/2 -translate-x-1/2 z-[100] transition-all duration-1000 ${isExiting ? 'opacity-0' : 'opacity-100'}`}>
+          <div className="bg-[#064e3b]/90 backdrop-blur-2xl border border-emerald-500/30 px-6 py-3 rounded-full flex items-center gap-3 text-emerald-50 font-black uppercase tracking-[0.2em] text-[10px]">
+             Adventure Paused • <span className="text-emerald-400">Logged Out</span>
+          </div>
+        </div>
+      )}
+
+      {/* 5.3 HALF-SCREEN MOBILE MENU (Refined Stickiness) */}
+      {user && isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[100] md:hidden">
+            {/* Darkened Backdrop for remaining screen */}
+            <div className="absolute inset-0 bg-black/20" onClick={toggleMobileMenu} />
+
+            <div className="absolute right-0 top-0 bottom-0 w-[65%] flex flex-col bg-[#022c22]/40 backdrop-blur-[45px] border-l border-white/10 animate-in slide-in-from-right duration-500 overflow-y-auto no-scrollbar">
+                {/* Sticky Close Button (Isolated from Navigation height) */}
+                <div className="sticky top-0 right-0 p-8 flex justify-end z-10">
+                    <button
+                        onClick={toggleMobileMenu}
+                        className="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-xl text-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] active:scale-90 transition-all duration-300"
+                    >
+                        <X size={20} />
+                    </button>
+                </div>
+
+                {/* Navigation Items (Scrolls beneath the button) */}
+                <nav className="flex-1 px-6 pb-24 flex flex-col items-center gap-10">
+                    {[
+                    { href: '/', label: 'Home', icon: Home },
+                    { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+                    { href: '/messages', label: 'Messages', icon: MessagesSquare, count: unreadCount },
+                    { href: '/profile', label: 'My Profile', icon: User },
+                    { href: '/settings', label: 'Settings', icon: Settings },
+                    ].map((item) => (
+                    <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="group flex flex-col items-center gap-2 text-white/70 hover:text-emerald-400 transition-all duration-300"
+                    >
+                        <div className="relative w-16 h-16 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/50 group-hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] transition-all duration-300">
+                        <item.icon size={26} />
+                        {item.count !== undefined && item.count > 0 && (
+                            <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[8px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#022c22] font-black shadow-lg">
+                            {item.count}
+                            </span>
+                        )}
+                        </div>
+                        <span className="font-black uppercase tracking-[0.4em] text-[9px] italic">{item.label}</span>
+                    </Link>
+                    ))}
+
+                    <button
+                    onClick={handleLogout}
+                    className="group flex flex-col items-center gap-2 text-white/40 hover:text-red-500 transition-all duration-300 mt-4"
+                    >
+                    <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 group-hover:bg-red-500/10 group-hover:border-red-500/50 group-hover:shadow-[0_0_30px_rgba(239,68,68,0.3)] transition-all duration-300">
+                        <LogOut size={26} />
+                    </div>
+                    <span className="font-black uppercase tracking-[0.4em] text-[9px] italic">Logout</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+      )}
+
+      {/* 5.4 GLOBAL HEADER & NAVIGATION */}
+      {!showSessionModal && (
+        <header className="fixed top-0 left-0 right-0 z-50 px-6 py-8 md:px-12 pointer-events-none">
+          <div className="w-full flex justify-between items-center pointer-events-auto">
+
+            <Link
+              href="/"
+              className={`text-3xl md:text-4xl font-black italic tracking-tighter text-white hover:text-emerald-400 transition-all duration-500 drop-shadow-lg ${
+                isHomePage ? 'opacity-0 scale-90 pointer-events-none' : 'opacity-100 scale-100'
+              }`}
+            >
+              OUTTY
+            </Link>
+
+            {/* DESKTOP NAV BAR */}
+            {user && !shouldHideGlobalNav && (
+              <nav className="hidden md:flex items-center gap-10 bg-black/40 backdrop-blur-xl border border-white/10 px-8 py-4 rounded-full shadow-2xl">
+                <Link href="/" className="text-white/70 hover:text-emerald-400 font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-2 transition-all">
+                  <Home size={14} /> Home
+                </Link>
+                <Link href="/dashboard" className="text-white/70 hover:text-emerald-400 font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-2 transition-all">
+                   <LayoutDashboard size={14} /> Dashboard
+                </Link>
+                <Link href="/messages" className="relative text-white/70 hover:text-emerald-400 font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-2 transition-all">
+                  <MessagesSquare size={14} />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-3 -right-4 bg-red-600 text-white text-[9px] font-black min-w-[18px] h-[18px] rounded-full flex items-center justify-center border-2 border-[#022c22] px-1">
+                      {unreadCount}
+                    </span>
+                  )}
+                  Messages
+                </Link>
+                <Link href="/profile" className="text-white/70 hover:text-emerald-400 font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-2 transition-all">
+                  <User size={14} /> My Profile
+                </Link>
+                <Link href="/settings" className="group text-white/70 hover:text-emerald-400 font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-2 transition-all">
+                  <Settings size={14} className="group-hover:rotate-90 transition-transform duration-500" />
+                  Settings
+                </Link>
+
+                {isLoggingOut ? (
+                  <div className="flex items-center gap-2 text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em] animate-pulse">
+                    <span>Logging Out...</span>
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 text-white/40 hover:text-red-500 text-[10px] font-black uppercase tracking-[0.2em] transition-all active:scale-95"
+                  >
+                    <LogOut size={14} /> Logout
+                  </button>
+                )}
+              </nav>
+            )}
+
+            {/* MOBILE HAMBURGER BUTTON */}
+            {user && !shouldHideGlobalNav && (
+              <button
+                onClick={toggleMobileMenu}
+                className="md:hidden w-12 h-12 flex items-center justify-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl text-white hover:text-emerald-400 hover:border-emerald-500/30 hover:shadow-[0_0_15px_rgba(16,185,129,0.3)] shadow-lg active:scale-90 transition-all duration-300"
+              >
+                <Menu size={20} />
+              </button>
+            )}
+          </div>
+        </header>
+      )}
+    </>
+  );
+}

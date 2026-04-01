@@ -1,0 +1,165 @@
+.mainContainer {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #022c22;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.glassCard {
+  z-index: 10;
+  width: 100%;
+  max-width: 42rem;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  /* Brighter glass effect */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(40px); /* Increased blur for "crispness" */
+  -webkit-backdrop-filter: blur(40px);
+  /* Stronger top-light border */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.previewInnerCard {
+  /* Use white-based glass instead of black-based for the preview */
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.05em;
+  color: white;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.inputBase {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.inputBase:focus {
+  box-shadow: 0 0 0 2px #10b981; /* emerald-500 */
+}
+
+.inputBase::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.inputDisabled {
+  background: rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: not-allowed;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 1.25rem;
+  background-color: #10b981;
+  color: white;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 0.75rem;
+  transition: all 0.2s;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #34d399;
+  transform: translateY(-1px);
+}
+
+.submitButton:disabled {
+  opacity: 0.2;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+
+.progressBarContainer {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  width: 100%;
+  padding: 0 0.5rem;
+}
+
+.progressSegment {
+  height: 8px;
+  flex: 1;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.1); /* Visible gray track */
+  transition: all 0.5s ease;
+}
+
+.progressSegmentActive {
+  background-color: #10b981;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 640px) {
+  .mainContainer {
+    padding: 1rem;
+  }
+  .glassCard {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+  .grid2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Custom Scrollbar for the Preview Card */
+  .previewScrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .previewScrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .previewScrollbar::-webkit-scrollbar-thumb {
+    background: rgba(16, 185, 129, 0.2); /* emerald-500 with low opacity */
+    border-radius: 10px;
+  }
+
+  .previewScrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(16, 185, 129, 0.5);
+  }
+
+  /* Specific Glass variant for the Preview Inner Box */
+  .previewInnerCard {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Animation for the "Online Now" pulse if not using Tailwind */
+  @keyframes softPulse {
+    0%, 100% { opacity: 1; filter: drop-shadow(0 0 2px #10b981); }
+    50% { opacity: 0.5; filter: drop-shadow(0 0 8px #10b981); }
+  }
+
+  .pulseGreen {
+    animation: softPulse 2s infinite;
+  }
+
+}

@@ -1,0 +1,43 @@
+/* Login.module.css */
+@reference "../globals.css";
+
+/* -------------------------------------------------------------------------- */
+/* SECTION: MOBILE RESPONSIVENESS SETTINGS                                    */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  /* 1.1 Container Padding & Keyboard Protection */
+  /* This prevents the "Join the Adventure" card from hitting the screen edges */
+  .glassCard {
+    @apply p-6 mx-4 max-h-[calc(100vh-120px)] overflow-y-auto;
+  }
+
+  /* 1.2 Typography Scaling */
+  /* Scales the 4xl title down so it doesn't wrap awkwardly */
+  .glassTitle {
+    @apply text-3xl mb-1;
+  }
+
+  /* 1.3 Input Field Optimization */
+  /* Making the tap area larger for mobile users */
+  .inputField {
+    @apply py-5;
+  }
+
+  /* 1.4 Button Touch Targets */
+  /* py-5 provides a better "hit zone" for thumbs */
+  .primaryBtn, .secondaryBtn {
+    @apply py-5;
+  }
+
+  /* 1.5 Scrollbar Modernization & Hiding */
+    /* This removes the clunky default scrollbars while keeping touch scrolling active */
+    .glassCard {
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+    }
+
+    .glassCard::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, and Opera */
+    }
+}
