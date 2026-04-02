@@ -56,7 +56,16 @@ Outty 2.0 represents the transition from conceptual architecture to a high-fidel
 
 ## Demo Limitations & Roadmap
 
+To ensure maximum stability for the live presentation, the following constraints are currently in place:
 
+* **Authentication & Security:** * Single-factor authentication only; **Multi-factor (MFA) layers** are not yet active.
+    * **Password Reset** functionality is disabled for the demo build to simplify account management.
+    * Security protocols for **concurrent multi-device logins** or automated **session timeout sign-outs** are pending implementation.
+* **Account Controls:** * While the button exists in Settings, **Account Suspension** is not yet functional (users can currently only toggle Visibility or Delete).
+* **Messaging Management:** * The Inbox is "Read/Reply Only." Features to **Delete** or **Archive** conversations have been scoped for the post-demo sprint.
+* **Responsive Layouts:** * Design is strictly optimized for **Desktop** and **Mobile**. Intermediate tablet sizes or ultra-wide monitors have not been fully formatted yet.
+* **Discovery Logic:**
+    * Sorting currently utilizes user-defined filters and mock-data weights; fully automated system-generated "compatibility scores" are in development.
 
 ---
 
