@@ -1,7 +1,8 @@
 # Outty App 2.0 – Adventure Identity Portal
 
-**Live Demo:** [Outty 2.0](https://outty-app20.vercel.app/)  
-**Status:** Stable / Production-Ready (Demo Build)
+- **Live Demo:** [Outty 2.0](https://outty-app20.vercel.app/)
+  
+- **Status:** Stable / Production-Ready (Demo Build)
 
 ---
 
@@ -31,25 +32,40 @@ Outty 2.0 represents the transition from conceptual architecture to a high-fidel
 
 ## Key Features (Live for Demo)
 
-### 1. The Adventure Bouncer (Auth & Security)
-* **Secure Entry:** Full Email/Password authentication flow via Supabase.
+### 1. The Adventure Bouncer & Onboarding Guard
+* **Persistent Onboarding:** Implemented a "Completion Gate"—users who cancel profile creation are warned and restricted from the discovery dashboard. Re-logging in automatically routes incomplete profiles back to the Onboarding Portal to ensure data integrity.
+* **Dynamic Identity Creation:** Real-time **Username Availability** checks and automated **Geolocation** (Zip-to-City/State) to minimize friction during setup.
+* **Media Management:** Bulk upload support for up to 6 high-resolution adventure photos with a "Pre-flight" preview mode before final submission. Photos can be expanded into a seamless full-screen "Lightbox" view and closed instantly.
 * **Session Guard:** An "Adventure Timed Out" modal that prevents unauthorized access to private routes if a session expires or is manually cleared.
-* **Intelligent Logout:** A multi-stage logout process that clears local/session storage, updates user "Online" status, and triggers a smooth, animated "Adventure Paused" toast.
 
-### 2. Global Command Center (`GlobalNav`)
-* **Adaptive Navigation:** Fully responsive views tailored for Mobile (Slide-out blur menu) vs. Desktop (Floating glass bar).
-* **Real-time Intelligence:** Utilizes PostgreSQL listeners to update unread message badges instantly without requiring page refreshes.
-* **Context Awareness:** Navigation elements automatically hide on critical-focus pages (Login/Onboarding) to streamline the user experience.
+### 2. Global Command Center (`GlobalNav`) & Real-Time Presence
+* **Presence Indicators:** Visual "Live Status" via glowing/pulsing avatar rings and "Online Now" glowing text, powered by Supabase Realtime.
+* **Centralized Inbox & InstaChat:** Dual-layer messaging with a general inbox and a persistent floating "InstaChat" button for immediate engagement.
+* **Live Notification Sync:** Dynamic unread counters on both the chat toggle and main navigation that clear instantly upon reading.
+* **Navigation Lock:** The "Outty" logo/home redirect is intelligently disabled during profile creation and editing to prevent accidental data loss or process cancellation.
 
-### 3. Responsive "Glass" UI
-* **Mobile-First Design:** Optimized for one-handed use and high-glare outdoor environments.
-* **Smooth Motion:** Custom CSS animations (`fade-in`, `slide-in`, `zoom-in`) provide a premium, tactile feel during the investor pitch.
+### 3. High-Fidelity "Glass" UI & Environment Effects
+* **Atmospheric Backgrounds:** Context-aware visual effects including **Shimmer**, **Snow Particles**, **Dynamic Lighting**, **Flashes**, and **Wind** effects to match the outdoor theme.
+* **Precision Filtering:** A right-side drawer interface in the Dashboard allowing for precise **Mileage Radius** filtering and activity matching.
+* **Adaptive Design:** Fully responsive views tailored for Mobile (Slide-out blur menu) vs. Desktop (Floating glass bar).
 
+### 4. Profile Management & Accessibility
+* **Self-Service Portal:** A dedicated Settings page allowing users to toggle **Profile Visibility** (Invisible Mode) or permanently delete their account.
+* **Edit-in-Place:** Users are redirected to a personalized profile view post-onboarding where they can refine their adventure identity.
+* **The "Outty Way":** A simplified, step-by-step "How it Works" guide integrated into the populated About Page, accessible via the persistent global footer.
 ---
 
 ## Demo Limitations & Roadmap
 
+To ensure maximum stability for the live presentation, the following constraints are currently in place:
 
+* **Authentication & Security:** Single-factor authentication only; **Multi-factor (MFA) layers** are not yet active.
+    * **Password Reset** functionality is disabled for the demo build to simplify account management.
+    * Security protocols for **concurrent multi-device logins** or automated **session timeout sign-outs** are pending implementation.
+* **Account Controls:** While the button exists in Settings, **Account Suspension** is not yet functional (users can currently only toggle Visibility or Delete).
+* **Messaging Management:** The Inbox is "Read/Reply Only." Features to **Delete** or **Archive** conversations have been scoped for the post-demo sprint.
+* **Responsive Layouts:** Design is strictly optimized for **Desktop** and **Mobile**. Intermediate tablet sizes or ultra-wide monitors have not been fully formatted yet.
+* **Discovery Logic:** Dashboard sorting is currently based on direct database query results and active user filters; complex automated "compatibility scoring" is in development for future releases.
 
 ---
 
