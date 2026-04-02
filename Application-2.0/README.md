@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Outty App 2.0 – Adventure Identity Portal
 
-## Getting Started
+**Live Demo:** [Outty 2.0](https://outty-app20.vercel.app/)  
+**Status:** Stable / Production-Ready (Demo Build)
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## The Purpose of 2.0
+Outty 2.0 represents the transition from conceptual architecture to a high-fidelity, user-centric matching platform. This version focuses on the **"Identity & Discovery"** phase of the user journey—ensuring that the first touchpoint (Auth, Onboarding, and Global Navigation) feels as rugged and adventurous as the activities the app supports.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Core Objectives:
+* **Zero-Latency Auth:** Implementing a seamless Supabase authentication flow with high-performance edge routing.
+* **Immersive UI/UX:** A "Glassmorphism" aesthetic designed for outdoor enthusiasts, utilizing deep dark modes and high-visibility emerald accents.
+* **Robust Navigation:** A unified `GlobalNav` system featuring real-time unread message counts and session persistence.
+* **Stability for Demo:** A hardened codebase that gracefully handles edge cases like session timeouts, manual URL manipulation, and logout redirects.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Technical Stack (The 2.0 Evolution)
 
-## Learn More
+| Layer | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Framework** | **Next.js 15 (App Router)** | Server-side rendering & optimized client-side transitions. |
+| **Styling** | **Tailwind CSS** | Custom utility-first design system with an "Adventure" theme. |
+| **Icons** | **Lucide-React** | Lightweight, consistent iconography for intuitive navigation. |
+| **Backend** | **Supabase** | Real-time PostgreSQL database & Auth GoTrue integration. |
+| **Deployment**| **Vercel** | CI/CD pipeline with instant edge-network delivery and preview builds. |
+| **State** | **React Hooks** | Managing complex UI states (Modals, Toasts, and Auth status). |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Key Features (Live for Demo)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 1. The Adventure Bouncer (Auth & Security)
+* **Secure Entry:** Full Email/Password authentication flow via Supabase.
+* **Session Guard:** An "Adventure Timed Out" modal that prevents unauthorized access to private routes if a session expires or is manually cleared.
+* **Intelligent Logout:** A multi-stage logout process that clears local/session storage, updates user "Online" status, and triggers a smooth, animated "Adventure Paused" toast.
 
-## Deploy on Vercel
+### 2. Global Command Center (`GlobalNav`)
+* **Adaptive Navigation:** Fully responsive views tailored for Mobile (Slide-out blur menu) vs. Desktop (Floating glass bar).
+* **Real-time Intelligence:** Utilizes PostgreSQL listeners to update unread message badges instantly without requiring page refreshes.
+* **Context Awareness:** Navigation elements automatically hide on critical-focus pages (Login/Onboarding) to streamline the user experience.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3. Responsive "Glass" UI
+* **Mobile-First Design:** Optimized for one-handed use and high-glare outdoor environments.
+* **Smooth Motion:** Custom CSS animations (`fade-in`, `slide-in`, `zoom-in`) provide a premium, tactile feel during the investor pitch.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Demo Limitations & Roadmap
+
+
+
+---
+
+## Development Team
+
+* **Scrum Master:** Gilberto Gonzalez
+* **Product Owner:** Anthony Nguyen
+* **UI/UX Design:** Heidi Wilder
+* **Frontend Design:** Takeshia Banks
+* **Backend Design:** Hunter Blake
+* **Testing & Quality:** Gibson Garner
+
+---
+
+## Getting Started (Local Dev)
+
+1.  **Clone the Repository:**
+    ```bash
+    git clone [https://github.com/ggonza39/outty-scrum-project.git](https://github.com/ggonza39/outty-scrum-project.git)
+    ```
+2.  **Navigate to the App 2.0 Directory:**
+    ```bash
+    cd Application-2.0
+    ```
+3.  **Install Dependencies:**
+    ```bash
+    npm install
+    ```
+4.  **Run the Development Server:**
+    ```bash
+    npm run dev
+    ```
+
+---
+
+> **Built for the Wild.** Designed by the Outty Scrum Team. © 2026.
