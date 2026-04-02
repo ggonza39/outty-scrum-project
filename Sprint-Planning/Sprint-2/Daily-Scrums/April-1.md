@@ -21,7 +21,13 @@
 - 
 
 **Gilberto Gonzalez:**  
-- 
+- Infrastructure: Successfully deployed "Outty 2.0" to Vercel, providing a stable staging environment for the final investor pitch and future release visualization.
+
+- Process Engineering: Established and documented the Bug Tracking and Feature Gap master cards to formalize the triage process for Sprint 2.
+
+- Documentation: Performed a comprehensive update of the project repository documentation to align with the current architectural state.
+
+- Backlog Management: Refined the Sprint 2 backlog to ensure all sub-tasks and story points accurately reflect the team's current velocity.
 
 ---
 
@@ -43,18 +49,21 @@
 - 
 
 **Gilberto Gonzalez:**  
--
+- Continuous Refinement: Monitor the ZenHub board to ensure the transition from Sprint 1 carry-over tasks to Sprint 2 stories remains fluid.
+- Technical Oversight: Review the "Definition of Done" for upcoming User Stories to ensure quality standards remain consistent across the team.
+- App 2.0: Polish the app for future demo
+  
 ---
 
 ## 3. Impediments
 
 **Identified Impediment:**  
-  - 
+  - Sprint 1 Carry-over Debt: Several functional bugs were identified in User Stories transitioning from Sprint 1 into Sprint 2, creating a potential bottleneck for new feature development.
   
 **Impediment Removal Plan:**  
-  - 
+  - Utilize the new Bug Tracking Card to categorize these issues. Coordination is already underway between Gibson (Testing) and Anthony (PO) to prioritize these fixes across the Backend, Frontend, and UI domains without sacrificing Sprint 2 goals.
   
 **Responsible (if applicable):**  
-  - 
+  - Full development team
 
 ---
