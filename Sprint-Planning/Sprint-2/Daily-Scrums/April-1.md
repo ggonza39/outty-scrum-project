@@ -11,7 +11,8 @@
 - Expanded the profiles table to accommodate user gender selection.
 
 **Heidi Wilder:**  
--
+- working on logo
+- created male/female radio button wireframe for profile setup
 
 **Gibson Garner:**  
 - 
