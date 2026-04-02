@@ -332,6 +332,7 @@ export default function Dashboard() {
       }
     };
 
+const [selectedInterestProfile, setSelectedInterestProfile] = useState<any>(null);
 
   /* -------------------------------------------------------------------------- */
   /* SECTION 7: RENDER                                                          */
@@ -405,7 +406,7 @@ export default function Dashboard() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 opacity-40">
             <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p className="text-white text-xs font-bold uppercase">Searching trails...</p>
+            <p className="text-white text-s font-bold uppercase">Searching trails...</p>
           </div>
         ) : profiles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
@@ -414,94 +415,125 @@ export default function Dashboard() {
                 key={profile.id}
                 className="group flex flex-col p-7 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-300 shadow-2xl h-full hover:border-emerald-500/60 hover:shadow-[0_0_35px_rgba(16,185,129,0.25)] hover:scale-[1.01] hover:bg-white/10"
               >
-                {/* TOP SECTION: IDENTITY */}
-                <div className="flex items-start gap-6 mb-6">
-                 {/* Avatar & Gender Stack */}
-                 <div className="flex flex-col items-center gap-2 flex-shrink-0">
-                   <div
-                     className="relative w-20 h-20 flex items-center justify-center cursor-pointer group/avatar transition-transform hover:scale-105 active:scale-95"
-                     onClick={() => router.push(`/profile/${profile.id}`)}
-                   >
-                     {/* THE GLOW RING: Sits on top (z-10). Only pulses if online. */}
-                     <div className={`absolute inset-0 rounded-full border-2 transition-all duration-700 z-10 pointer-events-none ${
-                       onlineUsers.includes(profile.id)
-                         ? 'border-emerald-500 animate-pulse shadow-[0_0_20px_rgba(16,185,129,0.7)] opacity-100 scale-105'
-                         : 'border-emerald-500 opacity-100 shadow-[0_0_20px_rgba(16,185,129,0.3)] scale-100'
-                     }`} />
+                {/* TOP SECTION: IDENTITY (REFINED FOR MOBILE MOCKUP) */}
+                <div className="flex items-center md:items-start gap-5 md:gap-6 mb-6">
+                 {/* Avatar & Online Status Stack */}
+                          <div className="flex flex-col items-center gap-3 flex-shrink-0">
+                            <div
+                              className="relative w-24 h-24 md:w-20 md:h-20 flex items-center justify-center cursor-pointer group/avatar transition-transform hover:scale-105 active:scale-95"
+                              onClick={() => router.push(`/profile/${profile.id}`)}
+                            >
+                              {/* THE GLOW RING: Using rounded-3xl for the 'soft square' mockup look on mobile */}
+                              <div className={`absolute inset-0 rounded-3xl md:rounded-full border-2 transition-all duration-700 z-10 pointer-events-none ${
+                                onlineUsers.includes(profile.id)
+                                  ? 'border-emerald-500 animate-pulse shadow-[0_0_20px_rgba(16,185,129,0.7)] opacity-100 scale-105'
+                                  : 'border-emerald-500 opacity-100 shadow-[0_0_20px_rgba(16,185,129,0.3)] scale-100'
+                              }`} />
 
-                     {/* THE AVATAR IMAGE: Tucked behind the ring (z-0) */}
-                     {profile.profile_pictures?.[0] ? (
-                       <img
-                         src={profile.profile_pictures[0]}
-                         className="w-full h-full rounded-full object-cover relative z-0"
-                         alt=""
-                       />
-                     ) : (
-                       <div className="w-full h-full bg-emerald-500/20 rounded-full flex items-center justify-center text-3xl relative z-0">
-                         🎒
-                       </div>
-                     )}
-                   </div>
+                              {profile.profile_pictures?.[0] ? (
+                                <img
+                                  src={profile.profile_pictures[0]}
+                                  className="w-full h-full rounded-3xl md:rounded-full object-cover relative z-0"
+                                  alt=""
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-emerald-500/20 rounded-3xl md:rounded-full flex items-center justify-center text-3xl relative z-0">
+                                  🎒
+                                </div>
+                              )}
+                            </div>
 
-                   {/* Gender Tag - Kept exactly as is */}
-                   <span className="text-emerald-400 text-[9px] font-black uppercase tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20 w-20 text-center block">
-                     {profile.gender}
-                   </span>
-                 </div>
+                            {/* ONLINE STATUS: Text-only with High-Definition Glow */}
+                                       <div className="w-24 md:w-20 h-7 flex items-center justify-center">
+                                         {onlineUsers.includes(profile.id) ? (
+                                           <div className="flex items-center gap-2 animate-pulse">
+                                             {/* Smaller dot to let the text lead */}
+                                             <div className="w-1 h-1 rounded-full bg-emerald-400 shadow-[0_0_10px_#10b981]" />
+                                             <span className="text-emerald-400 text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] drop-shadow-[0_0_8px_rgba(16,185,129,0.9)]">
+                                               Online
+                                             </span>
+                                           </div>
+                              ) : (
+                                <span className="text-white/40 text-[8px] font-black uppercase tracking-widest">Offline</span>
+                              )}
+                            </div>
+                          </div>
 
-                  {/* Identity Text (Now has more room) */}
-                  <div className="flex-1 min-w-0 pt-1">
-                    <p className="text-white font-black text-xl leading-tight tracking-tight truncate">
-                      {profile.first_name}, {profile.age}
-                    </p>
-                    <p className="text-emerald-400/80 text-[10px] font-black uppercase tracking-[0.15em] truncate mb-2">
-                      @{profile.username || 'explorer'}
-                    </p>
+                  {/* Identity Text (Centered Alignment) */}
+                            <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5 md:pt-1">
+                              <p className="text-white font-black text-2xl md:text-xl leading-tight tracking-tight truncate">
+                                {profile.first_name}, {profile.age}
+                              </p>
 
-                    {/* City, State Zip Row */}
-                    <p className="text-white/70 text-[10px] font-bold uppercase truncate">
-                      📍 {profile.city ? `${profile.city}, ` : ''}{profile.state} {profile.zip_code || profile.zip || ''}
-                    </p>
+                              {/* Gender Tag: Moved inside text flow for mobile mockup */}
+                              <p className="text-emerald-400 text-[10px] font-black uppercase tracking-widest">
+                                {profile.gender}
+                              </p>
 
-                    {/* Distance Logic */}
-                        <p className="text-white/40 text-[9px] font-black uppercase tracking-widest mt-1 flex items-center gap-1">
-                          {profile.dist_miles ? `${Math.round(profile.dist_miles)} miles away` : 'Nearby'}
-                        </p>
+                              <p className="text-white/50 text-[11px] md:text-[10px] font-black uppercase tracking-[0.15em] truncate">
+                                @{profile.username || 'explorer'}
+                              </p>
 
-                        {/* 🟢 ONLINE STATUS TEXT: Pulsating Emerald Glow */}
-                        {onlineUsers.includes(profile.id) && (
-                          <p className="text-emerald-400 text-[9px] font-black uppercase tracking-[0.2em] mt-2 animate-pulse drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]">
-                            Online Now
-                          </p>
-                        )}
-                      </div>
+                              <p className="text-white/70 text-[11px] md:text-[10px] font-bold uppercase truncate mt-1">
+                                📍 {profile.city ? `${profile.city}, ` : ''}{profile.state} {profile.zip_code || profile.zip || ''}
+                              </p>
+
+                              <p className="text-white/40 text-[10px] md:text-[9px] font-black uppercase tracking-widest flex items-center gap-1">
+                                {profile.dist_miles ? `${Math.round(profile.dist_miles)} miles away` : 'Nearby'}
+                              </p>
+                            </div>
                     </div>
 
                 {/* MIDDLE SECTION: CONTENT WITH SUBTLE DIVIDERS */}
                 <div className="flex flex-col flex-grow">
-                  {/* Bio Section */}
-                  <div className="py-5 border-t border-white/5 min-h-[90px]">
-                    <p className="text-white/40 text-[9px] font-black uppercase tracking-widest mb-2 px-1">Bio</p>
-                    <p className="text-white/80 text-sm italic leading-relaxed px-1 line-clamp-3">
-                      "{profile.bio || "No bio provided."}"
-                    </p>
-                  </div>
+
 
                   {/* Interests Section */}
                   <div className="py-5 border-t border-white/5 min-h-[85px]">
-                    <p className="text-white/40 text-[9px] font-black uppercase tracking-widest mb-3 px-1">Interests</p>
-                    <div className="flex flex-wrap gap-2 px-1">
-                      {getArrayData(profile.adventure_type).length > 0 ? (
-                        getArrayData(profile.adventure_type).slice(0, 4).map((a: string) => (
-                          <span key={a} className="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[9px] font-black rounded-lg uppercase tracking-wider">
-                            {a}
-                          </span>
-                        ))
-                      ) : (
-                        <span className="text-white/20 text-[9px] uppercase italic">No interests listed</span>
-                      )}
-                    </div>
-                  </div>
+                              <p className="text-white/40 text-[9px] font-black uppercase tracking-widest mb-3 px-1">Interests</p>
+                              <div className="flex flex-wrap items-center gap-2 px-1">
+                                {getArrayData(profile.adventure_type).length > 0 ? (
+                                  <>
+                                    {getArrayData(profile.adventure_type).slice(0, 3).map((a: string) => (
+                                      <span key={a} className="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[9px] font-black rounded-lg uppercase tracking-wider">
+                                        {a}
+                                      </span>
+                                    ))}
+                                    {getArrayData(profile.adventure_type).length > 3 && (
+                                      <button
+                                        onClick={() => setSelectedInterestProfile(profile)}
+                                        className="px-3 py-1 bg-white/5 border border-white/10 text-white/40 rounded-lg text-[10px] font-black hover:bg-emerald-500/20 hover:text-emerald-400 transition-colors"
+                                      >
+                                        ...
+                                      </button>
+                                    )}
+                                  </>
+                                ) : (
+                                  <span className="text-white/20 text-[9px] uppercase italic">No interests listed</span>
+                                )}
+                              </div>
+                            </div>
+
+                            {selectedInterestProfile && (
+                              <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-md">
+                                <div className="bg-[#022c22] border border-white/10 rounded-3xl p-8 max-w-sm w-full shadow-2xl relative animate-in zoom-in duration-200">
+                                  <button
+                                    onClick={() => setSelectedInterestProfile(null)}
+                                    className="absolute top-4 right-4 text-white/40 hover:text-white"
+                                  >
+                                    ✕
+                                  </button>
+                                  <p className="text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-4">All Interests</p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {getArrayData(selectedInterestProfile.adventure_type).map((a: string) => (
+                                      <span key={a} className="px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-black rounded-xl uppercase">
+                                        {a}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
 
                   {/* Skill Levels Section */}
                   <div className="py-5 border-t border-white/5 min-h-[80px]">
