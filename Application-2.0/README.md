@@ -49,10 +49,7 @@ Outty 2.0 represents the transition from conceptual architecture to a high-fidel
 
 ## Demo Limitations & Roadmap
 
-As this is the **Sprint 2/3 Stable Build**, the following constraints apply for the live demo:
-* **Profile Persistence:** While account creation is live, advanced profile editing/photo uploads are scoped for the final release.
-* **Matching Algorithm:** The swipe-based discovery UI is functional; however, the "Experience-Based" sorting logic currently utilizes mock-data weights for demonstration purposes.
-* **Messaging:** Real-time listeners are active, but message history is limited to the current active database records.
+
 
 ---
 
