@@ -1,6 +1,6 @@
 # Outty App 2.0 – Adventure Identity Portal
 
-**Live Demo:** [outty-app-2.0.vercel.app](https://outty-scrum-project.vercel.app)  
+**Live Demo:** [Outty 2.0](https://outty-app20.vercel.app/)
 **Status:** Stable / Production-Ready (Demo Build)
 
 ---
