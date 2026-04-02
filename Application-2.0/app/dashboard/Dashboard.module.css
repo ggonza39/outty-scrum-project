@@ -85,9 +85,9 @@
   to { transform: translateY(600px); }
 }
 
-/* Dashboard.module.css */
 
-/* ... (Keep all your existing Sections 1 through 5) ... */
+
+
 
 /* -------------------------------------------------------------------------- */
 /* SECTION 6: MOBILE RESPONSIVENESS SETTINGS                                  */
@@ -126,11 +126,7 @@
     @apply w-full justify-center py-4 text-xs;
   }
 
-  /* 6.5 Performance: Simplify Atmospheric Effects */
-  /* Reduces snow opacity to save battery/GPU on mobile devices */
-  .snow1, .snow2, .snow3 {
-    opacity: 0.05;
-  }
+
 }
 
 /* Extra small screen optimization (iPhone SE / Fold) */

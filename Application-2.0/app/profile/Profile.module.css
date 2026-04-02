@@ -160,10 +160,5 @@
     animation-duration: 10s !important;
   }
 
-  /* 3. Adjust the "Sun Ray" to be less aggressive on vertical screens */
-  .sunRay {
-    width: 200%;
-    left: -50%;
-    opacity: 0.4 !important;
-  }
+
 }
