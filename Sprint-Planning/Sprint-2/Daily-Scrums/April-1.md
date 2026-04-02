@@ -8,7 +8,7 @@
 - Built secure profile retrieval so signed-in users can access their own profile data safely without exposing profile IDs in the URL.
 - Added profile view tracking so users can see how many times their profile has been viewed, while preventing self-views and repeated refreshes from inflating the count.
 - Created a public profile access flow for authenticated users that returns specified profile information for viewing other users.
-- Expanded the profiles table to accomodate user gender selection.
+- Expanded the profiles table to accommodate user gender selection.
 
 **Heidi Wilder:**  
 -
@@ -21,7 +21,7 @@
 - Added gender field support, fixed validation so errors show on the correct step, updated delete flow to log users out, and aligned unit tests with the new validation logic.
 
 **Anthony Nguyen:**  
-- 
+- Checking and tracking any new implementation to the app from the Pull Request. Then, testing if the feature has any bugs or is missing any features for submission requirements
 
 **Gilberto Gonzalez:**  
 - Infrastructure: Successfully deployed "Outty 2.0" to Vercel, providing a stable staging environment for the final investor pitch and future release visualization.
@@ -52,7 +52,7 @@
 - Starting US3 tasks (#121, #122) — implementing route protection for /profile and adding the state switcher to toggle between view and edit modes.
 
 **Anthony Nguyen:**  
-- 
+- Check, test, and log any bugs, gaps, or conflicts when merging the new implementation to the app.
 
 **Gilberto Gonzalez:**  
 - Continuous Refinement: Monitor the ZenHub board to ensure the transition from Sprint 1 carry-over tasks to Sprint 2 stories remains fluid.
