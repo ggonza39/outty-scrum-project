@@ -64,7 +64,7 @@ To ensure maximum stability for the live presentation, the following constraints
 * **Account Controls:** While the button exists in Settings, **Account Suspension** is not yet functional (users can currently only toggle Visibility or Delete).
 * **Messaging Management:** The Inbox is "Read/Reply Only." Features to **Delete** or **Archive** conversations have been scoped for the post-demo sprint.
 * **Responsive Layouts:** Design is strictly optimized for **Desktop** and **Mobile**. Intermediate tablet sizes or ultra-wide monitors have not been fully formatted yet.
-* **Discovery Logic:** Sorting currently utilizes user-defined filters and mock-data weights; fully automated system-generated "compatibility scores" are in development.
+* **Discovery Logic:** Dashboard sorting is currently based on direct database query results and active user filters; complex automated "compatibility scoring" is in development for future releases.
 
 ---
 
