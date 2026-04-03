@@ -40,4 +40,17 @@
     .glassCard::-webkit-scrollbar {
       display: none; /* Chrome, Safari, and Opera */
     }
+
+    .welcomeTitle {
+        @apply text-4xl leading-tight px-4;
+      }
+
+      /* Add a subtle fade-out to the background on mobile to focus on text */
+      .isWelcoming .glassCard {
+        @apply opacity-0 scale-95 pointer-events-none;
+      }
+
+
+
+
 }

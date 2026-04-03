@@ -25,24 +25,35 @@ function SettingsContent() {
 
   // 2.1.1: Settings Initialization
   useEffect(() => {
+    let isMounted = true; // Prevents state updates on unmounted component
+
     async function fetchSettings() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
+      try {
+        // 1. Get session instead of user if you just need the ID
+        // (getSession is faster and less prone to locking)
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session?.user || !isMounted) return;
 
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('is_visible, account_status')
-        .eq('id', user.id)
-        .single()
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('is_visible, account_status')
+          .eq('id', session.user.id)
+          .single();
 
-      if (!error && data) {
-        setIsVisible(data.is_visible)
-        setStatus(data.account_status)
+        if (isMounted && !error && data) {
+          setIsVisible(data.is_visible ?? true);
+          setStatus(data.account_status ?? 'active');
+        }
+      } catch (err) {
+        console.error("Auth lock error:", err);
+      } finally {
+        if (isMounted) setLoading(false);
       }
-      setLoading(false)
     }
-    fetchSettings()
-  }, [])
+
+    fetchSettings();
+    return () => { isMounted = false; }; // Cleanup
+  }, []);
 
   /* -------------------------------------------------------------------------- */
   /* SECTION 2.2: ACTION HANDLERS (BACKEND LOGIC)                               */
@@ -65,13 +76,26 @@ function SettingsContent() {
   }
 
   const toggleSuspension = async () => {
-    const newStatus = status === 'active' ? 'suspended' : 'active'
-    if (!confirm(status === 'active' ? "Suspend account?" : "Reactivate account?")) return
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-    const { error } = await supabase.from('profiles').update({ account_status: newStatus }).eq('id', user.id)
-    if (!error) setStatus(newStatus)
-  }
+      // 1. Normalize the current status to lowercase to prevent 'Active' vs 'active' bugs
+      const currentStatus = status?.toLowerCase();
+      const isCurrentlyActive = currentStatus === 'active';
+
+      // 2. Set the opposite state
+      const nextStatus = isCurrentlyActive ? 'suspended' : 'active';
+
+      if (!confirm(isCurrentlyActive ? "Suspend account?" : "Reactivate account?")) return
+
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      // 3. Update Supabase with a strictly lowercase string
+      const { error } = await supabase
+        .from('profiles')
+        .update({ account_status: nextStatus })
+        .eq('id', user.id)
+
+      if (!error) setStatus(nextStatus)
+    }
 
   const finalDeleteAction = async () => {
     if (deleteConfirmation !== 'DELETE') return
@@ -171,8 +195,19 @@ function SettingsContent() {
           {/* 3.2.3: DANGER ZONE ACTIONS (BUTTONS) */}
           <section className="pt-8 space-y-5">
             {/* BUTTON: Toggle Suspension */}
-            <button onClick={toggleSuspension} className={`flex items-center justify-center gap-4 w-full py-6 border rounded-[2rem] font-black uppercase text-xs tracking-[0.3em] transition-all duration-300 ${status === 'active' ? 'bg-white/5 border-white/10 hover:bg-emerald-500/10 text-white/70' : 'bg-emerald-500/20 border-emerald-500/30 text-emerald-400'}`}>
-              {status === 'active' ? <><PauseCircle size={22} /> Suspend Account</> : <><PlayCircle size={22} /> Reactivate Account</>}
+            <button
+              onClick={toggleSuspension}
+              className={`flex items-center justify-center gap-4 w-full py-6 border rounded-[2rem] font-black uppercase text-xs tracking-[0.3em] transition-all duration-300 ${
+                status?.toLowerCase() === 'active'
+                  ? 'bg-white/5 border-white/10 hover:bg-emerald-500/10 text-white/70'
+                  : 'bg-emerald-500/20 border-emerald-500/30 text-emerald-400'
+              }`}
+            >
+              {status?.toLowerCase() === 'active' ? (
+                <><PauseCircle size={22} /> Suspend Account</>
+              ) : (
+                <><PlayCircle size={22} /> Reactivate Account</>
+              )}
             </button>
 
             {/* BUTTON: Permanent Delete */}

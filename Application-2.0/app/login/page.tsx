@@ -72,43 +72,79 @@ function LoginContent() {
     setLoading(false);
   };
 
-  const handleLogin = async () => {
-    setMessage('');
-    setIsError(false);
-    if (!email || !password) {
-      setMessage("Enter your email and password to sign in.");
-      setIsError(true);
-      return;
-    }
-    setLoading(true);
-    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
-    if (authError) {
-      setMessage(authError.message);
-      setIsError(true);
-      setLoading(false);
-      return;
-    }
-    if (authData?.user) {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('id', authData.user.id)
-        .single();
-      if (profile) router.push('/dashboard');
-      else router.push('/onboarding');
-    }
-    setLoading(false);
-  };
+ /* SECTION 2.1: Updated State */
+ const [isWelcoming, setIsWelcoming] = useState(false);
+ const [userName, setUserName] = useState('');
+
+ /* SECTION 2.2: Updated handleLogin */
+ const handleLogin = async () => {
+   setMessage('');
+   setIsError(false);
+   if (!email || !password) {
+     setMessage("Enter your email and password to sign in.");
+     setIsError(true);
+     return;
+   }
+   setLoading(true);
+
+   const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+     email,
+     password
+   });
+
+   if (authError) {
+     setMessage(authError.message);
+     setIsError(true);
+     setLoading(false);
+     return;
+   }
+
+   if (authData?.user) {
+     // 1. Fetch the user's name for the greeting
+     const { data: profile } = await supabase
+       .from('profiles')
+       .select('first_name')
+       .eq('id', authData.user.id)
+       .single();
+
+     if (profile) {
+       setUserName(profile.first_name || 'Explorer');
+       setIsWelcoming(true); // Trigger the middle "Greeting" page
+
+       // 2. Wait 2.5 seconds for the animation before navigating
+       setTimeout(() => {
+         router.push('/dashboard');
+       }, 4000);
+     } else {
+       router.push('/onboarding');
+     }
+   }
+   setLoading(false);
+ };
 
   return (
-    <main className="relative min-h-screen w-full flex items-center justify-center bg-[#022c22] pt-24 pb-12">
-      <div
-        className="absolute inset-0 z-0 opacity-30 bg-cover bg-center"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80')" }}
-      />
+    <main className="relative min-h-screen w-full flex items-center justify-center bg-[#022c22] pt-24 pb-12 overflow-hidden">
+        {/* DYNAMIC BACKGROUND: Added transform for the cinematic zoom */}
+        <div
+          className="absolute inset-0 z-0 opacity-30 bg-cover bg-center transition-transform duration-[7000ms] ease-out"
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80')",
+            transform: isWelcoming ? 'scale(1.1)' : 'scale(1)'
+          }}
+        />
+
+       {isWelcoming ? (
+         /* --- GREETING VIEW --- */
+         /* ADDED: key="greeting" to force a fresh render with no inherited 'glass' styles */
+         <div key="greeting" className="z-20 text-center px-6">
+           <h1 className="text-6xl md:text-8xl font-black text-white italic uppercase tracking-tighter mb-4 drop-shadow-2xl animate-in fade-in zoom-in duration-1000">
+             Hi, {userName}
+           </h1>
+           <p className="text-emerald-400 text-xs md:text-sm font-black uppercase tracking-[0.6em] animate-pulse drop-shadow-sm">
+             Welcome back to your adventure...
+           </p>
+         </div>
+       ) : (
 
       <div className={`${styles.glassCard} z-10 w-full max-w-md p-10 mx-4 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl`}>
         <h2 className={`${styles.glassTitle} text-4xl font-black text-white mb-2 text-center tracking-tighter uppercase italic`}>Join the Adventure</h2>
@@ -176,6 +212,7 @@ function LoginContent() {
           </button>
         </div>
       </div>
+      )}
     </main>
   );
 }
