@@ -57,12 +57,12 @@
 ## 3. Impediments
 
 **Identified Impediment:**  
-  - 
+  - Test Data Pollution: The accumulation of test accounts is threatening the accuracy of the discovery matching engine.
   
 **Impediment Removal Plan:**  
-  - 
+  - Technical Fix: Implementing a Boolean is_searchable field in the profiles table.
   
 **Responsible (if applicable):**  
-  - 
+  - Hunter & Gilberto
 
 ---
