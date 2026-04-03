@@ -51,7 +51,14 @@
 - 
 
 **Gilberto Gonzalez:**  
--
+- Backlog Refinement: Plan a new User Story/Task for the "Test Account Filter" (the Boolean search toggle) to prevent "junk data" from inflating discovery results.
+
+- Sprint 3 Scoping: Begin drafting requirements for the in-app messaging system, specifically focusing on the message-sending logic and UI layout while strictly excluding "inbox management" (deleting/restoring) to maintain scope.
+
+- Technical Refinement: Perform more UI polishes and environment optimizations for 2.0 app version.
+
+- Documentation: Finalize Sprint 2 week 1 documentation, ensuring all user stories, bug tracking, and feature gaps are updated in the repository.
+
 ---
 
 ## 3. Impediments
