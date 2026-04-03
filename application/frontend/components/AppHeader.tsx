@@ -9,7 +9,7 @@ const links = [
   { href: '/', label: 'Home' },
   { href: '/signin', label: 'Sign in' },
   { href: '/signup', label: 'Sign up' },
-  { href: '/profile-setup', label: 'Profile' },
+  { href: '/profile', label: 'Profile' },
   { href: '/match', label: 'Match' },
   { href: '/message', label: 'Messages' },
   { href: '/about', label: 'About' },
