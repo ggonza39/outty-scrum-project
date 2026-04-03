@@ -19,7 +19,11 @@
 - 
 
 **Takeshia Banks:**  
-- 
+- Completed US3 frontend tasks
+- Built the protected /profile page and
+- Added the view/edit toggle between the read-only profile dashboard and the edit form. I also
+- Tested the route protection, edit mode, cancel/save flow, and profile navigation updates.
+- Updated home page to remove dummy information
 
 **Anthony Nguyen:**  
 - Managing new pull requests and tracking each implementation as to the user stories acceptance criteria.
@@ -41,7 +45,7 @@
 - 
 
 **Takeshia Banks:**  
--
+- Starting US6 frontend tasks. I’ll begin with the dynamic route for viewing explorer profiles, then move into the loading state and share-profile utility if time allows
 
 **Anthony Nguyen:**  
 - I will continue to test each new feature or bug fix to verify that it meets the conditions to check our user story goals.
