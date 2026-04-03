@@ -5,6 +5,8 @@
 **Recording Link:**
 - [Team Scrum Meeting](
 
+---
+
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
