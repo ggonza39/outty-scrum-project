@@ -29,7 +29,12 @@
 - 
 
 **Gilberto Gonzalez:**  
-- 
+- Infrastructure & Deployment: Resolved a series of critical deployment bugs to successfully launch the Outty 2.0 "Vision" environment; currently monitoring the Vercel build to ensure continuous stability.
+
+- Demo Optimization: Prepared and facilitated a live technical walkthrough of the Desktop 2.0 build.
+
+- Stakeholder Alignment: Refactored the Product Showcase and Scrum Journey presentation slides to clearly communicate the technical evolution from the 1.0 (Hardened Baseline) to the 2.0 (Discovery Experience) for our final presentation.
+
 
 ---
 
