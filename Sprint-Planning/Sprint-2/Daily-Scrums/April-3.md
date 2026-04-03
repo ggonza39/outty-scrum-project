@@ -3,7 +3,7 @@
 **Date:** 04-03-2026
 
 **Recording Link:**
-- [Team Scrum Meeting](
+- [Team Scrum Meeting](https://kennesawedu-my.sharepoint.com/:v:/g/personal/ggonza39_students_kennesaw_edu/IQBQS7S3EktRQ4sneF1AHg9GAc6pqP2nqD-YXmn1b0gsT-s?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=1CeAWt)
 
 ---
 
