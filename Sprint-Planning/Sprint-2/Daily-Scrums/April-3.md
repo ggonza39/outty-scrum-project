@@ -22,7 +22,7 @@
 - 
 
 **Anthony Nguyen:**  
-- 
+- Managing new pull requests and tracking each implementation as to the user stories acceptance criteria.
 
 **Gilberto Gonzalez:**  
 - 
@@ -44,7 +44,7 @@
 -
 
 **Anthony Nguyen:**  
-- 
+- I will continue to test each new feature or bug fix to verify that it meets the conditions to check our user story goals.
 
 **Gilberto Gonzalez:**  
 -
