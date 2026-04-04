@@ -29,7 +29,12 @@
 - Managing new pull requests and tracking each implementation as to the user stories acceptance criteria.
 
 **Gilberto Gonzalez:**  
-- 
+- Infrastructure & Deployment: Resolved a series of critical deployment bugs to successfully launch the Outty 2.0 "Vision" environment; currently monitoring the Vercel build to ensure continuous stability.
+
+- Demo Optimization: Prepared and facilitated a live technical walkthrough of the Desktop 2.0 build.
+
+- Stakeholder Alignment: Refactored the Product Showcase and Scrum Journey presentation slides to clearly communicate the technical evolution from the 1.0 (Hardened Baseline) to the 2.0 (Discovery Experience) for our final presentation.
+
 
 ---
 
@@ -51,18 +56,25 @@
 - I will continue to test each new feature or bug fix to verify that it meets the conditions to check our user story goals.
 
 **Gilberto Gonzalez:**  
--
+- Backlog Refinement: Plan a new User Story/Task for the "Test Account Filter" (the Boolean search toggle) to prevent "junk data" from inflating discovery results.
+
+- Sprint 3 Scoping: Begin drafting requirements for the in-app messaging system, specifically focusing on the message-sending logic and UI layout while strictly excluding "inbox management" (deleting/restoring) to maintain scope.
+
+- Technical Refinement: Perform more UI polishes and environment optimizations for 2.0 app version.
+
+- Documentation: Finalize Sprint 2 week 1 documentation, ensuring all user stories, bug tracking, and feature gaps are updated in the repository.
+
 ---
 
 ## 3. Impediments
 
 **Identified Impediment:**  
-  - 
+  - Test Data Pollution: The accumulation of test accounts is threatening the accuracy of the discovery matching engine.
   
 **Impediment Removal Plan:**  
-  - 
+  - Technical Fix: Implementing a Boolean is_searchable field in the profiles table.
   
 **Responsible (if applicable):**  
-  - 
+  - Hunter & Gilberto
 
 ---
