@@ -56,6 +56,7 @@ export default function ExplorerProfileClient({ profileId }: Props) {
   const [isLoading, setIsLoading] = useState(true);
   const [shareMessage, setShareMessage] = useState("");
   const [shareType, setShareType] = useState<"success" | "error">("success");
+  const [imageError, setImageError] = useState(false); // ✅ NEW
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -135,122 +136,27 @@ export default function ExplorerProfileClient({ profileId }: Props) {
               }
             `}</style>
 
-            <div
-              style={{
-                display: "flex",
-                gap: 12,
-                marginBottom: 20,
-              }}
-            >
-              <div
-                className="shimmer"
-                style={{
-                  width: 90,
-                  height: 40,
-                  borderRadius: 999,
-                }}
-              />
-              <div
-                className="shimmer"
-                style={{
-                  width: 140,
-                  height: 40,
-                  borderRadius: 999,
-                }}
-              />
+            <div style={{ display: "flex", gap: 12, marginBottom: 20 }}>
+              <div className="shimmer" style={{ width: 90, height: 40, borderRadius: 999 }} />
+              <div className="shimmer" style={{ width: 140, height: 40, borderRadius: 999 }} />
             </div>
 
             <div className="center" style={{ flexDirection: "column", gap: 16 }}>
-              <div
-                className="shimmer"
-                style={{
-                  width: 120,
-                  height: 120,
-                  borderRadius: "50%",
-                }}
-              />
+              <div className="shimmer" style={{ width: 120, height: 120, borderRadius: "50%" }} />
 
               <div style={{ width: "100%", maxWidth: 320 }}>
-                <div
-                  className="shimmer"
-                  style={{
-                    width: "65%",
-                    height: 28,
-                    borderRadius: 8,
-                    marginBottom: 10,
-                  }}
-                />
+                <div className="shimmer" style={{ width: "65%", height: 28, borderRadius: 8, marginBottom: 10 }} />
+                <div className="shimmer" style={{ width: "35%", height: 18, borderRadius: 8, marginBottom: 16 }} />
 
-                <div
-                  className="shimmer"
-                  style={{
-                    width: "35%",
-                    height: 18,
-                    borderRadius: 8,
-                    marginBottom: 16,
-                  }}
-                />
-
-                <div
-                  style={{
-                    display: "flex",
-                    gap: 8,
-                    flexWrap: "wrap",
-                    marginBottom: 16,
-                  }}
-                >
-                  <div
-                    className="shimmer"
-                    style={{
-                      width: 80,
-                      height: 32,
-                      borderRadius: 999,
-                    }}
-                  />
-                  <div
-                    className="shimmer"
-                    style={{
-                      width: 90,
-                      height: 32,
-                      borderRadius: 999,
-                    }}
-                  />
-                  <div
-                    className="shimmer"
-                    style={{
-                      width: 75,
-                      height: 32,
-                      borderRadius: 999,
-                    }}
-                  />
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
+                  <div className="shimmer" style={{ width: 80, height: 32, borderRadius: 999 }} />
+                  <div className="shimmer" style={{ width: 90, height: 32, borderRadius: 999 }} />
+                  <div className="shimmer" style={{ width: 75, height: 32, borderRadius: 999 }} />
                 </div>
 
-                <div
-                  className="shimmer"
-                  style={{
-                    width: "100%",
-                    height: 18,
-                    borderRadius: 8,
-                    marginBottom: 10,
-                  }}
-                />
-                <div
-                  className="shimmer"
-                  style={{
-                    width: "88%",
-                    height: 18,
-                    borderRadius: 8,
-                    marginBottom: 10,
-                  }}
-                />
-                <div
-                  className="shimmer"
-                  style={{
-                    width: "78%",
-                    height: 18,
-                    borderRadius: 8,
-                  }}
-                />
+                <div className="shimmer" style={{ width: "100%", height: 18, borderRadius: 8, marginBottom: 10 }} />
+                <div className="shimmer" style={{ width: "88%", height: 18, borderRadius: 8, marginBottom: 10 }} />
+                <div className="shimmer" style={{ width: "78%", height: 18, borderRadius: 8 }} />
               </div>
             </div>
           </section>
@@ -267,12 +173,7 @@ export default function ExplorerProfileClient({ profileId }: Props) {
             <div>
               <h2 className="section-title">Profile not found</h2>
               <p className="subtle">We could not find that explorer profile.</p>
-              <button
-                type="button"
-                onClick={handleBack}
-                className="btn"
-                style={{ marginTop: 16 }}
-              >
+              <button onClick={handleBack} className="btn" style={{ marginTop: 16 }}>
                 Back to Discover
               </button>
             </div>
@@ -286,52 +187,25 @@ export default function ExplorerProfileClient({ profileId }: Props) {
     <MobilePage>
       <main className="content">
         <section className="card" style={{ padding: 16 }}>
-          <div
-            style={{
-              display: "flex",
-              gap: 12,
-              flexWrap: "wrap",
-              marginBottom: 16,
-            }}
-          >
-            <button
-              type="button"
-              onClick={handleBack}
-              className="btn-secondary"
-            >
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+            <button onClick={handleBack} className="btn-secondary">
               Back
             </button>
 
-            <button
-              type="button"
-              onClick={handleShare}
-              className="btn-secondary"
-              aria-label="Share profile"
-              title="Share profile"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              <span aria-hidden="true">🔗</span>
-              <span>Share Profile</span>
+            <button onClick={handleShare} className="btn-secondary">
+              🔗 Share Profile
             </button>
           </div>
 
           {shareMessage && (
             <div
-              role="status"
-              aria-live="polite"
               style={{
                 marginBottom: 16,
                 padding: "10px 14px",
                 borderRadius: 12,
-                backgroundColor:
-                  shareType === "success" ? "#dcfce7" : "#fee2e2",
+                backgroundColor: shareType === "success" ? "#dcfce7" : "#fee2e2",
                 color: shareType === "success" ? "#166534" : "#991b1b",
                 fontWeight: 600,
-                fontSize: "0.95rem",
               }}
             >
               {shareMessage}
@@ -339,6 +213,7 @@ export default function ExplorerProfileClient({ profileId }: Props) {
           )}
 
           <div className="center" style={{ flexDirection: "column", gap: 16 }}>
+            {/* ✅ FIXED IMAGE SECTION */}
             <div
               style={{
                 width: 120,
@@ -349,78 +224,41 @@ export default function ExplorerProfileClient({ profileId }: Props) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                flexShrink: 0,
               }}
             >
-              {profile.image ? (
+              {profile.image && !imageError ? (
                 <img
                   src={profile.image}
                   alt={profile.name}
+                  onError={() => setImageError(true)}
                   style={{
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
-                    display: "block",
                   }}
                 />
               ) : (
-                <span
-                  style={{
-                    color: "#6b7280",
-                    fontSize: "0.8rem",
-                    fontWeight: 600,
-                    textAlign: "center",
-                    padding: "0 10px",
-                  }}
-                >
+                <span style={{ color: "#6b7280", fontSize: "0.8rem", fontWeight: 600 }}>
                   No Photo
                 </span>
               )}
             </div>
 
             <div style={{ width: "100%", maxWidth: 320 }}>
-              <h2 className="section-title" style={{ marginBottom: 8 }}>
-                {profile.name}, {profile.age}
-              </h2>
+              <h2 className="section-title">{profile.name}, {profile.age}</h2>
+              <p className="subtle">@{profile.username}</p>
 
-              <p className="subtle" style={{ marginBottom: 16 }}>
-                @{profile.username}
-              </p>
-
-              <section style={{ marginBottom: 16 }}>
-                <h3
-                  className="section-title"
-                  style={{ fontSize: "1.05rem", marginBottom: 8 }}
-                >
-                  Adventure Tags
-                </h3>
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 8,
-                  }}
-                >
+              <section>
+                <h3 className="section-title">Adventure Tags</h3>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                   {profile.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="pill selected"
-                      style={{ cursor: "default" }}
-                    >
-                      {tag}
-                    </span>
+                    <span key={tag} className="pill selected">{tag}</span>
                   ))}
                 </div>
               </section>
 
               <section>
-                <h3
-                  className="section-title"
-                  style={{ fontSize: "1.05rem", marginBottom: 8 }}
-                >
-                  Bio
-                </h3>
+                <h3 className="section-title">Bio</h3>
                 <p className="subtle">{profile.bio}</p>
               </section>
             </div>
