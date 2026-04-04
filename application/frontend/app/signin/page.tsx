@@ -40,7 +40,7 @@ export default function SignInPage() {
         }
 
         if (profile) {
-          router.replace('/match'); // existing user
+          router.replace('/discover'); // existing user
         } else {
           router.replace('/profile-setup'); // new user
         }
@@ -95,7 +95,7 @@ export default function SignInPage() {
       }
       
       if (profile) {
-        router.replace('/match');
+        router.replace('/discover');
       } else {
         router.replace('/profile-setup');
       }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import MobilePage from "@/components/MobilePage";
 import MatchCard from "@/components/MatchCard";
+import { explorerProfiles } from "@/lib/explorerProfiles";
 
 type Person = {
   id: string;
@@ -14,45 +15,25 @@ type Person = {
   bio?: string;
 };
 
-const initialPeople: Person[] = [
-  {
-    id: "1",
-    username: "maya",
-    name: "Maya",
-    age: 28,
-    image: "/images/maya.png",
-    bio: "Loves hiking and coffee.",
-  },
-  {
-    id: "2",
-    username: "jordan",
-    name: "Jordan",
-    age: 31,
-    image: "/images/jordan.jpg",
-    bio: "Designer, traveler, and dog person.",
-  },
-  {
-    id: "3",
-    username: "avery",
-    name: "Avery",
-    age: 26,
-    image: "/images/avery.jpg",
-    bio: "Into fitness, books, and weekend brunch.",
-  },
-];
+const initialPeople: Person[] = explorerProfiles.map((profile) => ({
+  id: profile.id,
+  username: profile.username,
+  name: profile.name,
+  age: profile.age,
+  image: profile.image,
+  bio: profile.bio,
+}));
 
-export default function MatchPage() {
+export default function DiscoverPage() {
   const [people, setPeople] = useState<Person[]>(initialPeople);
 
   const currentPerson = people[0];
 
   const handleLike = (id: string) => {
-    console.log("LIKED:", id);
     setPeople((prev) => prev.filter((person) => person.id !== id));
   };
 
   const handlePass = (id: string) => {
-    console.log("PASSED:", id);
     setPeople((prev) => prev.filter((person) => person.id !== id));
   };
 
@@ -73,14 +54,13 @@ export default function MatchPage() {
               />
 
               <Link
-                href={`/match/${currentPerson.username}`}
+                href={`/discover/${currentPerson.id}`}
                 className="btn-secondary center"
                 style={{ width: "100%", maxWidth: 320 }}
               >
                 View Profile
               </Link>
 
-              {/* Clickable buttons for testing and desktop demo */}
               <div
                 style={{
                   display: "flex",
