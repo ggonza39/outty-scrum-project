@@ -263,7 +263,7 @@ export default function ProfileSetupShell({
         return;
       }
 
-      router.push("/match");
+      router.push("/discover");
     } catch (error) {
       console.error("Error saving profile:", error);
       alert("There was a problem saving your profile.");
