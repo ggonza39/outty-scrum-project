@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import MobilePage from "@/components/MobilePage";
 import MatchCard from "@/components/MatchCard";
@@ -70,6 +71,14 @@ export default function MatchPage() {
                 onLike={handleLike}
                 onPass={handlePass}
               />
+
+              <Link
+                href={`/match/${currentPerson.username}`}
+                className="btn-secondary center"
+                style={{ width: "100%", maxWidth: 320 }}
+              >
+                View Profile
+              </Link>
 
               {/* Clickable buttons for testing and desktop demo */}
               <div
