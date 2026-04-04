@@ -36,6 +36,8 @@ export default function GlobalNav() {
 
   const [authLoading, setAuthLoading] = useState(true); // Start as true
 
+  const [displayFarewellName, setDisplayFarewellName] = useState('Explorer');
+
 
   // Add these temporarily to your GlobalNav
   useEffect(() => {
@@ -122,8 +124,9 @@ export default function GlobalNav() {
          setAuthLoading(false); // Auth check confirmed
 
          const isPublicPage = isHomePage || isLoginPage || isOnboardingPage || isAboutPage;
-         // Only show modal if we are SURE there is no session on a private page
-         if (!session && !isPublicPage) {
+
+         // Only show modal if no session, not a public page, and NOT currently logging out
+         if (!session && !isPublicPage && !isLoggingOut) {
            setShowSessionModal(true);
          }
        };
@@ -138,9 +141,10 @@ export default function GlobalNav() {
            if (event === 'SIGNED_OUT') {
              setUnreadCount(0);
              const isPublicPage = isHomePage || isLoginPage || isOnboardingPage || isAboutPage;
-             if (!isPublicPage) {
-               setShowSessionModal(true);
-             }
+             // SURGICAL FIX: Only show modal if the user ISN'T currently in the middle of a logout redirect
+               if (!isPublicPage && !isLoggingOut) {
+                 setShowSessionModal(true);
+               }
            }
          }
        });
@@ -149,7 +153,7 @@ export default function GlobalNav() {
          mounted = false;
          subscription.unsubscribe();
        };
-     }, [pathname, isHomePage, isLoginPage, isOnboardingPage, isAboutPage]);
+     }, [pathname, isHomePage, isLoginPage, isOnboardingPage, isAboutPage, isLoggingOut]);
   // 3.6 REAL-TIME UNREAD MESSAGES
   useEffect(() => {
     if (!user) {
@@ -178,7 +182,12 @@ export default function GlobalNav() {
   const shouldHideGlobalNav = isLoginPage || isOnboardingPage;
 
   const handleLogout = async () => {
+    // 1. CAPTURE & FREEZE the name in state immediately
+
+
+
     setIsLoggingOut(true);
+
     try {
       if (user) {
         await supabase
@@ -187,17 +196,21 @@ export default function GlobalNav() {
           .eq('id', user.id);
       }
 
-      // Clean up Supabase
       const channels = supabase.getChannels();
       channels.forEach(ch => supabase.removeChannel(ch));
+
+      // 2. This clears the 'user' object, but 'displayFarewellName' stays safe in state
       await supabase.auth.signOut();
 
-      // Clear storage
       window.localStorage.clear();
       window.sessionStorage.clear();
 
-      // Direct redirect - don't do window.history.replaceState here
-      window.location.href = '/login?logout=success';
+      // 3. THE ONLY REDIRECT (Waiting 4 seconds)
+      setTimeout(() => {
+        window.location.href = '/login?logout=success';
+      }, 2500);
+
+      // REMOVED: The duplicate window.location.href that was here
     } catch (error) {
       console.error('Logout failed:', error);
       setIsLoggingOut(false);
@@ -217,6 +230,28 @@ export default function GlobalNav() {
 
       `}</style>
 
+      {isLoggingOut ? (
+              /* --- CINEMATIC EXIT VIEW (The "Bye" Page) --- */
+              <main className="fixed inset-0 z-[1000] flex items-center justify-center bg-[#022c22] overflow-hidden">
+                <div
+                  className="absolute inset-0 z-0 opacity-30 bg-cover bg-center transition-transform duration-[6000ms] ease-out animate-in fade-in"
+                  style={{
+                    backgroundImage: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80')",
+                    transform: 'scale(1.1)'
+                  }}
+                />
+
+                <div key="exit-greeting" className="z-20 text-center px-6 animate-in fade-in zoom-in duration-1000">
+                  <h1 className="text-6xl md:text-8xl font-black text-white italic uppercase tracking-tighter mb-4 drop-shadow-2xl">
+                    Bye for now !
+                  </h1>
+                  <p className="text-emerald-400 text-xs md:text-sm font-black uppercase tracking-[0.6em] animate-pulse drop-shadow-sm">
+                    Pausing your adventure...
+                  </p>
+                </div>
+              </main>
+            ) : (
+      <>
       {/* 5.1 SESSION EXPIRED MODAL */}
       {!authLoading && showSessionModal && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center p-6">
@@ -376,6 +411,8 @@ export default function GlobalNav() {
             )}
           </div>
         </header>
+        )}
+       </>
       )}
     </>
   );
