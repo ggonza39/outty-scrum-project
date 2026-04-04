@@ -136,7 +136,7 @@ function SettingsContent() {
 
           <div>
             <h1 className="text-5xl md:text-6xl font-black italic tracking-tighter uppercase leading-none text-white drop-shadow-2xl">Settings</h1>
-            <p className="text-emerald-400 text-xs font-black uppercase tracking-[0.25em] mt-3 drop-shadow-sm">Control your presence on Outty</p>
+            <p className="text-emerald-400 text-xs font-black uppercase tracking-[0.3em] mt-3 drop-shadow-sm">Control your presence on Outty</p>
           </div>
         </header>
 

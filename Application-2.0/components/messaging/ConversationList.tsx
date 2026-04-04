@@ -121,10 +121,7 @@ export default function ConversationList({ onSelect }: { onSelect: (id: string) 
                     alt={`${convo.first_name} avatar`}
                   />
 
-                  {/* Presence Indicator Dot - z-20 to be above everything */}
-                  {onlineUsers.includes(convo.userId) && (
-                    <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-[#022c22] rounded-full animate-pulse shadow-[0_0_10px_#10b981] z-20"></span>
-                  )}
+
 
                   {/* Unread Badge */}
                   {convo.unread > 0 && (

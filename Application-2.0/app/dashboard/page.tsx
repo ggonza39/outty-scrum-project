@@ -390,7 +390,7 @@ const [selectedInterestProfile, setSelectedInterestProfile] = useState<any>(null
         <div className="flex justify-between items-end mb-10">
           <div>
             <h2 className="text-3xl font-black text-white mb-1">Adventurers Near You</h2>
-            <p className="text-emerald-400/60 font-bold uppercase text-[12px]">
+            <p className="text-emerald-400/70 font-bold uppercase text-[13px]">
               Found {profiles.length} potential partners
             </p>
           </div>
@@ -454,7 +454,7 @@ const [selectedInterestProfile, setSelectedInterestProfile] = useState<any>(null
                                              </span>
                                            </div>
                               ) : (
-                                <span className="text-white/40 text-[8px] font-black uppercase tracking-widest">Offline</span>
+                                <span className="text-white/40 text-[9px] font-black uppercase tracking-widest">Offline</span>
                               )}
                             </div>
                           </div>
@@ -466,19 +466,19 @@ const [selectedInterestProfile, setSelectedInterestProfile] = useState<any>(null
                               </p>
 
                               {/* Gender Tag: Moved inside text flow for mobile mockup */}
-                              <p className="text-emerald-400 text-[10px] font-black uppercase tracking-widest">
+                              <p className="text-white/60 text-[10px] font-black uppercase tracking-widest">
                                 {profile.gender}
                               </p>
 
-                              <p className="text-white/50 text-[11px] md:text-[10px] font-black uppercase tracking-[0.15em] truncate">
+                              <p className="text-emerald-400 text-[11px] font-black uppercase tracking-[0.15em] truncate">
                                 @{profile.username || 'explorer'}
                               </p>
 
-                              <p className="text-white/70 text-[11px] md:text-[10px] font-bold uppercase truncate mt-1">
-                                📍 {profile.city ? `${profile.city}, ` : ''}{profile.state} {profile.zip_code || profile.zip || ''}
+                              <p className="text-white/70 text-[11px] md:text-[11px] font-bold uppercase truncate mt-1">
+                                {profile.city ? `${profile.city}, ` : ''}{profile.state} {profile.zip_code || profile.zip || ''}
                               </p>
 
-                              <p className="text-white/40 text-[10px] md:text-[9px] font-black uppercase tracking-widest flex items-center gap-1">
+                              <p className="text-white/40 text-[11px] md:text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
                                 {profile.dist_miles ? `${Math.round(profile.dist_miles)} miles away` : 'Nearby'}
                               </p>
                             </div>
@@ -490,7 +490,7 @@ const [selectedInterestProfile, setSelectedInterestProfile] = useState<any>(null
 
                   {/* Interests Section */}
                   <div className="py-5 border-t border-white/5 min-h-[85px]">
-                              <p className="text-white/40 text-[9px] font-black uppercase tracking-widest mb-3 px-1">Interests</p>
+                              <p className="text-white/40 text-[9px] font-black uppercase tracking-widest mb-3 px-1">Adventure Interests</p>
                               <div className="flex flex-wrap items-center gap-2 px-1">
                                 {getArrayData(profile.adventure_type).length > 0 ? (
                                   <>

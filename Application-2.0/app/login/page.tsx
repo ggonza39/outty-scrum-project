@@ -148,7 +148,7 @@ function LoginContent() {
 
       <div className={`${styles.glassCard} z-10 w-full max-w-md p-10 mx-4 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl`}>
         <h2 className={`${styles.glassTitle} text-4xl font-black text-white mb-2 text-center tracking-tighter uppercase italic`}>Join the Adventure</h2>
-        <p className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em] text-center mb-8">Outty Identity Portal</p>
+        <p className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.3em] text-center mb-8">Outty Identity Portal</p>
 
         <div className="space-y-5 text-left">
           <div>

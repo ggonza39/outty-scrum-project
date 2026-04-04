@@ -118,13 +118,10 @@ const formattedGender = typeof profile?.gender === 'string'
                 My Profile
               </h1>
               <div className="flex items-center gap-2 mt-3">
-                <p className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em] drop-shadow-sm">
+                <p className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.3em] drop-shadow-sm">
                   Public Identity
                 </p>
-                <span className="text-white/20 text-[10px]">•</span>
-                <p className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em] drop-shadow-sm">
-                  Global Presence
-                </p>
+
               </div>
             </div>
           </header>
@@ -215,12 +212,12 @@ const formattedGender = typeof profile?.gender === 'string'
                 </section>
 
                 <section>
-                  <h3 className="text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-3">Skill Level</h3>
+                  <h3 className="text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-3">Skill Levels</h3>
                   <div className="flex flex-wrap gap-2">
                     {getArrayData(profile?.skill_level).map((s: string) => (
-                      <span key={s} className="px-3 py-1 bg-white/5 border border-white/10 text-white/60 text-[10px] font-bold rounded-lg uppercase">
-                        {s}
-                      </span>
+                     <span key={s} className="px-2.5 py-1 bg-white/5 border border-white/10 text-white/70 text-[9px] font-black rounded-lg uppercase tracking-wider">
+                                                 {s}
+                                               </span>
                     ))}
                   </div>
                 </section>
@@ -263,7 +260,7 @@ const formattedGender = typeof profile?.gender === 'string'
                       { label: 'Facebook', val: profile?.facebook },
                     ].map((social) => (
                       <div key={social.label}>
-                        <p className="text-white/30 text-[9px] font-bold uppercase">{social.label}</p>
+                        <p className="text-white/30 text-[10px] font-bold uppercase">{social.label}</p>
                         <p className="text-white text-xs font-bold truncate">{social.val || '—'}</p>
                       </div>
                     ))}

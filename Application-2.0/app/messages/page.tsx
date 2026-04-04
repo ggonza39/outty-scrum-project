@@ -146,8 +146,8 @@ export default function MessagesPage() {
             <h1 className="text-5xl md:text-6xl font-black italic tracking-tighter uppercase leading-none text-white drop-shadow-2xl">
               Messages
             </h1>
-           <p className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em] mt-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-             The Hub | Secure Transmission
+           <p className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.3em] mt-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+             Secure Transmission
            </p>
           </div>
         </header>
