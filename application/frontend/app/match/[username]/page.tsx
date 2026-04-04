@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import MobilePage from "@/components/MobilePage";
 
@@ -42,9 +43,102 @@ const people: Person[] = [
 export default function ExplorerProfilePage() {
   const params = useParams();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+  const [person, setPerson] = useState<Person | null | undefined>(undefined);
 
-  const username = String(params.username).toLowerCase();
-  const person = people.find((item) => item.username === username);
+  useEffect(() => {
+    const username = String(params.username).toLowerCase();
+
+    const timer = setTimeout(() => {
+      const foundPerson = people.find((item) => item.username === username) || null;
+      setPerson(foundPerson);
+      setIsLoading(false);
+    }, 600);
+
+    return () => clearTimeout(timer);
+  }, [params.username]);
+
+  if (isLoading) {
+    return (
+      <MobilePage>
+        <main className="content">
+          <section className="card" style={{ padding: 12 }}>
+            <div
+              style={{
+                width: 100,
+                height: 42,
+                borderRadius: 999,
+                backgroundColor: "#e5e7eb",
+                marginBottom: 16,
+              }}
+            />
+
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 320,
+                height: 360,
+                borderRadius: 24,
+                backgroundColor: "#e5e7eb",
+                margin: "0 auto 16px",
+              }}
+            />
+
+            <div style={{ width: "100%", maxWidth: 320, margin: "0 auto" }}>
+              <div
+                style={{
+                  width: "70%",
+                  height: 28,
+                  borderRadius: 8,
+                  backgroundColor: "#e5e7eb",
+                  marginBottom: 12,
+                }}
+              />
+
+              <div
+                style={{
+                  width: "35%",
+                  height: 18,
+                  borderRadius: 8,
+                  backgroundColor: "#e5e7eb",
+                  marginBottom: 20,
+                }}
+              />
+
+              <div
+                style={{
+                  width: "100%",
+                  height: 18,
+                  borderRadius: 8,
+                  backgroundColor: "#e5e7eb",
+                  marginBottom: 10,
+                }}
+              />
+
+              <div
+                style={{
+                  width: "85%",
+                  height: 18,
+                  borderRadius: 8,
+                  backgroundColor: "#e5e7eb",
+                  marginBottom: 10,
+                }}
+              />
+
+              <div
+                style={{
+                  width: "90%",
+                  height: 18,
+                  borderRadius: 8,
+                  backgroundColor: "#e5e7eb",
+                }}
+              />
+            </div>
+          </section>
+        </main>
+      </MobilePage>
+    );
+  }
 
   if (!person) {
     return (
@@ -103,7 +197,10 @@ export default function ExplorerProfilePage() {
               </p>
 
               <section style={{ marginBottom: 16 }}>
-                <h3 className="section-title" style={{ fontSize: "1.1rem", marginBottom: 8 }}>
+                <h3
+                  className="section-title"
+                  style={{ fontSize: "1.1rem", marginBottom: 8 }}
+                >
                   About
                 </h3>
                 <p className="subtle">{person.bio || "No bio available."}</p>
