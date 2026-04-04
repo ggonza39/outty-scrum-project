@@ -85,15 +85,22 @@ export default function BasicInfoStep({ formData, updateField }: Props) {
         />
       </label>
 
-      <label>
-        Gender
-        <input
-          type="text"
-          value={formData.gender}
-          onChange={(e) => updateField("gender", e.target.value)}
-          placeholder="Enter your gender"
-        />
-      </label>
+      <div className="full-width">
+        <label>Gender</label>
+
+        <div className="pill-group">
+          {["Female", "Male"].map((option) => (
+            <button
+              key={option}
+              type="button"
+              className={`pill ${formData.gender === option ? "selected" : ""}`}
+              onClick={() => updateField("gender", option)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <label className="full-width">
         Bio
