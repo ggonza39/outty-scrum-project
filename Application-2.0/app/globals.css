@@ -131,3 +131,40 @@ body {
 
 .animate-sand { animation: sand-fall linear infinite; }
 .animate-dune-drift { animation: sand-drift 30s ease-in-out infinite; }
+
+/* app/globals.css */
+
+@layer base {
+  /* 1. Global Font Smoothing (Fixes the "Thin Text" issue) */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* 2. Remove the ugly gray tap highlight on iOS */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* 3. The "Master" Button Selector */
+  /* This catches:
+     - HTML <button> tags
+     - Lucide icons inside buttons
+     - Next.js <Link> tags that you've styled as buttons
+     - Anything with role="button"
+  */
+  button,
+  a[role="button"],
+  .btn-interactive,
+  [type='button'],
+  [type='submit'] {
+    @apply transition-all duration-75 active:scale-95 active:brightness-90 select-none;
+    touch-action: manipulation;
+    cursor: pointer;
+  }
+
+  /* 4. Ensure icons inside buttons don't "swallow" the click */
+  button * {
+    pointer-events: none;
+  }
+}
