@@ -40,11 +40,48 @@ const people: Person[] = [
   },
 ];
 
+function fallbackCopyTextToClipboard(text: string) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.setAttribute("readonly", "");
+  textArea.style.position = "fixed";
+  textArea.style.opacity = "0";
+  textArea.style.left = "-9999px";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  let successful = false;
+
+  try {
+    successful = document.execCommand("copy");
+  } catch (error) {
+    console.error("Fallback copy failed:", error);
+    successful = false;
+  }
+
+  document.body.removeChild(textArea);
+  return successful;
+}
+
+async function copyToClipboard(text: string) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return true;
+  }
+
+  return fallbackCopyTextToClipboard(text);
+}
+
 export default function ExplorerProfilePage() {
   const params = useParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [person, setPerson] = useState<Person | null | undefined>(undefined);
+  const [shareMessage, setShareMessage] = useState("");
+  const [shareMessageType, setShareMessageType] = useState<"success" | "error">(
+    "success"
+  );
 
   useEffect(() => {
     const username = String(params.username).toLowerCase();
@@ -57,6 +94,29 @@ export default function ExplorerProfilePage() {
 
     return () => clearTimeout(timer);
   }, [params.username]);
+
+  const handleShareProfile = async () => {
+    const profileUrl = window.location.href;
+
+    try {
+      const copied = await copyToClipboard(profileUrl);
+
+      if (!copied) {
+        throw new Error("Copy failed");
+      }
+
+      setShareMessageType("success");
+      setShareMessage("Profile link copied.");
+    } catch (error) {
+      console.error("Share profile error:", error);
+      setShareMessageType("error");
+      setShareMessage("Unable to copy profile link.");
+    }
+
+    setTimeout(() => {
+      setShareMessage("");
+    }, 2000);
+  };
 
   if (isLoading) {
     return (
@@ -167,14 +227,57 @@ export default function ExplorerProfilePage() {
     <MobilePage>
       <main className="content">
         <section className="card" style={{ padding: 12 }}>
-          <button
-            type="button"
-            onClick={() => router.push("/match")}
-            className="btn-secondary"
-            style={{ marginBottom: 16 }}
+          <div
+            style={{
+              display: "flex",
+              gap: 12,
+              flexWrap: "wrap",
+              marginBottom: 16,
+            }}
           >
-            Back
-          </button>
+            <button
+              type="button"
+              onClick={() => router.push("/match")}
+              className="btn-secondary"
+            >
+              Back
+            </button>
+
+            <button
+              type="button"
+              onClick={handleShareProfile}
+              className="btn-secondary"
+              aria-label="Share profile"
+              title="Share profile"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <span aria-hidden="true">🔗</span>
+              <span>Share Profile</span>
+            </button>
+          </div>
+
+          {shareMessage && (
+            <div
+              role="status"
+              aria-live="polite"
+              style={{
+                marginBottom: 16,
+                padding: "10px 14px",
+                borderRadius: 12,
+                backgroundColor:
+                  shareMessageType === "success" ? "#dcfce7" : "#fee2e2",
+                color: shareMessageType === "success" ? "#166534" : "#991b1b",
+                fontWeight: 600,
+                fontSize: "0.95rem",
+              }}
+            >
+              {shareMessage}
+            </div>
+          )}
 
           <div className="center" style={{ flexDirection: "column", gap: 16 }}>
             <img
