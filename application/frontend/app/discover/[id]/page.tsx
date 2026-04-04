@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ExplorerProfileClient from "@/components/discover/ExplorerProfileClient";
+import ExplorerProfileClient from "../ExplorerProfileClient";
 import { getExplorerProfileById } from "@/lib/explorerProfiles";
 
 type Props = {
