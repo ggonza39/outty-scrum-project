@@ -6,6 +6,7 @@ import MatchCard from "@/components/MatchCard";
 
 type Person = {
   id: string;
+  username: string;
   name: string;
   age: number;
   image: string;
@@ -15,6 +16,7 @@ type Person = {
 const initialPeople: Person[] = [
   {
     id: "1",
+    username: "maya",
     name: "Maya",
     age: 28,
     image: "/images/maya.png",
@@ -22,6 +24,7 @@ const initialPeople: Person[] = [
   },
   {
     id: "2",
+    username: "jordan",
     name: "Jordan",
     age: 31,
     image: "/images/jordan.jpg",
@@ -29,6 +32,7 @@ const initialPeople: Person[] = [
   },
   {
     id: "3",
+    username: "avery",
     name: "Avery",
     age: 26,
     image: "/images/avery.jpg",
