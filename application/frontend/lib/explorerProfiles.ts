@@ -14,7 +14,7 @@ export const explorerProfiles: ExplorerProfile[] = [
     username: "maya",
     name: "Maya",
     age: 28,
-    image: "/images/maya.png",
+    image: "/images/maya.jpg",
     bio: "Loves hiking, sunrise trails, and good coffee after a long adventure.",
     tags: ["Hiking", "Coffee", "Nature"],
   },
