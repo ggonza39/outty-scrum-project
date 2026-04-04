@@ -339,16 +339,44 @@ export default function ExplorerProfileClient({ profileId }: Props) {
           )}
 
           <div className="center" style={{ flexDirection: "column", gap: 16 }}>
-            <img
-              src={profile.image}
-              alt={profile.name}
+            <div
               style={{
                 width: 120,
                 height: 120,
                 borderRadius: "50%",
-                objectFit: "cover",
+                overflow: "hidden",
+                backgroundColor: "#e5e7eb",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
               }}
-            />
+            >
+              {profile.image ? (
+                <img
+                  src={profile.image}
+                  alt={profile.name}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              ) : (
+                <span
+                  style={{
+                    color: "#6b7280",
+                    fontSize: "0.8rem",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    padding: "0 10px",
+                  }}
+                >
+                  No Photo
+                </span>
+              )}
+            </div>
 
             <div style={{ width: "100%", maxWidth: 320 }}>
               <h2 className="section-title" style={{ marginBottom: 8 }}>
