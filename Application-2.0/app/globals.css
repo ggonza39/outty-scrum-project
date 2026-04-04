@@ -134,36 +134,32 @@ body {
 
 /* app/globals.css */
 
+/* app/globals.css */
+
 @layer base {
-  /* 1. Global Font Smoothing (Fixes the "Thin Text" issue) */
+  /* 1. Fixes the "Thin Text" on mobile high-res screens */
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  /* 2. Remove the ugly gray tap highlight on iOS */
+  /* 2. Removes the blue/gray flicker on iPhone taps */
   * {
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* 3. The "Master" Button Selector */
-  /* This catches:
-     - HTML <button> tags
-     - Lucide icons inside buttons
-     - Next.js <Link> tags that you've styled as buttons
-     - Anything with role="button"
-  */
+  /* 3. The Global Tactile Response */
+  /* Catches standard buttons and Next.js Links acting as buttons */
   button,
   a[role="button"],
-  .btn-interactive,
   [type='button'],
   [type='submit'] {
     @apply transition-all duration-75 active:scale-95 active:brightness-90 select-none;
     touch-action: manipulation;
-    cursor: pointer;
   }
 
-  /* 4. Ensure icons inside buttons don't "swallow" the click */
+  /* 4. Icon fix: ensures tapping an icon inside a button triggers the button */
   button * {
     pointer-events: none;
   }
