@@ -86,7 +86,7 @@ export function validateBasicInfo(data: ProfileFormData): string | null {
   }
 
   if (!data.gender || !data.gender.trim()) {
-    return "Please enter a gender.";
+    return "Please select a gender.";
   }
 
   return null;
