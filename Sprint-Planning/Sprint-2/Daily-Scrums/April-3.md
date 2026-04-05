@@ -13,7 +13,13 @@
 - 
 
 **Heidi Wilder:**  
--
+-created ui/ux for user messags board
+-created ux/ui message indicator in footer navigation. also added icons
+- created ux/ui for matched screen
+- created filtering drawer modal for match didcovery filtering
+- reuploaded svg format of logo
+- created branded top navigation for appp
+- integrated all the above into an interactive figma prototype
 
 **Gibson Garner:**  
 - 
@@ -44,7 +50,8 @@
 -
 
 **Heidi Wilder:**  
-- 
+- ux/ui refinemements
+
 
 **Gibson Garner:**  
 - 
