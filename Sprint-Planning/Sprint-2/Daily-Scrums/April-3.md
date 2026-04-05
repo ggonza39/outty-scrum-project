@@ -26,7 +26,7 @@
 - Updated home page to remove dummy information
 
 **Anthony Nguyen:**  
-- 
+- Managing new pull requests and tracking each implementation as to the user stories acceptance criteria.
 
 **Gilberto Gonzalez:**  
 - Infrastructure & Deployment: Resolved a series of critical deployment bugs to successfully launch the Outty 2.0 "Vision" environment; currently monitoring the Vercel build to ensure continuous stability.
@@ -53,7 +53,7 @@
 - Starting US6 frontend tasks. I’ll begin with the dynamic route for viewing explorer profiles, then move into the loading state and share-profile utility if time allows
 
 **Anthony Nguyen:**  
-- 
+- I will continue to test each new feature or bug fix to verify that it meets the conditions to check our user story goals.
 
 **Gilberto Gonzalez:**  
 - Backlog Refinement: Plan a new User Story/Task for the "Test Account Filter" (the Boolean search toggle) to prevent "junk data" from inflating discovery results.
