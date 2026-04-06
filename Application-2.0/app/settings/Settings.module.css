@@ -21,7 +21,7 @@
   position: fixed;
   inset: 0;
   z-index: 0;
-  background-image: url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=2070');
+  background-image: url("https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=2070");
   background-size: cover;
   background-position: center;
   filter: brightness(0.4) saturate(1.2);
@@ -32,7 +32,12 @@
   position: fixed;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent, rgba(0,0,0,0.8));
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.6),
+    transparent,
+    rgba(0, 0, 0, 0.8)
+  );
 }
 
 /* -------------------------------------------------------------------------- */

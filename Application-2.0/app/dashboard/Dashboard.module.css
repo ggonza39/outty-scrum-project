@@ -73,21 +73,34 @@
 }
 
 /* 4.3: LAYERED DEPTH & VARIATION */
-.snow1 { animation: snowFall 10s linear infinite; opacity: 0.3; }
-.snow2 { animation: snowFall 15s linear infinite; background-size: 400px 400px; opacity: 0.2; filter: blur(1px); }
-.snow3 { animation: snowFall 20s linear infinite; background-size: 800px 800px; opacity: 0.1; filter: blur(2px); }
+.snow1 {
+  animation: snowFall 10s linear infinite;
+  opacity: 0.3;
+}
+.snow2 {
+  animation: snowFall 15s linear infinite;
+  background-size: 400px 400px;
+  opacity: 0.2;
+  filter: blur(1px);
+}
+.snow3 {
+  animation: snowFall 20s linear infinite;
+  background-size: 800px 800px;
+  opacity: 0.1;
+  filter: blur(2px);
+}
 
 /* -------------------------------------------------------------------------- */
 /* SECTION 5: ANIMATION KEYFRAMES                                             */
 /* -------------------------------------------------------------------------- */
 @keyframes snowFall {
-  from { transform: translateY(0); }
-  to { transform: translateY(600px); }
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(600px);
+  }
 }
-
-
-
-
 
 /* -------------------------------------------------------------------------- */
 /* SECTION 6: MOBILE RESPONSIVENESS SETTINGS                                  */
@@ -125,8 +138,6 @@
   .dashboardMain :global(.z-50.flex.items-center) {
     @apply w-full justify-center py-4 text-xs;
   }
-
-
 }
 
 /* Extra small screen optimization (iPhone SE / Fold) */
