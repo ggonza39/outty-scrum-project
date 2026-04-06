@@ -197,10 +197,10 @@ function LoginContent() {
             {loading ? 'Verifying...' : 'Sign In'}
           </button>
 
-          <div className="flex items-center my-2 text-white/10">
-            <div className="flex-grow h-px bg-white/10" />
-            <span className="px-4 text-[9px] font-black uppercase tracking-[0.5em]">or</span>
-            <div className="flex-grow h-px bg-white/10" />
+          <div className="flex items-center my-2 text-white/40">
+            <div className="flex-grow h-px bg-white/30" />
+            <span className="px-4 text-[10px] font-black uppercase tracking-[0.4em]">OR</span>
+            <div className="flex-grow h-px bg-white/30" />
           </div>
 
           <button
