@@ -165,7 +165,7 @@ describe('Input Validation Unit Tests', () => {
     it('should return error for empty gender', () => {
         const testData: ProfileFormData = structuredClone(defaultData);
         testData.gender = "";
-        expect(validateBasicInfo(testData)).toBe('Please enter a gender.');
+        expect(validateBasicInfo(testData)).toBe('Please select a gender.');
     });
 
     it('should return null for valid gender', () => {

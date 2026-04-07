@@ -16,7 +16,7 @@ import { ChatProvider } from "@/context/ChatContext";
 import GlobalNav from "@/components/GlobalNav";
 import FloatingChatShell from "@/components/messaging/FloatingChatShell";
 import ConditionalFooter from "@/components/ConditionalFooter";
-import { Suspense } from 'react';
+import { Suspense } from "react";
 
 /* -------------------------------------------------------------------------- */
 /* SECTION 3: ASSETS & METADATA (Configuration)                               */
@@ -47,34 +47,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
       <body className="h-full bg-[#022c22] overflow-x-hidden">
         {/* 4.1 State Layer: Presence and Chat data flow starts here */}
         <PresenceProvider>
           <ChatProvider>
-
             {/* 4.2 Global Navigation: Fixed at the very top */}
             <Suspense fallback={<div className="h-20" />}>
-            <GlobalNav />
+              <GlobalNav />
             </Suspense>
 
             {/* 4.3 Page Wrapper: Flex column ensures footer is pushed to bottom */}
             <div className="relative min-h-screen flex flex-col">
-              <main className="flex-grow">
-                {children}
-              </main>
+              <main className="flex-grow">{children}</main>
 
               {/* 4.4 Conditional Footer: Part of the flex flow */}
               <Suspense fallback={null}>
-                              <ConditionalFooter />
-                            </Suspense>
+                <ConditionalFooter />
+              </Suspense>
             </div>
 
             {/* 4.5 Global Overlays: Floating Chat stays on top of everything */}
             <Suspense fallback={null}>
-                          <FloatingChatShell />
-                        </Suspense>
-
+              <FloatingChatShell />
+            </Suspense>
           </ChatProvider>
         </PresenceProvider>
       </body>

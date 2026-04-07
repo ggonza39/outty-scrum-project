@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import MobilePage from "@/components/MobilePage";
 import MatchCard from "@/components/MatchCard";
 
 type Person = {
   id: string;
+  username: string;
   name: string;
   age: number;
   image: string;
@@ -15,6 +17,7 @@ type Person = {
 const initialPeople: Person[] = [
   {
     id: "1",
+    username: "maya",
     name: "Maya",
     age: 28,
     image: "/images/maya.png",
@@ -22,6 +25,7 @@ const initialPeople: Person[] = [
   },
   {
     id: "2",
+    username: "jordan",
     name: "Jordan",
     age: 31,
     image: "/images/jordan.jpg",
@@ -29,6 +33,7 @@ const initialPeople: Person[] = [
   },
   {
     id: "3",
+    username: "avery",
     name: "Avery",
     age: 26,
     image: "/images/avery.jpg",
@@ -66,6 +71,14 @@ export default function MatchPage() {
                 onLike={handleLike}
                 onPass={handlePass}
               />
+
+              <Link
+                href={`/match/${currentPerson.username}`}
+                className="btn-secondary center"
+                style={{ width: "100%", maxWidth: 320 }}
+              >
+                View Profile
+              </Link>
 
               {/* Clickable buttons for testing and desktop demo */}
               <div

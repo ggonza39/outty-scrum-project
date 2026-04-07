@@ -9,7 +9,7 @@
 
 .heroBackground {
   @apply absolute inset-0 z-0 opacity-40 bg-cover bg-center;
-  background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80');
+  background-image: url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80");
 }
 
 /* -------------------------------------------------------------------------- */
@@ -40,12 +40,6 @@
   @apply px-10 py-4 bg-emerald-500/50 text-white/50 font-bold rounded-full animate-pulse;
 }
 
-/* Home.module.css */
-
-@reference "./globals.css";
-
-/* ... (Existing Sections 1, 2, and 3) ... */
-
 /* -------------------------------------------------------------------------- */
 /* SECTION 4: RESPONSIVE OVERRIDES (Mobile First Adjustments)                 */
 /* -------------------------------------------------------------------------- */
@@ -58,7 +52,7 @@
   }
 
   /* 4.2 Background Positioning */
-  /* On mobile, we want the focus of the mountain/hero image to stay centered */
+
   .heroBackground {
     @apply opacity-50; /* Slightly higher opacity for better visibility on small screens */
     background-position: 65% center;
@@ -72,7 +66,9 @@
 
   /* 4.4 Button Refinement */
   /* Making buttons slightly taller for easier thumb-tapping */
-  .primaryBtn, .secondaryBtn, .loadingBtn {
+  .primaryBtn,
+  .secondaryBtn,
+  .loadingBtn {
     @apply py-5 w-full max-w-[280px];
   }
 }

@@ -10,7 +10,7 @@
 
 .fixedBg {
   @apply fixed inset-0 z-0 opacity-20 bg-cover bg-center;
-  background-image: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&q=80');
+  background-image: url("https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&q=80");
 }
 
 .gradientOverlay {
@@ -49,9 +49,15 @@
 /* SECTION 3: TYPOGRAPHY SYSTEM (Frontend)                                    */
 /* -------------------------------------------------------------------------- */
 
-.labelText { @apply text-xs font-black uppercase tracking-[0.25em] text-emerald-400 drop-shadow-sm; }
-.bodyText { @apply text-base md:text-lg leading-relaxed text-white/90 font-medium drop-shadow-sm; }
-.headingText { @apply font-black italic uppercase tracking-tighter drop-shadow-md text-white; }
+.labelText {
+  @apply text-xs font-black uppercase tracking-[0.25em] text-emerald-400 drop-shadow-sm;
+}
+.bodyText {
+  @apply text-base md:text-lg leading-relaxed text-white/90 font-medium drop-shadow-sm;
+}
+.headingText {
+  @apply font-black italic uppercase tracking-tighter drop-shadow-md text-white;
+}
 
 /* About.module.css */
 
@@ -79,11 +85,13 @@
 
   /* 4.3 Headline Scaling */
   /* Scaling down the 8xl/9xl text so it fits the screen width */
-  .headingText.text-6xl, .headingText.text-8xl {
+  .headingText.text-6xl,
+  .headingText.text-8xl {
     @apply text-5xl leading-[0.9];
   }
 
-  .headingText.text-7xl, .headingText.text-9xl {
+  .headingText.text-7xl,
+  .headingText.text-9xl {
     @apply text-6xl mb-4;
   }
 

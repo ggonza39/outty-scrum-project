@@ -9,8 +9,8 @@ const links = [
   { href: '/', label: 'Home' },
   { href: '/signin', label: 'Sign in' },
   { href: '/signup', label: 'Sign up' },
-  { href: '/profile-setup', label: 'Profile' },
-  { href: '/match', label: 'Match' },
+  { href: '/profile', label: 'Profile' },
+  { href: '/discover', label: 'Discover' },
   { href: '/message', label: 'Messages' },
   { href: '/about', label: 'About' },
 ];
@@ -82,7 +82,7 @@ export default function AppHeader() {
 
   const visibleLinks = links.filter((link) => {
     if (!isAuthenticated) {
-      return !['/profile-setup', '/match', '/message'].includes(link.href);
+      return !['/profile', '/discover', '/message'].includes(link.href);
     }
 
     return !['/signin', '/signup'].includes(link.href);

@@ -93,41 +93,122 @@ body {
 /* 3.1 Oceanic Theme Animations */
 /* Drift and shimmer effects for water-based environments */
 @keyframes ocean-drift {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(2%, 1%) scale(1.05); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(2%, 1%) scale(1.05);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 }
 
 @keyframes shark-lurk {
-  0% { transform: translate(10%, 5%) rotate(0deg); opacity: 0.05; }
-  50% { transform: translate(-5%, -2%) rotate(-2deg); opacity: 0.15; }
-  100% { transform: translate(10%, 5%) rotate(0deg); opacity: 0.05; }
+  0% {
+    transform: translate(10%, 5%) rotate(0deg);
+    opacity: 0.05;
+  }
+  50% {
+    transform: translate(-5%, -2%) rotate(-2deg);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translate(10%, 5%) rotate(0deg);
+    opacity: 0.05;
+  }
 }
 
 @keyframes caustic-shimmer {
-  0% { opacity: 0.1; background-position: 0% 0%; }
-  50% { opacity: 0.25; background-position: 50% 50%; }
-  100% { opacity: 0.1; background-position: 100% 100%; }
+  0% {
+    opacity: 0.1;
+    background-position: 0% 0%;
+  }
+  50% {
+    opacity: 0.25;
+    background-position: 50% 50%;
+  }
+  100% {
+    opacity: 0.1;
+    background-position: 100% 100%;
+  }
 }
 
-.animate-ocean { animation: ocean-drift 20s ease-in-out infinite; }
-.animate-shark { animation: shark-lurk 30s ease-in-out infinite; }
-.animate-caustics { animation: caustic-shimmer 8s ease-in-out infinite; }
+.animate-ocean {
+  animation: ocean-drift 20s ease-in-out infinite;
+}
+.animate-shark {
+  animation: shark-lurk 30s ease-in-out infinite;
+}
+.animate-caustics {
+  animation: caustic-shimmer 8s ease-in-out infinite;
+}
 
 /* 3.2 Desert Theme Animations */
 /* Wind and sand particle movement for arid environments */
 @keyframes sand-drift {
-  0% { transform: translate(-10%, -10%) scale(1.1); }
-  50% { transform: translate(0%, 0%) scale(1); }
-  100% { transform: translate(-10%, -10%) scale(1.1); }
+  0% {
+    transform: translate(-10%, -10%) scale(1.1);
+  }
+  50% {
+    transform: translate(0%, 0%) scale(1);
+  }
+  100% {
+    transform: translate(-10%, -10%) scale(1.1);
+  }
 }
 
 @keyframes sand-fall {
-  0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
-  10% { opacity: 0.6; }
-  90% { opacity: 0.3; }
-  100% { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0; }
+  0% {
+    transform: translateY(-10vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(110vh) translateX(50px) rotate(360deg);
+    opacity: 0;
+  }
 }
 
-.animate-sand { animation: sand-fall linear infinite; }
-.animate-dune-drift { animation: sand-drift 30s ease-in-out infinite; }
+.animate-sand {
+  animation: sand-fall linear infinite;
+}
+.animate-dune-drift {
+  animation: sand-drift 30s ease-in-out infinite;
+}
+
+
+
+@layer base {
+  /* 1. Fixes the "Thin Text" on mobile high-res screens */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* 2. Removes the blue/gray flicker on iPhone taps */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* 3. The Global Tactile Response */
+  /* Catches standard buttons and Next.js Links acting as buttons */
+  button,
+  a[role="button"],
+  [type="button"],
+  [type="submit"] {
+    @apply transition-all duration-75 active:scale-95 active:brightness-90 select-none;
+    touch-action: manipulation;
+  }
+
+  /* 4. Icon fix: ensures tapping an icon inside a button triggers the button */
+  button * {
+    pointer-events: none;
+  }
+}

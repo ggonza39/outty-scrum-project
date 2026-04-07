@@ -20,7 +20,30 @@ export default function SignInPage() {
       const { data } = await supabase.auth.getSession();
 
       if (data.session) {
-        router.replace('/profile-setup');
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+          setErrorMessage('User not found.');
+          return;
+        }
+
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .maybeSingle();
+
+        if (profileError) {
+          console.error('Profile fetch error:', profileError);
+          setErrorMessage('Error loading profile.');
+          return;
+        }
+
+        if (profile) {
+          router.replace('/discover'); // existing user
+        } else {
+          router.replace('/profile-setup'); // new user
+        }
       }
     };
 
@@ -52,7 +75,30 @@ export default function SignInPage() {
         return;
       }
 
-      router.replace('/profile-setup');
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        setErrorMessage('User not found.');
+        return;
+      }
+      
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .maybeSingle();
+      
+      if (profileError) {
+        console.error('Profile fetch error:', profileError);
+        setErrorMessage('Error loading profile.');
+        return;
+      }
+      
+      if (profile) {
+        router.replace('/discover');
+      } else {
+        router.replace('/profile-setup');
+      }
     } catch (error) {
       console.error('Unexpected sign in error:', error);
       setErrorMessage(getAuthErrorMessage(error instanceof Error ? error : null));
