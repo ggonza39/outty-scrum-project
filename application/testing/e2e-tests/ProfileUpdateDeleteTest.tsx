@@ -68,6 +68,7 @@ test('Profile fields can be changed and update in database', async ({ page }) =>
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(defaultData.zipCode);
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill('My bio.');
+    await page.getByRole('button', { name: 'Female' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Backpacking' }).click();
     await page.getByRole('button', { name: 'Ice-Fishing' }).click();
@@ -99,7 +100,7 @@ test('Profile fields can be changed and update in database', async ({ page }) =>
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Save Profile' }).click();
 
-    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/match');
+    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/discover');
 
     // 2. Use the Supabase client to check the database directly
     const { data: beforedata, error: beforeerror } = await supabase.from('profiles').select().eq('display_name', randomString);
@@ -128,6 +129,7 @@ test('Profile fields can be changed and update in database', async ({ page }) =>
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(updatedData.zipCode);
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill(updatedData.bio);
+    await page.getByRole('button', { name: 'Female' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
     //await page.getByRole('button', { name: 'Backpacking' }).click();
     await page.getByRole('button', { name: 'Ice-Fishing' }).click();
@@ -159,7 +161,7 @@ test('Profile fields can be changed and update in database', async ({ page }) =>
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Save Profile' }).click();
 
-    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/match');
+    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/discover');
 
     page.once('dialog', async dialog => {
         expect(dialog.type()).toBe('alert');
@@ -232,6 +234,7 @@ test('Delete button at profile preview removes profile from database', async ({ 
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(updatedData.zipCode);
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill(updatedData.bio);
+    await page.getByRole('button', { name: 'Female' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Backpacking' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
@@ -301,6 +304,7 @@ test('Invalid updates are not submitted to database', async ({ page }) => {
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(defaultData.zipCode);
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill('My bio.');
+    await page.getByRole('button', { name: 'Female' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Backpacking' }).click();
     await page.getByRole('button', { name: 'Ice-Fishing' }).click();
@@ -332,7 +336,7 @@ test('Invalid updates are not submitted to database', async ({ page }) => {
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Save Profile' }).click();
 
-    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/match');
+    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/discover');
 
     // 2. Use the Supabase client to check the database directly
     const { data: beforedata, error: beforeerror } = await supabase.from('profiles').select().eq('display_name', randomString);
@@ -395,7 +399,7 @@ test('Invalid updates are not submitted to database', async ({ page }) => {
     //await page.getByRole('button', { name: 'Continue' }).click();
     //await page.getByRole('button', { name: 'Save Profile' }).click();
 
-    //await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/match');
+    //await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/discover');
 
     page.once('dialog', async dialog => {
         expect(dialog.type()).toBe('alert');

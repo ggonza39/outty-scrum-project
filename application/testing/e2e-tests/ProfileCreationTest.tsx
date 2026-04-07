@@ -52,6 +52,7 @@ test('Profile creation stores preferences in supabase table', async ({ page }) =
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(defaultData.zipCode);
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill('My bio.');
+    await page.getByRole('button', { name: 'Female' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Backpacking' }).click();
     await page.getByRole('button', { name: 'Ice-Fishing' }).click();
@@ -83,7 +84,7 @@ test('Profile creation stores preferences in supabase table', async ({ page }) =
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Save Profile' }).click();
 
-    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/match');
+    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/discover');
 
     // 2. Use the Supabase client to check the database directly
     const { data, error } = await supabase.from('profiles').select().eq('display_name', randomString);
@@ -136,6 +137,7 @@ test('Profile submission shows confirmation message', async ({ page }) => {
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill(defaultData.zipCode);
     await page.getByRole('textbox', { name: 'Bio' }).click();
     await page.getByRole('textbox', { name: 'Bio' }).fill('My bio.');
+    await page.getByRole('button', { name: 'Female' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Backpacking' }).click();
     await page.getByRole('button', { name: 'Ice-Fishing' }).click();
@@ -179,7 +181,7 @@ test('Profile submission shows confirmation message', async ({ page }) => {
 
     await page.getByRole('button', { name: 'Save Profile' }).click();
 
-    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/match');
+    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/discover');
 
     expect(dialogAppeared).toBe(true);
 
@@ -304,6 +306,7 @@ test('Invalid ZIP code throws correct error at "About Me" page', async ({ page }
     await page.getByRole('textbox', { name: 'Age' }).fill('30');
     await page.getByRole('textbox', { name: 'ZIP Code' }).click();
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill('');
+    await page.getByRole('button', { name: 'Female' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
 
     await expect(page.getByText('Please enter a valid ZIP code.')).toBeVisible();
@@ -313,6 +316,7 @@ test('Invalid ZIP code throws correct error at "About Me" page', async ({ page }
     await page.getByRole('textbox', { name: 'Age' }).fill('30');
     await page.getByRole('textbox', { name: 'ZIP Code' }).click();
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill('3006');
+    await page.getByRole('button', { name: 'Female' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
 
     await expect(page.getByText('Please enter a valid ZIP code.')).toBeVisible();
@@ -351,6 +355,7 @@ test('Empty interests throws error on Interests page', async ({ page }) => {
     await page.getByRole('textbox', { name: 'Age' }).fill('30');
     await page.getByRole('textbox', { name: 'ZIP Code' }).click();
     await page.getByRole('textbox', { name: 'ZIP Code' }).fill('30067');
+    await page.getByRole('button', { name: 'Female' }).click();
     await page.getByRole('button', { name: 'Continue' }).click(); 
 
     await expect(page.getByText('Adventure Interests')).toBeVisible();
