@@ -144,16 +144,27 @@ export default function ConversationList({
             <p className="text-white font-bold text-sm truncate">
               {convo.first_name} {convo.last_name}
             </p>
-            <p
-              className={`text-[10px] uppercase font-black tracking-wider transition-colors ${
-                convo.unread > 0 ? "text-emerald-400" : "text-emerald-400/50"
-              }`}
-            >
-              {convo.unread > 0
-                ? `${convo.unread} New Message${convo.unread > 1 ? "s" : ""}`
-                : "View Conversation"}
-            </p>
-          </div>
+
+            {/* Status & Message Info Container */}
+              <div className="flex items-center gap-2 mt-0.5">
+                {/* Online/Offline Indicator */}
+                <span className={`text-[11px] font-black uppercase tracking-tighter whitespace-nowrap ${
+                  onlineUsers.includes(convo.userId) ? "text-emerald-400" : "text-white/40"
+                }`}>
+                  {onlineUsers.includes(convo.userId) ? "• Online •" : "• Offline •"}
+                </span>
+
+                {/* Unread/View Conversation Label */}
+                <span className={`text-[11px] uppercase font-black tracking-wider transition-colors truncate ${
+                    convo.unread > 0 ? "text-white" : "text-emerald-400/40"
+                  }`}
+                >
+                  {convo.unread > 0
+                    ? `${convo.unread} New Message${convo.unread > 1 ? "s" : ""}`
+                    : "View Conversation"}
+                </span>
+              </div>
+            </div>
 
           {/* 4.3 UI Indicators */}
           <div className="flex flex-col items-end gap-1">
