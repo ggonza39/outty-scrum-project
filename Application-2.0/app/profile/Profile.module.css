@@ -25,7 +25,7 @@
   position: fixed;
   inset: 0;
   z-index: -9;
-  background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop');
+  background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop");
   background-size: cover;
   background-position: center;
   opacity: 0.6;
@@ -36,7 +36,8 @@
 /* LAYER 1: The Shining Ray */
 
 @keyframes raySlide {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(-25%) rotate(-12deg);
     opacity: 0.3;
   }
@@ -54,7 +55,13 @@
   width: 150%;
   height: 100%;
   z-index: -8;
-  background: linear-gradient(110deg, transparent 15%, rgba(16, 185, 129, 0.6) 30%, rgba(255, 255, 255, 0.4) 40%, transparent 55%);
+  background: linear-gradient(
+    110deg,
+    transparent 15%,
+    rgba(16, 185, 129, 0.6) 30%,
+    rgba(255, 255, 255, 0.4) 40%,
+    transparent 55%
+  );
   filter: blur(50px);
   pointer-events: none;
   /* Explicitly define the shorthand */
@@ -64,7 +71,6 @@
   animation-iteration-count: infinite;
   animation-fill-mode: both;
 }
-
 
 /* LAYER 4: The Deep Sea Glass Tint */
 .glassTint {
@@ -90,17 +96,34 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
-/* 1. MASTER TIMING (The secret to perfect sync) */
+/* 1. MASTER TIMING (perfect sync) */
 @keyframes masterStrike {
-  0%, 94%, 100% { opacity: 0; }
-  95% { opacity: 1; }      /* Both Bolt and Flash hit peak here */
-  96% { opacity: 0; }
-  97% { opacity: 0.7; }    /* Shared Flicker */
-  98% { opacity: 0; }
+  0%,
+  94%,
+  100% {
+    opacity: 0;
+  }
+  95% {
+    opacity: 1;
+  } /* Both Bolt and Flash hit peak here */
+  96% {
+    opacity: 0;
+  }
+  97% {
+    opacity: 0.7;
+  } /* Shared Flicker */
+  98% {
+    opacity: 0;
+  }
 }
 
 /* 2. THE SKY FLASH (Base) */
@@ -125,17 +148,85 @@
 }
 
 /* 4. SHARED EVENT TIMERS */
-/* We apply these classes to BOTH the flash and the bolt in the JSX */
-.event1 { animation: masterStrike 7s infinite; }
-.event2 { animation: masterStrike 4.5s infinite 1s; }
-.event3 { animation: masterStrike 11s infinite 3s; }
-.event4 { animation: masterStrike 9s infinite 5.5s; }
+
+.event1 {
+  animation: masterStrike 7s infinite;
+}
+.event2 {
+  animation: masterStrike 4.5s infinite 1s;
+}
+.event3 {
+  animation: masterStrike 11s infinite 3s;
+}
+.event4 {
+  animation: masterStrike 9s infinite 5.5s;
+}
 
 /* 5. UNIQUE BOLT SHAPES & ANGLES */
-.bolt1 { left: 15%; width: 30px; height: 95%; transform: rotate(-12deg); clip-path: polygon(50% 0%, 100% 20%, 30% 35%, 70% 50%, 10% 100%, 40% 60%, 0% 45%, 60% 25%); }
-.bolt2 { left: 45%; width: 15px; height: 35%; transform: rotate(2deg); clip-path: polygon(50% 0%, 80% 30%, 40% 45%, 90% 65%, 30% 100%, 50% 70%, 20% 50%, 70% 30%); }
-.bolt3 { right: 15%; width: 20px; height: 70%; transform: rotate(20deg); clip-path: polygon(40% 0%, 100% 25%, 20% 40%, 80% 55%, 0% 100%, 45% 65%, 10% 50%, 70% 30%); }
-.bolt4 { right: 35%; width: 25px; height: 110%; transform: rotate(-35deg); clip-path: polygon(50% 0%, 90% 15%, 35% 35%, 75% 55%, 15% 100%, 40% 65%, 5% 40%, 65% 20%); }
+.bolt1 {
+  left: 15%;
+  width: 30px;
+  height: 95%;
+  transform: rotate(-12deg);
+  clip-path: polygon(
+    50% 0%,
+    100% 20%,
+    30% 35%,
+    70% 50%,
+    10% 100%,
+    40% 60%,
+    0% 45%,
+    60% 25%
+  );
+}
+.bolt2 {
+  left: 45%;
+  width: 15px;
+  height: 35%;
+  transform: rotate(2deg);
+  clip-path: polygon(
+    50% 0%,
+    80% 30%,
+    40% 45%,
+    90% 65%,
+    30% 100%,
+    50% 70%,
+    20% 50%,
+    70% 30%
+  );
+}
+.bolt3 {
+  right: 15%;
+  width: 20px;
+  height: 70%;
+  transform: rotate(20deg);
+  clip-path: polygon(
+    40% 0%,
+    100% 25%,
+    20% 40%,
+    80% 55%,
+    0% 100%,
+    45% 65%,
+    10% 50%,
+    70% 30%
+  );
+}
+.bolt4 {
+  right: 35%;
+  width: 25px;
+  height: 110%;
+  transform: rotate(-35deg);
+  clip-path: polygon(
+    50% 0%,
+    90% 15%,
+    35% 35%,
+    75% 55%,
+    15% 100%,
+    40% 65%,
+    5% 40%,
+    65% 20%
+  );
+}
 
 .lightningContainer {
   position: fixed;
@@ -156,9 +247,10 @@
   }
 
   /* 2. Slow down the sky flashes so they aren't jarring on a small screen */
-  .event1, .event2, .event3, .event4 {
+  .event1,
+  .event2,
+  .event3,
+  .event4 {
     animation-duration: 10s !important;
   }
-
-
 }

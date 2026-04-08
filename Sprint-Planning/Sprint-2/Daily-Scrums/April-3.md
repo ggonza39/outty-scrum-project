@@ -22,7 +22,9 @@
 - integrated all the above into an interactive figma prototype
 
 **Gibson Garner:**  
-- 
+- Documented bugs found on previous tasks
+- After bug fixes, adjusted tests to fit new logic
+- Ran entire test suite after bug fixes to ensure no new bugs were introduced
 
 **Takeshia Banks:**  
 - Completed US3 frontend tasks
@@ -54,7 +56,9 @@
 
 
 **Gibson Garner:**  
-- 
+- Create tests for US3
+- Create tests for US8
+- Work with teammate on a BDD test
 
 **Takeshia Banks:**  
 - Starting US6 frontend tasks. I’ll begin with the dynamic route for viewing explorer profiles, then move into the loading state and share-profile utility if time allows
