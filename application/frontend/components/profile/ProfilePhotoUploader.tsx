@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { ProfileFormData } from "@/components/profile/ProfileSetupShell";
 
@@ -15,6 +15,8 @@ type Props = {
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
+type StatusType = "success" | "error" | "info";
+
 export default function ProfilePhotoUploader({
   mainPhoto,
   updateField,
@@ -25,21 +27,39 @@ export default function ProfilePhotoUploader({
   const [uploadError, setUploadError] = useState("");
   const [uploadSuccess, setUploadSuccess] = useState("");
   const [lastFailedFile, setLastFailedFile] = useState<File | null>(null);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [statusType, setStatusType] = useState<StatusType>("info");
+  const [previewFailed, setPreviewFailed] = useState(false);
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
 
-  const previewUrl = useMemo(() => {
-    if (!selectedFile) return null;
-    return URL.createObjectURL(selectedFile);
-  }, [selectedFile]);
+  const objectUrlRef = useRef<string | null>(null);
+  const statusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (!previewUrl) return;
-
-    updateField("mainPhoto", previewUrl);
-
     return () => {
-      URL.revokeObjectURL(previewUrl);
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+        objectUrlRef.current = null;
+      }
+
+      if (statusTimerRef.current) {
+        clearTimeout(statusTimerRef.current);
+      }
     };
-  }, [previewUrl, updateField]);
+  }, []);
+
+  const showStatus = (message: string, type: StatusType) => {
+    setStatusMessage(message);
+    setStatusType(type);
+
+    if (statusTimerRef.current) {
+      clearTimeout(statusTimerRef.current);
+    }
+
+    statusTimerRef.current = setTimeout(() => {
+      setStatusMessage("");
+    }, 2500);
+  };
 
   const validateFile = (file: File) => {
     if (!ALLOWED_TYPES.includes(file.type)) {
@@ -53,10 +73,18 @@ export default function ProfilePhotoUploader({
     return null;
   };
 
+  const clearPreviewObjectUrl = () => {
+    if (objectUrlRef.current) {
+      URL.revokeObjectURL(objectUrlRef.current);
+      objectUrlRef.current = null;
+    }
+  };
+
   const uploadFile = async (file: File) => {
     setIsUploading(true);
     setUploadError("");
     setUploadSuccess("");
+    setPreviewFailed(false);
 
     try {
       const {
@@ -71,20 +99,34 @@ export default function ProfilePhotoUploader({
       const fileName = `${Date.now()}.${fileExt}`;
       const filePath = `${user.id}/${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { error: storageError } = await supabase.storage
         .from("profile-galleries")
         .upload(filePath, file, {
           upsert: false,
         });
 
-      if (uploadError) throw uploadError;
+      if (storageError) throw storageError;
 
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("profile-galleries").getPublicUrl(filePath);
+
+      if (publicUrl) {
+        updateField("mainPhoto", publicUrl as ProfileFormData["mainPhoto"]);
+        setGalleryImages((prev) => [publicUrl, ...prev]);
+      }
+
+      clearPreviewObjectUrl();
+      setSelectedFile(null);
       setUploadSuccess("Photo uploaded successfully.");
       setLastFailedFile(null);
+      showStatus("Photo uploaded successfully.", "success");
     } catch (error) {
       console.error("Photo upload failed:", error);
       setUploadError("Upload failed. Please try again.");
       setLastFailedFile(file);
+      setPreviewFailed(true);
+      showStatus("Upload failed. Please try again.", "error");
     } finally {
       setIsUploading(false);
     }
@@ -100,12 +142,25 @@ export default function ProfilePhotoUploader({
       setUploadError(validationError);
       setUploadSuccess("");
       setSelectedFile(null);
+      setPreviewFailed(false);
+      clearPreviewObjectUrl();
       updateField("mainPhoto", null);
+      showStatus(validationError, "error");
       return;
     }
 
+    clearPreviewObjectUrl();
+
+    const localPreviewUrl = URL.createObjectURL(file);
+    objectUrlRef.current = localPreviewUrl;
+
     setSelectedFile(file);
     setLastFailedFile(null);
+    setPreviewFailed(false);
+    setUploadError("");
+    setUploadSuccess("");
+
+    updateField("mainPhoto", localPreviewUrl as ProfileFormData["mainPhoto"]);
     await uploadFile(file);
   };
 
@@ -119,12 +174,60 @@ export default function ProfilePhotoUploader({
     setUploadError("");
     setUploadSuccess("");
     setLastFailedFile(null);
+    setPreviewFailed(false);
+    clearPreviewObjectUrl();
     updateField("mainPhoto", null);
   };
+
+  const previewContainerStyle =
+    previewMode === "square"
+      ? {
+          width: 180,
+          height: 180,
+          borderRadius: 24,
+          overflow: "hidden" as const,
+          background: "#f3f4f6",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative" as const,
+        }
+      : {
+          position: "relative" as const,
+        };
 
   return (
     <div>
       <span className="field-label">Profile Photo</span>
+
+      {statusMessage && (
+        <div
+          role="status"
+          aria-live="polite"
+          style={{
+            marginTop: 12,
+            marginBottom: 12,
+            padding: "10px 14px",
+            borderRadius: 12,
+            fontWeight: 600,
+            fontSize: "0.95rem",
+            backgroundColor:
+              statusType === "success"
+                ? "#dcfce7"
+                : statusType === "error"
+                ? "#fee2e2"
+                : "#e0f2fe",
+            color:
+              statusType === "success"
+                ? "#166534"
+                : statusType === "error"
+                ? "#991b1b"
+                : "#075985",
+          }}
+        >
+          {statusMessage}
+        </div>
+      )}
 
       <div
         style={{
@@ -155,21 +258,7 @@ export default function ProfilePhotoUploader({
       <div className="avatar-upload">
         <div
           className={previewMode === "circle" ? "avatar-circle" : ""}
-          style={
-            previewMode === "square"
-              ? {
-                  width: 180,
-                  height: 180,
-                  borderRadius: 24,
-                  overflow: "hidden",
-                  background: "#f3f4f6",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  position: "relative",
-                }
-              : { position: "relative" }
-          }
+          style={previewContainerStyle}
         >
           {mainPhoto ? (
             <img
@@ -206,6 +295,30 @@ export default function ProfilePhotoUploader({
               }}
             >
               Uploading...
+            </div>
+          )}
+
+          {previewFailed && !isUploading && mainPhoto && (
+            <div
+              style={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                width: 28,
+                height: 28,
+                borderRadius: "50%",
+                backgroundColor: "#b00020",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 800,
+                fontSize: "0.95rem",
+              }}
+              title="Upload failed"
+              aria-label="Upload failed"
+            >
+              !
             </div>
           )}
         </div>
@@ -252,6 +365,50 @@ export default function ProfilePhotoUploader({
           Choose Different Photo
         </button>
       </div>
+
+      {galleryImages.length > 0 && (
+        <div style={{ marginTop: 20 }}>
+          <p
+            style={{
+              fontWeight: 700,
+              marginBottom: 10,
+            }}
+          >
+            Uploaded Photos
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+              gap: 8,
+            }}
+          >
+            {galleryImages.map((imageUrl) => (
+              <div
+                key={imageUrl}
+                style={{
+                  aspectRatio: "1 / 1",
+                  borderRadius: 16,
+                  overflow: "hidden",
+                  background: "#f3f4f6",
+                }}
+              >
+                <img
+                  src={imageUrl}
+                  alt="Uploaded gallery preview"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
