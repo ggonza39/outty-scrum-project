@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent } from "react";
+import ProfilePhotoUploader from "./ProfilePhotoUploader";
 import { ProfileFormData } from "./ProfileSetupShell";
 
 type Props = {
@@ -12,43 +12,13 @@ type Props = {
 };
 
 export default function BasicInfoStep({ formData, updateField }: Props) {
-  function handlePhotoChange(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const previewUrl = URL.createObjectURL(file);
-    updateField("mainPhoto", previewUrl as ProfileFormData["mainPhoto"]);
-  }
-
   return (
     <div className="step-grid">
       <div className="full-width photo-section">
-        <span className="field-label">Profile Photo</span>
-
-        <div className="avatar-upload">
-          <div className="avatar-circle">
-            {formData.mainPhoto ? (
-              <img src={formData.mainPhoto} alt="Profile preview" />
-            ) : (
-              <div className="avatar-placeholder">
-                <div className="avatar-head" />
-                <div className="avatar-body" />
-              </div>
-            )}
-          </div>
-
-          <label htmlFor="main-profile-photo" className="avatar-plus">
-            +
-          </label>
-
-          <input
-            id="main-profile-photo"
-            className="hidden-input"
-            type="file"
-            accept="image/*"
-            onChange={handlePhotoChange}
-          />
-        </div>
+        <ProfilePhotoUploader
+          mainPhoto={formData.mainPhoto}
+          updateField={updateField}
+        />
       </div>
 
       <label>
