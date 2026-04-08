@@ -83,7 +83,9 @@ export default function ProfilePhotoUploader({
       setLastFailedFile(null);
     } catch (error) {
       console.error("Photo upload failed:", error);
-      setUploadError("Upload failed. Please try again.");
+      setUploadError(
+        error instanceof Error ? error.message : "Upload failed. Please try again."
+      );
       setLastFailedFile(file);
     } finally {
       setIsUploading(false);
