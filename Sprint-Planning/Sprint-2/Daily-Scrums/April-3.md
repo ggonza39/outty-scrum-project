@@ -10,7 +10,10 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Replaced the old mock discovery setup with real backend filtering, so discovery results can now be narrowed by things like age, gender, interests, and skill level.
+- Added distance-based matching, allowing discovery results to be limited by how far away another user is.
+- Cleaned up the discovery pool by separating real searchable profiles from junk test accounts, which made testing more accurate and results more realistic.
+- Automated ZIP code location handling so profiles can be mapped to coordinates and used in distance-based discovery without ongoing manual backend updates.
 
 **Heidi Wilder:**  
 -created ui/ux for user messags board
@@ -49,7 +52,9 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
--
+- Finish the remaining US3 work by making sure the dashboard clearly shows “0 Views” for brand-new or unvisited accounts.
+- Complete the remaining US6 profile response work so public profile requests include the full intended viewing information, especially distance and profile photo URL.
+- Begin US8 backend work by setting up the profile photo storage system, including the gallery bucket and the access rules needed to support uploads and photo management.
 
 **Heidi Wilder:**  
 - ux/ui refinemements
