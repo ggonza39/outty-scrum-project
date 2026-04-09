@@ -16,7 +16,9 @@
 - 
 
 **Takeshia Banks:**  
-- 
+- Completend frontend implementation for US8
+- Implemented file validation, instant preview, upload overlay, and retry handling
+- Tested UI locally
 
 **Anthony Nguyen:**  
 - 
@@ -38,7 +40,9 @@
 - 
 
 **Takeshia Banks:**  
-- 
+- Support testing once backend Supabase configuration is complete for US8
+- Starting US9
+  
 **Anthony Nguyen:**  
 - 
 
