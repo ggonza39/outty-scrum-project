@@ -2,7 +2,7 @@ import MobilePage from '@/components/MobilePage';
 
 export default function AboutPage() {
   return (
-    <MobilePage>
+    <MobilePage showBottomNav={false}>
       <section className="hero">
         <h1>About Outty</h1>
         <p>
