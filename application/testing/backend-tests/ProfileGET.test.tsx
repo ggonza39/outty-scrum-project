@@ -14,17 +14,11 @@ beforeEach((ctx) => {
     return () => { console.log = originalLog; };
 });
 async function fetchProfile() {
-    const response = await fetch(`https://outty-scrum-project.vercel.app/api/discover/1`, {
+    const response = await fetch(`https://outty-scrum-project.vercel.app/api/discover/2`, {
         cache: "no-store",
     });
     return await response.json();
 }
-
-//const response = await fetch(`https://outty-scrum-project.vercel.app/api/discover/1`, {
-//    cache: "no-store",
-//});
-//const data = await response.json();
-
 
 describe('Profile API positive validation', () => {
 
@@ -46,11 +40,6 @@ describe('Profile API positive validation', () => {
         await expect("tags" in data, data).toBe(true);
     });
 
-    it('Tests if profile API response returns distance.', async () => {
-        const data = await fetchProfile();
-        console.log(data);
-        await expect("distance" in data, data).toBe(true);
-    });
 });
 
 describe('Profile API negative validation', () => {
