@@ -23,8 +23,9 @@
 **Anthony Nguyen:**  
 - 
 
-**Gilberto Gonzalez:**  
--
+**Gilberto Gonzalez:**    
+- Task Orchestration: Actively tracked and monitored the progress of all active User Stories to ensure velocity remains consistent with the Sprint 2 timeline.
+- Blocker Mitigation: Conducted real-time task refinement to bypass technical hurdles and prevent resource bottlenecks.
 
 ---
 
@@ -47,7 +48,8 @@
 - 
 
 **Gilberto Gonzalez:**  
--
+- UI Oversight: Monitor the recovery plan for the delayed UI tasks to ensure the frontend team is unblocked for end of week integration.
+- Documentation Audit: Update the project board to reflect refined tasks and ensure all sub-tasks are accurately pointed.
 
 
 ---
@@ -55,12 +57,13 @@
 ## 3. Impediments
 
 **Identified Impediment:**  
-  - 
+  - UI Delivery Delay: Several UI design tasks have fallen behind the current sprint schedule, potentially impacting the frontend integration of the new components.
   
 **Impediment Removal Plan:**  
-  - 
+  - Recovery Schedule: Coordinated with the UI lead (Heidi), who has committed to finalizing US3 & US8 UI tasks by 4/11.
+  - Continue to monitor progress daily to ensure no further slippage (Anthony & Gilberto)
   
 **Responsible (if applicable):**  
-  - 
+  - Heidi, Anthony, and Gilberto
 
 ---
