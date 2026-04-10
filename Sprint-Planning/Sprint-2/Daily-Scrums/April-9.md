@@ -7,7 +7,8 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Finished the remaining US3 work by making sure the dashboard clearly shows “0 Views” for brand-new or unvisited accounts.
+- Worked towards the remaining US6 work so public profile requests include the full intended viewing information, especially distance and profile photo URL.
 
 **Heidi Wilder:**  
 -
@@ -32,7 +33,9 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
--
+- Finish US6 tasks
+- Begin the backend setup for profile photo storage and gallery support.
+- Continue working toward the remaining Sprint tasks so the profile viewing and photo features are ready for the next stage.
 
 **Heidi Wilder:**  
 - 
