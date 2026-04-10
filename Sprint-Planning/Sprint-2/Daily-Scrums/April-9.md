@@ -21,7 +21,8 @@
 - Tested UI locally
 
 **Anthony Nguyen:**  
-- 
+- Managing all the pull requests and approving each change to the main branch
+- Checking for all implementation features is functional and correlates with our objectives.
 
 **Gilberto Gonzalez:**    
 - Task Orchestration: Actively tracked and monitored the progress of all active User Stories to ensure velocity remains consistent with the Sprint 2 timeline.
@@ -45,7 +46,9 @@
 - Starting US9
   
 **Anthony Nguyen:**  
-- 
+- Continue to report any changes for bugs or missing features
+- Checking for each pull request that it doesn't cause any conflict with our current app.
+- Ensuring that we achieve what the acceptance critera is consider complete to finalize the user story.
 
 **Gilberto Gonzalez:**  
 - UI Oversight: Monitor the recovery plan for the delayed UI tasks to ensure the frontend team is unblocked for end of week integration.
