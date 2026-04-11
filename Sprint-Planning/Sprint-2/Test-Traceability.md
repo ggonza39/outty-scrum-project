@@ -6,8 +6,10 @@ This document tracks the cumulative test count across all Sprints to ensure the 
   - **Actual:** TBD Unit Tests / TBD BDD
   - **Status:** TBD
   - **Files:**
-    -   
+    - /testing/e2e-tests/DiscoverBDDTest.tsx
+    - /frontend/app/discover/discover.test.tsx
+    - /testing/backend-tests/ProfileGET.test.tsx
 
 ### **Current Count:** 
-  - Unit Tests = 16 
-  - BDD Tests = 2
+  - Unit Tests = 25 
+  - BDD Tests = 4
