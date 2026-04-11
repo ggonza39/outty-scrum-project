@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "description": "This folder will contain:",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "vitest"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.58.2",
-    "@types/node": "^25.5.0"
+    "@types/node": "^25.5.0",
+    "vitest": "^4.1.2"
   }
 }

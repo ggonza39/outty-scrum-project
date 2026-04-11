@@ -84,11 +84,12 @@ export default function ExplorerProfileClient({ profileId }: Props) {
   }, [profileId]);
 
   const handleBack = () => {
-    if (window.history.length > 1) {
-      router.back();
-      return;
-    }
+    //if (window.history.length > 1) {
+    //  router.back();
+    //  return;
+    //}
 
+    //Removed back redirect and instead hard code redirect to /discover
     router.push("/discover");
   };
 
