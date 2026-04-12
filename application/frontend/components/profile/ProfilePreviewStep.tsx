@@ -5,11 +5,13 @@ import { ProfileFormData } from "./ProfileSetupShell";
 
 type Props = {
   formData: ProfileFormData;
+  profileViews: number;
   onDeleteProfile: () => void;
 };
 
 export default function ProfilePreviewStep({
   formData,
+  profileViews,
   onDeleteProfile,
 }: Props) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -32,6 +34,8 @@ export default function ProfilePreviewStep({
         <h2>
           {formData.displayName || "Your Name"}
           {formData.age ? `, ${formData.age}` : ""}
+          <br />
+          <small>{profileViews} view{profileViews !== 1 ? "s" : ""}</small>
         </h2>
 
         <p>{formData.zipCode ? `ZIP Code: ${formData.zipCode}` : "Your ZIP code"}</p>

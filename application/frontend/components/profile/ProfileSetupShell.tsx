@@ -123,6 +123,7 @@ export default function ProfileSetupShell({
   const [isSaving, setIsSaving] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [profileViews, setProfileViews] = useState(0);
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -151,6 +152,7 @@ export default function ProfileSetupShell({
         }
 
         if (data) {
+          setProfileViews(data.profile_views ?? 0);
           setFormData({
             mainPhoto: null,
             displayName: data.display_name || "",
@@ -325,6 +327,7 @@ export default function ProfileSetupShell({
         return (
           <ProfilePreviewStep
             formData={formData}
+            profileViews={profileViews}
             onDeleteProfile={deleteProfile}
           />
         );
