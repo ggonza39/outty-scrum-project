@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MobilePage from "@/components/MobilePage";
 import MatchCard from "@/components/MatchCard";
 import { explorerProfiles } from "@/lib/explorerProfiles";
+import { useDiscoveryFilters } from "@/lib/useDiscoveryFilters";
 
 type Person = {
   id: string;
@@ -13,6 +14,7 @@ type Person = {
   age: number;
   image: string;
   bio?: string;
+  tags?: string[];
 };
 
 const initialPeople: Person[] = explorerProfiles.map((profile) => ({
@@ -22,12 +24,50 @@ const initialPeople: Person[] = explorerProfiles.map((profile) => ({
   age: profile.age,
   image: profile.image,
   bio: profile.bio,
+  tags: profile.tags,
 }));
 
+function pluralize(count: number, singular: string, plural?: string) {
+  if (count === 1) return singular;
+  return plural || `${singular}s`;
+}
+
 export default function DiscoverPage() {
+  const { filters } = useDiscoveryFilters();
   const [people, setPeople] = useState<Person[]>(initialPeople);
 
-  const currentPerson = people[0];
+  const filteredPeople = useMemo(() => {
+    return people.filter((person) => {
+      const matchesAge =
+        person.age >= filters.min_age && person.age <= filters.max_age;
+
+      const matchesActivities =
+        filters.activities.length === 0 ||
+        filters.activities.some((activity) =>
+          person.tags?.some(
+            (tag) => tag.toLowerCase() === activity.toLowerCase()
+          )
+        );
+
+      return matchesAge && matchesActivities;
+    });
+  }, [people, filters]);
+
+  useEffect(() => {
+    const searchObject = {
+      min_age: filters.min_age,
+      max_age: filters.max_age,
+      gender: filters.gender,
+      activities: filters.activities,
+      skill_level: filters.skill_level,
+      location: filters.location,
+      distance: filters.distance,
+    };
+
+    console.log("Search Object:", searchObject);
+  }, [filters]);
+
+  const currentPerson = filteredPeople[0];
 
   const handleLike = (id: string) => {
     setPeople((prev) => prev.filter((person) => person.id !== id));
@@ -37,13 +77,44 @@ export default function DiscoverPage() {
     setPeople((prev) => prev.filter((person) => person.id !== id));
   };
 
+  const resultsHeader = useMemo(() => {
+    const count = filteredPeople.length;
+    const ageRangeText = `ages ${filters.min_age}-${filters.max_age}`;
+    const genderText = filters.gender || "all genders";
+    const distanceText = `within ${filters.distance} ${pluralize(
+      filters.distance,
+      "mile"
+    )}`;
+    const activityText =
+      filters.activities.length > 0
+        ? filters.activities.join(", ")
+        : "adventurers";
+
+    return `Showing ${count} ${pluralize(
+      count,
+      "match",
+      "matches"
+    )} for ${activityText}, ${ageRangeText}, ${genderText}, ${distanceText}.`;
+  }, [filteredPeople.length, filters]);
+
   return (
     <MobilePage>
       <main className="content">
         <section className="card" style={{ padding: 12 }}>
-          <h2 className="section-title" style={{ marginBottom: 12 }}>
+          <h2 className="section-title" style={{ marginBottom: 8 }}>
             Discover
           </h2>
+
+          <p
+            className="subtle"
+            style={{
+              marginBottom: 16,
+              lineHeight: 1.4,
+              wordBreak: "break-word",
+            }}
+          >
+            {resultsHeader}
+          </p>
 
           {currentPerson ? (
             <div className="center" style={{ flexDirection: "column", gap: 16 }}>
@@ -109,9 +180,9 @@ export default function DiscoverPage() {
           ) : (
             <div className="card center" style={{ minHeight: 220 }}>
               <div>
-                <h2 className="section-title">No more matches</h2>
+                <h2 className="section-title">No matching results</h2>
                 <p className="muted" style={{ color: "var(--muted)" }}>
-                  You have gone through everyone for now.
+                  Try adjusting your filters to broaden your search.
                 </p>
               </div>
             </div>
