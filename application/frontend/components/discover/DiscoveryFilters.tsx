@@ -1,5 +1,6 @@
 "use client";
 
+import LocationAutoSuggest from "@/components/discover/LocationAutoSuggest";
 import { useEffect, useMemo, useState } from "react";
 import { useDiscoveryFilters } from "@/lib/useDiscoveryFilters";
 
@@ -51,11 +52,14 @@ export default function DiscoveryFilters() {
 
   const handleReset = () => {
     resetFilters();
-    setLocalFilters(DEFAULT_FILTERS);
+    setLocalFilters({ ...DEFAULT_FILTERS });
   };
 
   const applyFilters = () => {
-    setFilters(localFilters);
+    const searchObject = { ...localFilters };
+
+    console.log("Search Object:", searchObject);
+    setFilters(searchObject);
   };
 
   const minPercent = useMemo(
@@ -137,37 +141,28 @@ export default function DiscoveryFilters() {
           Location
         </p>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            border: "1px solid #d4d4d4",
-            borderRadius: 10,
-            background: "#f5f5f5",
-            padding: "10px 12px",
+        <LocationAutoSuggest
+          value={localFilters.location}
+          onChange={(value) =>
+            setLocalFilters((prev) => ({
+              ...prev,
+              location: value,
+            }))
+          }
+          onSelectLocation={(selected) => {
+            setLocalFilters((prev) => ({
+              ...prev,
+              location: selected.label,
+            }));
+
+            console.log("Selected Location Mapping:", {
+              location: selected.label,
+              zip: selected.zip,
+              lat: selected.lat,
+              lng: selected.lng,
+            });
           }}
-        >
-          <span style={{ color: "#f5a623", fontSize: "0.95rem" }}>●</span>
-          <input
-            type="text"
-            value={localFilters.location}
-            onChange={(e) =>
-              setLocalFilters((prev) => ({
-                ...prev,
-                location: e.target.value,
-              }))
-            }
-            placeholder="Denver, CO"
-            style={{
-              border: "none",
-              outline: "none",
-              background: "transparent",
-              width: "100%",
-              fontSize: "0.98rem",
-            }}
-          />
-        </div>
+        />
       </div>
 
       {/* RADIUS */}
