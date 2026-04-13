@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import MobilePage from "@/components/MobilePage";
 import MatchCard from "@/components/MatchCard";
 import DiscoveryFilters from "@/components/discover/DiscoveryFilters";
@@ -50,6 +50,14 @@ function pluralize(count: number, singular: string, plural?: string) {
 }
 
 export default function DiscoverPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DiscoverPageContent />
+    </Suspense>
+  );
+}
+
+function DiscoverPageContent() {
   const { filters } = useDiscoveryFilters();
   const [people, setPeople] = useState<Person[]>(initialPeople);
   const [showFilters, setShowFilters] = useState(false);
@@ -58,7 +66,7 @@ export default function DiscoverPage() {
     return people.filter((person) => {
       const matchesAge =
         person.age >= filters.min_age && person.age <= filters.max_age;
-  
+
       const matchesActivities =
         filters.activities.length === 0 ||
         filters.activities.some((activity) =>
@@ -66,17 +74,17 @@ export default function DiscoverPage() {
             (tag) => tag.toLowerCase() === activity.toLowerCase()
           )
         );
-  
+
       const matchesGender =
         !filters.gender || person.gender === filters.gender;
-  
+
       const matchesSkill =
         filters.skill_level.length === 0 ||
         filters.skill_level.includes(person.skill_level);
-  
+
       const matchesLocation =
         !filters.location || person.location === filters.location;
-  
+
       return (
         matchesAge &&
         matchesActivities &&
@@ -142,13 +150,19 @@ export default function DiscoverPage() {
       parts.push(filters.gender);
     }
 
-    parts.push(`within ${filters.distance} ${pluralize(filters.distance, "mile")}`);
+    parts.push(
+      `within ${filters.distance} ${pluralize(filters.distance, "mile")}`
+    );
 
     if (filters.location) {
       parts.push(filters.location);
     }
 
-    return `Showing ${count} ${pluralize(count, "match", "matches")} for ${parts.join(", ")}.`;
+    return `Showing ${count} ${pluralize(
+      count,
+      "match",
+      "matches"
+    )} for ${parts.join(", ")}.`;
   }, [filteredPeople.length, filters, hasAppliedFilters]);
 
   return (
