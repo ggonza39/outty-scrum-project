@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import MobilePage from "@/components/MobilePage";
 import MatchCard from "@/components/MatchCard";
+import DiscoveryFilters from "@/components/discover/DiscoveryFilters";
 import { explorerProfiles } from "@/lib/explorerProfiles";
 import { useDiscoveryFilters } from "@/lib/useDiscoveryFilters";
 
@@ -35,6 +36,7 @@ function pluralize(count: number, singular: string, plural?: string) {
 export default function DiscoverPage() {
   const { filters } = useDiscoveryFilters();
   const [people, setPeople] = useState<Person[]>(initialPeople);
+  const [showFilters, setShowFilters] = useState(false);
 
   const filteredPeople = useMemo(() => {
     return people.filter((person) => {
@@ -101,10 +103,38 @@ export default function DiscoverPage() {
     <MobilePage>
       <main className="content">
         <section className="card" style={{ padding: 12 }}>
+          {/* Title */}
           <h2 className="section-title" style={{ marginBottom: 8 }}>
             Discover
           </h2>
 
+          {/* FILTER BUTTON */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginBottom: 8,
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => setShowFilters((prev) => !prev)}
+              className="pill"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                fontWeight: 600,
+              }}
+            >
+              ⚙️ Discovery Filtering
+            </button>
+          </div>
+
+          {/* FILTER PANEL */}
+          {showFilters && <DiscoveryFilters />}
+
+          {/* RESULTS HEADER */}
           <p
             className="subtle"
             style={{
