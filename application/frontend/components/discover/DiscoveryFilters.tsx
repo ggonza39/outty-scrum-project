@@ -29,9 +29,15 @@ const DEFAULT_FILTERS = {
   distance: 25,
 };
 
-export default function DiscoveryFilters() {
+type Props = {
+  onApplyComplete?: () => void;
+};
+
+export default function DiscoveryFilters({ onApplyComplete }: Props) {
   const { filters, setFilters, resetFilters } = useDiscoveryFilters();
   const [localFilters, setLocalFilters] = useState(filters);
+  const [isResetPressed, setIsResetPressed] = useState(false);
+  const [isApplyPressed, setIsApplyPressed] = useState(false);
 
   useEffect(() => {
     setLocalFilters(filters);
@@ -51,15 +57,26 @@ export default function DiscoveryFilters() {
   };
 
   const handleReset = () => {
+    setIsResetPressed(true);
     resetFilters();
     setLocalFilters({ ...DEFAULT_FILTERS });
+
+    setTimeout(() => {
+      setIsResetPressed(false);
+    }, 120);
   };
 
   const applyFilters = () => {
-    const searchObject = { ...localFilters };
+    setIsApplyPressed(true);
 
+    const searchObject = { ...localFilters };
     console.log("Search Object:", searchObject);
     setFilters(searchObject);
+
+    setTimeout(() => {
+      setIsApplyPressed(false);
+      onApplyComplete?.();
+    }, 120);
   };
 
   const minPercent = useMemo(
@@ -91,7 +108,7 @@ export default function DiscoveryFilters() {
       className="card"
       style={{
         padding: 18,
-        marginBottom: 16,
+        marginBottom: 0,
         borderRadius: 28,
       }}
     >
@@ -124,13 +141,15 @@ export default function DiscoveryFilters() {
           style={{
             minWidth: 70,
             justifyContent: "center",
+            transform: isResetPressed ? "scale(0.97)" : "scale(1)",
+            opacity: isResetPressed ? 0.8 : 1,
+            transition: "all 0.12s ease",
           }}
         >
           Reset
         </button>
       </div>
 
-      {/* LOCATION */}
       <div style={{ marginBottom: 16 }}>
         <p
           style={{
@@ -165,7 +184,6 @@ export default function DiscoveryFilters() {
         />
       </div>
 
-      {/* RADIUS */}
       <div
         style={{
           paddingBottom: 16,
@@ -215,7 +233,6 @@ export default function DiscoveryFilters() {
         </div>
       </div>
 
-      {/* AGE / GENDER */}
       <div
         style={{
           paddingBottom: 16,
@@ -368,7 +385,6 @@ export default function DiscoveryFilters() {
         </div>
       </div>
 
-      {/* SKILL LEVEL */}
       <div
         style={{
           paddingBottom: 16,
@@ -401,7 +417,6 @@ export default function DiscoveryFilters() {
         </div>
       </div>
 
-      {/* ACTIVITIES */}
       <div style={{ marginBottom: 22 }}>
         <p
           style={{
@@ -428,7 +443,6 @@ export default function DiscoveryFilters() {
         </div>
       </div>
 
-      {/* APPLY */}
       <button
         type="button"
         className="primary-btn"
@@ -438,6 +452,9 @@ export default function DiscoveryFilters() {
           padding: "16px 18px",
           fontWeight: 800,
           fontSize: "1rem",
+          transform: isApplyPressed ? "scale(0.985)" : "scale(1)",
+          opacity: isApplyPressed ? 0.9 : 1,
+          transition: "all 0.12s ease",
         }}
         onClick={applyFilters}
       >
