@@ -53,7 +53,7 @@ export const explorerProfiles: ExplorerProfile[] = [
     username: "taylor",
     name: "Taylor",
     age: 30,
-    image: "/jordan.jpg",
+    image: "/taylor.jpg",
     bio: "Adventure seeker who enjoys skiing and backpacking trips.",
     tags: ["Skiing", "Backpacking"],
     gender: "Male",
