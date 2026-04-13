@@ -102,39 +102,41 @@ export default function DiscoverPage() {
   return (
     <MobilePage>
       <main className="content">
-        <section className="card" style={{ padding: 12 }}>
-          {/* Title */}
-          <h2 className="section-title" style={{ marginBottom: 8 }}>
-            Discover
-          </h2>
-
-          {/* FILTER BUTTON */}
+        <section
+          className="card"
+          style={{
+            padding: 12,
+            position: "relative",
+          }}
+        >
           <div
             style={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
+              alignItems: "center",
               marginBottom: 8,
             }}
           >
+            <h2 className="section-title" style={{ marginBottom: 0 }}>
+              Discover
+            </h2>
+
             <button
               type="button"
-              onClick={() => setShowFilters((prev) => !prev)}
+              onClick={() => setShowFilters(true)}
               className="pill"
               style={{
                 display: "flex",
                 alignItems: "center",
                 gap: 6,
                 fontWeight: 600,
+                whiteSpace: "nowrap",
               }}
             >
               ⚙️ Discovery Filtering
             </button>
           </div>
 
-          {/* FILTER PANEL */}
-          {showFilters && <DiscoveryFilters />}
-
-          {/* RESULTS HEADER */}
           <p
             className="subtle"
             style={{
@@ -219,6 +221,34 @@ export default function DiscoverPage() {
           )}
         </section>
       </main>
+
+      {showFilters && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0, 0, 0, 0.28)",
+            zIndex: 1000,
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "center",
+          }}
+          onClick={() => setShowFilters(false)}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 430,
+              maxHeight: "88vh",
+              overflowY: "auto",
+              padding: "0 10px 14px",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <DiscoveryFilters />
+          </div>
+        </div>
+      )}
     </MobilePage>
   );
 }
