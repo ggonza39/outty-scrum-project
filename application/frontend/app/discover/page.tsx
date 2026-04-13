@@ -28,6 +28,16 @@ const initialPeople: Person[] = explorerProfiles.map((profile) => ({
   tags: profile.tags,
 }));
 
+const DEFAULT_FILTERS = {
+  min_age: 18,
+  max_age: 65,
+  gender: "",
+  activities: [] as string[],
+  skill_level: [] as string[],
+  location: "",
+  distance: 25,
+};
+
 function pluralize(count: number, singular: string, plural?: string) {
   if (count === 1) return singular;
   return plural || `${singular}s`;
@@ -79,25 +89,45 @@ export default function DiscoverPage() {
     setPeople((prev) => prev.filter((person) => person.id !== id));
   };
 
+  const hasAppliedFilters = useMemo(() => {
+    return (
+      filters.min_age !== DEFAULT_FILTERS.min_age ||
+      filters.max_age !== DEFAULT_FILTERS.max_age ||
+      filters.gender !== DEFAULT_FILTERS.gender ||
+      filters.activities.length > 0 ||
+      filters.skill_level.length > 0 ||
+      filters.location !== DEFAULT_FILTERS.location ||
+      filters.distance !== DEFAULT_FILTERS.distance
+    );
+  }, [filters]);
+
   const resultsHeader = useMemo(() => {
     const count = filteredPeople.length;
-    const ageRangeText = `ages ${filters.min_age}-${filters.max_age}`;
-    const genderText = filters.gender || "all genders";
-    const distanceText = `within ${filters.distance} ${pluralize(
-      filters.distance,
-      "mile"
-    )}`;
-    const activityText =
-      filters.activities.length > 0
-        ? filters.activities.join(", ")
-        : "adventurers";
 
-    return `Showing ${count} ${pluralize(
-      count,
-      "match",
-      "matches"
-    )} for ${activityText}, ${ageRangeText}, ${genderText}, ${distanceText}.`;
-  }, [filteredPeople.length, filters]);
+    if (!hasAppliedFilters) {
+      return `Showing ${count} ${pluralize(count, "match", "matches")}.`;
+    }
+
+    const parts: string[] = [];
+
+    if (filters.activities.length > 0) {
+      parts.push(filters.activities.join(", "));
+    }
+
+    parts.push(`ages ${filters.min_age}-${filters.max_age}`);
+
+    if (filters.gender) {
+      parts.push(filters.gender);
+    }
+
+    parts.push(`within ${filters.distance} ${pluralize(filters.distance, "mile")}`);
+
+    if (filters.location) {
+      parts.push(filters.location);
+    }
+
+    return `Showing ${count} ${pluralize(count, "match", "matches")} for ${parts.join(", ")}.`;
+  }, [filteredPeople.length, filters, hasAppliedFilters]);
 
   return (
     <MobilePage>
@@ -113,8 +143,9 @@ export default function DiscoverPage() {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center",
+              alignItems: "flex-start",
               marginBottom: 8,
+              gap: 12,
             }}
           >
             <h2 className="section-title" style={{ marginBottom: 0 }}>
@@ -124,16 +155,23 @@ export default function DiscoverPage() {
             <button
               type="button"
               onClick={() => setShowFilters(true)}
-              className="pill"
               style={{
-                display: "flex",
+                display: "inline-flex",
                 alignItems: "center",
                 gap: 6,
-                fontWeight: 600,
+                border: "none",
+                borderRadius: 999,
+                padding: "8px 14px",
+                background: "#e8ece7",
+                color: "#2d2d2d",
+                fontWeight: 700,
+                fontSize: "0.85rem",
+                cursor: "pointer",
                 whiteSpace: "nowrap",
               }}
             >
-              ⚙️ Discovery Filtering
+              <span aria-hidden="true">⚙️</span>
+              <span>Discovery Filtering</span>
             </button>
           </div>
 
@@ -245,7 +283,7 @@ export default function DiscoverPage() {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <DiscoveryFilters />
+            <DiscoveryFilters onApplyComplete={() => setShowFilters(false)} />
           </div>
         </div>
       )}
