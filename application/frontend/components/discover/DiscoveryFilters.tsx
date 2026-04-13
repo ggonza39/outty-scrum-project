@@ -1,0 +1,453 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { useDiscoveryFilters } from "@/lib/useDiscoveryFilters";
+
+const ACTIVITY_OPTIONS = [
+  "Hiking",
+  "Rock Climbing",
+  "Skiing",
+  "Snowboarding",
+  "Camping",
+  "Kayaking",
+  "Surfing",
+  "Biking",
+  "Backpacking",
+];
+
+const SKILL_OPTIONS = ["Beginner", "Intermediate", "Advanced", "Expert"];
+const GENDER_OPTIONS = ["Female", "Male", "No Preference"];
+
+const DEFAULT_FILTERS = {
+  min_age: 18,
+  max_age: 65,
+  gender: "",
+  activities: [] as string[],
+  skill_level: [] as string[],
+  location: "",
+  distance: 25,
+};
+
+export default function DiscoveryFilters() {
+  const { filters, setFilters, resetFilters } = useDiscoveryFilters();
+  const [localFilters, setLocalFilters] = useState(filters);
+
+  useEffect(() => {
+    setLocalFilters(filters);
+  }, [filters]);
+
+  const toggleArrayValue = (key: "activities" | "skill_level", value: string) => {
+    setLocalFilters((prev) => {
+      const exists = prev[key].includes(value);
+
+      return {
+        ...prev,
+        [key]: exists
+          ? prev[key].filter((item) => item !== value)
+          : [...prev[key], value],
+      };
+    });
+  };
+
+  const handleReset = () => {
+    resetFilters();
+    setLocalFilters(DEFAULT_FILTERS);
+  };
+
+  const applyFilters = () => {
+    setFilters(localFilters);
+  };
+
+  const minPercent = useMemo(
+    () => ((localFilters.min_age - 18) / (65 - 18)) * 100,
+    [localFilters.min_age]
+  );
+
+  const maxPercent = useMemo(
+    () => ((localFilters.max_age - 18) / (65 - 18)) * 100,
+    [localFilters.max_age]
+  );
+
+  const handleMinAgeChange = (value: number) => {
+    setLocalFilters((prev) => ({
+      ...prev,
+      min_age: Math.min(value, prev.max_age - 1),
+    }));
+  };
+
+  const handleMaxAgeChange = (value: number) => {
+    setLocalFilters((prev) => ({
+      ...prev,
+      max_age: Math.max(value, prev.min_age + 1),
+    }));
+  };
+
+  return (
+    <section
+      className="card"
+      style={{
+        padding: 18,
+        marginBottom: 16,
+        borderRadius: 28,
+      }}
+    >
+      <div
+        style={{
+          width: 52,
+          height: 4,
+          borderRadius: 999,
+          background: "#d4d4d4",
+          margin: "0 auto 14px",
+        }}
+      />
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 18,
+        }}
+      >
+        <h2 className="section-title" style={{ margin: 0 }}>
+          Advanced Discovery Filter
+        </h2>
+
+        <button
+          type="button"
+          className="pill"
+          onClick={handleReset}
+          style={{
+            minWidth: 70,
+            justifyContent: "center",
+          }}
+        >
+          Reset
+        </button>
+      </div>
+
+      {/* LOCATION */}
+      <div style={{ marginBottom: 16 }}>
+        <p
+          style={{
+            fontWeight: 700,
+            margin: "0 0 8px",
+          }}
+        >
+          Location
+        </p>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            border: "1px solid #d4d4d4",
+            borderRadius: 10,
+            background: "#f5f5f5",
+            padding: "10px 12px",
+          }}
+        >
+          <span style={{ color: "#f5a623", fontSize: "0.95rem" }}>●</span>
+          <input
+            type="text"
+            value={localFilters.location}
+            onChange={(e) =>
+              setLocalFilters((prev) => ({
+                ...prev,
+                location: e.target.value,
+              }))
+            }
+            placeholder="Denver, CO"
+            style={{
+              border: "none",
+              outline: "none",
+              background: "transparent",
+              width: "100%",
+              fontSize: "0.98rem",
+            }}
+          />
+        </div>
+      </div>
+
+      {/* RADIUS */}
+      <div
+        style={{
+          paddingBottom: 16,
+          marginBottom: 16,
+          borderBottom: "1px solid #e5e5e5",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 8,
+          }}
+        >
+          <span style={{ fontSize: "0.95rem", color: "#555" }}>Radius</span>
+          <span style={{ fontWeight: 700, fontSize: "0.95rem" }}>
+            {localFilters.distance} miles
+          </span>
+        </div>
+
+        <input
+          type="range"
+          min={0}
+          max={100}
+          value={localFilters.distance}
+          onChange={(e) =>
+            setLocalFilters((prev) => ({
+              ...prev,
+              distance: Number(e.target.value),
+            }))
+          }
+          style={{ width: "100%" }}
+        />
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            fontSize: "0.75rem",
+            color: "#999",
+            marginTop: 4,
+          }}
+        >
+          <span>0</span>
+          <span>100</span>
+        </div>
+      </div>
+
+      {/* AGE / GENDER */}
+      <div
+        style={{
+          paddingBottom: 16,
+          marginBottom: 16,
+          borderBottom: "1px solid #e5e5e5",
+        }}
+      >
+        <p
+          style={{
+            fontWeight: 700,
+            margin: "0 0 10px",
+          }}
+        >
+          Age / Gender
+        </p>
+
+        <div style={{ position: "relative", paddingTop: 26, paddingBottom: 12 }}>
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: `calc(${minPercent}% - 18px)`,
+              background: "#efefef",
+              color: "#999",
+              borderRadius: 10,
+              minWidth: 36,
+              textAlign: "center",
+              padding: "4px 8px",
+              fontSize: "0.85rem",
+            }}
+          >
+            {localFilters.min_age}
+          </div>
+
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: `calc(${maxPercent}% - 18px)`,
+              background: "#efefef",
+              color: "#999",
+              borderRadius: 10,
+              minWidth: 36,
+              textAlign: "center",
+              padding: "4px 8px",
+              fontSize: "0.85rem",
+            }}
+          >
+            {localFilters.max_age}
+          </div>
+
+          <div
+            style={{
+              position: "relative",
+              height: 30,
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 13,
+                left: 0,
+                right: 0,
+                height: 4,
+                borderRadius: 999,
+                background: "#ddd",
+              }}
+            />
+
+            <div
+              style={{
+                position: "absolute",
+                top: 13,
+                left: `${minPercent}%`,
+                width: `${maxPercent - minPercent}%`,
+                height: 4,
+                borderRadius: 999,
+                background: "#f5b22d",
+              }}
+            />
+
+            <input
+              type="range"
+              min={18}
+              max={65}
+              value={localFilters.min_age}
+              onChange={(e) => handleMinAgeChange(Number(e.target.value))}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                pointerEvents: "auto",
+                background: "transparent",
+              }}
+            />
+
+            <input
+              type="range"
+              min={18}
+              max={65}
+              value={localFilters.max_age}
+              onChange={(e) => handleMaxAgeChange(Number(e.target.value))}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                pointerEvents: "auto",
+                background: "transparent",
+              }}
+            />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: "0.75rem",
+              color: "#999",
+              marginTop: 2,
+            }}
+          >
+            <span>18</span>
+            <span>65+</span>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
+          {GENDER_OPTIONS.map((option) => {
+            const isSelected =
+              option === "No Preference"
+                ? localFilters.gender === ""
+                : localFilters.gender === option;
+
+            return (
+              <button
+                key={option}
+                type="button"
+                className={`pill ${isSelected ? "selected" : ""}`}
+                onClick={() =>
+                  setLocalFilters((prev) => ({
+                    ...prev,
+                    gender: option === "No Preference" ? "" : option,
+                  }))
+                }
+              >
+                {option}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* SKILL LEVEL */}
+      <div
+        style={{
+          paddingBottom: 16,
+          marginBottom: 16,
+          borderBottom: "1px solid #e5e5e5",
+        }}
+      >
+        <p
+          style={{
+            fontWeight: 700,
+            margin: "0 0 10px",
+          }}
+        >
+          Skill Level
+        </p>
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          {SKILL_OPTIONS.map((skill) => (
+            <button
+              key={skill}
+              type="button"
+              className={`pill ${
+                localFilters.skill_level.includes(skill) ? "selected" : ""
+              }`}
+              onClick={() => toggleArrayValue("skill_level", skill)}
+            >
+              {skill}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ACTIVITIES */}
+      <div style={{ marginBottom: 22 }}>
+        <p
+          style={{
+            fontWeight: 700,
+            margin: "0 0 10px",
+          }}
+        >
+          Adventure Activities
+        </p>
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          {ACTIVITY_OPTIONS.map((activity) => (
+            <button
+              key={activity}
+              type="button"
+              className={`pill ${
+                localFilters.activities.includes(activity) ? "selected" : ""
+              }`}
+              onClick={() => toggleArrayValue("activities", activity)}
+            >
+              {activity}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* APPLY */}
+      <button
+        type="button"
+        className="primary-btn"
+        style={{
+          width: "100%",
+          borderRadius: 999,
+          padding: "16px 18px",
+          fontWeight: 800,
+          fontSize: "1rem",
+        }}
+        onClick={applyFilters}
+      >
+        Apply Filters
+      </button>
+    </section>
+  );
+}
