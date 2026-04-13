@@ -16,6 +16,9 @@ type Person = {
   image: string;
   bio?: string;
   tags?: string[];
+  gender: string;
+  skill_level: string;
+  location: string;
 };
 
 const initialPeople: Person[] = explorerProfiles.map((profile) => ({
@@ -26,6 +29,9 @@ const initialPeople: Person[] = explorerProfiles.map((profile) => ({
   image: profile.image,
   bio: profile.bio,
   tags: profile.tags,
+  gender: profile.gender,
+  skill_level: profile.skill_level,
+  location: profile.location,
 }));
 
 const DEFAULT_FILTERS = {
@@ -52,7 +58,7 @@ export default function DiscoverPage() {
     return people.filter((person) => {
       const matchesAge =
         person.age >= filters.min_age && person.age <= filters.max_age;
-
+  
       const matchesActivities =
         filters.activities.length === 0 ||
         filters.activities.some((activity) =>
@@ -60,8 +66,24 @@ export default function DiscoverPage() {
             (tag) => tag.toLowerCase() === activity.toLowerCase()
           )
         );
-
-      return matchesAge && matchesActivities;
+  
+      const matchesGender =
+        !filters.gender || person.gender === filters.gender;
+  
+      const matchesSkill =
+        filters.skill_level.length === 0 ||
+        filters.skill_level.includes(person.skill_level);
+  
+      const matchesLocation =
+        !filters.location || person.location === filters.location;
+  
+      return (
+        matchesAge &&
+        matchesActivities &&
+        matchesGender &&
+        matchesSkill &&
+        matchesLocation
+      );
     });
   }, [people, filters]);
 
