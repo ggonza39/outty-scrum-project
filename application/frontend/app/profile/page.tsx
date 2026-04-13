@@ -12,6 +12,7 @@ export default function ProfilePage() {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState<ProfileFormData | null>(null);
+  const [profileViews, setProfileViews] = useState(0);
 
   const loadProfile = async () => {
     const {
@@ -34,6 +35,8 @@ export default function ProfilePage() {
       setIsCheckingAuth(false);
       return;
     }
+
+    setProfileViews(data.profile_views ?? 0);
 
     setProfile({
       mainPhoto: null,
@@ -96,6 +99,7 @@ export default function ProfilePage() {
 
             <ProfilePreviewStep
               formData={profile}
+              profileViews={profileViews}
               onDeleteProfile={async () => {
                 const {
                   data: { user },

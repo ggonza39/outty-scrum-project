@@ -34,7 +34,8 @@ export async function GET(_request: Request, context: RouteContext) {
         display_name,
         bio,
         interests,
-        age
+        age,
+        avatar_url
       `)
       .eq('id', id)
       .maybeSingle()
