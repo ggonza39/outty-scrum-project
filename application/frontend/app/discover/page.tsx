@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import MobilePage from "@/components/MobilePage";
 import MatchCard from "@/components/MatchCard";
+import DiscoveryFilters from "@/components/discover/DiscoveryFilters";
 import { explorerProfiles } from "@/lib/explorerProfiles";
+import { useDiscoveryFilters } from "@/lib/useDiscoveryFilters";
 
 type Person = {
   id: string;
@@ -13,6 +15,10 @@ type Person = {
   age: number;
   image: string;
   bio?: string;
+  tags?: string[];
+  gender: string;
+  skill_level: string;
+  location: string;
 };
 
 const initialPeople: Person[] = explorerProfiles.map((profile) => ({
@@ -22,12 +28,88 @@ const initialPeople: Person[] = explorerProfiles.map((profile) => ({
   age: profile.age,
   image: profile.image,
   bio: profile.bio,
+  tags: profile.tags,
+  gender: profile.gender,
+  skill_level: profile.skill_level,
+  location: profile.location,
 }));
 
-export default function DiscoverPage() {
-  const [people, setPeople] = useState<Person[]>(initialPeople);
+const DEFAULT_FILTERS = {
+  min_age: 18,
+  max_age: 65,
+  gender: "",
+  activities: [] as string[],
+  skill_level: [] as string[],
+  location: "",
+  distance: 25,
+};
 
-  const currentPerson = people[0];
+function pluralize(count: number, singular: string, plural?: string) {
+  if (count === 1) return singular;
+  return plural || `${singular}s`;
+}
+
+export default function DiscoverPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DiscoverPageContent />
+    </Suspense>
+  );
+}
+
+function DiscoverPageContent() {
+  const { filters } = useDiscoveryFilters();
+  const [people, setPeople] = useState<Person[]>(initialPeople);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const filteredPeople = useMemo(() => {
+    return people.filter((person) => {
+      const matchesAge =
+        person.age >= filters.min_age && person.age <= filters.max_age;
+
+      const matchesActivities =
+        filters.activities.length === 0 ||
+        filters.activities.some((activity) =>
+          person.tags?.some(
+            (tag) => tag.toLowerCase() === activity.toLowerCase()
+          )
+        );
+
+      const matchesGender =
+        !filters.gender || person.gender === filters.gender;
+
+      const matchesSkill =
+        filters.skill_level.length === 0 ||
+        filters.skill_level.includes(person.skill_level);
+
+      const matchesLocation =
+        !filters.location || person.location === filters.location;
+
+      return (
+        matchesAge &&
+        matchesActivities &&
+        matchesGender &&
+        matchesSkill &&
+        matchesLocation
+      );
+    });
+  }, [people, filters]);
+
+  useEffect(() => {
+    const searchObject = {
+      min_age: filters.min_age,
+      max_age: filters.max_age,
+      gender: filters.gender,
+      activities: filters.activities,
+      skill_level: filters.skill_level,
+      location: filters.location,
+      distance: filters.distance,
+    };
+
+    console.log("Search Object:", searchObject);
+  }, [filters]);
+
+  const currentPerson = filteredPeople[0];
 
   const handleLike = (id: string) => {
     setPeople((prev) => prev.filter((person) => person.id !== id));
@@ -37,13 +119,108 @@ export default function DiscoverPage() {
     setPeople((prev) => prev.filter((person) => person.id !== id));
   };
 
+  const hasAppliedFilters = useMemo(() => {
+    return (
+      filters.min_age !== DEFAULT_FILTERS.min_age ||
+      filters.max_age !== DEFAULT_FILTERS.max_age ||
+      filters.gender !== DEFAULT_FILTERS.gender ||
+      filters.activities.length > 0 ||
+      filters.skill_level.length > 0 ||
+      filters.location !== DEFAULT_FILTERS.location ||
+      filters.distance !== DEFAULT_FILTERS.distance
+    );
+  }, [filters]);
+
+  const resultsHeader = useMemo(() => {
+    const count = filteredPeople.length;
+
+    if (!hasAppliedFilters) {
+      return `Showing ${count} ${pluralize(count, "match", "matches")}.`;
+    }
+
+    const parts: string[] = [];
+
+    if (filters.activities.length > 0) {
+      parts.push(filters.activities.join(", "));
+    }
+
+    parts.push(`ages ${filters.min_age}-${filters.max_age}`);
+
+    if (filters.gender) {
+      parts.push(filters.gender);
+    }
+
+    parts.push(
+      `within ${filters.distance} ${pluralize(filters.distance, "mile")}`
+    );
+
+    if (filters.location) {
+      parts.push(filters.location);
+    }
+
+    return `Showing ${count} ${pluralize(
+      count,
+      "match",
+      "matches"
+    )} for ${parts.join(", ")}.`;
+  }, [filteredPeople.length, filters, hasAppliedFilters]);
+
   return (
     <MobilePage>
       <main className="content">
-        <section className="card" style={{ padding: 12 }}>
-          <h2 className="section-title" style={{ marginBottom: 12 }}>
-            Discover
-          </h2>
+        <section
+          className="card"
+          style={{
+            padding: 12,
+            position: "relative",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              marginBottom: 8,
+              gap: 12,
+            }}
+          >
+            <h2 className="section-title" style={{ marginBottom: 0 }}>
+              Discover
+            </h2>
+
+            <button
+              type="button"
+              onClick={() => setShowFilters(true)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                border: "none",
+                borderRadius: 999,
+                padding: "8px 14px",
+                background: "#e8ece7",
+                color: "#2d2d2d",
+                fontWeight: 700,
+                fontSize: "0.85rem",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <span aria-hidden="true">⚙️</span>
+              <span>Discovery Filtering</span>
+            </button>
+          </div>
+
+          <p
+            className="subtle"
+            style={{
+              marginBottom: 16,
+              lineHeight: 1.4,
+              wordBreak: "break-word",
+            }}
+          >
+            {resultsHeader}
+          </p>
 
           {currentPerson ? (
             <div className="center" style={{ flexDirection: "column", gap: 16 }}>
@@ -109,15 +286,43 @@ export default function DiscoverPage() {
           ) : (
             <div className="card center" style={{ minHeight: 220 }}>
               <div>
-                <h2 className="section-title">No more matches</h2>
+                <h2 className="section-title">No matching results</h2>
                 <p className="muted" style={{ color: "var(--muted)" }}>
-                  You have gone through everyone for now.
+                  Try adjusting your filters to broaden your search.
                 </p>
               </div>
             </div>
           )}
         </section>
       </main>
+
+      {showFilters && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0, 0, 0, 0.28)",
+            zIndex: 1000,
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "center",
+          }}
+          onClick={() => setShowFilters(false)}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 430,
+              maxHeight: "88vh",
+              overflowY: "auto",
+              padding: "0 10px 14px",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <DiscoveryFilters onApplyComplete={() => setShowFilters(false)} />
+          </div>
+        </div>
+      )}
     </MobilePage>
   );
 }
