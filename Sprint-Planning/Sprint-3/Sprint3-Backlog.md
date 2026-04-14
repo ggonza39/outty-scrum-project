@@ -13,8 +13,6 @@ Sprint Goal:
 
 **Goal:** As a matched user, I want to send and receive messages in real-time, see when others are online, and receive notifications so that I can coordinate outings and communicate easily with my adventure partners.
 
----
-
 ### UI/UX Tasks
 
 * **Task 1:** Design a "Message Center" (Inbox) layout featuring a sidebar for the conversation list and a main window for the active chat.
