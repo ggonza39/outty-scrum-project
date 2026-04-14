@@ -17,6 +17,18 @@ const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 type StatusType = "success" | "error" | "info";
 
+export const validateFile = (file: File) => {
+    if (!ALLOWED_TYPES.includes(file.type)) {
+        return "Only .jpg, .png, and .webp files are allowed.";
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+        return "File too large. Maximum size is 5MB.";
+    }
+
+    return null;
+};
+
 export default function ProfilePhotoUploader({
   mainPhoto,
   updateField,
@@ -61,17 +73,17 @@ export default function ProfilePhotoUploader({
     }, 2500);
   };
 
-  const validateFile = (file: File) => {
-    if (!ALLOWED_TYPES.includes(file.type)) {
-      return "Only .jpg, .png, and .webp files are allowed.";
-    }
+  //const validateFile = (file: File) => {
+  //  if (!ALLOWED_TYPES.includes(file.type)) {
+  //    return "Only .jpg, .png, and .webp files are allowed.";
+  //  }
 
-    if (file.size > MAX_FILE_SIZE) {
-      return "File too large. Maximum size is 5MB.";
-    }
+  //  if (file.size > MAX_FILE_SIZE) {
+  //    return "File too large. Maximum size is 5MB.";
+  //  }
 
-    return null;
-  };
+  //  return null;
+  //};
 
   const clearPreviewObjectUrl = () => {
     if (objectUrlRef.current) {
