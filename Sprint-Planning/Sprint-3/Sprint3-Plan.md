@@ -46,10 +46,10 @@
 
 ## Rationale
 
-**Primary Focus:** The primary focus of Sprint 3 is to "close the loop" of the adventurer journey. While Sprints 1 and 2 established the foundation and the discovery engine, Sprint 3 provides the utility required for users to act on those discoveries. By prioritizing User Story 7, the team is solving the final hurdle: secure coordination.
+- **Primary Focus:** The primary focus of Sprint 3 is to "close the loop" of the adventurer journey. While Sprints 1 and 2 established the foundation and the discovery engine, Sprint 3 provides the utility required for users to act on those discoveries. By prioritizing User Story 7, the team is solving the final hurdle: secure coordination.
 
--- **Security:** Implementing in-app chat prevents users from needing to share private contact info (emails/phone numbers) with strangers immediately.
+- **Security:** Implementing in-app chat prevents users from needing to share private contact info (emails/phone numbers) with strangers immediately.
 
--- **Engagement:** Real-time features like typing indicators and presence tracking increase "app stickiness" and user trust.
+- **Engagement:** Real-time features like typing indicators and presence tracking increase "app stickiness" and user trust.
 
--- **Quality Assurance:** By dedicating a full sprint to a single story, we ensure that the complex logic of read receipts and notifications is backed by the required 10 unit tests, guaranteeing a professional-grade final product for the project showcase.
+- **Quality Assurance:** By dedicating a full sprint to a single story, we ensure that the complex logic of read receipts and notifications is backed by the required 10 unit tests, guaranteeing a professional-grade final product for the project showcase.
