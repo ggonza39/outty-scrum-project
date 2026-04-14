@@ -40,7 +40,7 @@
 
 ## Sprint Goal
 
-* **Goal:** Complete the Outty ecosystem by launching a real-time communication suite, enabling secure in-app messaging, live presence tracking, and instant notifications to bridge the gap between discovery and coordinated adventurer action.
+Complete the Outty ecosystem by launching a real-time communication suite, enabling secure in-app messaging, live presence tracking, and instant notifications to bridge the gap between discovery and coordinated adventurer action.
 
 
 
