@@ -53,28 +53,28 @@ Sprint Goal:
 
 * **Task 13 (Unit): Security & Privacy Test Suite (4 Tests)**
 
-  -- **A. Unauthorized Access:** Verify that a user cannot fetch message history for a conversation they are not a participant in ($403$ Forbidden).
+  **A. Unauthorized Access:** Verify that a user cannot fetch message history for a conversation they are not a participant in ($403$ Forbidden).
 
-  -- **B. Data Leakage:** Ensure the message payload does not contain sensitive sender/receiver metadata (e.g., email addresses or internal UUIDs).
+  **B. Data Leakage:** Ensure the message payload does not contain sensitive sender/receiver metadata (e.g., email addresses or internal UUIDs).
 
-  -- **C. RLS Validation:** Confirm that Supabase Row Level Security prevents INSERT operations into the messages table from users pretending to be someone else.
+  **C. RLS Validation:** Confirm that Supabase Row Level Security prevents INSERT operations into the messages table from users pretending to be someone else.
 
-  -- **D. Delete Constraints:** Verify that a user can only "soft delete" their own view of a message and cannot remove it for the other participant.
+  **D. Delete Constraints:** Verify that a user can only "soft delete" their own view of a message and cannot remove it for the other participant.
 
 
 * **Task 14 (Unit): Real-Time & Logic Test Suite (6 Tests)**
 
-  -- **A. Chronological Sorting:** Verify the query logic correctly orders messages by created_at timestamp (ascending) for the chat window.
+  **A. Chronological Sorting:** Verify the query logic correctly orders messages by created_at timestamp (ascending) for the chat window.
 
-  -- **B. Read Receipt Trigger:** Test that the is_read flag toggles to true specifically when the recipient's session ID matches the active chat view.
+  **B. Read Receipt Trigger:** Test that the is_read flag toggles to true specifically when the recipient's session ID matches the active chat view.
 
-  -- **C. Presence Logic:** Validate that the online_status helper correctly interprets the heartbeat/socket connection from Supabase Presence.
+  **C. Presence Logic:** Validate that the online_status helper correctly interprets the heartbeat/socket connection from Supabase Presence.
 
-  -- **D. Empty State:** Verify the UI correctly handles a "New Conversation" with zero messages without crashing.
+  **D. Empty State:** Verify the UI correctly handles a "New Conversation" with zero messages without crashing.
 
-  -- **E. Payload Validation:** Ensure the "Send" function rejects empty messages or payloads exceeding character limits (e.g., 2000+ chars).
+  **E. Payload Validation:** Ensure the "Send" function rejects empty messages or payloads exceeding character limits (e.g., 2000+ chars).
 
-  -- **F. Notification Dispatch:** Test the utility function that triggers the Browser Notification API to ensure it only fires when the tab is inactive.
+  **F. Notification Dispatch:** Test the utility function that triggers the Browser Notification API to ensure it only fires when the tab is inactive.
 
 ---
 
@@ -82,19 +82,19 @@ Sprint Goal:
 
 * **Task 15 (BDD): Scenario – The "First Contact" Workflow**
 
-  -- **Given** I am on an Explorer's profile and we have no previous history  
+  **Given** I am on an Explorer's profile and we have no previous history  
 
-  -- **When** I click the "Message" FAB and send "Hey, let's go hiking!"  
+  **When** I click the "Message" FAB and send "Hey, let's go hiking!"  
 
-  -- **Then** a new Conversation ID is generated, I am redirected to the Chat Window, and my message appears with a "Sent" status.
+  **Then** a new Conversation ID is generated, I am redirected to the Chat Window, and my message appears with a "Sent" status.
 
 
 * **Task 16 (BDD): Scenario – Real-Time Sync & Status**
 
-  -- **Given** I am in an active chat with User B  
+  **Given** I am in an active chat with User B  
 
-  -- **When** User B sends a message while I have the window open  
+  **When** User B sends a message while I have the window open  
 
-  -- **Then** the message appears instantly via Supabase Realtime, my "Unread" badge does not increment, and User B sees a "Read" receipt immediately.
+  **Then** the message appears instantly via Supabase Realtime, my "Unread" badge does not increment, and User B sees a "Read" receipt immediately.
 
   ---
