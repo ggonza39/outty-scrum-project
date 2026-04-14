@@ -22,7 +22,7 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 
 ---
 
-## Refined Backlog - 49 total pts (03/28/2026)
+## Refined Backlog - 54 total pts (04/14/2026)
 
 - **Completed:**
 1. User account creation – 5 pts
@@ -37,7 +37,7 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 9. Upload & Manage Profile Photo Gallery – 5 pts
 10. Advanced Discovery & Multi-Criteria Filtering – 10 pts
 - **Pending:**
-11. Send in-app messages – 8 pts
+11. Send in-app messages – 13 pts
 
 --- 
 
