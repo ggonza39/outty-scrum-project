@@ -34,7 +34,7 @@
 
 * **Story 7 – Send in-app messages – 13 pts**
 
-* **Total:** 13 Story Points
+### **Total:** 13 Story Points
 
 
 
