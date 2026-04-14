@@ -10,9 +10,9 @@
 
 ## Team Capacity
 
-* **Total Available Hours:** 108 hours (6 members × 6 hours/week × 2 weeks)
+* **Total Available Hours:** 72 hours (6 members × 6 hours/week × 2 weeks)
 
-* **Effective Development Capacity:** 90–95 hours
+* **Effective Development Capacity:** 60–65 hours
 
 - **Analysis:** The team is at peak efficiency. We have removed the "learning curve" overhead from Next.js and Supabase. However, we have allocated extra time for Real-time integration and E2E testing, as debugging asynchronous chat state and socket connections typically requires more intensive QA than standard CRUD operations.
 
