@@ -90,7 +90,7 @@ export default function MyProfile() {
     return (
       <div className="min-h-screen bg-[#022c22] flex items-center justify-center">
         <div className="animate-pulse text-emerald-400 font-black tracking-tighter text-2xl uppercase">
-          LOADING OUTTY...
+          Loading Your Profile...
         </div>
       </div>
     );
