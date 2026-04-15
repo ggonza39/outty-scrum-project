@@ -154,7 +154,7 @@ export default function ProfileSetupShell({
         if (data) {
           setProfileViews(data.profile_views ?? 0);
           setFormData({
-            mainPhoto: null,
+            mainPhoto: data.avatar_url || null,
             displayName: data.display_name || "",
             age: data.age ? String(data.age) : "",
             zipCode: data.zip_code || "",
