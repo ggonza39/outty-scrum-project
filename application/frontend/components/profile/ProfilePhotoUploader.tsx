@@ -17,6 +17,12 @@ const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 type StatusType = "success" | "error" | "info";
 
+type GalleryImage = {
+  id: number;
+  public_url: string;
+  is_primary: boolean;
+};
+
 export default function ProfilePhotoUploader({
   mainPhoto,
   updateField,
@@ -30,7 +36,7 @@ export default function ProfilePhotoUploader({
   const [statusMessage, setStatusMessage] = useState("");
   const [statusType, setStatusType] = useState<StatusType>("info");
   const [previewFailed, setPreviewFailed] = useState(false);
-  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
 
   const objectUrlRef = useRef<string | null>(null);
   const statusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -46,6 +52,34 @@ export default function ProfilePhotoUploader({
         clearTimeout(statusTimerRef.current);
       }
     };
+  }, []);
+
+  useEffect(() => {
+    const loadGalleryImages = async () => {
+      try {
+        const {
+          data: { user },
+          error: userError,
+        } = await supabase.auth.getUser();
+
+        if (userError) throw userError;
+        if (!user) return;
+
+        const { data, error } = await supabase
+          .from("photos")
+          .select("id, public_url, is_primary")
+          .eq("profile_id", user.id)
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        setGalleryImages(data ?? []);
+      } catch (error) {
+        console.error("Failed to load gallery images:", error);
+      }
+    };
+
+    loadGalleryImages();
   }, []);
 
   const showStatus = (message: string, type: StatusType) => {
@@ -111,10 +145,50 @@ export default function ProfilePhotoUploader({
         data: { publicUrl },
       } = supabase.storage.from("profile-galleries").getPublicUrl(filePath);
 
-      if (publicUrl) {
-        updateField("mainPhoto", publicUrl as ProfileFormData["mainPhoto"]);
-        setGalleryImages((prev) => [publicUrl, ...prev]);
+      if (!publicUrl) {
+        throw new Error("Unable to generate public URL for uploaded photo.");
       }
+
+      const { data: insertedPhoto, error: photoInsertError } = await supabase
+        .from("photos")
+        .insert({
+          profile_id: user.id,
+          storage_path: filePath,
+          public_url: publicUrl,
+          is_primary: false,
+        })
+        .select("id")
+        .single();
+
+      if (photoInsertError) {
+        throw photoInsertError;
+      }
+
+      const { error: primaryPhotoError } = await supabase.rpc(
+        "set_primary_photo",
+        {
+          target_photo_id: insertedPhoto.id,
+          target_profile_id: user.id,
+        }
+      );
+
+      if (primaryPhotoError) {
+        throw primaryPhotoError;
+      }
+
+      updateField("mainPhoto", publicUrl as ProfileFormData["mainPhoto"]);
+
+      setGalleryImages((prev) => [
+        {
+          id: insertedPhoto.id,
+          public_url: publicUrl,
+          is_primary: true,
+        },
+        ...prev.map((image) => ({
+          ...image,
+          is_primary: false,
+        })),
+      ]);
 
       clearPreviewObjectUrl();
       setSelectedFile(null);
@@ -161,6 +235,7 @@ export default function ProfilePhotoUploader({
     setUploadSuccess("");
 
     updateField("mainPhoto", localPreviewUrl as ProfileFormData["mainPhoto"]);
+
     await uploadFile(file);
   };
 
@@ -376,7 +451,7 @@ export default function ProfilePhotoUploader({
           >
             Uploaded Photos
           </p>
-      
+
           <div
             style={{
               display: "grid",
@@ -384,19 +459,67 @@ export default function ProfilePhotoUploader({
               gap: 8,
             }}
           >
-            {galleryImages.map((imageUrl) => {
-              const isSelected = mainPhoto === imageUrl;
-      
+            {galleryImages.map((image) => {
+              const isSelected = mainPhoto === image.public_url;
+
               return (
                 <button
-                  key={imageUrl}
+                  key={image.id}
                   type="button"
-                  onClick={() => {
-                    setUploadError("");
-                    setUploadSuccess("");
-                    setPreviewFailed(false);
-                    updateField("mainPhoto", imageUrl as ProfileFormData["mainPhoto"]);
-                    showStatus("Profile photo selected.", "success");
+                  onClick={async () => {
+                    try {
+                      setUploadError("");
+                      setUploadSuccess("");
+                      setPreviewFailed(false);
+
+                      const {
+                        data: { user },
+                        error: userError,
+                      } = await supabase.auth.getUser();
+
+                      if (userError) throw userError;
+
+                      if (!user) {
+                        throw new Error(
+                          "You must be signed in to select a profile photo."
+                        );
+                      }
+
+                      const { error: primaryPhotoError } = await supabase.rpc(
+                        "set_primary_photo",
+                        {
+                          target_photo_id: image.id,
+                          target_profile_id: user.id,
+                        }
+                      );
+
+                      if (primaryPhotoError) {
+                        throw primaryPhotoError;
+                      }
+
+                      updateField(
+                        "mainPhoto",
+                        image.public_url as ProfileFormData["mainPhoto"]
+                      );
+
+                      setGalleryImages((prev) =>
+                        prev.map((galleryImage) => ({
+                          ...galleryImage,
+                          is_primary: galleryImage.id === image.id,
+                        }))
+                      );
+
+                      showStatus("Profile photo selected.", "success");
+                    } catch (error) {
+                      console.error("Failed to select primary photo:", error);
+                      setUploadError(
+                        "Failed to update profile photo. Please try again."
+                      );
+                      showStatus(
+                        "Failed to update profile photo. Please try again.",
+                        "error"
+                      );
+                    }
                   }}
                   style={{
                     aspectRatio: "1 / 1",
@@ -411,7 +534,7 @@ export default function ProfilePhotoUploader({
                   }}
                 >
                   <img
-                    src={imageUrl}
+                    src={image.public_url}
                     alt="Uploaded gallery preview"
                     style={{
                       width: "100%",
