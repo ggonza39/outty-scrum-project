@@ -362,8 +362,8 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                 style={{
                   position: "absolute",
                   top: 13,
-                  left: `${minPercent}%`,
-                  width: `${maxPercent - minPercent}%`,
+                  left: `calc(${minPercent}% + 2px)`,
+                  width: `calc(${maxPercent - minPercent}% - 4px)`,
                   height: 4,
                   borderRadius: 999,
                   background: "#f5b22d",
