@@ -15,6 +15,7 @@ export default function ConditionalFooter() {
   const [user, setUser] = useState<any>(null);
   const pathname = usePathname();
   const router = useRouter();
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   // Route Logic
   const isHomePage = pathname === "/";
@@ -35,12 +36,23 @@ export default function ConditionalFooter() {
     return () => subscription.unsubscribe();
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.visualViewport) {
+        const isShrunk = window.visualViewport.height < window.innerHeight * 0.85;
+        setIsKeyboardOpen(isShrunk);
+      }
+    };
+    window.visualViewport?.addEventListener("resize", handleResize);
+    return () => window.visualViewport?.removeEventListener("resize", handleResize);
+  }, []);
+
   /* -------------------------------------------------------------------------- */
   /* SECTION 4: RENDER LOGIC (FRONTEND)                                         */
   /* -------------------------------------------------------------------------- */
 
   // 4.1: ONBOARDING EXCLUSION (Completely hides footer on onboarding)
-  if (isOnboardingPage) {
+  if (isOnboardingPage || isKeyboardOpen) {
     return null;
   }
 
