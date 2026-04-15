@@ -77,9 +77,6 @@ Sprint Goal:
 
   - **F. Notification Dispatch:** Test the utility function that triggers the Browser Notification API to ensure it only fires when the tab is inactive.
 
----
-
-## Behavior-Driven Development (BDD) Tasks
 
 * **Task 15 (BDD): Scenario – The "First Contact" Workflow**
 
