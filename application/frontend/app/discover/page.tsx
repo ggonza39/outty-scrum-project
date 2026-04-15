@@ -36,7 +36,7 @@ const initialPeople: Person[] = explorerProfiles.map((profile) => ({
 
 const DEFAULT_FILTERS = {
   min_age: 18,
-  max_age: 65,
+  max_age: 150,
   gender: "",
   activities: [] as string[],
   skill_level: [] as string[],
