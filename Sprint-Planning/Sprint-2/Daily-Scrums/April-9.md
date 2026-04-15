@@ -7,7 +7,9 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Configured the profile-galleries Supabase Storage bucket and added access rules so authenticated users can view images and only upload or delete files within their own folder structure.
+- Built the backend gallery photo workflow by creating the photo metadata table and the database function that lets one image be set as the single primary photo while syncing the profile’s avatar_url.
+- Implemented the backend cleanup process for deleted photos by adding a delete queue, trigger, and Edge Function flow so removed photo records can also remove the related storage file.
 
 **Heidi Wilder:**  
 -
@@ -32,7 +34,7 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
--
+- I will continue supporting development through the refinement of backend tasks as bugs and any inefficiencies are discovered.
 
 **Heidi Wilder:**  
 - 
