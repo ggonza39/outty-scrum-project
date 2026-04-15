@@ -15,7 +15,7 @@ export type DiscoveryFilters = {
 
 const DEFAULT_FILTERS: DiscoveryFilters = {
   min_age: 18,
-  max_age: 65,
+  max_age: 150,
   gender: "",
   activities: [],
   skill_level: [],
