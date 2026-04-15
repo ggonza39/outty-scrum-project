@@ -108,20 +108,21 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
       -webkit-appearance: none;
       appearance: none;
       background: transparent;
+      pointer-events: none;
     }
-
+  
     .age-slider::-webkit-slider-runnable-track {
       height: 4px;
       background: transparent;
       border: none;
     }
-
+  
     .age-slider::-moz-range-track {
       height: 4px;
       background: transparent;
       border: none;
     }
-
+  
     .age-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -132,10 +133,11 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
       border: 4px solid #f5b22d;
       cursor: pointer;
       margin-top: -9px;
+      pointer-events: auto;
       position: relative;
       z-index: 10;
     }
-
+  
     .age-slider::-moz-range-thumb {
       width: 22px;
       height: 22px;
@@ -143,6 +145,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
       background: #ffffff;
       border: 4px solid #f5b22d;
       cursor: pointer;
+      pointer-events: auto;
     }
   `;
 
@@ -297,42 +300,46 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
           >
             Age / Gender
           </p>
-
+        
           <div style={{ position: "relative", paddingTop: 26, paddingBottom: 12 }}>
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: `calc(${minPercent}% - 18px)`,
-                background: "#efefef",
-                color: "#999",
-                borderRadius: 10,
-                minWidth: 36,
-                textAlign: "center",
-                padding: "4px 8px",
-                fontSize: "0.85rem",
-              }}
-            >
-              {localFilters.min_age}
-            </div>
-
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: `calc(${maxPercent}% - 18px)`,
-                background: "#efefef",
-                color: "#999",
-                borderRadius: 10,
-                minWidth: 36,
-                textAlign: "center",
-                padding: "4px 8px",
-                fontSize: "0.85rem",
-              }}
-            >
-              {localFilters.max_age}
-            </div>
-
+            {localFilters.min_age !== 18 && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: `calc(${minPercent}% - 18px)`,
+                  background: "#efefef",
+                  color: "#999",
+                  borderRadius: 10,
+                  minWidth: 36,
+                  textAlign: "center",
+                  padding: "4px 8px",
+                  fontSize: "0.85rem",
+                }}
+              >
+                {localFilters.min_age}
+              </div>
+            )}
+        
+            {localFilters.max_age !== 150 && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: `calc(${maxPercent}% - 18px)`,
+                  background: "#efefef",
+                  color: "#999",
+                  borderRadius: 10,
+                  minWidth: 36,
+                  textAlign: "center",
+                  padding: "4px 8px",
+                  fontSize: "0.85rem",
+                }}
+              >
+                {localFilters.max_age}
+              </div>
+            )}
+        
             <div
               style={{
                 position: "relative",
@@ -350,7 +357,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   background: "#ddd",
                 }}
               />
-
+        
               <div
                 style={{
                   position: "absolute",
@@ -362,8 +369,8 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   background: "#f5b22d",
                 }}
               />
-
-              {/* MIN slider underneath */}
+        
+              {/* MIN slider */}
               <input
                 type="range"
                 min={18}
@@ -379,8 +386,8 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   zIndex: 4,
                 }}
               />
-
-              {/* MAX slider on top */}
+        
+              {/* MAX slider */}
               <input
                 type="range"
                 min={18}
@@ -397,28 +404,30 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                 }}
               />
             </div>
-
+        
             <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
                 fontSize: "0.75rem",
                 color: "#999",
-                marginTop: 2,
+                marginTop: 10,
+                paddingLeft: 2,
+                paddingRight: 2,
               }}
             >
               <span>18</span>
               <span>150</span>
             </div>
           </div>
-
+        
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
             {GENDER_OPTIONS.map((option) => {
               const isSelected =
                 option === "No Preference"
                   ? localFilters.gender === ""
                   : localFilters.gender === option;
-
+        
               return (
                 <button
                   key={option}
