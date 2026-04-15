@@ -7,7 +7,9 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Configured the profile-galleries Supabase Storage bucket and added access rules so authenticated users can view images and only upload or delete files within their own folder structure.
+- Built the backend gallery photo workflow by creating the photo metadata table and the database function that lets one image be set as the single primary photo while syncing the profile’s avatar_url.
+- Implemented the backend cleanup process for deleted photos by adding a delete queue, trigger, and Edge Function flow so removed photo records can also remove the related storage file.
 
 **Heidi Wilder:**  
 -
@@ -21,7 +23,8 @@
 - Tested UI locally
 
 **Anthony Nguyen:**  
-- 
+- Managing all the pull requests and approving each change to the main branch
+- Checking for all implementation features is functional and correlates with our objectives.
 
 **Gilberto Gonzalez:**    
 - Task Orchestration: Actively tracked and monitored the progress of all active User Stories to ensure velocity remains consistent with the Sprint 2 timeline.
@@ -32,7 +35,7 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
--
+- I will continue supporting development through the refinement of backend tasks as bugs and any inefficiencies are discovered.
 
 **Heidi Wilder:**  
 - 
@@ -45,7 +48,9 @@
 - Starting US9
   
 **Anthony Nguyen:**  
-- 
+- Continue to report any changes for bugs or missing features
+- Checking for each pull request that it doesn't cause any conflict with our current app.
+- Ensuring that we achieve what the acceptance critera is consider complete to finalize the user story.
 
 **Gilberto Gonzalez:**  
 - UI Oversight: Monitor the recovery plan for the delayed UI tasks to ensure the frontend team is unblocked for end of week integration.
