@@ -109,6 +109,14 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
       -webkit-appearance: none;
       appearance: none;
       background: transparent;
+      outline: none;
+      box-shadow: none;
+    }
+  
+    .age-slider:focus,
+    .radius-slider:focus {
+      outline: none;
+      box-shadow: none;
     }
   
     .age-slider {
@@ -156,8 +164,6 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
   
     .age-slider::-webkit-slider-thumb {
       pointer-events: auto;
-      position: relative;
-      z-index: 10;
     }
   
     .age-slider::-moz-range-thumb {
@@ -399,6 +405,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
               style={{
                 position: "relative",
                 height: 30,
+                overflow: "hidden",
               }}
             >
               <div
@@ -417,8 +424,8 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                 style={{
                   position: "absolute",
                   top: 13,
-                  left: `calc(${minPercent}% + 10px)`,
-                  width: `calc(${maxPercent - minPercent}% - 20px)`,
+                  left: `calc(${minPercent}% + 11px)`,
+                  width: `calc(${maxPercent - minPercent}% - 22px)`,
                   height: 4,
                   borderRadius: 999,
                   background: "#f5b22d",
