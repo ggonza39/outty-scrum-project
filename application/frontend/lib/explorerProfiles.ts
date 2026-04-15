@@ -59,7 +59,19 @@ export const explorerProfiles: ExplorerProfile[] = [
     gender: "Male",
     skill_level: "Advanced",
     location: "Denver, CO",
-  },
+    },
+    {
+        id: "5",
+        username: "taylor",
+        name: "Taylor",
+        age: 66,
+        image: "/taylor.jpg",
+        bio: "Adventure seeker who enjoys skiing and backpacking trips.",
+        tags: ["Skiing", "Backpacking"],
+        gender: "Male",
+        skill_level: "Advanced",
+        location: "Denver, CO",
+    },
 ];
 
 export function getExplorerProfileById(id: string) {
