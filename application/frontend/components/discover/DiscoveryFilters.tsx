@@ -21,7 +21,7 @@ const GENDER_OPTIONS = ["Female", "Male", "No Preference"];
 
 const DEFAULT_FILTERS = {
   min_age: 18,
-  max_age: 150, // FIXED
+  max_age: 150,
   gender: "",
   activities: [] as string[],
   skill_level: [] as string[],
@@ -61,12 +61,17 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
     resetFilters();
     setLocalFilters({ ...DEFAULT_FILTERS });
 
-    setTimeout(() => setIsResetPressed(false), 120);
+    setTimeout(() => {
+      setIsResetPressed(false);
+    }, 120);
   };
 
   const applyFilters = () => {
     setIsApplyPressed(true);
-    setFilters({ ...localFilters });
+
+    const searchObject = { ...localFilters };
+    console.log("Search Object:", searchObject);
+    setFilters(searchObject);
 
     setTimeout(() => {
       setIsApplyPressed(false);
@@ -74,7 +79,6 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
     }, 120);
   };
 
-  // UPDATED math for 150
   const minPercent = useMemo(
     () => ((localFilters.min_age - 18) / (150 - 18)) * 100,
     [localFilters.min_age]
@@ -85,7 +89,6 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
     [localFilters.max_age]
   );
 
-  // FIXED (allow equal)
   const handleMinAgeChange = (value: number) => {
     setLocalFilters((prev) => ({
       ...prev,
@@ -100,7 +103,6 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
     }));
   };
 
-  // SINGLE BAR styling
   const sliderStyles = `
     .age-slider {
       -webkit-appearance: none;
@@ -109,19 +111,24 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
     }
 
     .age-slider::-webkit-slider-runnable-track {
+      height: 4px;
       background: transparent;
+      border: none;
     }
 
     .age-slider::-moz-range-track {
+      height: 4px;
       background: transparent;
+      border: none;
     }
 
     .age-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
+      appearance: none;
       width: 22px;
       height: 22px;
       border-radius: 999px;
-      background: white;
+      background: #ffffff;
       border: 4px solid #f5b22d;
       cursor: pointer;
       margin-top: -9px;
@@ -133,7 +140,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
       width: 22px;
       height: 22px;
       border-radius: 999px;
-      background: white;
+      background: #ffffff;
       border: 4px solid #f5b22d;
       cursor: pointer;
     }
@@ -143,18 +150,46 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
     <>
       <style>{sliderStyles}</style>
 
-      <section className="card" style={{ padding: 18, borderRadius: 28 }}>
-        <div style={{ width: 52, height: 4, background: "#d4d4d4", margin: "0 auto 14px" }} />
+      <section
+        className="card"
+        style={{
+          padding: 18,
+          marginBottom: 0,
+          borderRadius: 28,
+        }}
+      >
+        <div
+          style={{
+            width: 52,
+            height: 4,
+            borderRadius: 999,
+            background: "#d4d4d4",
+            margin: "0 auto 14px",
+          }}
+        />
 
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 18 }}>
-          <h2 className="section-title">Advanced Discovery Filter</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 18,
+          }}
+        >
+          <h2 className="section-title" style={{ margin: 0 }}>
+            Advanced Discovery Filter
+          </h2>
 
           <button
+            type="button"
             className="pill"
             onClick={handleReset}
             style={{
+              minWidth: 70,
+              justifyContent: "center",
               transform: isResetPressed ? "scale(0.97)" : "scale(1)",
               opacity: isResetPressed ? 0.8 : 1,
+              transition: "all 0.12s ease",
             }}
           >
             Reset
@@ -163,30 +198,119 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
 
         {/* LOCATION */}
         <div style={{ marginBottom: 16 }}>
-          <p style={{ fontWeight: 700 }}>Location</p>
+          <p
+            style={{
+              fontWeight: 700,
+              margin: "0 0 8px",
+            }}
+          >
+            Location
+          </p>
 
           <LocationAutoSuggest
             value={localFilters.location}
             onChange={(value) =>
-              setLocalFilters((prev) => ({ ...prev, location: value }))
+              setLocalFilters((prev) => ({
+                ...prev,
+                location: value,
+              }))
             }
+            onSelectLocation={(selected) => {
+              setLocalFilters((prev) => ({
+                ...prev,
+                location: selected.label,
+              }));
+
+              console.log("Selected Location Mapping:", {
+                location: selected.label,
+                zip: selected.zip,
+                lat: selected.lat,
+                lng: selected.lng,
+              });
+            }}
           />
         </div>
 
-        {/* AGE */}
-        <div style={{ marginBottom: 16 }}>
-          <p style={{ fontWeight: 700 }}>Age / Gender</p>
+        {/* RADIUS */}
+        <div
+          style={{
+            paddingBottom: 16,
+            marginBottom: 16,
+            borderBottom: "1px solid #e5e5e5",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 8,
+            }}
+          >
+            <span style={{ fontSize: "0.95rem", color: "#555" }}>Radius</span>
+            <span style={{ fontWeight: 700, fontSize: "0.95rem" }}>
+              {localFilters.distance} miles
+            </span>
+          </div>
 
-          <div style={{ position: "relative", paddingTop: 30 }}>
-            {/* VALUE BUBBLES */}
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={localFilters.distance}
+            onChange={(e) =>
+              setLocalFilters((prev) => ({
+                ...prev,
+                distance: Number(e.target.value),
+              }))
+            }
+            style={{ width: "100%" }}
+          />
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: "0.75rem",
+              color: "#999",
+              marginTop: 4,
+            }}
+          >
+            <span>0</span>
+            <span>100</span>
+          </div>
+        </div>
+
+        {/* AGE / GENDER */}
+        <div
+          style={{
+            paddingBottom: 16,
+            marginBottom: 16,
+            borderBottom: "1px solid #e5e5e5",
+          }}
+        >
+          <p
+            style={{
+              fontWeight: 700,
+              margin: "0 0 10px",
+            }}
+          >
+            Age / Gender
+          </p>
+
+          <div style={{ position: "relative", paddingTop: 26, paddingBottom: 12 }}>
             <div
               style={{
                 position: "absolute",
-                left: `calc(${minPercent}% - 18px)`,
                 top: 0,
-                background: "#eee",
-                padding: "4px 8px",
+                left: `calc(${minPercent}% - 18px)`,
+                background: "#efefef",
+                color: "#999",
                 borderRadius: 10,
+                minWidth: 36,
+                textAlign: "center",
+                padding: "4px 8px",
+                fontSize: "0.85rem",
               }}
             >
               {localFilters.min_age}
@@ -195,18 +319,26 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
             <div
               style={{
                 position: "absolute",
-                left: `calc(${maxPercent}% - 18px)`,
                 top: 0,
-                background: "#eee",
-                padding: "4px 8px",
+                left: `calc(${maxPercent}% - 18px)`,
+                background: "#efefef",
+                color: "#999",
                 borderRadius: 10,
+                minWidth: 36,
+                textAlign: "center",
+                padding: "4px 8px",
+                fontSize: "0.85rem",
               }}
             >
               {localFilters.max_age}
             </div>
 
-            {/* TRACK */}
-            <div style={{ position: "relative", height: 30 }}>
+            <div
+              style={{
+                position: "relative",
+                height: 30,
+              }}
+            >
               <div
                 style={{
                   position: "absolute",
@@ -214,12 +346,11 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   left: 0,
                   right: 0,
                   height: 4,
-                  background: "#ddd",
                   borderRadius: 999,
+                  background: "#ddd",
                 }}
               />
 
-              {/* SELECTED RANGE */}
               <div
                 style={{
                   position: "absolute",
@@ -227,12 +358,12 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   left: `${minPercent}%`,
                   width: `${maxPercent - minPercent}%`,
                   height: 4,
-                  background: "#f5b22d",
                   borderRadius: 999,
+                  background: "#f5b22d",
                 }}
               />
 
-              {/* MIN */}
+              {/* MIN slider underneath */}
               <input
                 type="range"
                 min={18}
@@ -244,11 +375,12 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  zIndex: 5,
+                  background: "transparent",
+                  zIndex: 4,
                 }}
               />
 
-              {/* MAX */}
+              {/* MAX slider on top */}
               <input
                 type="range"
                 min={18}
@@ -260,26 +392,126 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  zIndex: 4,
+                  background: "transparent",
+                  zIndex: 5,
                 }}
               />
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: "0.75rem",
+                color: "#999",
+                marginTop: 2,
+              }}
+            >
               <span>18</span>
               <span>150</span>
             </div>
           </div>
+
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
+            {GENDER_OPTIONS.map((option) => {
+              const isSelected =
+                option === "No Preference"
+                  ? localFilters.gender === ""
+                  : localFilters.gender === option;
+
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  className={`pill ${isSelected ? "selected" : ""}`}
+                  onClick={() =>
+                    setLocalFilters((prev) => ({
+                      ...prev,
+                      gender: option === "No Preference" ? "" : option,
+                    }))
+                  }
+                >
+                  {option}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* APPLY */}
+        {/* SKILL LEVEL */}
+        <div
+          style={{
+            paddingBottom: 16,
+            marginBottom: 16,
+            borderBottom: "1px solid #e5e5e5",
+          }}
+        >
+          <p
+            style={{
+              fontWeight: 700,
+              margin: "0 0 10px",
+            }}
+          >
+            Skill Level
+          </p>
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {SKILL_OPTIONS.map((skill) => (
+              <button
+                key={skill}
+                type="button"
+                className={`pill ${
+                  localFilters.skill_level.includes(skill) ? "selected" : ""
+                }`}
+                onClick={() => toggleArrayValue("skill_level", skill)}
+              >
+                {skill}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ACTIVITIES */}
+        <div style={{ marginBottom: 22 }}>
+          <p
+            style={{
+              fontWeight: 700,
+              margin: "0 0 10px",
+            }}
+          >
+            Adventure Activities
+          </p>
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {ACTIVITY_OPTIONS.map((activity) => (
+              <button
+                key={activity}
+                type="button"
+                className={`pill ${
+                  localFilters.activities.includes(activity) ? "selected" : ""
+                }`}
+                onClick={() => toggleArrayValue("activities", activity)}
+              >
+                {activity}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <button
+          type="button"
           className="primary-btn"
-          onClick={applyFilters}
           style={{
             width: "100%",
-            transform: isApplyPressed ? "scale(0.98)" : "scale(1)",
+            borderRadius: 999,
+            padding: "16px 18px",
+            fontWeight: 800,
+            fontSize: "1rem",
+            transform: isApplyPressed ? "scale(0.985)" : "scale(1)",
+            opacity: isApplyPressed ? 0.9 : 1,
+            transition: "all 0.12s ease",
           }}
+          onClick={applyFilters}
         >
           Apply Filters
         </button>
