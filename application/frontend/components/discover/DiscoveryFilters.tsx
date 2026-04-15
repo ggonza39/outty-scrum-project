@@ -89,6 +89,11 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
     [localFilters.max_age]
   );
 
+  const radiusPercent = useMemo(
+    () => (localFilters.distance / 100) * 100,
+    [localFilters.distance]
+  );
+
   const handleMinAgeChange = (value: number) => {
     setLocalFilters((prev) => ({
       ...prev,
@@ -104,41 +109,37 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
   };
 
   const sliderStyles = `
-    .age-slider,
-    .radius-slider {
+    .radius-slider,
+    .age-slider {
       -webkit-appearance: none;
       appearance: none;
+      width: 100%;
       background: transparent;
+      border: none;
       outline: none;
       box-shadow: none;
+      padding: 0;
+      margin: 0;
     }
-  
-    .age-slider:focus,
-    .radius-slider:focus {
-      outline: none;
-      box-shadow: none;
-    }
-  
-    .age-slider {
-      pointer-events: none;
-    }
-  
-    .age-slider::-webkit-slider-runnable-track,
-    .radius-slider::-webkit-slider-runnable-track {
+
+    .radius-slider::-webkit-slider-runnable-track,
+    .age-slider::-webkit-slider-runnable-track {
+      -webkit-appearance: none;
+      appearance: none;
       height: 4px;
       background: transparent;
       border: none;
     }
-  
-    .age-slider::-moz-range-track,
-    .radius-slider::-moz-range-track {
+
+    .radius-slider::-moz-range-track,
+    .age-slider::-moz-range-track {
       height: 4px;
       background: transparent;
       border: none;
     }
-  
-    .age-slider::-webkit-slider-thumb,
-    .radius-slider::-webkit-slider-thumb {
+
+    .radius-slider::-webkit-slider-thumb,
+    .age-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
       width: 22px;
@@ -148,24 +149,30 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
       border: 4px solid #f5b22d;
       cursor: pointer;
       margin-top: -9px;
+      box-shadow: none;
       position: relative;
       z-index: 10;
     }
-  
-    .age-slider::-moz-range-thumb,
-    .radius-slider::-moz-range-thumb {
+
+    .radius-slider::-moz-range-thumb,
+    .age-slider::-moz-range-thumb {
       width: 22px;
       height: 22px;
       border-radius: 999px;
       background: #ffffff;
       border: 4px solid #f5b22d;
       cursor: pointer;
+      box-shadow: none;
     }
-  
+
+    .age-slider {
+      pointer-events: none;
+    }
+
     .age-slider::-webkit-slider-thumb {
       pointer-events: auto;
     }
-  
+
     .age-slider::-moz-range-thumb {
       pointer-events: auto;
     }
@@ -277,7 +284,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
               {localFilters.distance} miles
             </span>
           </div>
-        
+
           <div
             style={{
               position: "relative",
@@ -295,19 +302,19 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                 background: "#ddd",
               }}
             />
-        
+
             <div
               style={{
                 position: "absolute",
                 top: 13,
                 left: 0,
-                width: `${localFilters.distance}%`,
+                width: `calc(${radiusPercent}% - ${radiusPercent === 0 ? 0 : 11}px)`,
                 height: 4,
                 borderRadius: 999,
                 background: "#f5b22d",
               }}
             />
-        
+
             <input
               type="range"
               min={0}
@@ -324,20 +331,18 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                 position: "absolute",
                 inset: 0,
                 width: "100%",
-                background: "transparent",
+                zIndex: 3,
               }}
             />
           </div>
-        
+
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
               fontSize: "0.75rem",
               color: "#999",
-              marginTop: 10,
-              paddingLeft: 2,
-              paddingRight: 2,
+              marginTop: 8,
             }}
           >
             <span>0</span>
@@ -361,7 +366,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
           >
             Age / Gender
           </p>
-        
+
           <div style={{ position: "relative", paddingTop: 26, paddingBottom: 12 }}>
             {localFilters.min_age !== 18 && (
               <div
@@ -381,7 +386,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                 {localFilters.min_age}
               </div>
             )}
-        
+
             {localFilters.max_age !== 150 && (
               <div
                 style={{
@@ -400,12 +405,11 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                 {localFilters.max_age}
               </div>
             )}
-        
+
             <div
               style={{
                 position: "relative",
                 height: 30,
-                overflow: "hidden",
               }}
             >
               <div
@@ -419,7 +423,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   background: "#ddd",
                 }}
               />
-        
+
               <div
                 style={{
                   position: "absolute",
@@ -431,8 +435,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   background: "#f5b22d",
                 }}
               />
-        
-              {/* MIN slider */}
+
               <input
                 type="range"
                 min={18}
@@ -444,12 +447,10 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  background: "transparent",
                   zIndex: 4,
                 }}
               />
-        
-              {/* MAX slider */}
+
               <input
                 type="range"
                 min={18}
@@ -461,35 +462,32 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  background: "transparent",
                   zIndex: 5,
                 }}
               />
             </div>
-        
+
             <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
                 fontSize: "0.75rem",
                 color: "#999",
-                marginTop: 10,
-                paddingLeft: 2,
-                paddingRight: 2,
+                marginTop: 8,
               }}
             >
               <span>18</span>
               <span>150</span>
             </div>
           </div>
-        
+
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
             {GENDER_OPTIONS.map((option) => {
               const isSelected =
                 option === "No Preference"
                   ? localFilters.gender === ""
                   : localFilters.gender === option;
-        
+
               return (
                 <button
                   key={option}
