@@ -104,26 +104,33 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
   };
 
   const sliderStyles = `
-    .age-slider {
+    .age-slider,
+    .radius-slider {
       -webkit-appearance: none;
       appearance: none;
       background: transparent;
+    }
+  
+    .age-slider {
       pointer-events: none;
     }
   
-    .age-slider::-webkit-slider-runnable-track {
+    .age-slider::-webkit-slider-runnable-track,
+    .radius-slider::-webkit-slider-runnable-track {
       height: 4px;
       background: transparent;
       border: none;
     }
   
-    .age-slider::-moz-range-track {
+    .age-slider::-moz-range-track,
+    .radius-slider::-moz-range-track {
       height: 4px;
       background: transparent;
       border: none;
     }
   
-    .age-slider::-webkit-slider-thumb {
+    .age-slider::-webkit-slider-thumb,
+    .radius-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
       width: 22px;
@@ -133,18 +140,27 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
       border: 4px solid #f5b22d;
       cursor: pointer;
       margin-top: -9px;
-      pointer-events: auto;
       position: relative;
       z-index: 10;
     }
   
-    .age-slider::-moz-range-thumb {
+    .age-slider::-moz-range-thumb,
+    .radius-slider::-moz-range-thumb {
       width: 22px;
       height: 22px;
       border-radius: 999px;
       background: #ffffff;
       border: 4px solid #f5b22d;
       cursor: pointer;
+    }
+  
+    .age-slider::-webkit-slider-thumb {
+      pointer-events: auto;
+      position: relative;
+      z-index: 10;
+    }
+  
+    .age-slider::-moz-range-thumb {
       pointer-events: auto;
     }
   `;
@@ -255,28 +271,67 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
               {localFilters.distance} miles
             </span>
           </div>
-
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={localFilters.distance}
-            onChange={(e) =>
-              setLocalFilters((prev) => ({
-                ...prev,
-                distance: Number(e.target.value),
-              }))
-            }
-            style={{ width: "100%" }}
-          />
-
+        
+          <div
+            style={{
+              position: "relative",
+              height: 30,
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 13,
+                left: 0,
+                right: 0,
+                height: 4,
+                borderRadius: 999,
+                background: "#ddd",
+              }}
+            />
+        
+            <div
+              style={{
+                position: "absolute",
+                top: 13,
+                left: 0,
+                width: `${localFilters.distance}%`,
+                height: 4,
+                borderRadius: 999,
+                background: "#f5b22d",
+              }}
+            />
+        
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={localFilters.distance}
+              onChange={(e) =>
+                setLocalFilters((prev) => ({
+                  ...prev,
+                  distance: Number(e.target.value),
+                }))
+              }
+              className="radius-slider"
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                background: "transparent",
+              }}
+            />
+          </div>
+        
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
               fontSize: "0.75rem",
               color: "#999",
-              marginTop: 4,
+              marginTop: 10,
+              paddingLeft: 2,
+              paddingRight: 2,
             }}
           >
             <span>0</span>
@@ -362,8 +417,8 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                 style={{
                   position: "absolute",
                   top: 13,
-                  left: `calc(${minPercent}% + 2px)`,
-                  width: `calc(${maxPercent - minPercent}% - 4px)`,
+                  left: `calc(${minPercent}% + 10px)`,
+                  width: `calc(${maxPercent - minPercent}% - 20px)`,
                   height: 4,
                   borderRadius: 999,
                   background: "#f5b22d",
