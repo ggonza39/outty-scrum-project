@@ -376,7 +376,7 @@ export default function ProfilePhotoUploader({
           >
             Uploaded Photos
           </p>
-
+      
           <div
             style={{
               display: "grid",
@@ -384,28 +384,45 @@ export default function ProfilePhotoUploader({
               gap: 8,
             }}
           >
-            {galleryImages.map((imageUrl) => (
-              <div
-                key={imageUrl}
-                style={{
-                  aspectRatio: "1 / 1",
-                  borderRadius: 16,
-                  overflow: "hidden",
-                  background: "#f3f4f6",
-                }}
-              >
-                <img
-                  src={imageUrl}
-                  alt="Uploaded gallery preview"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    display: "block",
+            {galleryImages.map((imageUrl) => {
+              const isSelected = mainPhoto === imageUrl;
+      
+              return (
+                <button
+                  key={imageUrl}
+                  type="button"
+                  onClick={() => {
+                    setUploadError("");
+                    setUploadSuccess("");
+                    setPreviewFailed(false);
+                    updateField("mainPhoto", imageUrl as ProfileFormData["mainPhoto"]);
+                    showStatus("Profile photo selected.", "success");
                   }}
-                />
-              </div>
-            ))}
+                  style={{
+                    aspectRatio: "1 / 1",
+                    borderRadius: 16,
+                    overflow: "hidden",
+                    background: "#f3f4f6",
+                    border: isSelected
+                      ? "3px solid #f5b22d"
+                      : "2px solid transparent",
+                    padding: 0,
+                    cursor: "pointer",
+                  }}
+                >
+                  <img
+                    src={imageUrl}
+                    alt="Uploaded gallery preview"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                  />
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
