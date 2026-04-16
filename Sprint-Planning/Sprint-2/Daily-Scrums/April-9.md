@@ -15,7 +15,8 @@
 -
 
 **Gibson Garner:**  
-- 
+- Wrote tests for US3
+- Organized group coding session
 
 **Takeshia Banks:**  
 - Completend frontend implementation for US8
@@ -41,7 +42,9 @@
 - 
 
 **Gibson Garner:**  
-- 
+- Hold group coding session
+- write tests for US8
+- Write tests for US5
 
 **Takeshia Banks:**  
 - Support testing once backend Supabase configuration is complete for US8
