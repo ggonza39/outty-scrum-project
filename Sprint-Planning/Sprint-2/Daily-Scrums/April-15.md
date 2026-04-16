@@ -21,7 +21,8 @@
 - Aligned the age and radius sliders with the UI design.
 
 **Anthony Nguyen:**  
-- 
+- Checking off the remaining  acceptance critera for Sprint 5 and Sprint 8
+- Double checking for any bugs or missing feature that is restricting the completion of our User Stories. 
 
 **Gilberto Gonzalez:**    
 - Reviewed Sprint 2 progress against velocity; initiated high-level planning and architectural mapping for the Sprint 3 Messaging suite.
@@ -44,7 +45,9 @@
 -  Adjust distance on range slider.
   
 **Anthony Nguyen:**  
-- 
+- Report for any bugs for each update to the app to fix or to create the missing feature
+- Manage and merge each pull requests after review the file changes
+- Finalize the acceptance critera checklist to close the story for Spring 2 
 
 **Gilberto Gonzalez:**  
 - Plann the Sprint 2 review and retrospective meetings. 
