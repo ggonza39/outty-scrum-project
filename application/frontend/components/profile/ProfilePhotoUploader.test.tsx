@@ -183,11 +183,10 @@ describe("ProfilePhotoUploader BDD Test", () => {
         // ensure the uploaded image is treated as primary in state/UI
         await waitFor(() => {
             const images = screen.getAllByRole("img");
-            expect(images.length).toBeGreaterThan(0);
+            expect(images.length).toBeGreaterThan(1);
         });
     });
-
-
 });
+
 
 
