@@ -178,9 +178,19 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
     }
   `;
 
-  const displayMaxAge = localFilters.max_age === 150 ? "65+" : localFilters.max_age;
-  const maxAgeBottomLabel = "65+";
   const radiusDisplay = localFilters.distance === 500 ? "500+" : localFilters.distance;
+
+  const minAgeSliderZIndex =
+    localFilters.min_age === localFilters.max_age &&
+    localFilters.max_age === 150
+      ? 6
+      : 4;
+
+  const maxAgeSliderZIndex =
+    localFilters.min_age === localFilters.max_age &&
+    localFilters.min_age === 18
+      ? 6
+      : 5;
 
   return (
     <>
@@ -405,7 +415,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                 fontSize: "0.85rem",
               }}
             >
-              {localFilters.max_age >= 150 ? "65+" : localFilters.max_age}
+              {localFilters.max_age}
             </div>
 
             <div
@@ -449,14 +459,10 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  zIndex:
-                    localFilters.min_age === localFilters.max_age &&
-                    localFilters.min_age === 18
-                      ? 6
-                      : 4,
+                  zIndex: minAgeSliderZIndex,
                 }}
               />
-              
+
               <input
                 type="range"
                 min={18}
@@ -468,11 +474,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  zIndex:
-                    localFilters.min_age === localFilters.max_age &&
-                    localFilters.max_age === 18
-                      ? 5
-                      : 6,
+                  zIndex: maxAgeSliderZIndex,
                 }}
               />
             </div>
@@ -487,7 +489,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
               }}
             >
               <span>18</span>
-              <span>{maxAgeBottomLabel}</span>
+              <span>150</span>
             </div>
           </div>
 
