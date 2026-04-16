@@ -3,8 +3,8 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import ExplorerProfileClient from './ExplorerProfileClient';
 import React from 'react';
-import { DiscoverPage, filterPeople } from './page';
- 
+import { DiscoverPage } from './page';
+import { filterPeople, Person } from "@/lib/filterPeople";
 
  //Mock Next.js navigation hooks
 vi.mock('next/navigation', () => ({

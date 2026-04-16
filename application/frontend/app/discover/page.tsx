@@ -7,19 +7,21 @@ import MatchCard from "@/components/MatchCard";
 import DiscoveryFilters from "@/components/discover/DiscoveryFilters";
 import { explorerProfiles } from "@/lib/explorerProfiles";
 import { useDiscoveryFilters } from "@/lib/useDiscoveryFilters";
+import { filterPeople, Person } from "@/lib/filterPeople";
 
-type Person = {
-  id: string;
-  username: string;
-  name: string;
-  age: number;
-  image: string;
-  bio?: string;
-  tags?: string[];
-  gender: string;
-  skill_level: string;
-  location: string;
-};
+
+//type Person = {
+//  id: string;
+//  username: string;
+//  name: string;
+//  age: number;
+//  image: string;
+//  bio?: string;
+//  tags?: string[];
+//  gender: string;
+//  skill_level: string;
+//  location: string;
+//};
 
 const initialPeople: Person[] = explorerProfiles.map((profile) => ({
   id: profile.id,
@@ -57,38 +59,38 @@ export default function DiscoverPage() {
   );
 }
 
-export function filterPeople(people: Person[], filters: DiscoveryFilters) {
-    return people.filter((person) => {
-        const matchesAge =
-            person.age >= filters.min_age && person.age <= filters.max_age;
+//export function filterPeople(people: Person[], filters: DiscoveryFilters) {
+//    return people.filter((person) => {
+//        const matchesAge =
+//            person.age >= filters.min_age && person.age <= filters.max_age;
 
-        const matchesActivities =
-            filters.activities.length === 0 ||
-            filters.activities.some((activity) =>
-                person.tags?.some(
-                    (tag) => tag.toLowerCase() === activity.toLowerCase()
-                )
-            );
+//        const matchesActivities =
+//            filters.activities.length === 0 ||
+//            filters.activities.some((activity) =>
+//                person.tags?.some(
+//                    (tag) => tag.toLowerCase() === activity.toLowerCase()
+//                )
+//            );
 
-        const matchesGender =
-            !filters.gender || person.gender === filters.gender;
+//        const matchesGender =
+//            !filters.gender || person.gender === filters.gender;
 
-        const matchesSkill =
-            filters.skill_level.length === 0 ||
-            filters.skill_level.includes(person.skill_level);
+//        const matchesSkill =
+//            filters.skill_level.length === 0 ||
+//            filters.skill_level.includes(person.skill_level);
 
-        const matchesLocation =
-            !filters.location || person.location === filters.location;
+//        const matchesLocation =
+//            !filters.location || person.location === filters.location;
 
-        return (
-            matchesAge &&
-            matchesActivities &&
-            matchesGender &&
-            matchesSkill &&
-            matchesLocation
-        );
-    });
-}
+//        return (
+//            matchesAge &&
+//            matchesActivities &&
+//            matchesGender &&
+//            matchesSkill &&
+//            matchesLocation
+//        );
+//    });
+//}
 
 function DiscoverPageContent() {
   const { filters } = useDiscoveryFilters();
