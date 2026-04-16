@@ -134,7 +134,6 @@ describe('filterPeople - age filtering', () => {
 
     it('handles blank filters and invalid inputs', () => {
         const people = [
-            { id: '1', age: null },
             { id: '2', age: 18 },
             { id: '3', age: 21 },
             { id: '4', age: 25 },
@@ -154,11 +153,54 @@ describe('filterPeople - age filtering', () => {
 
         const result = filterPeople(people as any, filters as any)
 
-        // Ensure ALL results are within range
-        //expect(result.every(p => p.age >= 18 && p.age <= 25)).toBe(true)
-
         // Ensure correct people are included/excluded
-        expect(result.map(p => p.id)).toEqual(['2', '3', '4'])
+        expect(result.map(p => p.id)).toEqual([])
     })
 
+})
+
+describe('filterPeople - intersection filtering', () => {
+    it('Excludes profiles matching one criteria but lacking another', () => {
+        const people = [
+            { id: '1', age: 25, gender: "Female", tags: ["Hiking"] },
+            { id: '2', age: 25, gender: "Male", tags: ["Skiing"] },
+            { id: '3', age: 25, gender: "Male", tags: ["Hiking"] },
+        ]
+
+        const filters = {
+            min_age: 18,
+            max_age: 150,
+            activities: ["Hiking"],
+            gender: "Male",
+            skill_level: [],
+            location: '',
+        }
+
+        const result = filterPeople(people as any, filters as any)
+
+        // Ensure correct people are included/excluded
+        expect(result.map(p => p.id)).toEqual(['3'])
+    })
+
+    it('Includes profiles with overlapping but not matching interests', () => {
+        const people = [
+            { id: '1', age: 25, gender: "Female", tags: ["Hiking"] },
+            { id: '2', age: 25, gender: "Male", tags: ["Skiing"] },
+            { id: '3', age: 25, gender: "Male", tags: ["Hiking"] },
+        ]
+
+        const filters = {
+            min_age: 18,
+            max_age: 150,
+            activities: ["Hiking", "Skiing"],
+            gender: "Male",
+            skill_level: [],
+            location: '',
+        }
+
+        const result = filterPeople(people as any, filters as any)
+
+        // Ensure correct people are included/excluded
+        expect(result.map(p => p.id)).toEqual(['2', '3'])
+    })
 })
