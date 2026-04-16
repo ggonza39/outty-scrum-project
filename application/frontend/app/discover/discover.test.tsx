@@ -3,7 +3,8 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import ExplorerProfileClient from './ExplorerProfileClient';
 import React from 'react';
-import DiscoverPage from './page';
+import { DiscoverPage } from './page';
+import { filterPeople, Person } from "@/lib/filterPeople";
 
  //Mock Next.js navigation hooks
 vi.mock('next/navigation', () => ({
@@ -73,3 +74,133 @@ describe('Open linked profile expected failure', () => {
         await expect(mockNavigate).toHaveBeenCalled;
     });
 });
+
+describe('filterPeople - age filtering', () => {
+    it('returns only people between 18 and 25 inclusive', () => {
+        const people = [
+            { id: '1', age: 17 },
+            { id: '2', age: 18 },
+            { id: '3', age: 21 },
+            { id: '4', age: 25 },
+            { id: '5', age: 26 },
+        ]
+
+        const filters = {
+            min_age: 18,
+            max_age: 25,
+            activities: [],
+            gender: '',
+            skill_level: [],
+            location: '',
+        }
+
+        const result = filterPeople(people as any, filters as any)
+
+        // Ensure ALL results are within range
+        expect(result.every(p => p.age >= 18 && p.age <= 25)).toBe(true)
+
+        // Ensure correct people are included/excluded
+        expect(result.map(p => p.id)).toEqual(['2', '3', '4'])
+    })
+
+    it('handles invalid ages', () => {
+        const people = [
+            { id: '1', age: null },
+            { id: '2', age: 18 },
+            { id: '3', age: 21 },
+            { id: '4', age: 25 },
+            { id: '6', age: -5 },
+            { id: '7', age: 200 },
+            { id: '8', age: "Twenty-Five" },
+        ]
+
+        const filters = {
+            min_age: 18,
+            max_age: 25,
+            activities: [],
+            gender: '',
+            skill_level: [],
+            location: '',
+        }
+
+        const result = filterPeople(people as any, filters as any)
+
+        // Ensure ALL results are within range
+        expect(result.every(p => p.age >= 18 && p.age <= 25)).toBe(true)
+
+        // Ensure correct people are included/excluded
+        expect(result.map(p => p.id)).toEqual(['2', '3', '4'])
+    })
+
+    it('handles blank filters and invalid inputs', () => {
+        const people = [
+            { id: '2', age: 18 },
+            { id: '3', age: 21 },
+            { id: '4', age: 25 },
+            { id: '6', age: -5 },
+            { id: '7', age: 200 },
+            { id: '8', age: "Twenty-Five" },
+        ]
+
+        const filters = {
+            min_age: null,
+            max_age: null,
+            activities: [],
+            gender: '',
+            skill_level: [],
+            location: '',
+        }
+
+        const result = filterPeople(people as any, filters as any)
+
+        // Ensure correct people are included/excluded
+        expect(result.map(p => p.id)).toEqual([])
+    })
+
+})
+
+describe('filterPeople - intersection filtering', () => {
+    it('Excludes profiles matching one criteria but lacking another', () => {
+        const people = [
+            { id: '1', age: 25, gender: "Female", tags: ["Hiking"] },
+            { id: '2', age: 25, gender: "Male", tags: ["Skiing"] },
+            { id: '3', age: 25, gender: "Male", tags: ["Hiking"] },
+        ]
+
+        const filters = {
+            min_age: 18,
+            max_age: 150,
+            activities: ["Hiking"],
+            gender: "Male",
+            skill_level: [],
+            location: '',
+        }
+
+        const result = filterPeople(people as any, filters as any)
+
+        // Ensure correct people are included/excluded
+        expect(result.map(p => p.id)).toEqual(['3'])
+    })
+
+    it('Includes profiles with overlapping but not matching interests', () => {
+        const people = [
+            { id: '1', age: 25, gender: "Female", tags: ["Hiking"] },
+            { id: '2', age: 25, gender: "Male", tags: ["Skiing"] },
+            { id: '3', age: 25, gender: "Male", tags: ["Hiking"] },
+        ]
+
+        const filters = {
+            min_age: 18,
+            max_age: 150,
+            activities: ["Hiking", "Skiing"],
+            gender: "Male",
+            skill_level: [],
+            location: '',
+        }
+
+        const result = filterPeople(people as any, filters as any)
+
+        // Ensure correct people are included/excluded
+        expect(result.map(p => p.id)).toEqual(['2', '3'])
+    })
+})
