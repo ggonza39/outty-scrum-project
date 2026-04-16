@@ -156,7 +156,7 @@ Sprint Goal:
 ### Testing Tasks
 
 - **Task 10 (Unit):** **File Type Validation**: Write a unit test to ensure the upload function rejects non-image files (e.g., .pdf, .exe) and provides a clear error message to the user.  
-- **Task 11 (Unit):** **Test the Security Policy**: Verify that User A cannot trigger a deletion of User B’s photos via a direct API call.  
+- **Task 11 (Unit):** **Storage Security Policy**: Write and execute a backend unit test suite to validate the Row Level Security (RLS) policies of the profile-galleries storage bucket. This ensures that the system provides strict data isolation, preventing unauthorized cross-user file manipulation. 
 - **Task 12 (BDD):** **Scenario: Managing the gallery**  
   - **Given** a user is on their **"Edit Profile"** page  
   - **When** they upload a new photo and click **"Set as Primary"**  
