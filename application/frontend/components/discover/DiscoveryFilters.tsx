@@ -90,7 +90,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
   );
 
   const radiusPercent = useMemo(
-    () => (localFilters.distance / 100) * 100,
+    () => (localFilters.distance / 500) * 100,
     [localFilters.distance]
   );
 
@@ -177,6 +177,10 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
       pointer-events: auto;
     }
   `;
+
+  const displayMaxAge = localFilters.max_age === 150 ? "65+" : localFilters.max_age;
+  const maxAgeBottomLabel = "65+";
+  const radiusDisplay = localFilters.distance === 500 ? "500+" : localFilters.distance;
 
   return (
     <>
@@ -281,7 +285,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
           >
             <span style={{ fontSize: "0.95rem", color: "#555" }}>Radius</span>
             <span style={{ fontWeight: 700, fontSize: "0.95rem" }}>
-              {localFilters.distance} miles
+              {radiusDisplay} miles
             </span>
           </div>
 
@@ -318,7 +322,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
             <input
               type="range"
               min={0}
-              max={100}
+              max={500}
               value={localFilters.distance}
               onChange={(e) =>
                 setLocalFilters((prev) => ({
@@ -346,7 +350,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
             }}
           >
             <span>0</span>
-            <span>100</span>
+            <span>500+</span>
           </div>
         </div>
 
@@ -402,7 +406,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   fontSize: "0.85rem",
                 }}
               >
-                {localFilters.max_age}
+                {displayMaxAge}
               </div>
             )}
 
@@ -447,7 +451,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  zIndex: 4,
+                  zIndex: localFilters.min_age === localFilters.max_age ? 6 : 4,
                 }}
               />
 
@@ -462,7 +466,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  zIndex: 5,
+                  zIndex: localFilters.min_age === localFilters.max_age ? 5 : 6,
                 }}
               />
             </div>
@@ -477,7 +481,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
               }}
             >
               <span>18</span>
-              <span>150</span>
+              <span>{maxAgeBottomLabel}</span>
             </div>
           </div>
 
