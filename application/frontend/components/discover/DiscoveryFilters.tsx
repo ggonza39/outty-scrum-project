@@ -406,7 +406,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   fontSize: "0.85rem",
                 }}
               >
-                {displayMaxAge}
+                {localFilters.max_age >= 150 ? "65+" : localFilters.max_age}
               </div>
             )}
 
@@ -451,10 +451,14 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  zIndex: localFilters.min_age === localFilters.max_age ? 6 : 4,
+                  zIndex:
+                    localFilters.min_age === localFilters.max_age &&
+                    localFilters.min_age === 18
+                      ? 6
+                      : 4,
                 }}
               />
-
+              
               <input
                 type="range"
                 min={18}
@@ -466,7 +470,11 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  zIndex: localFilters.min_age === localFilters.max_age ? 5 : 6,
+                  zIndex:
+                    localFilters.min_age === localFilters.max_age &&
+                    localFilters.max_age === 18
+                      ? 5
+                      : 6,
                 }}
               />
             </div>
