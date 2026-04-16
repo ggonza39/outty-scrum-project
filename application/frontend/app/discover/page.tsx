@@ -9,20 +9,6 @@ import { explorerProfiles } from "@/lib/explorerProfiles";
 import { useDiscoveryFilters } from "@/lib/useDiscoveryFilters";
 import { filterPeople, Person } from "@/lib/filterPeople";
 
-
-//type Person = {
-//  id: string;
-//  username: string;
-//  name: string;
-//  age: number;
-//  image: string;
-//  bio?: string;
-//  tags?: string[];
-//  gender: string;
-//  skill_level: string;
-//  location: string;
-//};
-
 const initialPeople: Person[] = explorerProfiles.map((profile) => ({
   id: profile.id,
   username: profile.username,
@@ -59,75 +45,12 @@ export default function DiscoverPage() {
   );
 }
 
-//export function filterPeople(people: Person[], filters: DiscoveryFilters) {
-//    return people.filter((person) => {
-//        const matchesAge =
-//            person.age >= filters.min_age && person.age <= filters.max_age;
-
-//        const matchesActivities =
-//            filters.activities.length === 0 ||
-//            filters.activities.some((activity) =>
-//                person.tags?.some(
-//                    (tag) => tag.toLowerCase() === activity.toLowerCase()
-//                )
-//            );
-
-//        const matchesGender =
-//            !filters.gender || person.gender === filters.gender;
-
-//        const matchesSkill =
-//            filters.skill_level.length === 0 ||
-//            filters.skill_level.includes(person.skill_level);
-
-//        const matchesLocation =
-//            !filters.location || person.location === filters.location;
-
-//        return (
-//            matchesAge &&
-//            matchesActivities &&
-//            matchesGender &&
-//            matchesSkill &&
-//            matchesLocation
-//        );
-//    });
-//}
-
 function DiscoverPageContent() {
   const { filters } = useDiscoveryFilters();
   const [people, setPeople] = useState<Person[]>(initialPeople);
   const [showFilters, setShowFilters] = useState(false);
 
-    const filteredPeople = useMemo(() => {
-    //return people.filter((person) => {
-    //  const matchesAge =
-    //    person.age >= filters.min_age && person.age <= filters.max_age;
-
-    //  const matchesActivities =
-    //    filters.activities.length === 0 ||
-    //    filters.activities.some((activity) =>
-    //      person.tags?.some(
-    //        (tag) => tag.toLowerCase() === activity.toLowerCase()
-    //      )
-    //    );
-
-    //  const matchesGender =
-    //    !filters.gender || person.gender === filters.gender;
-
-    //  const matchesSkill =
-    //    filters.skill_level.length === 0 ||
-    //    filters.skill_level.includes(person.skill_level);
-
-    //  const matchesLocation =
-    //    !filters.location || person.location === filters.location;
-
-    //  return (
-    //    matchesAge &&
-    //    matchesActivities &&
-    //    matchesGender &&
-    //    matchesSkill &&
-    //    matchesLocation
-    //  );
-        //});
+  const filteredPeople = useMemo(() => {
     return filterPeople(people, filters);
   }, [people, filters]);
 
@@ -180,15 +103,19 @@ function DiscoverPageContent() {
       parts.push(filters.activities.join(", "));
     }
 
-    parts.push(`ages ${filters.min_age}-${filters.max_age}`);
+    const maxAgeLabel = filters.max_age === 150 ? "65+" : String(filters.max_age);
+    parts.push(`ages ${filters.min_age}-${maxAgeLabel}`);
 
     if (filters.gender) {
       parts.push(filters.gender);
     }
 
-    parts.push(
-      `within ${filters.distance} ${pluralize(filters.distance, "mile")}`
-    );
+    const distanceLabel =
+      filters.distance === 500
+        ? "within 500+ miles"
+        : `within ${filters.distance} ${pluralize(filters.distance, "mile")}`;
+
+    parts.push(distanceLabel);
 
     if (filters.location) {
       parts.push(filters.location);

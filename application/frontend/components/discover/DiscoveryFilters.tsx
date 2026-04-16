@@ -90,7 +90,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
   );
 
   const radiusPercent = useMemo(
-    () => (localFilters.distance / 100) * 100,
+    () => (localFilters.distance / 500) * 100,
     [localFilters.distance]
   );
 
@@ -177,6 +177,20 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
       pointer-events: auto;
     }
   `;
+
+  const radiusDisplay = localFilters.distance === 500 ? "500+" : localFilters.distance;
+
+  const minAgeSliderZIndex =
+    localFilters.min_age === localFilters.max_age &&
+    localFilters.max_age === 150
+      ? 6
+      : 4;
+
+  const maxAgeSliderZIndex =
+    localFilters.min_age === localFilters.max_age &&
+    localFilters.min_age === 18
+      ? 6
+      : 5;
 
   return (
     <>
@@ -281,7 +295,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
           >
             <span style={{ fontSize: "0.95rem", color: "#555" }}>Radius</span>
             <span style={{ fontWeight: 700, fontSize: "0.95rem" }}>
-              {localFilters.distance} miles
+              {radiusDisplay} miles
             </span>
           </div>
 
@@ -318,7 +332,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
             <input
               type="range"
               min={0}
-              max={100}
+              max={500}
               value={localFilters.distance}
               onChange={(e) =>
                 setLocalFilters((prev) => ({
@@ -346,7 +360,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
             }}
           >
             <span>0</span>
-            <span>100</span>
+            <span>500+</span>
           </div>
         </div>
 
@@ -387,24 +401,22 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
               </div>
             )}
 
-            {localFilters.max_age !== 150 && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: `calc(${maxPercent}% - 18px)`,
-                  background: "#efefef",
-                  color: "#999",
-                  borderRadius: 10,
-                  minWidth: 36,
-                  textAlign: "center",
-                  padding: "4px 8px",
-                  fontSize: "0.85rem",
-                }}
-              >
-                {localFilters.max_age}
-              </div>
-            )}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: `calc(${maxPercent}% - 18px)`,
+                background: "#efefef",
+                color: "#999",
+                borderRadius: 10,
+                minWidth: 36,
+                textAlign: "center",
+                padding: "4px 8px",
+                fontSize: "0.85rem",
+              }}
+            >
+              {localFilters.max_age}
+            </div>
 
             <div
               style={{
@@ -447,7 +459,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  zIndex: 4,
+                  zIndex: minAgeSliderZIndex,
                 }}
               />
 
@@ -462,7 +474,7 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
                   position: "absolute",
                   inset: 0,
                   width: "100%",
-                  zIndex: 5,
+                  zIndex: maxAgeSliderZIndex,
                 }}
               />
             </div>
