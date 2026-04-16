@@ -16,7 +16,9 @@
 - 
 
 **Takeshia Banks:**  
-- 
+- Worked on discovery filters over the last 24 hours.
+- Fixed the age slider so both min and max can be adjusted, and updated the range to include users above 65.
+- Aligned the age and radius sliders with the UI design.
 
 **Anthony Nguyen:**  
 - 
@@ -38,7 +40,8 @@
 - 
 
 **Takeshia Banks:**  
-- 
+-  Fix age slider bug that locks slider in a single position.
+-  Adjust distance on range slider.
   
 **Anthony Nguyen:**  
 - 
