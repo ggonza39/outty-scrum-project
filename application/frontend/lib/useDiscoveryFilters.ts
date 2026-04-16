@@ -37,20 +37,42 @@ function parseList(value: string | null) {
     .filter(Boolean);
 }
 
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
 export function useDiscoveryFilters() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const filters = useMemo<DiscoveryFilters>(() => {
+    const minAge = clamp(
+      parseNumber(searchParams.get("min_age"), DEFAULT_FILTERS.min_age),
+      18,
+      150
+    );
+
+    const maxAge = clamp(
+      parseNumber(searchParams.get("max_age"), DEFAULT_FILTERS.max_age),
+      18,
+      150
+    );
+
+    const distance = clamp(
+      parseNumber(searchParams.get("distance"), DEFAULT_FILTERS.distance),
+      0,
+      500
+    );
+
     return {
-      min_age: parseNumber(searchParams.get("min_age"), DEFAULT_FILTERS.min_age),
-      max_age: parseNumber(searchParams.get("max_age"), DEFAULT_FILTERS.max_age),
+      min_age: Math.min(minAge, maxAge),
+      max_age: Math.max(minAge, maxAge),
       gender: searchParams.get("gender") || DEFAULT_FILTERS.gender,
       activities: parseList(searchParams.get("activities")),
       skill_level: parseList(searchParams.get("skill_level")),
       location: searchParams.get("location") || DEFAULT_FILTERS.location,
-      distance: parseNumber(searchParams.get("distance"), DEFAULT_FILTERS.distance),
+      distance,
     };
   }, [searchParams]);
 
@@ -62,46 +84,53 @@ export function useDiscoveryFilters() {
       ...nextFilters,
     };
 
-    if (merged.min_age === DEFAULT_FILTERS.min_age) {
+    const normalized: DiscoveryFilters = {
+      ...merged,
+      min_age: clamp(merged.min_age, 18, 150),
+      max_age: clamp(merged.max_age, 18, 150),
+      distance: clamp(merged.distance, 0, 500),
+    };
+
+    if (normalized.min_age === DEFAULT_FILTERS.min_age) {
       params.delete("min_age");
     } else {
-      params.set("min_age", String(merged.min_age));
+      params.set("min_age", String(normalized.min_age));
     }
 
-    if (merged.max_age === DEFAULT_FILTERS.max_age) {
+    if (normalized.max_age === DEFAULT_FILTERS.max_age) {
       params.delete("max_age");
     } else {
-      params.set("max_age", String(merged.max_age));
+      params.set("max_age", String(normalized.max_age));
     }
 
-    if (!merged.gender) {
+    if (!normalized.gender) {
       params.delete("gender");
     } else {
-      params.set("gender", merged.gender);
+      params.set("gender", normalized.gender);
     }
 
-    if (merged.activities.length === 0) {
+    if (normalized.activities.length === 0) {
       params.delete("activities");
     } else {
-      params.set("activities", merged.activities.join(","));
+      params.set("activities", normalized.activities.join(","));
     }
 
-    if (merged.skill_level.length === 0) {
+    if (normalized.skill_level.length === 0) {
       params.delete("skill_level");
     } else {
-      params.set("skill_level", merged.skill_level.join(","));
+      params.set("skill_level", normalized.skill_level.join(","));
     }
 
-    if (!merged.location) {
+    if (!normalized.location) {
       params.delete("location");
     } else {
-      params.set("location", merged.location);
+      params.set("location", normalized.location);
     }
 
-    if (merged.distance === DEFAULT_FILTERS.distance) {
+    if (normalized.distance === DEFAULT_FILTERS.distance) {
       params.delete("distance");
     } else {
-      params.set("distance", String(merged.distance));
+      params.set("distance", String(normalized.distance));
     }
 
     router.replace(`${pathname}?${params.toString()}`);
