@@ -391,24 +391,22 @@ export default function DiscoveryFilters({ onApplyComplete }: Props) {
               </div>
             )}
 
-            {localFilters.max_age !== 150 && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: `calc(${maxPercent}% - 18px)`,
-                  background: "#efefef",
-                  color: "#999",
-                  borderRadius: 10,
-                  minWidth: 36,
-                  textAlign: "center",
-                  padding: "4px 8px",
-                  fontSize: "0.85rem",
-                }}
-              >
-                {localFilters.max_age >= 150 ? "65+" : localFilters.max_age}
-              </div>
-            )}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: `calc(${maxPercent}% - 18px)`,
+                background: "#efefef",
+                color: "#999",
+                borderRadius: 10,
+                minWidth: 36,
+                textAlign: "center",
+                padding: "4px 8px",
+                fontSize: "0.85rem",
+              }}
+            >
+              {localFilters.max_age >= 150 ? "65+" : localFilters.max_age}
+            </div>
 
             <div
               style={{
