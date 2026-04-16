@@ -50,7 +50,7 @@
 - Finalize the acceptance critera checklist to close the story for Spring 2 
 
 **Gilberto Gonzalez:**  
-- Plann the Sprint 2 review and retrospective meetings. 
+- Plan Sprint 2 review and retrospective meetings. 
 - Continue Sprint 3 Backlog refinement; finalize the 16 technical task cards and verify the "Secure Coordination" rationale with the team.
 
 
