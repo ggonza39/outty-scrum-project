@@ -1,7 +1,7 @@
 # Sprint 2 Review - April 17-2026  
 
 ## Recording Link:
-- [Sprint 2 Review](https://teams.microsoft.com/l/message/19:533769746e08466e96a43a21b054db52@thread.v2/1776468478034?context=%7B%22contextType%22%3A%22chat%22%7D)
+- [Sprint 2 Review](https://kennesawedu-my.sharepoint.com/:v:/g/personal/hwilder1_students_kennesaw_edu/IQBLNb0Oue2xSI6-F6xd13foAQr573I5QhrSLhxmI1yiT70?e=yklVsm)
 
 ## Sprint Goal
 
