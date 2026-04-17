@@ -1,6 +1,9 @@
 ## Test Traceability & Metrics Report
 This document tracks the cumulative test count across all Sprints to ensure the project meets the "Automated Quality Gate" requirements.
 
+### Testing Strategy File
+- [Testing Strategy](/Sprint-Planning/Testing-Strategy.md)
+
 ### Sprint 2 Summary
   - **Goal:** 20 Unit Tests / 2 BDD
   - **Actual:** 81 Unit Tests / 6 BDD
