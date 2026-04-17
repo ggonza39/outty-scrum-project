@@ -18,7 +18,9 @@
 	•	[US3] [UI/UX] Task 2: Add a prominent "Edit Profile" toggle button that, when clicked, renders the Profile Edit Form (#32) from Story 9.
 
 **Gibson Garner:**  
-- 
+- Held group programming session to fix bug for US5
+- Documented bugs and missing features
+- Wrote US5 tests
 
 **Takeshia Banks:**  
 - Worked on discovery filters over the last 24 hours.
@@ -44,7 +46,8 @@
 - all stories were completed.
 
 **Gibson Garner:**  
-- 
+- Write US8 tests
+- Close out stories for sprint
 
 **Takeshia Banks:**  
 -  Fix age slider bug that locks slider in a single position.
