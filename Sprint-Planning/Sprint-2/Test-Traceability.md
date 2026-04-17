@@ -5,8 +5,8 @@ This document tracks the cumulative test count across all Sprints to ensure the 
   - **Goal:** 20 Unit Tests / 2 BDD
   - **Actual:** 81 Unit Tests / 6 BDD
   - **Status:** Completed
-  - **Files:**
-    -/frontend
+  - **Files:**  
+    - /frontend
       - lib/validation.test.ts (12 tests)
       - lib/signinValidation.test.ts (4 tests)
       - components/profile/ProfileSetupShell.test.tsx (19 tests)
