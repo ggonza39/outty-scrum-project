@@ -31,7 +31,6 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 4. Create adventure-based user profile – 3 pts
 5. Set adventure preferences – 3 pts
 6. Edit or delete profile – 3 pts
-- **In progress:**
 7. Personal Profile Dashboard & View – 4 pts
 8. View explorer profiles – 4 pts
 9. Upload & Manage Profile Photo Gallery – 5 pts
