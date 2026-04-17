@@ -10,7 +10,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
   - **Status:** Completed
   - **Files:**  
     - /frontend
-      - [validation.test.ts](application/frontend/lib/validation.test.ts) (12 tests)
+      - [validation.test.ts](/application/frontend/lib/validation.test.ts) (12 tests)
       - lib/signinValidation.test.ts (4 tests)
       - components/profile/ProfileSetupShell.test.tsx (19 tests)
       - components/profile/ProfilePhotoUploaderSecurity.test.tsx (1 test)
