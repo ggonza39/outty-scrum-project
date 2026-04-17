@@ -5,13 +5,13 @@
 ---
 
 ## Completed Work
-- Create adventure-based user profile – 3 pts
-- Set adventure preferences – 3 pts
-- Edit or delete profile – 3 pts
-- Personal Profile Dashboard & View – 4 pts
-- View explorer profiles – 4 pts
-- Upload & Manage Profile Photo Gallery – 5 pts
-- Advanced Discovery & Multi-Criteria Filtering – 10 pts
+- US2 - Create adventure-based user profile – 3 pts
+- US4 - Set adventure preferences – 3 pts
+- US9 - Edit or delete profile – 3 pts
+- US3 - Personal Profile Dashboard & View – 4 pts
+- US6 - View explorer profiles – 4 pts
+- US8 - Upload & Manage Profile Photo Gallery – 5 pts
+- US5 - Advanced Discovery & Multi-Criteria Filtering – 10 pts
   
 ---
 
