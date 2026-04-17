@@ -41,11 +41,3 @@
 
 - **Real-Time Communication (Story 7)** The "Message" Floating Action Button (FAB) is visible on Explorer profiles as a UI placeholder; however, the real-time chat infrastructure is scheduled for the Sprint 3 "Secure Coordination" milestone.
 
-- **Mobile Keyboard UI Bug:**
-  - **Issue:** On mobile devices, the footer navigation is pushed upward or obscures input fields when the virtual keyboard is active in the "Filter Drawer."
-  - **Status:** Identified by QA in the final week of Sprint 2.
-  - **Sprint 3 Resolution:** We plan to implement a CSS `visualViewport` resize listener to dynamically hide or adjust the footer position when the keyboard is engaged.
-
-- **Image Optimization Latency:**
-  - **Issue:** High-resolution gallery uploads (>3MB) experience a slight delay before the "Primary" photo updates across all components.
-  - **Sprint 3 Resolution:** Implementing a more robust client-side "Preview Toggle" and background compression to improve perceived performance.
