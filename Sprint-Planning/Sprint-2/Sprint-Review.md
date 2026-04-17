@@ -5,7 +5,7 @@
 
 ## Sprint Goal
 
-Transform **Outty** into a high-utility discovery platform by launching a location-intelligent search engine, personalized user dashboards, and a robust media gallery system to facilitate national adventurer connections.
+Transform Outty into a high-utility discovery platform by launching a location-intelligent search engine, personalized user dashboards, and a robust media gallery system to facilitate national adventurer connections.
 
 ---
 
@@ -20,6 +20,7 @@ Transform **Outty** into a high-utility discovery platform by launching a locati
 - **US5 - Advanced Discovery & Multi-Criteria Filtering** – 10 pts  
 
 **Total Completed:** 32 Story Points  
+
 **Carryover Work:** None  
 
 ---
@@ -57,5 +58,5 @@ Additionally, the team confirmed that previously identified issues—such as the
 
 ## Incomplete Work (if applicable)
 
-All user stories from the Sprint 2 backlog were completed on time.  
-There was **no incomplete work** carried into Sprint 3.
+- All user stories from the Sprint 2 backlog were completed on time.  
+- There was **no incomplete work** carried into Sprint 3.
