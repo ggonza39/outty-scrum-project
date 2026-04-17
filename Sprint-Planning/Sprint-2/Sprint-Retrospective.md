@@ -36,7 +36,7 @@
   Because user story preparation relies heavily on a single contributor, small items occasionally slipped through the cracks. Introducing a secondary review process could help catch missing details early.
 
 - **Burndown Chart Timing & Work Visibility:**  
-  Some work was completed but not pushed until later in the sprint timeline. Delayed commits created the appearance of late progress on the burndown chart, even when work was already completed.
+  Delayed commits created the appearance of late progress on the burndown chart, even when work was already completed.
 
 ---
 
