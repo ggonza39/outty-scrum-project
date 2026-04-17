@@ -5,7 +5,7 @@
 
 ## Sprint Goal
 
-Transform **Outty** into a high-utility discovery platform by launching a **location-intelligent search engine**, **personalized user dashboards**, and a **robust media gallery system** to facilitate national adventurer connections.
+Transform **Outty** into a high-utility discovery platform by launching a location-intelligent search engine, personalized user dashboards, and a robust media gallery system to facilitate national adventurer connections.
 
 ---
 
