@@ -5,6 +5,9 @@
 ---
 
 ## Completed Work
+- Create adventure-based user profile – 3 pts
+- Set adventure preferences – 3 pts
+- Edit or delete profile – 3 pts
 - Personal Profile Dashboard & View – 4 pts
 - View explorer profiles – 4 pts
 - Upload & Manage Profile Photo Gallery – 5 pts
