@@ -7,7 +7,9 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Loaded the saved primary photo from avatar_url into the profile page and edit flow so it persists after refresh.
+- Updated photo uploads to save into the backend photo records and set the newest upload as the primary profile image.
+- Loaded saved gallery images from Supabase and made selecting an older image persist as the new primary photo.
 
 **Heidi Wilder:**  
 	•	Support] [UI/UX] Conduct UI/UX review for Sprint 1 features
@@ -37,7 +39,7 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Assist with bugs as they arise
 
 **Heidi Wilder:**  
 - Assist with any bugs that come up related to ui/ux.
