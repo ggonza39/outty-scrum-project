@@ -35,13 +35,17 @@ To ensure accurate interpretation of the data, the metrics are defined as follow
 
 ## Data Interpretation & Role Breakdown
 - **Technical Leadership & 2.0 Infrastructure:** 
+
 Beyond code authorship, Gilberto orchestrated the project's operational transition from the initial MVP to the Outty 2.0 version designed for the final presentation. This involved a massive architectural refactor, as evidenced by the high "Removed" count, ensuring the codebase remained clean and performant while introducing complex new features. His leadership included establishing the directory structure, configuring Vercel deployments, setting up GitHub Actions for CI/CD, and implementing Branch Protection Rules to ensure team stability.
 
 - **Development & UI/UX:** 
+
 Hunter led the backend integration, focusing on high-volume logic and data entity definitions. The frontend was a collaborative effort between Heidi (UI/UX) and Takeshia (Frontend), ensuring the visual design translated into functional components.
 
 - **Refactoring & TDD Standards:** 
+
 The high "Removed" count for Gilberto is a direct result of the Red-Green-Refactor cycle. This reflects the intentional effort to reduce technical debt during the initial Outty foundation and the Gilded Rose legacy refactor.
 
 - **Quality Gate & Product Ownership:** 
+
 The metrics for Anthony and Gibson reflect specialized roles that occur "outside the IDE." As Product Owner, Anthony focused on requirement validation and PR reviews to ensure the Quality Gate was maintained. The Testing role involved extensive manual and automated verification of features, ensuring that the "Definition of Done" was met for each user story before final integration.
