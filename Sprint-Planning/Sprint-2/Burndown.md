@@ -39,13 +39,6 @@
 
 ---
 
-## Sprint 2 Execution Summary
-
-- **Total Story Points Committed:** 32  
-- **Total Story Points Completed:** 32  
-
----
-
 ## Cumulative Flow Diagram Link:  
   - [Sprint 2 CFD Chart](https://github.com/users/ggonza39/projects/1/insights/4?period=custom&start_date=2026-03-30&end_date=2026-04-17)
 
@@ -59,6 +52,13 @@
 
 - **Completion:**  
   All remaining work was transitioned to **Done** by **April 16–17**, confirming that all Sprint 2 deliverables were finalized within the sprint timeframe.
+
+---
+
+## Sprint 2 Execution Summary
+
+- **Total Story Points Committed:** 32  
+- **Total Story Points Completed:** 32
 
 ---
 
