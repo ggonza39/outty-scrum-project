@@ -36,9 +36,9 @@ This document tracks the cumulative test count across all Sprints to ensure the 
 ### GitHub Actions with Vercel Summary Logs
 - https://github.com/ggonza39/outty-scrum-project/actions/runs/24592632056
 
-- **Note on Count Variance:**
-- Tier 1 (CI-Gated): Unit and Integration tests (61 total) are executed on every Vercel merge/PR. These are headless, fast, and mock external dependencies.
-- Tier 2 (Local/Staging): Playwright E2E tests are executed in a local environment or a dedicated staging branch. These are excluded from the Vercel production build to prevent timeout failures and resource contention during browser-based session simulation.
+- **Note on Count Variance:**  
+  - Tier 1 (CI-Gated): Unit and Integration tests (61 total) are executed on every Vercel merge/PR. These are headless, fast, and mock external dependencies.
+  - Tier 2 (Local/Staging): Playwright E2E tests are executed in a local environment or a dedicated staging branch. These are excluded from the Vercel production build to prevent timeout failures and resource contention during browser-based session simulation.
 
 ### Vercel Logs
 - https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments
