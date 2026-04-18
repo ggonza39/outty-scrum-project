@@ -29,6 +29,14 @@ This document tracks the cumulative test count across all Sprints to ensure the 
       - [ProfileUpdatedDeleteTest.tsx](/application/testing/e2e-tests/ProfileUpdateDeleteTest.tsx) (3 tests)
       - [SigninSignoutE2ETest.tsx](/application/testing/e2e-tests/SigninSignoutE2ETest.tsx) (3 tests)
       - [SignupSupabaseTest.tsx](/application/testing/e2e-tests/SignupSupabaseTest.tsx) (3 tests)
+     
+### GitHub Actions with Vercel Summary Logs
+- https://github.com/ggonza39/outty-scrum-project/actions/runs/
+
+### Vercel Logs
+- https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments
+  
+  - Warning: Link might not work due to Hobby Account restrictions.  GitHub Actions has Vercel logs embedded due to this restriction.
 
 ### **Current Count (Sprint 1 & 2):** 
   - Unit Tests = 81 
