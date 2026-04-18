@@ -38,7 +38,7 @@
 
 ---
 
-## Cumulative Flow Diagram: View CFD Chart
+## Cumulative Flow Diagram:
   - [Sprint 1 CFD Chart](https://github.com/users/ggonza39/projects/1/insights/3)
 
 ### Sprint 1 Cumulative Flow Diagram (CFD) Summary
