@@ -13,6 +13,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
   - **Status:** Requirement Met
   - **Files:**  
     - /frontend
+      - [app.test.ts](https://github.com/ggonza39/outty-scrum-project/blob/main/application/frontend/app.test.ts) (1 test)
       - [validation.test.ts](/application/frontend/lib/validation.test.ts) (12 tests)
       - [signinValidation.test.ts](/application/frontend/lib/signinValidation.test.ts) (4 tests)
       - [ProfileSetupShell.test.tsx](/application/frontend/components/profile/ProfileSetupShell.test.tsx) (19 tests)
@@ -38,7 +39,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
 
 - **Note on Count Variance:**  
   - Tier 1 (CI-Gated): Unit and Integration & BDD tests (61 total) are executed on every Vercel merge/PR. These are headless, fast, and mock external dependencies.
-  - Tier 2 (Local/Staging): Playwright E2E tests are executed in a local environment or a dedicated staging branch. These are excluded from the Vercel production build to prevent timeout failures and resource contention during browser-based session simulation.
+  - Tier 2 (Local/Staging): Playwright E2E tests are executed in a local environment or a dedicated staging branch. These are excluded from the Vercel production build to prevent timeout failures and resource contention during browser-based session simulation. Backend tests are also excluded to prevent backend issues from stopping frontend deployments.
 
 ### Vercel Logs
 - https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments
