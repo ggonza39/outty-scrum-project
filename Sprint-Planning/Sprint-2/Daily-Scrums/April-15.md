@@ -12,12 +12,12 @@
 - Loaded saved gallery images from Supabase and made selecting an older image persist as the new primary photo.
 
 **Heidi Wilder:**   
-	•	Support] [UI/UX] Conduct UI/UX review for Sprint 1 features  
-	•	US8] [UI/UX] Task 1: Design a "Gallery Management" interface with a clear "Upload Photo" button and a grid of existing user  
-	•	[US5] [UI/UX] Task 3: Design a "Gender & Age Range" selection tool  
-	•	[US3] [UI/UX] Task 3: Design a "Settings/Danger Zone" section at the bottom to house the Delete Account button (#35) from Story 9.  
-	•	[US3] [UI/UX] Task 1: Design the "Self-View" Dashboard layout  
-	•	[US3] [UI/UX] Task 2: Add a prominent "Edit Profile" toggle button that, when clicked, renders the Profile Edit Form (#32) from Story 9.  
+- Conduct UI/UX review for Sprint 2 features:  
+- [US8] [UI/UX] Task 1: Design a "Gallery Management" interface with a clear "Upload Photo" button and a grid of existing user  
+- [US5] [UI/UX] Task 3: Design a "Gender & Age Range" selection tool  
+- [US3] [UI/UX] Task 3: Design a "Settings/Danger Zone" section at the bottom to house the Delete Account button (#35) from Story 9.  
+- [US3] [UI/UX] Task 1: Design the "Self-View" Dashboard layout  
+- [US3] [UI/UX] Task 2: Add a prominent "Edit Profile" toggle button that, when clicked, renders the Profile Edit Form (#32) from Story 9.  
   
 **Gibson Garner:**  
 - Held group programming session to fix bug for US5
