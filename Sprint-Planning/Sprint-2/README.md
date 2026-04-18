@@ -13,4 +13,4 @@ Artifacts included:
 - Pair/mob programming evidence
 - Deployment link for Sprint 2 increment
 - Test Traceability & Metrics Report
-- Contribution Analysis
+
