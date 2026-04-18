@@ -16,9 +16,9 @@
 - Automated ZIP code location handling so profiles can be mapped to coordinates and used in distance-based discovery without ongoing manual backend updates.
 
 **Heidi Wilder:**  
--created ui/ux for user messags board
--created ux/ui message indicator in footer navigation. also added icons
-- created ux/ui for matched screen
+- created ui/ux for user messags board  
+- created ux/ui message indicator in footer navigation. also added icons 
+- created ux/ui for matched screen 
 - created filtering drawer modal for match didcovery filtering
 - reuploaded svg format of logo
 - created branded top navigation for appp
