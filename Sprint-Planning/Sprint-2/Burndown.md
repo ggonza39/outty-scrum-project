@@ -5,8 +5,7 @@
 
 ## Screenshots (if link does not work due to account restrictions)
 
-<img width="1365" height="732" alt="Screenshot 2026-04-17 205929" src="https://github.com/user-attachments/assets/25c14d59-7738-4098-bebd-19e20b0d347b" />  
-
+<img width="1365" height="859" alt="Screenshot 2026-04-17 210216" src="https://github.com/user-attachments/assets/bff38adc-d65f-4478-b80e-f1a115694f69" />  
 
 <img width="1370" height="593" alt="Screenshot 2026-04-17 205631" src="https://github.com/user-attachments/assets/26a8d86b-b07f-4b39-bcaa-f49638586872" />
 
