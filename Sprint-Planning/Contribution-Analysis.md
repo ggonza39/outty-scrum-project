@@ -41,7 +41,7 @@ To ensure accurate interpretation of the data, the metrics are defined as follow
   - Hunter led the backend integration, focusing on high-volume logic and data entity definitions. The frontend was a collaborative effort between Heidi (UI/UX) and Takeshia (Frontend), ensuring the visual design translated into functional components.
 
 - **Refactoring & TDD Standards:** 
-  - The high "Removed" count for Gilberto is a direct result of the Red-Green-Refactor cycle. This reflects the intentional effort to reduce technical debt during the initial Outty foundation and the Gilded Rose legacy refactor.
+  - The high "Removed" count for Gilberto is a direct result of the Red-Green-Refactor cycle. This reflects the intentional effort to reduce technical debt during the initial Outty foundation.
 
 - **Quality Gate & Product Ownership:** 
   - The metrics for Anthony and Gibson reflect specialized roles that occur "outside the IDE." As Product Owner, Anthony focused on requirement validation and PR reviews to ensure the Quality Gate was maintained. The Testing role involved extensive manual and automated verification of features, ensuring that the "Definition of Done" was met for each user story before final integration.
