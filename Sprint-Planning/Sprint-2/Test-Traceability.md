@@ -27,7 +27,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
       - [FilteringBDDTest.tsx](/application/testing/e2e-tests/FilteringBDDTest.tsx) (1 test)
       - [ProfileCreationTest.tsx](/application/testing/e2e-tests/ProfileCreationTest.tsx) (6 tests)
       - [ProfileUpdatedDeleteTest.tsx](/application/testing/e2e-tests/ProfileUpdateDeleteTest.tsx) (3 tests)
-      - [SignoutE2ETest.tsx](/application/testing/e2e-tests/SigninSignoutE2ETest.tsx) (3 tests)
+      - [SigninSignoutE2ETest.tsx](/application/testing/e2e-tests/SigninSignoutE2ETest.tsx) (3 tests)
       - [SignupSupabaseTest.tsx](/application/testing/e2e-tests/SignupSupabaseTest.tsx) (3 tests)
 
 ### **Current Count:** 
