@@ -12,7 +12,7 @@ To ensure accurate interpretation of the data, the metrics are defined as follow
 
 - **Total Impact:** The sum of Added and Removed lines, representing the total volume of technical interaction with the codebase.
 
-## Contribution Matrix
+## Contribution Matrix through Sprint 1
 | Team Member | Added | Removed | Total Impact | Primary Focus |
 | :--- | :---: | :---: | :---: | :--- |
 | **Hunter Blake** | 7,801 | 52 | 7,853 | Backend|
@@ -22,9 +22,20 @@ To ensure accurate interpretation of the data, the metrics are defined as follow
 | **Gibson Garner** | 161 | 62 | 223 | Testing |
 | **Anthony Nguyen** | 9 | 8 | 17 | Product Owner & Quality Control |
 
+## Contribution Matrix through Sprint 2
+| Team Member | Added | Removed | Total Impact | Primary Focus |
+| :--- | :---: | :---: | :---: | :--- |
+| **Heidi Wilder** | 38,101 | 804 | 38,905 | Lead UI/UX & Design Assets |
+| **Gilberto Gonzalez** | 19,355 | 10,283 | 29,638 | Scrum Master & Project Architecture |
+| **Hunter Blake** | 8,597 | 104 | 8,701 | Backend & PostGIS Integration |
+| **Takeshia Banks** | 4,360 | 980 | 5,340 | Frontend Development |
+| **Gibson Garner** | 830 | 186 | 1,016 | QA & Automated Quality Gate |
+| **Anthony Nguyen** | 47 | 21 | 68 | Product Owner & Requirement Validation |
+
+
 ## Data Interpretation & Role Breakdown
-- Technical Leadership & Infrastructure:
-Beyond code authorship, Gilberto orchestrated the project's operational foundation. This included establishing the directory structure, configuring Vercel deployments, setting up GitHub Actions for CI/CD, and implementing Branch Protection Rules. Leadership efforts also extended to Scrum management: refining the backlog, defining story points, and maintaining the ZenHub board.
+- Technical Leadership & 2.0 Infrastructure:
+Beyond code authorship, Gilberto orchestrated the project's operational transition from the initial MVP to the Outty 2.0 version designed for the final presentation. This involved a massive architectural refactor, as evidenced by the high "Removed" count, ensuring the codebase remained clean and performant while introducing complex new features. His leadership included establishing the directory structure, configuring Vercel deployments, setting up GitHub Actions for CI/CD, and implementing Branch Protection Rules to ensure team stability.
 
 - Development & UI/UX:
 Hunter led the backend integration, focusing on high-volume logic and data entity definitions. The frontend was a collaborative effort between Heidi (UI/UX) and Takeshia (Frontend), ensuring the visual design translated into functional components.
