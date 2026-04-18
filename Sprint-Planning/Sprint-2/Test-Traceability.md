@@ -31,7 +31,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
       - [SignupSupabaseTest.tsx](/application/testing/e2e-tests/SignupSupabaseTest.tsx) (3 tests)
      
 ### GitHub Actions with Vercel Summary Logs
-- https://github.com/ggonza39/outty-scrum-project/actions/runs/
+- https://github.com/ggonza39/outty-scrum-project/actions/runs/24592632056
 
 ### Vercel Logs
 - https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments
