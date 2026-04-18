@@ -12,8 +12,8 @@ This document tracks the cumulative test count across all Sprints to ensure the 
     - /frontend
       - [validation.test.ts](/application/frontend/lib/validation.test.ts) (12 tests)
       - [signinValidation.test.ts](/application/frontend/lib/signinValidation.test.ts) (4 tests)
-      - [PrfileSetupShell.test.tsx](/application/frontend/components/profile/ProfileSetupShell.test.tsx) (19 tests)
-      - [ProfilePhotoUploaderSecurity.test.tsx](application/frontend/components/profile/ProfilePhotoUploaderSecurity.test.tsx) (1 test)
+      - [ProfileSetupShell.test.tsx](/application/frontend/components/profile/ProfileSetupShell.test.tsx) (19 tests)
+      - [ProfilePhotoUploaderSecurity.test.tsx](/application/frontend/components/profile/ProfilePhotoUploaderSecurity.test.tsx) (1 test)
       - [signin.test.tsx](/application/frontend/app/signin/signin.test.tsx) (1 test)
       - [ProfilePhotoUploader.test.tsx](/application/frontend/components/profile/ProfilePhotoUploader.test.tsx) (10 tests)
       - [signup.bdd.test.tsx](/application/frontend/app/signup/signup.bdd.test.tsx) (2 tests)
