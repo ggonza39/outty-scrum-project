@@ -5,7 +5,8 @@
 
 ## Screenshots (if link does not work due to account restrictions)
 
-<img width="1920" height="1020" alt="Screenshot 2026-04-16 201743" src="https://github.com/user-attachments/assets/3e0c761d-7326-41bb-a40b-5e1eae464a9f" />
+<img width="1365" height="732" alt="Screenshot 2026-04-17 205929" src="https://github.com/user-attachments/assets/25c14d59-7738-4098-bebd-19e20b0d347b" />  
+
 
 <img width="1370" height="593" alt="Screenshot 2026-04-17 205631" src="https://github.com/user-attachments/assets/26a8d86b-b07f-4b39-bcaa-f49638586872" />
 
@@ -44,12 +45,12 @@
 - **Total Story Points Committed:** 32  
 - **Total Story Points Completed:** 32  
 
-- **Cumulative Flow Diagram:** View CFD Chart  
-  - [Sprint 2 CFD Chart](https://github.com/users/ggonza39/projects/1/insights/4?period=custom&start_date=2026-03-30&end_date=2026-04-17)
-
 ---
 
-## Sprint 2 Cumulative Flow Diagram (CFD) Summary
+## Cumulative Flow Diagram Link:  
+  - [Sprint 2 CFD Chart](https://github.com/users/ggonza39/projects/1/insights/4?period=custom&start_date=2026-03-30&end_date=2026-04-17)
+
+### Sprint 2 Cumulative Flow Diagram (CFD) Summary
 
 - **Stable Work-in-Progress (Mar 31 – Apr 11):**  
   The **green "Open" line** remained steady around **23 points** during this period, indicating that the team maintained consistent active development without introducing new scope.
