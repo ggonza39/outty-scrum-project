@@ -21,7 +21,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
       - [profile.test.tsx](/application/frontend/app/profile/profile.test.tsx) (4 tests)
     - /testing
       - [ProfileGet.test.tsx](/application/testing/backend-tests/ProfileGET.test.tsx) (7 tests)
-      - [ProfileUploadSecurity.test.tsx](/application/testing/e2e-tests/backend-tests/ProfileUploadSecurity.test.tsx) (1 test)
+      - [ProfileUploadSecurity.test.tsx](/application/testing/backend-tests/ProfileUploadSecurity.test.tsx) (1 test)
       - [DashboardBDDTest.tsx](application/testing/e2e-tests/DashboardBDDTest.tsx) (1 test)
       - [DiscoverBDDTest.tsx](/application/testing/e2e-tests/DiscoverBDDTest.tsx) (2 tests)
       - [FilteringBDDTest.tsx](/application/testing/e2e-tests/FilteringBDDTest.tsx) (1 test)
