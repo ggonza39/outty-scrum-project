@@ -35,7 +35,7 @@
 
 - **Enhanced Security & Quality Gate** The project has achieved a comprehensive test suite of **81 total assertions**, providing deep coverage for PostGIS distance accuracy, storage RLS policies, and cross-category filtering logic.
   - **Automated CI Gate:** **61 Unit & Integration tests** are executed on every Vercel merge to ensure high-velocity deployment stability.
-  - **Local E2E Suite:** **20 Playwright & BDD scenarios** are maintained in a local environment to validate complex browser-based sessions and multi-user interactions without compromising CI pipeline performance.
+  - **Local E2E Suite:** **Playwright Tests** are maintained in a local environment to validate complex browser-based sessions and multi-user interactions without compromising CI pipeline performance.
 
 ---
 
