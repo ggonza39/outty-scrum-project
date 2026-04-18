@@ -4,6 +4,9 @@ This document tracks the cumulative test count across all Sprints to ensure the 
 ### Testing Strategy File
 - [Testing Strategy](/Sprint-Planning/Testing-Strategy.md)
 
+### Sprint 1 Summary
+- [Sprint 1 Test-Traceability](Sprint-Planning/Sprint-1/Test-Traceability.md)
+
 ### Sprint 2 Summary
   - **Goal:** 20 Unit Tests / 2 BDD
   - **Actual:** 81 Unit Tests / 6 BDD
