@@ -1,7 +1,7 @@
 # Sprint 2 Plan 
 
 ## Sprint Duration
-March 30 – April 17
+- March 30 – April 17
 
 ## Team Capacity
 
