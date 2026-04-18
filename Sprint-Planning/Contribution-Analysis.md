@@ -25,12 +25,12 @@ To ensure accurate interpretation of the data, the metrics are defined as follow
 ## Contribution Matrix through Sprint 2
 | Team Member | Added | Removed | Total Impact | Primary Focus |
 | :--- | :---: | :---: | :---: | :--- |
-| **Heidi Wilder** | 38,101 | 804 | 38,905 | Lead UI/UX & Design Assets |
+| **Heidi Wilder** | 38,101 | 804 | 38,905 | UI/UX |
 | **Gilberto Gonzalez** | 19,355 | 10,283 | 29,638 | Scrum Master & Project Architecture |
-| **Hunter Blake** | 8,597 | 104 | 8,701 | Backend & PostGIS Integration |
-| **Takeshia Banks** | 4,360 | 980 | 5,340 | Frontend Development |
-| **Gibson Garner** | 830 | 186 | 1,016 | QA & Automated Quality Gate |
-| **Anthony Nguyen** | 47 | 21 | 68 | Product Owner & Requirement Validation |
+| **Hunter Blake** | 8,597 | 104 | 8,701 | Backend |
+| **Takeshia Banks** | 4,360 | 980 | 5,340 | Frontend |
+| **Gibson Garner** | 830 | 186 | 1,016 | Testing |
+| **Anthony Nguyen** | 47 | 21 | 68 | Product Owner & Quality Control |
 
 
 ## Data Interpretation & Role Breakdown
