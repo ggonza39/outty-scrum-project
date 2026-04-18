@@ -70,12 +70,8 @@
 - **Context:**  
   Unlike Sprint 1, this sprint showed **full closure of all committed story points**, reflecting improved team coordination, clearer workflow practices, and increased familiarity with the project architecture.
 
----
-
 **Were story points re-estimated?**  
 - **No.** Story points remained stable throughout Sprint 2, indicating improved estimation accuracy compared to Sprint 1.
-
----
 
 **Any scope changes?**  
 - **No – Stable Scope:**  
