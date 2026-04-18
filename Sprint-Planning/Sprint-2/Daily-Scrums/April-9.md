@@ -12,7 +12,8 @@
 - Implemented the backend cleanup process for deleted photos by adding a delete queue, trigger, and Edge Function flow so removed photo records can also remove the related storage file.
 
 **Heidi Wilder:**  
--
+- worked on creation of ux/ui for profile setup
+- made revisions to journey paths.
 
 **Gibson Garner:**  
 - Wrote tests for US3
@@ -39,7 +40,7 @@
 - I will continue supporting development through the refinement of backend tasks as bugs and any inefficiencies are discovered.
 
 **Heidi Wilder:**  
-- 
+- final working touches to profile setup
 
 **Gibson Garner:**  
 - Hold group coding session
