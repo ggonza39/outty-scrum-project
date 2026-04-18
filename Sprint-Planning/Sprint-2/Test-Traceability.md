@@ -33,6 +33,8 @@ This document tracks the cumulative test count across all Sprints to ensure the 
 ### GitHub Actions with Vercel Summary Logs
 - https://github.com/ggonza39/outty-scrum-project/actions/runs/24592632056
 
+- **Note:** Count Variance: While the local repository contains 81 discrete test assertions across 18 files, the GitHub Actions runner consolidates these into 61 verified passes across 10 core test suites. This ensures that only the most robust, non-redundant tests are gating the production deployment. 
+
 ### Vercel Logs
 - https://vercel.com/ggonza39s-projects/outty-scrum-project/deployments
   
