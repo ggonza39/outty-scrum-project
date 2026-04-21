@@ -4,19 +4,20 @@ import Link from 'next/link';
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import MobilePage from '@/components/MobilePage';
+import { getProfileForConversation } from '@/lib/mockMessages';
 import {
-  buildOutgoingMockMessage,
-  getMockMessagesForConversation,
-  getProfileForConversation,
-  MockMessage,
-} from '@/lib/mockMessages';
+  appendOutgoingStoredMessage,
+  getStoredMessagesForConversation,
+  markStoredConversationAsRead,
+  type StoredMockMessage,
+} from '@/lib/mockMessageStore';
 
 /**
  * UI-friendly chat message shape used only by this page.
  *
  * WHY THIS EXISTS:
- * - The shared mock data layer stores raw mock message data
- * - This page maps it into a format that is easy to render in chat bubbles
+ * - The browser-backed store returns StoredMockMessage objects
+ * - This page maps them into a render-friendly structure
  */
 type ChatMessage = {
   id: string;
@@ -27,7 +28,7 @@ type ChatMessage = {
 };
 
 export default function ConversationPage() {
-  // Read the conversation ID directly from the URL route.
+  // Read the active conversation ID from the route.
   const { conversationId } = useParams();
   const conversationKey = conversationId as string;
 
@@ -39,65 +40,89 @@ export default function ConversationPage() {
    * - /message/conv-2 should show Jordan
    * - /message/conv-3 should show Avery
    * - /message/conv-4 should show Taylor
+   * - /message/conv-5 should show Taylor (66)
    */
   const profile = getProfileForConversation(conversationKey);
 
   /**
-   * Load the starting message history for this conversation from shared mock data.
+   * Convert the stored browser-backed messages into UI-friendly messages.
    *
    * IMPORTANT:
-   * This runs only once on page load for the active conversation.
+   * - This only builds the starting message list for the current route
+   * - The page state below controls what is shown after sends/reads
    */
   const initialMessages = useMemo(() => {
-    return getMockMessagesForConversation(conversationKey).map(
-      (message: MockMessage) => ({
+    return getStoredMessagesForConversation(conversationKey).map(
+      (message: StoredMockMessage) => ({
         id: message.id,
         text: message.text,
         self: message.sender === 'self',
-        timestamp: message.timestamp,
+        timestamp: message.timestampLabel,
         read: message.isRead,
       })
     );
   }, [conversationKey]);
 
-  // Local chat state for rendering and sending messages.
+  // Local visible chat state.
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
 
   // Controlled input state for the draft message box.
   const [draft, setDraft] = useState('');
 
-  // Mock typing indicator state for frontend-only testing.
+  // Mock typing indicator state for frontend-only behavior.
   const [isOtherUserTyping, setIsOtherUserTyping] = useState(false);
 
-  // Ref used for sticky auto-scroll behavior.
+  // Ref used for sticky auto-scroll.
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  // Ref used to clear the mock typing timeout.
+  // Ref used to clear typing indicator timeouts cleanly.
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /**
-   * Reset the visible messages whenever the route changes.
+   * Reset the page state whenever the conversation route changes.
+   *
+   * Also marks all incoming messages in the conversation as read
+   * so the inbox badge updates correctly when the user returns.
    *
    * Gibson test:
    * - open one conversation
    * - go back to inbox
    * - open another conversation
-   * - confirm the second chat shows the correct message history
+   * - confirm the second thread shows the correct messages
+   * - confirm unread count drops after opening a thread
    */
   useEffect(() => {
-    setMessages(initialMessages);
+    markStoredConversationAsRead(conversationKey);
+
+    const refreshedMessages = getStoredMessagesForConversation(conversationKey).map(
+      (message: StoredMockMessage) => ({
+        id: message.id,
+        text: message.text,
+        self: message.sender === 'self',
+        timestamp: message.timestampLabel,
+        read: message.isRead,
+      })
+    );
+
+    setMessages(refreshedMessages);
     setDraft('');
     setIsOtherUserTyping(false);
-  }, [initialMessages]);
+
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    };
+  }, [conversationKey]);
 
   /**
    * Task 9: Sticky scroll
    *
    * Whenever messages change or the typing indicator appears,
-   * scroll the message list to the newest content at the bottom.
+   * keep the newest content visible at the bottom.
    *
    * Gibson test:
-   * - send a new message
+   * - send a message
    * - confirm the newest message stays in view
    */
   useEffect(() => {
@@ -109,7 +134,7 @@ export default function ConversationPage() {
    * Task 10: Mock typing indicator trigger
    *
    * For frontend-only testing, typing in the input briefly shows
-   * a typing indicator as if the other person is active.
+   * a typing indicator as if the other user is active.
    *
    * Gibson test:
    * - type in the message field
@@ -135,18 +160,20 @@ export default function ConversationPage() {
    * Task 9: Send a message
    *
    * Validation:
-   * - prevents sending empty/blank messages
+   * - prevents empty or whitespace-only messages
    *
    * Behavior:
-   * - creates a new outgoing mock message
-   * - appends it to local state
-   * - clears the input
+   * - appends a new outgoing message to the browser-backed store
+   * - updates visible page state immediately
+   * - clears the input field
    *
    * Gibson test:
    * - type a normal message and send it
    * - confirm it appears in the chat
-   * - try sending an empty string
-   * - confirm nothing is added
+   * - return to inbox
+   * - confirm preview text reflects the newest message
+   * - refresh the page
+   * - confirm the sent message is still there
    */
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -155,7 +182,7 @@ export default function ConversationPage() {
 
     if (!trimmed) return;
 
-    const newMessage = buildOutgoingMockMessage(conversationKey, trimmed);
+    const newMessage = appendOutgoingStoredMessage(conversationKey, trimmed);
 
     setMessages((current) => [
       ...current,
@@ -163,7 +190,7 @@ export default function ConversationPage() {
         id: newMessage.id,
         text: newMessage.text,
         self: true,
-        timestamp: newMessage.timestamp,
+        timestamp: newMessage.timestampLabel,
         read: newMessage.isRead,
       },
     ]);
@@ -271,7 +298,7 @@ export default function ConversationPage() {
                     {profile.name}
                   </div>
 
-                  {/* Mock online label for UI match */}
+                  {/* Mock online label to match current frontend-only flow */}
                   <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>
                     Offline
                   </div>
