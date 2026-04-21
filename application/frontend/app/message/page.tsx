@@ -1,29 +1,43 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
-import { getMockInboxConversations } from '@/lib/mockMessages';
+import { getStoredInboxConversations } from '@/lib/mockMessageStore';
+import type { MockConversationSummary } from '@/lib/mockMessages';
 
 /**
  * Message inbox page for US7 frontend.
  *
  * WHY THIS FILE EXISTS:
  * - Shows the user's active message threads
- * - Uses shared mock conversation data from lib/mockMessages.ts
- * - Keeps inbox results aligned with profile pages and chat routes
+ * - Reads from the browser-backed mock message store
+ * - Keeps inbox previews and unread counts in sync with the chat page
  *
  * GIBSON TEST NOTES:
  * - Inbox should show only conversations that have at least one message
  * - Clicking a row should open /message/[conversationId]
  * - Unread count should appear for conversations with unread incoming messages
- * - Preview text should come from the latest message in that thread
+ * - Preview text should update after sending a message in chat
+ * - Refreshing the page should keep the latest inbox state
  */
-
-// Build inbox rows from shared mock data.
-// This keeps the inbox aligned with the chat page and profile page.
-const conversations = getMockInboxConversations();
-
 export default function MessagePage() {
+  // Holds the rendered inbox conversations from the browser-backed store.
+  const [conversations, setConversations] = useState<MockConversationSummary[]>(
+    []
+  );
+
+  /**
+   * Load inbox conversations on first render.
+   *
+   * TEST:
+   * - Open /message
+   * - Confirm inbox rows load from shared browser-backed message data
+   */
+  useEffect(() => {
+    setConversations(getStoredInboxConversations());
+  }, []);
+
   // Determines whether to show inbox rows or the empty state.
   const hasMessages = conversations.length > 0;
 
@@ -107,7 +121,7 @@ export default function MessagePage() {
                     />
                   </div>
 
-                  {/* Name + preview */}
+                  {/* Name + latest preview */}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div
                       style={{
@@ -193,8 +207,8 @@ export default function MessagePage() {
             /**
              * Empty state.
              *
-             * Can test this by clearing all threads in mockMessages.ts
-             * so getMockInboxConversations() returns an empty array.
+             * Can test this by clearing the mock store or removing
+             * all seeded messages from the shared store.
              */
             <div style={{ minHeight: 480 }} />
           )}
