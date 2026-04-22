@@ -10,7 +10,7 @@ import { supabase } from '@/lib/supabase';
  *
  * IMPORTANT:
  * - Some links are hidden depending on auth state
- * - Filtering logic is kept below in visibleLinks
+ * - Filtering logic is handled in visibleLinks below
  */
 const links = [
   { href: '/', label: 'Home' },
@@ -26,22 +26,22 @@ export default function AppHeader() {
   const pathname = usePathname();
   const router = useRouter();
 
-  // Controls whether the slide-out menu is open.
+  // Controls whether the full menu overlay is open.
   const [open, setOpen] = useState(false);
 
-  // Tracks whether the user is currently authenticated.
+  // Tracks whether the current user has an active session.
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Small subtext shown under the brand/logo area.
+  // Stores the smaller subtitle text shown under the logo row.
   const [welcomeMessage, setWelcomeMessage] = useState('');
 
   /**
    * Read the auth session on mount and listen for auth changes.
    *
    * Gibson test:
-   * - logged-out user should see public links only
-   * - logged-in user should see profile/discover/messages links
-   * - header subtitle should change based on auth state
+   * - logged-out user should only see public links
+   * - logged-in user should see app links like Profile, Discover, and Messages
+   * - subtitle should say "Welcome back" for authenticated users
    */
   useEffect(() => {
     const checkSession = async () => {
@@ -87,12 +87,31 @@ export default function AppHeader() {
   }, []);
 
   /**
-   * Log the user out and route them back to sign-in.
+   * Locks page scrolling while the menu overlay is open.
+   *
+   * Gibson test:
+   * - open the menu
+   * - page should not scroll behind it
+   * - close the menu
+   * - page scrolling should return to normal
+   */
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    document.body.style.overflow = open ? 'hidden' : '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  /**
+   * Log the user out and return them to the sign-in page.
    *
    * Gibson test:
    * - open menu
    * - click Log out
-   * - user should be redirected to /signin
+   * - confirm redirect to /signin
    */
   const handleLogout = async () => {
     try {
@@ -112,7 +131,7 @@ export default function AppHeader() {
   };
 
   /**
-   * Show only the links appropriate for the current auth state.
+   * Only show the links appropriate for the current auth state.
    *
    * Logged out:
    * - hide profile/discover/message
@@ -130,55 +149,52 @@ export default function AppHeader() {
 
   return (
     <>
-      {/* Header bar */}
+      {/* Header row */}
       <header
         className="topbar"
         style={{
           display: 'flex',
           alignItems: 'flex-start',
           justifyContent: 'space-between',
-          padding: '14px 16px 10px',
+          padding: '12px 16px 6px',
           background: '#f5f3ee',
+          position: 'relative',
+          zIndex: 1100,
         }}
       >
-        {/* Brand / logo area */}
+        {/* Left side: official logo */}
         <Link
           href="/"
           style={{
-            display: 'flex',
+            display: 'inline-flex',
             alignItems: 'center',
-            gap: 8,
             textDecoration: 'none',
-            color: 'inherit',
           }}
         >
-          {/* Official logo image.
-              IMPORTANT:
-              Put the file in: application/frontend/public/outty-logo-full.jpg
-              If the file is renamed, update src below to match. */}
+          {/* IMPORTANT:
+              This file should exist at:
+              application/frontend/public/outty-logo-01.svg
+          */}
           <img
-            src="/outty-logo-full.jpg"
+            src="/outty-logo-01.svg"
             alt="Outty"
             style={{
-              height: 34,
+              height: 28,
               width: 'auto',
               objectFit: 'contain',
               display: 'block',
             }}
           />
-
-          {/* Keep text fallback hidden for accessibility only if image fails visually. */}
-          <span style={{ display: 'none' }}>Outty</span>
         </Link>
 
-        {/* Hamburger button */}
+        {/* Right side: circular hamburger / close button */}
         <button
           type="button"
-          aria-label="Toggle menu"
+          aria-label={open ? 'Close menu' : 'Open menu'}
           onClick={() => setOpen((value) => !value)}
           style={{
-            width: 44,
-            height: 44,
+            width: 42,
+            height: 42,
             borderRadius: '50%',
             border: 'none',
             background: '#102019',
@@ -186,7 +202,7 @@ export default function AppHeader() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: open ? '1.5rem' : '1.2rem',
+            fontSize: open ? '1.55rem' : '1.15rem',
             lineHeight: 1,
             cursor: 'pointer',
             flexShrink: 0,
@@ -196,7 +212,7 @@ export default function AppHeader() {
         </button>
       </header>
 
-      {/* Small subtitle row under the main header area */}
+      {/* Subtitle row under the header */}
       <div
         style={{
           padding: '0 16px 12px',
@@ -209,59 +225,91 @@ export default function AppHeader() {
         {isAuthenticated ? 'Welcome back' : 'Mobile-first social app demo'}
       </div>
 
-      {/* Slide-out menu panel */}
+      {/* Full-screen menu overlay */}
       {open && (
-        <nav
-          className="menu-panel"
+        <div
           style={{
-            margin: '0 16px 12px',
-            borderRadius: 18,
-            background: '#ffffff',
-            border: '1px solid #d8d8d8',
-            overflow: 'hidden',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+            position: 'fixed',
+            inset: 0,
+            zIndex: 1200,
+            background: 'rgba(0, 0, 0, 0.18)',
           }}
+          onClick={() => setOpen(false)}
         >
-          {visibleLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`menu-link ${pathname === link.href ? 'active' : ''}`}
-              onClick={() => setOpen(false)}
-              style={{
-                display: 'block',
-                padding: '14px 16px',
-                textDecoration: 'none',
-                color: pathname === link.href ? '#0f5132' : '#1f2937',
-                fontWeight: pathname === link.href ? 700 : 500,
-                borderBottom: '1px solid #eeeeee',
-                background: pathname === link.href ? '#edf7ef' : '#ffffff',
-              }}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {/* Sliding panel */}
+          <nav
+            className="menu-panel"
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              width: 'min(82vw, 320px)',
+              height: '100%',
+              background: '#f5f3ee',
+              boxShadow: '-8px 0 24px rgba(0, 0, 0, 0.12)',
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '72px 16px 20px',
+              overflowY: 'auto',
+            }}
+            onClick={(event) => event.stopPropagation()}
+          >
+            {/* Menu links */}
+            {visibleLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                style={{
+                  display: 'block',
+                  textDecoration: 'none',
+                  color: pathname === link.href ? '#0f5132' : '#1f2937',
+                  background: pathname === link.href ? '#e4efe7' : 'transparent',
+                  borderRadius: 14,
+                  padding: '14px 16px',
+                  marginBottom: 8,
+                  fontWeight: pathname === link.href ? 700 : 500,
+                }}
+              >
+                {link.label}
+              </Link>
+            ))}
 
-          {isAuthenticated && (
-            <button
-              type="button"
-              className="menu-link"
-              onClick={handleLogout}
+            {/* Logout button for authenticated users */}
+            {isAuthenticated && (
+              <button
+                type="button"
+                onClick={handleLogout}
+                style={{
+                  width: '100%',
+                  textAlign: 'left',
+                  padding: '14px 16px',
+                  marginTop: 4,
+                  border: 'none',
+                  borderRadius: 14,
+                  background: 'transparent',
+                  color: '#1f2937',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                }}
+              >
+                Log out
+              </button>
+            )}
+
+            {/* Optional helper text at bottom */}
+            <div
               style={{
-                width: '100%',
-                textAlign: 'left',
-                padding: '14px 16px',
-                background: '#ffffff',
-                border: 'none',
-                color: '#1f2937',
-                fontWeight: 500,
-                cursor: 'pointer',
+                marginTop: 'auto',
+                paddingTop: 18,
+                color: '#7b8794',
+                fontSize: '0.82rem',
               }}
             >
-              Log out
-            </button>
-          )}
-        </nav>
+              {isAuthenticated ? 'Welcome back' : welcomeMessage || 'Outty'}
+            </div>
+          </nav>
+        </div>
       )}
     </>
   );
