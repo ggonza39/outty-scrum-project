@@ -20,7 +20,8 @@
 - 
 
 **Gilberto Gonzalez:**  
-- 
+- Conducted a comprehensive review of sub-tasks for the active User Story 7 to ensure alignment with the Definition of Done.
+- Revised the project presentation (PPT) and developed a dedicated "Demo Flow" slide to provide a strategic roadmap for the live walkthrough.
 
 ---
 
@@ -42,20 +43,21 @@
 - 
 
 **Gilberto Gonzalez:**  
-- 
+- Continue polishing any remaining tasks triggered by the final review.
+- Begin drafting the Sprint 3 cumulative documentation and finalize the narrative for the presentation flow.
   
 ---
 
 ## 3. Impediments
 
 **Identified Impediment:**  
- -
+ - None at this time.
   
 **Impediment Removal Plan:**  
-  - 
+  - N/A
   
 **Responsible (if applicable):**  
-  - 
+  - N/A
 
 ---
 
