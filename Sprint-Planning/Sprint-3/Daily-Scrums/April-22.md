@@ -53,5 +53,10 @@
   
 **Impediment Removal Plan:**  
   - 
+  
+**Responsible (if applicable):**  
+  - 
+
+---
 
   
