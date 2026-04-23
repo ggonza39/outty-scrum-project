@@ -3,58 +3,102 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
+import { getStoredInboxConversations } from '@/lib/mockMessageStore';
 import {
   fetchInboxConversations,
   type InboxConversation,
 } from '@/lib/supabaseMessages';
 
 /**
+ * Shared display type for inbox rows.
+ *
+ * WHY THIS EXISTS:
+ * - Supabase conversations and mock conversations use slightly different shapes
+ * - This lets the UI render both with one consistent structure
+ */
+type InboxDisplayRow = {
+  conversationId: string;
+  displayName: string;
+  avatarLabel: string;
+  preview: string;
+  unreadCount: number;
+  source: 'supabase' | 'mock';
+};
+
+/**
  * Message inbox page for US7.
  *
  * WHY THIS FILE EXISTS:
  * - Loads real conversations for the signed-in user from Supabase
- * - Shows the latest message preview for each thread
- * - Shows unread message counts
- * - Sorts conversations by most recent activity
+ * - Falls back to mock conversations when Supabase has no data or fails
+ * - Shows latest message preview, unread counts, and newest conversations first
  *
  * GIBSON TEST NOTES:
- * - Sign in before opening this page
- * - Open /message
- * - Confirm conversations load from Supabase
- * - Confirm newest conversation appears first
- * - Confirm unread badge appears when messages have is_read = false
- * - Click a conversation and confirm it opens /message/[conversationId]
+ * - If Supabase conversations exist, real conversations should show
+ * - If Supabase has no conversations, mock conversations should still show
+ * - Clicking a real conversation opens /message/[real-conversation-id]
+ * - Clicking a mock conversation opens /message/conv-{profileId}
  */
 export default function MessagePage() {
-  // Inbox rows returned from Supabase.
-  const [conversations, setConversations] = useState<InboxConversation[]>([]);
-
-  // Loading state for the initial inbox query.
+  const [conversations, setConversations] = useState<InboxDisplayRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  // Error state shown if Supabase query fails.
-  const [loadError, setLoadError] = useState('');
+  const [loadNotice, setLoadNotice] = useState('');
 
   /**
-   * Load conversations when the inbox page opens.
+   * Convert Supabase inbox rows into the shared display format.
+   */
+  const mapSupabaseRows = (rows: InboxConversation[]): InboxDisplayRow[] => {
+    return rows.map((conversation) => ({
+      conversationId: conversation.conversationId,
+      displayName: conversation.otherUserName,
+      avatarLabel: conversation.otherUserName.charAt(0),
+      preview: conversation.preview || 'No messages yet.',
+      unreadCount: conversation.unreadCount,
+      source: 'supabase',
+    }));
+  };
+
+  /**
+   * Convert mock inbox rows into the shared display format.
+   */
+  const loadMockRows = (): InboxDisplayRow[] => {
+    return getStoredInboxConversations().map((conversation) => ({
+      conversationId: conversation.conversationId,
+      displayName: conversation.name,
+      avatarLabel: conversation.name.charAt(0),
+      preview: conversation.preview || 'No messages yet.',
+      unreadCount: conversation.unreadCount,
+      source: 'mock',
+    }));
+  };
+
+  /**
+   * Load inbox rows.
    *
-   * Acceptance criteria covered:
-   * - Complex Query
-   * - Chronological Sort
-   * - Snippet Extraction
-   * - Unread Count
+   * Best behavior:
+   * - Try Supabase first
+   * - Use real conversations if they exist
+   * - Fall back to mock conversations if Supabase is empty or unavailable
    */
   useEffect(() => {
     const loadInbox = async () => {
       try {
         setIsLoading(true);
-        setLoadError('');
+        setLoadNotice('');
 
-        const results = await fetchInboxConversations();
-        setConversations(results);
+        const supabaseRows = await fetchInboxConversations();
+
+        if (supabaseRows.length > 0) {
+          setConversations(mapSupabaseRows(supabaseRows));
+          return;
+        }
+
+        setConversations(loadMockRows());
+        setLoadNotice('Showing demo conversations until real messages are available.');
       } catch (error) {
-        console.error('Error loading inbox:', error);
-        setLoadError('Unable to load messages right now.');
+        console.error('Error loading Supabase inbox. Showing mock fallback:', error);
+        setConversations(loadMockRows());
+        setLoadNotice('Showing demo conversations because real messages could not load.');
       } finally {
         setIsLoading(false);
       }
@@ -63,7 +107,6 @@ export default function MessagePage() {
     loadInbox();
   }, []);
 
-  // Controls whether the list or empty state should be shown.
   const hasMessages = conversations.length > 0;
 
   return (
@@ -102,6 +145,18 @@ export default function MessagePage() {
             >
               {hasMessages ? 'Your Messages' : 'You have no messages'}
             </h1>
+
+            {loadNotice && (
+              <p
+                style={{
+                  margin: '8px 0 0',
+                  fontSize: '0.78rem',
+                  color: '#6b7280',
+                }}
+              >
+                {loadNotice}
+              </p>
+            )}
           </div>
 
           {/* Loading state */}
@@ -113,15 +168,8 @@ export default function MessagePage() {
             </div>
           )}
 
-          {/* Error state */}
-          {!isLoading && loadError && (
-            <div style={{ padding: '16px' }}>
-              <p style={{ margin: 0, color: '#b91c1c' }}>{loadError}</p>
-            </div>
-          )}
-
           {/* Inbox list */}
-          {!isLoading && !loadError && hasMessages && (
+          {!isLoading && hasMessages && (
             <div>
               {conversations.map((conversation, index) => (
                 <Link
@@ -138,7 +186,7 @@ export default function MessagePage() {
                     borderTop: '1px solid #ececec',
                   }}
                 >
-                  {/* Avatar fallback using first letter of the other user's name */}
+                  {/* Avatar fallback */}
                   <div
                     style={{
                       width: 46,
@@ -155,7 +203,7 @@ export default function MessagePage() {
                       fontWeight: 800,
                     }}
                   >
-                    {conversation.otherUserName.charAt(0)}
+                    {conversation.avatarLabel}
                   </div>
 
                   {/* Name + latest message preview */}
@@ -168,7 +216,7 @@ export default function MessagePage() {
                         marginBottom: 2,
                       }}
                     >
-                      {conversation.otherUserName}
+                      {conversation.displayName}
                     </div>
 
                     <div
@@ -181,7 +229,7 @@ export default function MessagePage() {
                         maxWidth: '100%',
                       }}
                     >
-                      {conversation.preview || 'No messages yet.'}
+                      {conversation.preview}
                     </div>
                   </div>
 
@@ -243,9 +291,7 @@ export default function MessagePage() {
           )}
 
           {/* Empty state */}
-          {!isLoading && !loadError && !hasMessages && (
-            <div style={{ minHeight: 480 }} />
-          )}
+          {!isLoading && !hasMessages && <div style={{ minHeight: 480 }} />}
         </section>
       </main>
     </MobilePage>
