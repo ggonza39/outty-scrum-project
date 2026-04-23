@@ -14,7 +14,8 @@ logic to timestamp messages when they are marked as read.
 - 
 
 **Gibson Garner:**  
-- 
+- Created framework for first contact BDD test
+- Created framework for real-time sync BDD test
 
 **Takeshia Banks:**  
 - Completed frontend chat window (dynamic rendering, sticky scroll, input validation)
@@ -40,7 +41,8 @@ logic to timestamp messages when they are marked as read.
 - 
 
 **Gibson Garner:**  
-- 
+- Write and execute backend tests
+- Start work on frontend tests
 
 **Takeshia Banks:**  
 - Fully wire US7 Tasks 10-12 (typing indicators, inbox query, notifications) once backend is finalized
