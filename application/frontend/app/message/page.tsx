@@ -3,42 +3,67 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import MobilePage from '@/components/MobilePage';
-import { getStoredInboxConversations } from '@/lib/mockMessageStore';
-import type { MockConversationSummary } from '@/lib/mockMessages';
+import {
+  fetchInboxConversations,
+  type InboxConversation,
+} from '@/lib/supabaseMessages';
 
 /**
- * Message inbox page for US7 frontend.
+ * Message inbox page for US7.
  *
  * WHY THIS FILE EXISTS:
- * - Shows the user's active message threads
- * - Reads from the browser-backed mock message store
- * - Keeps inbox previews and unread counts in sync with the chat page
+ * - Loads real conversations for the signed-in user from Supabase
+ * - Shows the latest message preview for each thread
+ * - Shows unread message counts
+ * - Sorts conversations by most recent activity
  *
  * GIBSON TEST NOTES:
- * - Inbox should show only conversations that have at least one message
- * - Clicking a row should open /message/[conversationId]
- * - Unread count should appear for conversations with unread incoming messages
- * - Preview text should update after sending a message in chat
- * - Refreshing the page should keep the latest inbox state
+ * - Sign in before opening this page
+ * - Open /message
+ * - Confirm conversations load from Supabase
+ * - Confirm newest conversation appears first
+ * - Confirm unread badge appears when messages have is_read = false
+ * - Click a conversation and confirm it opens /message/[conversationId]
  */
 export default function MessagePage() {
-  // Holds the rendered inbox conversations from the browser-backed store.
-  const [conversations, setConversations] = useState<MockConversationSummary[]>(
-    []
-  );
+  // Inbox rows returned from Supabase.
+  const [conversations, setConversations] = useState<InboxConversation[]>([]);
+
+  // Loading state for the initial inbox query.
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Error state shown if Supabase query fails.
+  const [loadError, setLoadError] = useState('');
 
   /**
-   * Load inbox conversations on first render.
+   * Load conversations when the inbox page opens.
    *
-   * TEST:
-   * - Open /message
-   * - Confirm inbox rows load from shared browser-backed message data
+   * Acceptance criteria covered:
+   * - Complex Query
+   * - Chronological Sort
+   * - Snippet Extraction
+   * - Unread Count
    */
   useEffect(() => {
-    setConversations(getStoredInboxConversations());
+    const loadInbox = async () => {
+      try {
+        setIsLoading(true);
+        setLoadError('');
+
+        const results = await fetchInboxConversations();
+        setConversations(results);
+      } catch (error) {
+        console.error('Error loading inbox:', error);
+        setLoadError('Unable to load messages right now.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadInbox();
   }, []);
 
-  // Determines whether to show inbox rows or the empty state.
+  // Controls whether the list or empty state should be shown.
   const hasMessages = conversations.length > 0;
 
   return (
@@ -79,8 +104,24 @@ export default function MessagePage() {
             </h1>
           </div>
 
+          {/* Loading state */}
+          {isLoading && (
+            <div style={{ padding: '16px' }}>
+              <p style={{ margin: 0, color: '#6b7280' }}>
+                Loading messages...
+              </p>
+            </div>
+          )}
+
+          {/* Error state */}
+          {!isLoading && loadError && (
+            <div style={{ padding: '16px' }}>
+              <p style={{ margin: 0, color: '#b91c1c' }}>{loadError}</p>
+            </div>
+          )}
+
           {/* Inbox list */}
-          {hasMessages ? (
+          {!isLoading && !loadError && hasMessages && (
             <div>
               {conversations.map((conversation, index) => (
                 <Link
@@ -97,7 +138,7 @@ export default function MessagePage() {
                     borderTop: '1px solid #ececec',
                   }}
                 >
-                  {/* Avatar */}
+                  {/* Avatar fallback using first letter of the other user's name */}
                   <div
                     style={{
                       width: 46,
@@ -107,21 +148,17 @@ export default function MessagePage() {
                       border: '3px solid #5ea646',
                       flexShrink: 0,
                       background: '#ddd',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#555',
+                      fontWeight: 800,
                     }}
                   >
-                    <img
-                      src={conversation.avatar}
-                      alt={conversation.name}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        display: 'block',
-                      }}
-                    />
+                    {conversation.otherUserName.charAt(0)}
                   </div>
 
-                  {/* Name + latest preview */}
+                  {/* Name + latest message preview */}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div
                       style={{
@@ -131,7 +168,7 @@ export default function MessagePage() {
                         marginBottom: 2,
                       }}
                     >
-                      {conversation.name}
+                      {conversation.otherUserName}
                     </div>
 
                     <div
@@ -144,11 +181,11 @@ export default function MessagePage() {
                         maxWidth: '100%',
                       }}
                     >
-                      {conversation.preview}
+                      {conversation.preview || 'No messages yet.'}
                     </div>
                   </div>
 
-                  {/* Message icon + unread badge + trash icon */}
+                  {/* Message icon + unread badge + visual trash icon */}
                   <div
                     style={{
                       display: 'flex',
@@ -203,13 +240,10 @@ export default function MessagePage() {
                 </Link>
               ))}
             </div>
-          ) : (
-            /**
-             * Empty state.
-             *
-             * Can test this by clearing the mock store or removing
-             * all seeded messages from the shared store.
-             */
+          )}
+
+          {/* Empty state */}
+          {!isLoading && !loadError && !hasMessages && (
             <div style={{ minHeight: 480 }} />
           )}
         </section>
