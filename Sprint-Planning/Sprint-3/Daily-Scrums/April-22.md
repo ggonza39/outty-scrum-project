@@ -17,7 +17,9 @@ logic to timestamp messages when they are marked as read.
 - 
 
 **Takeshia Banks:**  
-- 
+- Completed frontend chat window (dynamic rendering, sticky scroll, input validation)
+- Built inbox UI with sorting, preview snippets, and unread counts using mock store
+- Connected discover to profile to chat navigation with consistent conversation IDs
 
 **Anthony Nguyen:**  
 - 
@@ -41,7 +43,7 @@ logic to timestamp messages when they are marked as read.
 - 
 
 **Takeshia Banks:**  
-- 
+- Fully wire US7 Tasks 10-12 (typing indicators, inbox query, notifications) once backend is finalized
 
 **Anthony Nguyen:**  
 - 
