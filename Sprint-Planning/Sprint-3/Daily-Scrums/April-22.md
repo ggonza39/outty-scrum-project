@@ -18,7 +18,8 @@ US7] [UI/UX] Task 1: Design a "Message Center" (Inbox) layout featuring a sideba
 US7] [UI/UX] Task 4: Create "Push Notification" alerts and an in-app "Unread Badge" (e.g., a red number on the navigation icon).
 
 **Gibson Garner:**  
-- 
+- Created framework for first contact BDD test
+- Created framework for real-time sync BDD test
 
 **Takeshia Banks:**  
 - Completed frontend chat window (dynamic rendering, sticky scroll, input validation)
@@ -45,7 +46,8 @@ US7] [UI/UX] Task 4: Create "Push Notification" alerts and an in-app "Unread Bad
 - Working on presentation.
 
 **Gibson Garner:**  
-- 
+- Write and execute backend tests
+- Start work on frontend tests
 
 **Takeshia Banks:**  
 - Fully wire US7 Tasks 10-12 (typing indicators, inbox query, notifications) once backend is finalized
