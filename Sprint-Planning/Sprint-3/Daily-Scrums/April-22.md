@@ -11,7 +11,11 @@ logic to timestamp messages when they are marked as read.
 - Built a temporary messages-test page that loads an active conversation, fetches its messages, sends new messages, and subscribes to INSERT events for that conversation so the team can validate the realtime acceptance criteria before the full messaging UI exists.
 
 **Heidi Wilder:**  
-- 
+- Completed and the subtasks within them:
+US7] [UI/UX] Task 1: Design a "Message Center" (Inbox) layout featuring a sidebar for the conversation list and a main window for the active chat.
+[US7] [UI/UX] Task 2: Create the "Chat Bubble" UI with distinct styles for "Sent" vs. "Received" messages, including timestamps and Read Receipt icons (e.g., single/double checkmarks).
+[US7] [UI/UX] Task 3: Design a "User Status Indicator" (e.g., a green dot on the avatar) to visually represent the online/offline status of the contact.
+US7] [UI/UX] Task 4: Create "Push Notification" alerts and an in-app "Unread Badge" (e.g., a red number on the navigation icon).
 
 **Gibson Garner:**  
 - Created framework for first contact BDD test
@@ -38,7 +42,8 @@ logic to timestamp messages when they are marked as read.
 - Implement online and offline presence tracking for users within the messaging feature.
 
 **Heidi Wilder:**  
-- 
+- All tasks/sub tasks are completed.
+- Working on presentation.
 
 **Gibson Garner:**  
 - Write and execute backend tests
