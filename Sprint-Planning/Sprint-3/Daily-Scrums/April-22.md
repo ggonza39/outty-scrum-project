@@ -26,7 +26,8 @@ US7] [UI/UX] Task 4: Create "Push Notification" alerts and an in-app "Unread Bad
 - Connected discover to profile to chat navigation with consistent conversation IDs
 
 **Anthony Nguyen:**  
-- 
+- Checking off the remaining  acceptance criteria for Sprint 7
+- Double-checking for any bugs or missing features that are restricting the completion of our User Stories.
 
 **Gilberto Gonzalez:**  
 - Conducted a comprehensive review of sub-tasks for the active User Story 7 to ensure alignment with the Definition of Done.
@@ -51,7 +52,8 @@ US7] [UI/UX] Task 4: Create "Push Notification" alerts and an in-app "Unread Bad
 - Fully wire US7 Tasks 10-12 (typing indicators, inbox query, notifications) once backend is finalized
 
 **Anthony Nguyen:**  
-- 
+- Report any bugs for each update to the app to fix or to create the missing feature
+- Manage and merge each pull request after reviewing the file changes
 
 **Gilberto Gonzalez:**  
 - Continue polishing any remaining tasks triggered by the final review.
