@@ -60,7 +60,7 @@ export default function ConditionalFooter() {
   if (isHomePage) {
     return (
       <div className="fixed bottom-10 left-0 right-0 z-[100] text-center pointer-events-none">
-        <p className="text-white/60 font-bold text-[10px] md:text-xs uppercase tracking-[0.4em] drop-shadow-lg">
+        <p className="text-white/80 font-bold text-[11px] md:text-xs uppercase tracking-[0.45em] drop-shadow-lg">
           Est. 2026 • Built for the Wild
         </p>
       </div>
