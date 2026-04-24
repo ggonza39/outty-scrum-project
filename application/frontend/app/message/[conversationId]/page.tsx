@@ -4,6 +4,13 @@ import Link from 'next/link';
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import MobilePage from '@/components/MobilePage';
+import { getProfileForConversation } from '@/lib/mockMessages';
+import {
+  appendOutgoingStoredMessage,
+  getStoredMessagesForConversation,
+  markStoredConversationAsRead,
+  type StoredMockMessage,
+} from '@/lib/mockMessageStore';
 import {
   createPresenceChannel,
   createTypingChannel,
@@ -29,7 +36,7 @@ type ChatMessage = {
 };
 
 /**
- * Formats timestamps for chat display.
+ * Formats Supabase timestamps for chat display.
  */
 function formatTimestamp(value: string) {
   return new Date(value).toLocaleString([], {
@@ -43,6 +50,12 @@ export default function ConversationPage() {
   const { conversationId } = useParams();
   const conversationKey = conversationId as string;
 
+  /**
+   * Mock conversations use conv-{profileId}.
+   * Real Supabase conversations use UUIDs.
+   */
+  const isMockConversation = conversationKey.startsWith('conv-');
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState('');
   const [currentUserId, setCurrentUserId] = useState('');
@@ -52,6 +65,9 @@ export default function ConversationPage() {
   const [onlineUserIds, setOnlineUserIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
+  const [notificationPermission, setNotificationPermission] = useState<
+    NotificationPermission | 'unsupported'
+  >('default');
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -60,17 +76,135 @@ export default function ConversationPage() {
   );
 
   /**
-   * Load active conversation, messages, realtime, typing, and presence.
+   * Task 12: Request browser notification permission.
    *
    * Gibson test:
-   * - open /message/[conversationId]
-   * - messages should load from Supabase
-   * - unread messages should be marked read
-   * - second browser/tab should receive realtime inserts
-   * - typing indicator should show from another active tab/user
-   * - presence should update online/offline users
+   * - Open a real Supabase conversation
+   * - Browser should request notification permission if still unset
    */
   useEffect(() => {
+    if (typeof window === 'undefined' || !('Notification' in window)) {
+      setNotificationPermission('unsupported');
+      return;
+    }
+
+    setNotificationPermission(Notification.permission);
+
+    const requestPermission = async () => {
+      if (Notification.permission === 'default') {
+        const permission = await Notification.requestPermission();
+        setNotificationPermission(permission);
+      }
+    };
+
+    requestPermission();
+  }, []);
+
+  /**
+   * Task 12: Show notification for incoming realtime messages.
+   *
+   * Rules:
+   * - only real Supabase conversations trigger browser notifications
+   * - only messages from the other user trigger notifications
+   * - notifications only fire when the tab is hidden
+   * - notification click returns user to this chat
+   */
+  const showIncomingMessageNotification = (message: MessageRecord) => {
+    if (
+      typeof window === 'undefined' ||
+      !('Notification' in window) ||
+      notificationPermission !== 'granted' ||
+      document.visibilityState !== 'hidden'
+    ) {
+      return;
+    }
+
+    const notification = new Notification(conversationName || 'New message', {
+      body:
+        message.content.length > 60
+          ? `${message.content.slice(0, 60)}...`
+          : message.content,
+      tag: `outty-message-${conversationKey}`,
+    });
+
+    notification.onclick = () => {
+      window.focus();
+      window.location.href = `/message/${conversationKey}`;
+      notification.close();
+    };
+  };
+
+  /**
+   * MOCK MODE:
+   * Loads browser-backed mock messages for conv-{profileId} routes.
+   *
+   * Gibson test:
+   * - /message/conv-1 should show Maya
+   * - Send message should work
+   * - Return to /message and preview should update
+   */
+  useEffect(() => {
+    if (!isMockConversation) return;
+
+    setIsLoading(true);
+    setLoadError('');
+
+    const profile = getProfileForConversation(conversationKey);
+
+    if (!profile) {
+      setMessages([]);
+      setConversationName('Conversation');
+      setLoadError('Unable to load this demo conversation.');
+      setIsLoading(false);
+      return;
+    }
+
+    markStoredConversationAsRead(conversationKey);
+
+    const storedMessages = getStoredMessagesForConversation(conversationKey);
+
+    setConversationName(profile.name);
+    setRecipientId(profile.id);
+    setCurrentUserId('mock-current-user');
+
+    setMessages(
+      storedMessages.map((message: StoredMockMessage) => ({
+        id: message.id,
+        text: message.text,
+        self: message.sender === 'self',
+        timestamp: message.timestampLabel,
+        read: message.isRead,
+      }))
+    );
+
+    setDraft('');
+    setIsOtherUserTyping(false);
+    setOnlineUserIds([]);
+    setIsLoading(false);
+
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    };
+  }, [conversationKey, isMockConversation]);
+
+  /**
+   * REAL SUPABASE MODE:
+   * Loads real conversation, message history, realtime, typing, and presence.
+   *
+   * Gibson test:
+   * - Open /message/[real UUID]
+   * - Messages load from Supabase
+   * - Sending inserts into Supabase
+   * - Realtime messages appear without refresh
+   * - Typing indicator works across tabs/users
+   * - Presence updates online/offline status
+   * - Notifications appear when tab is hidden
+   */
+  useEffect(() => {
+    if (isMockConversation) return;
+
     let cleanupMessages: (() => void) | undefined;
     let cleanupPresence: (() => void) | undefined;
     let cleanupTyping: (() => void) | undefined;
@@ -83,9 +217,6 @@ export default function ConversationPage() {
         const user = await getCurrentUser();
         setCurrentUserId(user.id);
 
-        /**
-         * Load conversation first so we know the recipient.
-         */
         const { data: conversationData, error: conversationError } =
           await supabase
             .from('conversations')
@@ -104,9 +235,6 @@ export default function ConversationPage() {
 
         setRecipientId(otherUserId);
 
-        /**
-         * Load the other participant's display name.
-         */
         const { data: profileData } = await supabase
           .from('profiles')
           .select('display_name')
@@ -115,9 +243,6 @@ export default function ConversationPage() {
 
         setConversationName(profileData?.display_name || 'Conversation');
 
-        /**
-         * Load message history.
-         */
         const rows = await fetchConversationMessages(conversationKey);
 
         setMessages(
@@ -130,14 +255,8 @@ export default function ConversationPage() {
           }))
         );
 
-        /**
-         * Mark existing incoming messages as read when chat opens.
-         */
         await markConversationAsRead(conversationKey);
 
-        /**
-         * Subscribe to realtime inserts for active conversation.
-         */
         cleanupMessages = subscribeToConversationMessages(
           conversationKey,
           async (message) => {
@@ -162,13 +281,11 @@ export default function ConversationPage() {
 
             if (message.sender_id !== user.id) {
               await markConversationAsRead(conversationKey);
+              showIncomingMessageNotification(message);
             }
           }
         );
 
-        /**
-         * Typing broadcast channel for Task 10.
-         */
         const typing = createTypingChannel(conversationKey, ({ userId }) => {
           if (userId === user.id) return;
 
@@ -186,9 +303,6 @@ export default function ConversationPage() {
         typingChannelRef.current = typing;
         cleanupTyping = typing.cleanup;
 
-        /**
-         * Presence channel for online/offline status.
-         */
         cleanupPresence = createPresenceChannel(
           conversationKey,
           user.id,
@@ -215,10 +329,10 @@ export default function ConversationPage() {
 
       typingChannelRef.current = null;
     };
-  }, [conversationKey]);
+  }, [conversationKey, isMockConversation, notificationPermission]);
 
   /**
-   * Sticky scroll keeps newest activity visible.
+   * Task 9: Sticky scroll keeps newest activity visible.
    */
   useEffect(() => {
     if (!scrollRef.current) return;
@@ -228,10 +342,26 @@ export default function ConversationPage() {
   const typingDots = useMemo(() => '• • •', []);
 
   /**
-   * Sends typing event through Supabase broadcast.
+   * Task 10:
+   * - Mock mode shows a local typing indicator for UI testing
+   * - Real mode sends a Supabase broadcast typing event
    */
   const handleDraftChange = async (value: string) => {
     setDraft(value);
+
+    if (isMockConversation) {
+      setIsOtherUserTyping(true);
+
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+
+      typingTimeoutRef.current = setTimeout(() => {
+        setIsOtherUserTyping(false);
+      }, 3000);
+
+      return;
+    }
 
     if (!currentUserId || !typingChannelRef.current) return;
 
@@ -239,9 +369,10 @@ export default function ConversationPage() {
   };
 
   /**
-   * Sends a message through Supabase.
-   *
-   * Prevents empty strings before insert.
+   * Task 9:
+   * - Blocks empty messages
+   * - Mock mode appends to browser-backed mock store
+   * - Real mode inserts into Supabase
    */
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -249,6 +380,24 @@ export default function ConversationPage() {
     const trimmed = draft.trim();
 
     if (!trimmed) return;
+
+    if (isMockConversation) {
+      const newMessage = appendOutgoingStoredMessage(conversationKey, trimmed);
+
+      setMessages((current) => [
+        ...current,
+        {
+          id: newMessage.id,
+          text: newMessage.text,
+          self: true,
+          timestamp: newMessage.timestampLabel,
+          read: newMessage.isRead,
+        },
+      ]);
+
+      setDraft('');
+      return;
+    }
 
     if (!recipientId) {
       setLoadError('Recipient is not available yet.');
@@ -339,7 +488,11 @@ export default function ConversationPage() {
                   </div>
 
                   <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>
-                    {isOtherUserOnline ? 'Online' : 'Offline'}
+                    {isMockConversation
+                      ? 'Demo conversation'
+                      : isOtherUserOnline
+                      ? 'Online'
+                      : 'Offline'}
                   </div>
                 </div>
               </div>
@@ -372,54 +525,58 @@ export default function ConversationPage() {
                 background: '#f7f7f7',
               }}
             >
-              {messages.map((message) => (
-                <div key={message.id} style={{ marginBottom: 14 }}>
-                  <div
-                    style={{
-                      fontSize: '0.7rem',
-                      color: '#8b8b8b',
-                      marginBottom: 4,
-                      textAlign: message.self ? 'right' : 'left',
-                    }}
-                  >
-                    {message.timestamp}
-                  </div>
-
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: message.self ? 'flex-end' : 'flex-start',
-                    }}
-                  >
+              {messages.length === 0 ? (
+                <p style={{ margin: 0, color: '#6b7280' }}>No messages yet.</p>
+              ) : (
+                messages.map((message) => (
+                  <div key={message.id} style={{ marginBottom: 14 }}>
                     <div
                       style={{
-                        maxWidth: '76%',
-                        padding: '10px 12px',
-                        borderRadius: 8,
-                        background: message.self ? '#f5b22d' : '#049640',
-                        color: message.self ? '#1f1f1f' : '#fff',
-                        fontSize: '0.88rem',
-                        fontWeight: 700,
-                      }}
-                    >
-                      {message.text}
-                    </div>
-                  </div>
-
-                  {message.self && (
-                    <div
-                      style={{
-                        marginTop: 4,
-                        textAlign: 'right',
-                        fontSize: '0.72rem',
+                        fontSize: '0.7rem',
                         color: '#8b8b8b',
+                        marginBottom: 4,
+                        textAlign: message.self ? 'right' : 'left',
                       }}
                     >
-                      {message.read ? 'Read' : 'Sent'}
+                      {message.timestamp}
                     </div>
-                  )}
-                </div>
-              ))}
+
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: message.self ? 'flex-end' : 'flex-start',
+                      }}
+                    >
+                      <div
+                        style={{
+                          maxWidth: '76%',
+                          padding: '10px 12px',
+                          borderRadius: 8,
+                          background: message.self ? '#f5b22d' : '#049640',
+                          color: message.self ? '#1f1f1f' : '#fff',
+                          fontSize: '0.88rem',
+                          fontWeight: 700,
+                        }}
+                      >
+                        {message.text}
+                      </div>
+                    </div>
+
+                    {message.self && (
+                      <div
+                        style={{
+                          marginTop: 4,
+                          textAlign: 'right',
+                          fontSize: '0.72rem',
+                          color: '#8b8b8b',
+                        }}
+                      >
+                        {message.read ? 'Read' : 'Sent'}
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
 
               {isOtherUserTyping && (
                 <div style={{ marginBottom: 10 }}>
