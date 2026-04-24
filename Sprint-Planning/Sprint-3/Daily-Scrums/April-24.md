@@ -61,7 +61,7 @@
  - Real-Time Synchronization Bug: Messages are persisting in the database but the UI fails to trigger an automatic refresh upon receipt.
   
 **Impediment Removal Plan:**  
-  - Gilberto and Gibson are performing a code-diff against the Application-2.0 reference components to identify missing realtime listeners and then, coordinate with Backend and Frontend to implement a surgical fix.
+  - Gilberto and Gibson will perform a code-diff against the Application-2.0 reference components to identify missing realtime listeners and then, coordinate with Backend and Frontend to implement a surgical fix.
   
 **Responsible (if applicable):**  
   - Gilberto, Gibson Garner, Hunter, Takeshia.
