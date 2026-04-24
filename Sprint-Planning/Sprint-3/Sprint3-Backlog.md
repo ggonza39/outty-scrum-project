@@ -60,7 +60,7 @@ Sprint Goal:
 
   - **C. RLS Validation:** Confirm that Supabase Row Level Security prevents INSERT operations into the messages table from users pretending to be someone else.
 
-  - **D. Delete Constraints:** Verify that a user can only "soft delete" their own view of a message and cannot remove it for the other participant.
+  - **D. Payload Integrity & Validation:** Verify that the system correctly handles edge-case message payloads (e.g., empty strings, excessively long text)
 
 
 * **Task 14 (Unit): Real-Time & Logic Test Suite (6 Tests)**
