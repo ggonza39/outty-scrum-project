@@ -49,7 +49,7 @@
 - 
 
 **Gilberto Gonzalez:**  
-- Revise and finalize Task 13 (Security & Privacy) unit test task.
+- Revise and finalize Task 13 (Security & Privacy) unit test D.
   - Lead the technical investigation into the real-time refresh bug using the 2.0 reference architecture.
   - Coordinate with Anthony to ensure all user stories meet the "Definition of Done" before the project deadline.
   
