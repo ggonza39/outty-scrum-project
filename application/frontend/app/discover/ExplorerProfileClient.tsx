@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import MobilePage from "@/components/MobilePage";
+import { getConversationIdForProfile } from "@/lib/mockMessages";
 
 type ExplorerProfile = {
   id: string;
@@ -18,46 +20,27 @@ type Props = {
   profileId: string;
 };
 
-function fallbackCopyTextToClipboard(text: string) {
-  const textArea = document.createElement("textarea");
-  textArea.value = text;
-  textArea.setAttribute("readonly", "");
-  textArea.style.position = "fixed";
-  textArea.style.opacity = "0";
-  textArea.style.left = "-9999px";
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
-
-  let successful = false;
-
-  try {
-    successful = document.execCommand("copy");
-  } catch {
-    successful = false;
-  }
-
-  document.body.removeChild(textArea);
-  return successful;
-}
-
-async function copyToClipboard(text: string) {
-  if (navigator.clipboard && window.isSecureContext) {
-    await navigator.clipboard.writeText(text);
-    return true;
-  }
-
-  return fallbackCopyTextToClipboard(text);
-}
-
 export default function ExplorerProfileClient({ profileId }: Props) {
   const router = useRouter();
-  const [profile, setProfile] = useState<ExplorerProfile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [shareMessage, setShareMessage] = useState("");
-  const [shareType, setShareType] = useState<"success" | "error">("success");
-  const [imageError, setImageError] = useState(false); // ✅ NEW
 
+  // Holds the selected explorer profile returned from the API route.
+  const [profile, setProfile] = useState<ExplorerProfile | null>(null);
+
+  // Loading state for profile fetch.
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fallback state if the image cannot be displayed.
+  const [imageError, setImageError] = useState(false);
+
+  /**
+   * Load the explorer profile by route ID.
+   *
+   * Gibson test:
+   * - open a valid discover profile
+   * - confirm the correct person loads
+   * - open an invalid profile route
+   * - confirm "Profile not found" displays
+   */
   useEffect(() => {
     const loadProfile = async () => {
       try {
@@ -67,7 +50,6 @@ export default function ExplorerProfileClient({ profileId }: Props) {
 
         if (!response.ok) {
           setProfile(null);
-          setIsLoading(false);
           return;
         }
 
@@ -83,83 +65,37 @@ export default function ExplorerProfileClient({ profileId }: Props) {
     loadProfile();
   }, [profileId]);
 
+  /**
+   * Returns the user back to the discover page.
+   */
   const handleBack = () => {
-    //if (window.history.length > 1) {
-    //  router.back();
-    //  return;
-    //}
-
-    //Removed back redirect and instead hard code redirect to /discover
     router.push("/discover");
   };
 
-  const handleShare = async () => {
-    const url = window.location.href;
-
-    try {
-      const copied = await copyToClipboard(url);
-
-      if (!copied) {
-        throw new Error("Copy failed");
-      }
-
-      setShareType("success");
-      setShareMessage("Profile link copied.");
-    } catch {
-      setShareType("error");
-      setShareMessage("Unable to copy profile link.");
-    }
-
-    setTimeout(() => {
-      setShareMessage("");
-    }, 2000);
-  };
+  /**
+   * Shared conversation route helper.
+   *
+   * IMPORTANT:
+   * This keeps the profile page aligned with:
+   * - app/message/page.tsx
+   * - app/message/[conversationId]/page.tsx
+   * - lib/mockMessages.ts
+   *
+   * Gibson test:
+   * - Maya profile should route to /message/conv-1
+   * - Jordan profile should route to /message/conv-2
+   * - Avery profile should route to /message/conv-3
+   */
+  const conversationId = profile
+    ? getConversationIdForProfile(profile.id)
+    : "";
 
   if (isLoading) {
     return (
       <MobilePage>
         <main className="content">
           <section className="card" style={{ padding: 16 }}>
-            <style>{`
-              @keyframes shimmer {
-                0% { background-position: -400px 0; }
-                100% { background-position: 400px 0; }
-              }
-              .shimmer {
-                background: linear-gradient(
-                  90deg,
-                  #f3f4f6 25%,
-                  #e5e7eb 50%,
-                  #f3f4f6 75%
-                );
-                background-size: 800px 100%;
-                animation: shimmer 1.3s infinite linear;
-              }
-            `}</style>
-
-            <div style={{ display: "flex", gap: 12, marginBottom: 20 }}>
-              <div className="shimmer" style={{ width: 90, height: 40, borderRadius: 999 }} />
-              <div className="shimmer" style={{ width: 140, height: 40, borderRadius: 999 }} />
-            </div>
-
-            <div className="center" style={{ flexDirection: "column", gap: 16 }}>
-              <div className="shimmer" style={{ width: 120, height: 120, borderRadius: "50%" }} />
-
-              <div style={{ width: "100%", maxWidth: 320 }}>
-                <div className="shimmer" style={{ width: "65%", height: 28, borderRadius: 8, marginBottom: 10 }} />
-                <div className="shimmer" style={{ width: "35%", height: 18, borderRadius: 8, marginBottom: 16 }} />
-
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
-                  <div className="shimmer" style={{ width: 80, height: 32, borderRadius: 999 }} />
-                  <div className="shimmer" style={{ width: 90, height: 32, borderRadius: 999 }} />
-                  <div className="shimmer" style={{ width: 75, height: 32, borderRadius: 999 }} />
-                </div>
-
-                <div className="shimmer" style={{ width: "100%", height: 18, borderRadius: 8, marginBottom: 10 }} />
-                <div className="shimmer" style={{ width: "88%", height: 18, borderRadius: 8, marginBottom: 10 }} />
-                <div className="shimmer" style={{ width: "78%", height: 18, borderRadius: 8 }} />
-              </div>
-            </div>
+            <p style={{ margin: 0 }}>Loading profile...</p>
           </section>
         </main>
       </MobilePage>
@@ -173,8 +109,11 @@ export default function ExplorerProfileClient({ profileId }: Props) {
           <section className="card center" style={{ minHeight: 220 }}>
             <div>
               <h2 className="section-title">Profile not found</h2>
-              <p className="subtle">We could not find that explorer profile.</p>
-              <button onClick={handleBack} className="btn" style={{ marginTop: 16 }}>
+              <button
+                onClick={handleBack}
+                className="btn"
+                style={{ marginTop: 16 }}
+              >
                 Back to Discover
               </button>
             </div>
@@ -187,82 +126,121 @@ export default function ExplorerProfileClient({ profileId }: Props) {
   return (
     <MobilePage>
       <main className="content">
-        <section className="card" style={{ padding: 16 }}>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
-            <button onClick={handleBack} className="btn-secondary">
-              Back
-            </button>
-
-            <button onClick={handleShare} className="btn-secondary">
-              🔗 Share Profile
+        <section
+          className="card"
+          style={{
+            padding: 0,
+            overflow: "hidden",
+          }}
+        >
+          {/* Back button */}
+          <div style={{ padding: "12px 14px 0" }}>
+            <button
+              onClick={handleBack}
+              style={{
+                border: "none",
+                background: "transparent",
+                color: "#8a8a8a",
+                fontSize: "0.85rem",
+                cursor: "pointer",
+                padding: 0,
+              }}
+            >
+              &lt; Back to discovery
             </button>
           </div>
 
-          {shareMessage && (
-            <div
-              style={{
-                marginBottom: 16,
-                padding: "10px 14px",
-                borderRadius: 12,
-                backgroundColor: shareType === "success" ? "#dcfce7" : "#fee2e2",
-                color: shareType === "success" ? "#166534" : "#991b1b",
-                fontWeight: 600,
-              }}
-            >
-              {shareMessage}
-            </div>
-          )}
+          {/* Large explorer image */}
+          <div
+            style={{
+              width: "100%",
+              height: 360,
+              backgroundColor: "#e5e7eb",
+              overflow: "hidden",
+            }}
+          >
+            {profile.image && !imageError ? (
+              <img
+                src={profile.image}
+                alt={profile.name}
+                onError={() => setImageError(true)}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+            ) : (
+              <div
+                className="center"
+                style={{
+                  height: "100%",
+                  fontWeight: 600,
+                  color: "#6b7280",
+                }}
+              >
+                No Photo
+              </div>
+            )}
+          </div>
 
-          <div className="center" style={{ flexDirection: "column", gap: 16 }}>
-            {/* ✅ FIXED IMAGE SECTION */}
-            <div
+          {/* Send Message button */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "16px 0",
+            }}
+          >
+            <Link
+              href={`/message/${conversationId}`}
               style={{
-                width: 120,
-                height: 120,
-                borderRadius: "50%",
-                overflow: "hidden",
-                backgroundColor: "#e5e7eb",
-                display: "flex",
+                display: "inline-flex",
                 alignItems: "center",
-                justifyContent: "center",
+                gap: 8,
+                border: "2px solid #9b4f3a",
+                borderRadius: 999,
+                padding: "10px 18px",
+                background: "#fff",
+                color: "#8b4633",
+                fontWeight: 700,
+                textDecoration: "none",
               }}
             >
-              {profile.image && !imageError ? (
-                <img
-                  src={profile.image}
-                  alt={profile.name}
-                  onError={() => setImageError(true)}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-              ) : (
-                <span style={{ color: "#6b7280", fontSize: "0.8rem", fontWeight: 600 }}>
-                  No Photo
-                </span>
-              )}
-            </div>
+              Send Message ✉
+            </Link>
+          </div>
 
-            <div style={{ width: "100%", maxWidth: 320 }}>
-              <h2 className="section-title">{profile.name}, {profile.age}</h2>
-              <p className="subtle">@{profile.username}</p>
+          {/* Explorer profile details */}
+          <div style={{ padding: "0 16px 18px" }}>
+            <h2 className="section-title">
+              {profile.name}, {profile.age}
+            </h2>
 
-              <section>
-                <h3 className="section-title">Adventure Tags</h3>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {profile.tags.map((tag) => (
-                    <span key={tag} className="pill selected">{tag}</span>
-                  ))}
-                </div>
-              </section>
+            {/* Bio section */}
+            <section style={{ marginBottom: 16 }}>
+              <h3 className="section-title">Bio</h3>
+              <p className="subtle">{profile.bio}</p>
+            </section>
 
-              <section>
-                <h3 className="section-title">Bio</h3>
-                <p className="subtle">{profile.bio}</p>
-              </section>
-            </div>
+            {/* Skill level placeholder for UI completeness */}
+            <section style={{ marginBottom: 16 }}>
+              <h3 className="section-title">Skill Level</h3>
+              <span className="pill selected">Intermediate</span>
+            </section>
+
+            {/* Adventure tags */}
+            <section>
+              <h3 className="section-title">Adventure Activities</h3>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {profile.tags.map((tag) => (
+                  <span key={tag} className="pill selected">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </section>
           </div>
         </section>
       </main>
