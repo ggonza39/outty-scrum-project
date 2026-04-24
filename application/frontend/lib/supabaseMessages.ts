@@ -345,8 +345,11 @@ export function createPresenceChannel(
 
       const users = Object.values(state)
         .flat()
-        .map((entry) => entry.user_id)
-        .filter(Boolean) as string[];
+        .map((entry) => {
+          const presenceEntry = entry as { user_id?: string };
+          return presenceEntry.user_id;
+        })
+        .filter((userId): userId is string => Boolean(userId));
 
       onPresenceChange([...new Set(users)]);
     })
