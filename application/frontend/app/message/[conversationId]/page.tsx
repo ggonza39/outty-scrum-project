@@ -25,7 +25,6 @@ import {
   getCurrentUser,
   markConversationAsRead,
   sendConversationMessage,
-  subscribeToConversationMessages,
   type ConversationRecord,
   type MessageRecord,
 } from '@/lib/supabaseMessages';
@@ -292,36 +291,53 @@ export default function ConversationPage() {
         // Mark incoming unread messages as read when the thread opens.
         await markConversationAsRead(conversationKey);
 
-        // Subscribe to realtime INSERT events for this conversation.
-        cleanupMessages = subscribeToConversationMessages(
-          conversationKey,
-          async (message) => {
-            setMessages((current) => {
-              const alreadyExists = current.some(
-                (currentMessage) => currentMessage.id === message.id
-              );
-
-              if (alreadyExists) return current;
-
-              return [
-                ...current,
-                {
-                  id: message.id,
-                  text: message.content,
-                  self: message.sender_id === user.id,
-                  timestamp: formatTimestamp(message.created_at),
-                  read: message.is_read,
-                },
-              ];
-            });
-
-            if (message.sender_id !== user.id) {
-              await markConversationAsRead(conversationKey);
-              showIncomingMessageNotification(message);
+        // Subscribe to realtime INSERT events using direct Supabase channel
+        const channel = supabase
+          .channel(`messages-${conversationKey}`)
+          .on(
+            'postgres_changes',
+            {
+              event: 'INSERT',
+              schema: 'public',
+              table: 'messages',
+              filter: `conversation_id=eq.${conversationKey}`,
+            },
+            async (payload) => {
+              const message = payload.new as MessageRecord;
+        
+              console.log('Realtime message received:', message);
+        
+              setMessages((current) => {
+                const alreadyExists = current.some(
+                  (currentMessage) => currentMessage.id === message.id
+                );
+        
+                if (alreadyExists) return current;
+        
+                return [
+                  ...current,
+                  {
+                    id: message.id,
+                    text: message.content,
+                    self: message.sender_id === user.id,
+                    timestamp: formatTimestamp(message.created_at),
+                    read: message.is_read,
+                  },
+                ];
+              });
+        
+              if (message.sender_id !== user.id) {
+                await markConversationAsRead(conversationKey);
+                showIncomingMessageNotification(message);
+              }
             }
-          }
-        );
-
+          )
+          .subscribe();
+        
+        // cleanup
+        cleanupMessages = () => {
+          supabase.removeChannel(channel);
+        };
         // Typing broadcast channel for Task 10.
         const typing = createTypingChannel(conversationKey, ({ userId }) => {
           if (userId === user.id) return;
@@ -450,7 +466,32 @@ export default function ConversationPage() {
     }
 
     try {
-      await sendConversationMessage(conversationKey, recipientId, trimmed);
+      const insertedMessage = await sendConversationMessage(
+        conversationKey,
+        recipientId,
+        trimmed
+      );
+    
+      // Optimistic UI update (shows message immediately for sender)
+      setMessages((current) => {
+        const alreadyExists = current.some(
+          (message) => message.id === insertedMessage.id
+        );
+    
+        if (alreadyExists) return current;
+    
+        return [
+          ...current,
+          {
+            id: insertedMessage.id,
+            text: insertedMessage.content,
+            self: true,
+            timestamp: formatTimestamp(insertedMessage.created_at),
+            read: insertedMessage.is_read,
+          },
+        ];
+      });
+    
       setDraft('');
     } catch (error) {
       console.error('Error sending message:', error);
