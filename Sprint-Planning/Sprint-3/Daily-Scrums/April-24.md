@@ -25,7 +25,9 @@
 - 
 
 **Gilberto Gonzalez:**  
-- 
+- Conducted documentation audit and submission prep.
+  - Refined final presentation slides for logical flow and technical narrative.
+  - Collaborated with Gibson to troubleshoot Task 13 security testing constraints.
 
 ---
 
@@ -47,19 +49,21 @@
 - 
 
 **Gilberto Gonzalez:**  
-- 
+- Revise and finalize Task 13 (Security & Privacy) unit test task.
+  - Lead the technical investigation into the real-time refresh bug using the 2.0 reference architecture.
+  - Coordinate with Anthony to ensure all user stories meet the "Definition of Done" before the project deadline.
   
 ---
 
 ## 3. Impediments
 
 **Identified Impediment:**  
- - None at this time.
+ - Real-Time Synchronization Bug: Messages are persisting in the database but the UI fails to trigger an automatic refresh upon receipt.
   
 **Impediment Removal Plan:**  
-  - N/A
+  - Gilberto and Gibson are performing a code-diff against the Application-2.0 reference components to identify missing realtime listeners and then, coordinate with Backend and Frontend to implement a surgical fix.
   
 **Responsible (if applicable):**  
-  - N/A
+  - Gilberto, Gibson Garner, Hunter, Takeshia.
 
 ---
