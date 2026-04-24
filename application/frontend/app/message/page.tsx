@@ -20,6 +20,7 @@ type InboxDisplayRow = {
   conversationId: string;
   displayName: string;
   avatarLabel: string;
+  avatarUrl?: string;
   preview: string;
   unreadCount: number;
   source: 'supabase' | 'mock';
@@ -66,6 +67,7 @@ export default function MessagePage() {
       conversationId: conversation.conversationId,
       displayName: conversation.name,
       avatarLabel: conversation.name.charAt(0),
+      avatarUrl: conversation.avatar,
       preview: conversation.preview || 'No messages yet.',
       unreadCount: conversation.unreadCount,
       source: 'mock',
@@ -203,7 +205,20 @@ export default function MessagePage() {
                       fontWeight: 800,
                     }}
                   >
-                    {conversation.avatarLabel}
+                    {conversation.avatarUrl ? (
+                      <img
+                        src={conversation.avatarUrl}
+                        alt={conversation.displayName}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
+                      />
+                    ) : (
+                      conversation.avatarLabel
+                    )}
                   </div>
 
                   {/* Name + latest message preview */}
