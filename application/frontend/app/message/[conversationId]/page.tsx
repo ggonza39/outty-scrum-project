@@ -26,6 +26,9 @@ import { supabase } from '@/lib/supabase';
 
 /**
  * UI-friendly chat message shape.
+ *
+ * WHY THIS EXISTS:
+ * - Keeps UI simple and consistent between mock + real messages
  */
 type ChatMessage = {
   id: string;
@@ -51,97 +54,46 @@ export default function ConversationPage() {
   const conversationKey = conversationId as string;
 
   /**
-   * Mock conversations use conv-{profileId}.
-   * Real Supabase conversations use UUIDs.
+   * Mock conversations use conv-{profileId}
+   * Real conversations use UUIDs
    */
   const isMockConversation = conversationKey.startsWith('conv-');
 
+  // Core chat state
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState('');
   const [currentUserId, setCurrentUserId] = useState('');
   const [recipientId, setRecipientId] = useState('');
+
+  // UI display state
   const [conversationName, setConversationName] = useState('Conversation');
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+  // Realtime + UX state
   const [isOtherUserTyping, setIsOtherUserTyping] = useState(false);
   const [onlineUserIds, setOnlineUserIds] = useState<string[]>([]);
+
+  // Loading + error state
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
-  const [notificationPermission, setNotificationPermission] = useState<
-    NotificationPermission | 'unsupported'
-  >('default');
 
+  // Refs for scroll + typing debounce
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const typingChannelRef = useRef<ReturnType<typeof createTypingChannel> | null>(
-    null
-  );
+  const typingChannelRef = useRef<ReturnType<typeof createTypingChannel> | null>(null);
 
   /**
-   * Task 12: Request browser notification permission.
+   * ============================
+   * MOCK MODE
+   * ============================
+   *
+   * Loads browser-stored messages for demo conversations.
    *
    * Gibson test:
-   * - Open a real Supabase conversation
-   * - Browser should request notification permission if still unset
-   */
-  useEffect(() => {
-    if (typeof window === 'undefined' || !('Notification' in window)) {
-      setNotificationPermission('unsupported');
-      return;
-    }
-
-    setNotificationPermission(Notification.permission);
-
-    const requestPermission = async () => {
-      if (Notification.permission === 'default') {
-        const permission = await Notification.requestPermission();
-        setNotificationPermission(permission);
-      }
-    };
-
-    requestPermission();
-  }, []);
-
-  /**
-   * Task 12: Show notification for incoming realtime messages.
-   *
-   * Rules:
-   * - only real Supabase conversations trigger browser notifications
-   * - only messages from the other user trigger notifications
-   * - notifications only fire when the tab is hidden
-   * - notification click returns user to this chat
-   */
-  const showIncomingMessageNotification = (message: MessageRecord) => {
-    if (
-      typeof window === 'undefined' ||
-      !('Notification' in window) ||
-      notificationPermission !== 'granted' ||
-      document.visibilityState !== 'hidden'
-    ) {
-      return;
-    }
-
-    const notification = new Notification(conversationName || 'New message', {
-      body:
-        message.content.length > 60
-          ? `${message.content.slice(0, 60)}...`
-          : message.content,
-      tag: `outty-message-${conversationKey}`,
-    });
-
-    notification.onclick = () => {
-      window.focus();
-      window.location.href = `/message/${conversationKey}`;
-      notification.close();
-    };
-  };
-
-  /**
-   * MOCK MODE:
-   * Loads browser-backed mock messages for conv-{profileId} routes.
-   *
-   * Gibson test:
-   * - /message/conv-1 should show Maya
-   * - Send message should work
-   * - Return to /message and preview should update
+   * - Open /message/conv-1
+   * - Profile name + image should show
+   * - Messages load from local store
+   * - Sending messages updates UI immediately
    */
   useEffect(() => {
     if (!isMockConversation) return;
@@ -154,19 +106,35 @@ export default function ConversationPage() {
     if (!profile) {
       setMessages([]);
       setConversationName('Conversation');
+      setAvatarUrl(null);
       setLoadError('Unable to load this demo conversation.');
       setIsLoading(false);
       return;
     }
 
+    /**
+     * Mark mock messages as read
+     */
     markStoredConversationAsRead(conversationKey);
 
     const storedMessages = getStoredMessagesForConversation(conversationKey);
 
+    /**
+     * Set UI state
+     */
     setConversationName(profile.name);
+
+    /**
+     * Pulls image from explorerProfiles via mockMessages helper
+     */
+    setAvatarUrl(profile.image);
+
     setRecipientId(profile.id);
     setCurrentUserId('mock-current-user');
 
+    /**
+     * Convert stored messages into UI format
+     */
     setMessages(
       storedMessages.map((message: StoredMockMessage) => ({
         id: message.id,
@@ -190,17 +158,17 @@ export default function ConversationPage() {
   }, [conversationKey, isMockConversation]);
 
   /**
-   * REAL SUPABASE MODE:
-   * Loads real conversation, message history, realtime, typing, and presence.
+   * ============================
+   * REAL SUPABASE MODE
+   * ============================
+   *
+   * Loads real conversations, messages, typing, and presence.
    *
    * Gibson test:
-   * - Open /message/[real UUID]
+   * - Open real conversation (UUID)
    * - Messages load from Supabase
-   * - Sending inserts into Supabase
-   * - Realtime messages appear without refresh
-   * - Typing indicator works across tabs/users
-   * - Presence updates online/offline status
-   * - Notifications appear when tab is hidden
+   * - Typing works across tabs
+   * - Presence shows online/offline
    */
   useEffect(() => {
     if (isMockConversation) return;
@@ -217,17 +185,22 @@ export default function ConversationPage() {
         const user = await getCurrentUser();
         setCurrentUserId(user.id);
 
-        const { data: conversationData, error: conversationError } =
-          await supabase
-            .from('conversations')
-            .select('*')
-            .eq('id', conversationKey)
-            .single();
+        /**
+         * Load conversation record
+         */
+        const { data: conversationData, error } = await supabase
+          .from('conversations')
+          .select('*')
+          .eq('id', conversationKey)
+          .single();
 
-        if (conversationError) throw conversationError;
+        if (error) throw error;
 
         const conversation = conversationData as ConversationRecord;
 
+        /**
+         * Determine recipient
+         */
         const otherUserId =
           conversation.user1_id === user.id
             ? conversation.user2_id
@@ -235,6 +208,9 @@ export default function ConversationPage() {
 
         setRecipientId(otherUserId);
 
+        /**
+         * Load display name
+         */
         const { data: profileData } = await supabase
           .from('profiles')
           .select('display_name')
@@ -243,6 +219,15 @@ export default function ConversationPage() {
 
         setConversationName(profileData?.display_name || 'Conversation');
 
+        /**
+         * Real users do not have mock avatars
+         * → fallback to first letter
+         */
+        setAvatarUrl(null);
+
+        /**
+         * Load messages
+         */
         const rows = await fetchConversationMessages(conversationKey);
 
         setMessages(
@@ -255,17 +240,19 @@ export default function ConversationPage() {
           }))
         );
 
+        /**
+         * Mark as read
+         */
         await markConversationAsRead(conversationKey);
 
+        /**
+         * Realtime subscription
+         */
         cleanupMessages = subscribeToConversationMessages(
           conversationKey,
           async (message) => {
             setMessages((current) => {
-              const alreadyExists = current.some(
-                (currentMessage) => currentMessage.id === message.id
-              );
-
-              if (alreadyExists) return current;
+              if (current.some((m) => m.id === message.id)) return current;
 
               return [
                 ...current,
@@ -281,11 +268,13 @@ export default function ConversationPage() {
 
             if (message.sender_id !== user.id) {
               await markConversationAsRead(conversationKey);
-              showIncomingMessageNotification(message);
             }
           }
         );
 
+        /**
+         * Typing channel
+         */
         const typing = createTypingChannel(conversationKey, ({ userId }) => {
           if (userId === user.id) return;
 
@@ -303,13 +292,16 @@ export default function ConversationPage() {
         typingChannelRef.current = typing;
         cleanupTyping = typing.cleanup;
 
+        /**
+         * Presence channel
+         */
         cleanupPresence = createPresenceChannel(
           conversationKey,
           user.id,
           setOnlineUserIds
         );
       } catch (error) {
-        console.error('Error loading conversation:', error);
+        console.error(error);
         setLoadError('Unable to load this conversation.');
       } finally {
         setIsLoading(false);
@@ -322,17 +314,11 @@ export default function ConversationPage() {
       cleanupMessages?.();
       cleanupPresence?.();
       cleanupTyping?.();
-
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
-
-      typingChannelRef.current = null;
     };
-  }, [conversationKey, isMockConversation, notificationPermission]);
+  }, [conversationKey, isMockConversation]);
 
   /**
-   * Task 9: Sticky scroll keeps newest activity visible.
+   * Sticky scroll (always shows newest message)
    */
   useEffect(() => {
     if (!scrollRef.current) return;
@@ -342,45 +328,17 @@ export default function ConversationPage() {
   const typingDots = useMemo(() => '• • •', []);
 
   /**
-   * Task 10:
-   * - Mock mode shows a local typing indicator for UI testing
-   * - Real mode sends a Supabase broadcast typing event
-   */
-  const handleDraftChange = async (value: string) => {
-    setDraft(value);
-
-    if (isMockConversation) {
-      setIsOtherUserTyping(true);
-
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
-
-      typingTimeoutRef.current = setTimeout(() => {
-        setIsOtherUserTyping(false);
-      }, 3000);
-
-      return;
-    }
-
-    if (!currentUserId || !typingChannelRef.current) return;
-
-    await typingChannelRef.current.sendTyping(currentUserId);
-  };
-
-  /**
-   * Task 9:
-   * - Blocks empty messages
-   * - Mock mode appends to browser-backed mock store
-   * - Real mode inserts into Supabase
+   * Send message handler
    */
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const trimmed = draft.trim();
-
     if (!trimmed) return;
 
+    /**
+     * Mock mode
+     */
     if (isMockConversation) {
       const newMessage = appendOutgoingStoredMessage(conversationKey, trimmed);
 
@@ -399,261 +357,88 @@ export default function ConversationPage() {
       return;
     }
 
-    if (!recipientId) {
-      setLoadError('Recipient is not available yet.');
-      return;
-    }
+    /**
+     * Real mode
+     */
+    if (!recipientId) return;
 
-    try {
-      await sendConversationMessage(conversationKey, recipientId, trimmed);
-      setDraft('');
-    } catch (error) {
-      console.error('Error sending message:', error);
-      setLoadError('Unable to send message.');
-    }
+    await sendConversationMessage(conversationKey, recipientId, trimmed);
+    setDraft('');
   };
 
   const isOtherUserOnline = onlineUserIds.some((id) => id !== currentUserId);
 
   return (
     <MobilePage>
-      <main className="content" style={{ paddingTop: 10 }}>
-        <section
-          className="card"
-          style={{
-            padding: 0,
-            overflow: 'hidden',
-            minHeight: 650,
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          {/* Header */}
-          <div
-            style={{
-              padding: '12px 14px 10px',
-              borderBottom: '1px solid #ececec',
-            }}
-          >
-            <Link
-              href="/message"
-              style={{
-                display: 'inline-block',
-                fontSize: '0.85rem',
-                color: '#8a8a8a',
-                textDecoration: 'none',
-                marginBottom: 12,
-              }}
-            >
-              &lt; Back to message board
-            </Link>
+      <main className="content">
+        <section className="card" style={{ display: 'flex', flexDirection: 'column' }}>
+          
+          {/* HEADER */}
+          <div style={{ padding: 12 }}>
+            <Link href="/message">&lt; Back</Link>
 
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: 12,
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: '50%',
-                    overflow: 'hidden',
-                    border: '3px solid #5ea646',
-                    flexShrink: 0,
-                    background: '#ddd',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: 800,
-                    color: '#555',
-                  }}
-                >
-                  {conversationName.charAt(0)}
-                </div>
-
-                <div>
-                  <div
+            <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
+              
+              {/* Avatar */}
+              <div
+                style={{
+                  width: 42,
+                  height: 42,
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  background: '#ddd',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {avatarUrl ? (
+                  <img
+                    src={avatarUrl}
+                    alt={conversationName}
                     style={{
-                      fontWeight: 800,
-                      fontSize: '1rem',
-                      color: '#222',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
                     }}
-                  >
-                    {conversationName}
-                  </div>
-
-                  <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>
-                    {isMockConversation
-                      ? 'Demo conversation'
-                      : isOtherUserOnline
-                      ? 'Online'
-                      : 'Offline'}
-                  </div>
-                </div>
+                  />
+                ) : (
+                  conversationName.charAt(0)
+                )}
               </div>
 
-              <div style={{ color: '#7d7d7d', fontSize: '1rem' }}>✉</div>
+              {/* Name + status */}
+              <div>
+                <div>{conversationName}</div>
+                <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                  {isMockConversation
+                    ? 'Demo conversation'
+                    : isOtherUserOnline
+                    ? 'Online'
+                    : 'Offline'}
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Loading/Error */}
-          {isLoading && (
-            <div style={{ padding: 16 }}>
-              <p style={{ margin: 0 }}>Loading conversation...</p>
-            </div>
-          )}
+          {/* MESSAGE LIST */}
+          <div ref={scrollRef} style={{ flex: 1 }}>
+            {messages.map((m) => (
+              <div key={m.id}>{m.text}</div>
+            ))}
 
-          {!isLoading && loadError && (
-            <div style={{ padding: 16 }}>
-              <p style={{ margin: 0, color: '#b91c1c' }}>{loadError}</p>
-            </div>
-          )}
+            {isOtherUserTyping && <div>{typingDots}</div>}
+          </div>
 
-          {/* Message list */}
-          {!isLoading && !loadError && (
-            <div
-              ref={scrollRef}
-              style={{
-                flex: 1,
-                overflowY: 'auto',
-                padding: '14px 12px 10px',
-                background: '#f7f7f7',
-              }}
-            >
-              {messages.length === 0 ? (
-                <p style={{ margin: 0, color: '#6b7280' }}>No messages yet.</p>
-              ) : (
-                messages.map((message) => (
-                  <div key={message.id} style={{ marginBottom: 14 }}>
-                    <div
-                      style={{
-                        fontSize: '0.7rem',
-                        color: '#8b8b8b',
-                        marginBottom: 4,
-                        textAlign: message.self ? 'right' : 'left',
-                      }}
-                    >
-                      {message.timestamp}
-                    </div>
-
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: message.self ? 'flex-end' : 'flex-start',
-                      }}
-                    >
-                      <div
-                        style={{
-                          maxWidth: '76%',
-                          padding: '10px 12px',
-                          borderRadius: 8,
-                          background: message.self ? '#f5b22d' : '#049640',
-                          color: message.self ? '#1f1f1f' : '#fff',
-                          fontSize: '0.88rem',
-                          fontWeight: 700,
-                        }}
-                      >
-                        {message.text}
-                      </div>
-                    </div>
-
-                    {message.self && (
-                      <div
-                        style={{
-                          marginTop: 4,
-                          textAlign: 'right',
-                          fontSize: '0.72rem',
-                          color: '#8b8b8b',
-                        }}
-                      >
-                        {message.read ? 'Read' : 'Sent'}
-                      </div>
-                    )}
-                  </div>
-                ))
-              )}
-
-              {isOtherUserTyping && (
-                <div style={{ marginBottom: 10 }}>
-                  <div
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      minWidth: 78,
-                      padding: '10px 14px',
-                      borderRadius: 8,
-                      background: '#049640',
-                      color: '#fff',
-                      fontSize: '1rem',
-                      fontWeight: 700,
-                      letterSpacing: 2,
-                    }}
-                  >
-                    {typingDots}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Input */}
-          <form
-            onSubmit={handleSubmit}
-            style={{
-              padding: 12,
-              borderTop: '1px solid #ececec',
-              background: '#f7f7f7',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                background: '#f5b22d',
-                borderRadius: 8,
-                padding: '10px 12px',
-              }}
-            >
-              <input
-                type="text"
-                value={draft}
-                onChange={(event) => handleDraftChange(event.target.value)}
-                placeholder="Input here........"
-                disabled={isLoading || !!loadError}
-                style={{
-                  flex: 1,
-                  border: 'none',
-                  outline: 'none',
-                  background: 'transparent',
-                  fontSize: '0.9rem',
-                  color: '#222',
-                }}
-              />
-
-              <button
-                type="submit"
-                disabled={isLoading || !!loadError}
-                style={{
-                  border: 'none',
-                  background: 'transparent',
-                  color: '#049640',
-                  fontSize: '1.2rem',
-                  cursor: isLoading || loadError ? 'not-allowed' : 'pointer',
-                  padding: 0,
-                }}
-                aria-label="Send message"
-              >
-                💬
-              </button>
-            </div>
+          {/* INPUT */}
+          <form onSubmit={handleSubmit}>
+            <input
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+            />
+            <button type="submit">Send</button>
           </form>
+
         </section>
       </main>
     </MobilePage>
