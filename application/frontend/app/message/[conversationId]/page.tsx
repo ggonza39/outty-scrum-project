@@ -291,7 +291,7 @@ export default function ConversationPage() {
         // Mark incoming unread messages as read when the thread opens.
         await markConversationAsRead(conversationKey);
 
-        // Subscribe to realtime INSERT events using direct Supabase channel
+        // Subscribe to realtime INSERT and update events using direct Supabase channel
         const channel = supabase
           .channel(`messages-${conversationKey}`)
           .on(
@@ -330,6 +330,33 @@ export default function ConversationPage() {
                 await markConversationAsRead(conversationKey);
                 showIncomingMessageNotification(message);
               }
+            }
+          )
+          
+          // UPDATE = read receipt changes
+          .on(
+            'postgres_changes',
+            {
+              event: 'UPDATE',
+              schema: 'public',       
+              table: 'messages',       
+              filter: `conversation_id=eq.${conversationKey}`,        
+            },      
+            (payload) => {       
+              const updatedMessage = payload.new as MessageRecord;
+              
+              console.log('Realtime message updated:', updatedMessage);
+        
+              setMessages((current) =>
+                current.map((message) =>
+                  message.id === updatedMessage.id
+                    ? {
+                        ...message,
+                        read: updatedMessage.is_read,
+                      }
+                    : message
+                )
+              );
             }
           )
           .subscribe();
