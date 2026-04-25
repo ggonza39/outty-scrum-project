@@ -13,7 +13,7 @@ test('Login and logout creates correct cookies. Logout displays correct message.
     await page.getByRole('textbox', { name: 'Password' }).fill('Password1');
     await page.getByRole('button', { name: 'SIGN IN' }).click();
 
-    await page.waitForURL('https://outty-scrum-project.vercel.app/profile-setup');
+    await page.waitForURL('https://outty-scrum-project.vercel.app/discover');
 
     //  2. Verify session cookie exists
     const cookies = await context.cookies();
