@@ -13,7 +13,7 @@
 - 
 
 **Heidi Wilder:**  
-- 
+- Worked on final presentation slides for ux/ui.
 
 **Gibson Garner:**  
 - 
@@ -37,7 +37,7 @@
 - 
 
 **Heidi Wilder:**  
-- 
+- All UX/UI is complete at this time, will remain on standby for any needed support.
 
 **Gibson Garner:**  
 - 
