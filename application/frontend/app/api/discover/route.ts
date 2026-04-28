@@ -122,8 +122,7 @@ export async function GET(request: Request) {
         created_at
       `
       )
-      .neq("id", user.id)
-      .eq("is_searchable", true);
+      .neq("id", user.id);
 
     if (nearbyProfileIds) {
       query = query.in("id", nearbyProfileIds);
