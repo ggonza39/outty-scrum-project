@@ -10,7 +10,8 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Implemented user presence tracking to complete all backend tasks for Sprint 3.
+- Completed the realtime messaging validation.
 
 **Heidi Wilder:**  
 - 
@@ -35,7 +36,7 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Continue to support the team as needed as bugs/inefficiencies are discovered.
 
 **Heidi Wilder:**  
 - 
