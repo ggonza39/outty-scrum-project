@@ -20,19 +20,20 @@ type StatusType = "success" | "error" | "info";
 type GalleryImage = {
   id: number;
   public_url: string;
+  storage_path: string;
   is_primary: boolean;
 };
 
 export const validateFile = (file: File) => {
-    if (!ALLOWED_TYPES.includes(file.type)) {
-        return "Only .jpg, .png, and .webp files are allowed.";
-    }
+  if (!ALLOWED_TYPES.includes(file.type)) {
+    return "Only .jpg, .png, and .webp files are allowed.";
+  }
 
-    if (file.size > MAX_FILE_SIZE) {
-        return "File too large. Maximum size is 5MB.";
-    }
+  if (file.size > MAX_FILE_SIZE) {
+    return "File too large. Maximum size is 5MB.";
+  }
 
-    return null;
+  return null;
 };
 
 export default function ProfilePhotoUploader({
@@ -49,6 +50,12 @@ export default function ProfilePhotoUploader({
   const [statusType, setStatusType] = useState<StatusType>("info");
   const [previewFailed, setPreviewFailed] = useState(false);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+
+  // Tracks the selected gallery photo for delete confirmation.
+  const [selectedPhotoId, setSelectedPhotoId] = useState<number | null>(null);
+
+  // Controls the delete confirmation modal.
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const objectUrlRef = useRef<string | null>(null);
   const statusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -77,9 +84,10 @@ export default function ProfilePhotoUploader({
         if (userError) throw userError;
         if (!user) return;
 
+        // Include storage_path so deleted photos can also be removed from storage.
         const { data, error } = await supabase
           .from("photos")
-          .select("id, public_url, is_primary")
+          .select("id, public_url, storage_path, is_primary")
           .eq("profile_id", user.id)
           .order("created_at", { ascending: false });
 
@@ -106,18 +114,6 @@ export default function ProfilePhotoUploader({
       setStatusMessage("");
     }, 2500);
   };
-
-  //const validateFile = (file: File) => {
-  //  if (!ALLOWED_TYPES.includes(file.type)) {
-  //    return "Only .jpg, .png, and .webp files are allowed.";
-  //  }
-
-  //  if (file.size > MAX_FILE_SIZE) {
-  //    return "File too large. Maximum size is 5MB.";
-  //  }
-
-  //  return null;
-  //};
 
   const clearPreviewObjectUrl = () => {
     if (objectUrlRef.current) {
@@ -194,6 +190,7 @@ export default function ProfilePhotoUploader({
         {
           id: insertedPhoto.id,
           public_url: publicUrl,
+          storage_path: filePath,
           is_primary: true,
         },
         ...prev.map((image) => ({
@@ -264,6 +261,52 @@ export default function ProfilePhotoUploader({
     setPreviewFailed(false);
     clearPreviewObjectUrl();
     updateField("mainPhoto", null);
+  };
+
+  const handleDeletePhoto = async () => {
+    if (selectedPhotoId === null) return;
+
+    const photoToDelete = galleryImages.find(
+      (image) => image.id === selectedPhotoId
+    );
+
+    if (!photoToDelete) return;
+
+    try {
+      setUploadError("");
+      setUploadSuccess("");
+
+      // Remove the file from Supabase Storage.
+      const { error: storageDeleteError } = await supabase.storage
+        .from("profile-galleries")
+        .remove([photoToDelete.storage_path]);
+
+      if (storageDeleteError) throw storageDeleteError;
+
+      // Remove the photo record from the photos table.
+      const { error: deleteError } = await supabase
+        .from("photos")
+        .delete()
+        .eq("id", selectedPhotoId);
+
+      if (deleteError) throw deleteError;
+
+      setGalleryImages((prev) =>
+        prev.filter((image) => image.id !== selectedPhotoId)
+      );
+
+      // If the deleted photo was the active main photo, clear the preview.
+      if (mainPhoto === photoToDelete.public_url) {
+        updateField("mainPhoto", null);
+      }
+
+      setSelectedPhotoId(null);
+      setShowDeleteConfirm(false);
+      showStatus("Photo deleted successfully.", "success");
+    } catch (error) {
+      console.error("Failed to delete photo:", error);
+      showStatus("Failed to delete photo. Please try again.", "error");
+    }
   };
 
   const previewContainerStyle =
@@ -473,6 +516,7 @@ export default function ProfilePhotoUploader({
           >
             {galleryImages.map((image) => {
               const isSelected = mainPhoto === image.public_url;
+              const isMarkedForDelete = selectedPhotoId === image.id;
 
               return (
                 <button
@@ -480,6 +524,7 @@ export default function ProfilePhotoUploader({
                   type="button"
                   onClick={async () => {
                     try {
+                      setSelectedPhotoId(image.id);
                       setUploadError("");
                       setUploadSuccess("");
                       setPreviewFailed(false);
@@ -538,11 +583,14 @@ export default function ProfilePhotoUploader({
                     borderRadius: 16,
                     overflow: "hidden",
                     background: "#f3f4f6",
-                    border: isSelected
+                    border: isMarkedForDelete
+                      ? "3px solid #d90429"
+                      : isSelected
                       ? "3px solid #f5b22d"
                       : "2px solid transparent",
                     padding: 0,
                     cursor: "pointer",
+                    position: "relative",
                   }}
                 >
                   <img
@@ -555,9 +603,106 @@ export default function ProfilePhotoUploader({
                       display: "block",
                     }}
                   />
+
+                  {isMarkedForDelete && (
+                    <span
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        setShowDeleteConfirm(true);
+                      }}
+                      style={{
+                        position: "absolute",
+                        top: 6,
+                        right: 6,
+                        width: 26,
+                        height: 26,
+                        borderRadius: "50%",
+                        background: "#d90429",
+                        color: "#fff",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontWeight: 800,
+                        fontSize: "1rem",
+                      }}
+                      title="Delete photo"
+                      aria-label="Delete photo"
+                    >
+                      ×
+                    </span>
+                  )}
                 </button>
               );
             })}
+          </div>
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Confirm delete photo"
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0, 0, 0, 0.4)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 999,
+            padding: 16,
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 320,
+              background: "#fff",
+              borderRadius: 16,
+              padding: 20,
+              textAlign: "center",
+              boxShadow: "0 12px 30px rgba(0, 0, 0, 0.18)",
+            }}
+          >
+            <p style={{ fontWeight: 800, marginBottom: 8 }}>
+              Delete this photo?
+            </p>
+
+            <p style={{ color: "#666", marginBottom: 18 }}>
+              This will remove the photo from your gallery.
+            </p>
+
+            <div style={{ display: "flex", gap: 10 }}>
+              <button
+                type="button"
+                className="secondary-btn"
+                onClick={() => {
+                  setShowDeleteConfirm(false);
+                  setSelectedPhotoId(null);
+                }}
+                style={{ flex: 1 }}
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                onClick={handleDeletePhoto}
+                style={{
+                  flex: 1,
+                  border: "none",
+                  borderRadius: 999,
+                  padding: "12px 16px",
+                  background: "#d90429",
+                  color: "#fff",
+                  fontWeight: 800,
+                  cursor: "pointer",
+                }}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}
