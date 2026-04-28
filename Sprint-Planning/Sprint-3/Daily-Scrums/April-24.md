@@ -14,7 +14,7 @@
 - Completed the realtime messaging validation.
 
 **Heidi Wilder:**  
-- 
+- Worked on final presentation slides for ux/ui.
 
 **Gibson Garner:**  
 - 
@@ -39,7 +39,7 @@
 - Continue to support the team as needed as bugs/inefficiencies are discovered.
 
 **Heidi Wilder:**  
-- 
+- All UX/UI is complete at this time, will remain on standby for any needed support.
 
 **Gibson Garner:**  
 - 
