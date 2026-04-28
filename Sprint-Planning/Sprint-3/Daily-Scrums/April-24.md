@@ -10,7 +10,8 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Implemented user presence tracking to complete all backend tasks for Sprint 3.
+- Completed the realtime messaging validation.
 
 **Heidi Wilder:**  
 - Worked on final presentation slides for ux/ui.
@@ -19,7 +20,8 @@
 - 
 
 **Takeshia Banks:**  
-- 
+- Complete US7 messaging tasks for the frontend
+- Updated display to match UI wireframe
 
 **Anthony Nguyen:**  
 - 
@@ -34,7 +36,7 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Continue to support the team as needed as bugs/inefficiencies are discovered.
 
 **Heidi Wilder:**  
 - All UX/UI is complete at this time, will remain on standby for any needed support.
@@ -43,7 +45,7 @@
 - 
 
 **Takeshia Banks:**  
-- 
+- Fix issues with realtime messaging for US7.
 
 **Anthony Nguyen:**  
 - 
