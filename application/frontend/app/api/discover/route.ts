@@ -3,7 +3,6 @@
 
 import { NextResponse } from "next/server";
 import { createClient } from "../../../lib/supabase/server";
-import { createAdminClient } from "../../../lib/supabase/admin";
 
 type DiscoverFilters = {
   min_age?: number;
@@ -20,7 +19,7 @@ type DiscoverFilters = {
 export async function GET(request: Request) {
   try {
     const supabase = await createClient();
-    const adminSupabase = createAdminClient();
+    const discoverSupabase = supabase;
 
     const {
       data: { user },
@@ -82,7 +81,7 @@ export async function GET(request: Request) {
 
     if (normalizedFilters.location_data) {
       const { data: nearbyProfiles, error: nearbyError } =
-        await adminSupabase.rpc("get_profiles_within_radius", {
+        await discoverSupabase.rpc("get_profiles_within_radius", {
           search_zip: normalizedFilters.location_data.zip_code,
           radius_miles: normalizedFilters.location_data.distance,
         });
@@ -109,7 +108,7 @@ export async function GET(request: Request) {
       nearbyProfileIds = matchedProfileIds;
     }
 
-    let query = adminSupabase
+    let query = discoverSupabase
       .from("profiles")
       .select(
         `
@@ -170,7 +169,7 @@ export async function GET(request: Request) {
 
     const { data: photos, error: photosError } =
       profileIds.length > 0
-        ? await adminSupabase
+        ? await discoverSupabase
             .from("photos")
             .select("profile_id, public_url, is_primary")
             .in("profile_id", profileIds)
