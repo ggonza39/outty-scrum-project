@@ -1,7 +1,7 @@
 # Sprint 3 – Burndown Chart
 
 ## ZenHub Burndown Link
-https://app.zenhub.com/workspaces/outty-scrum-workspace-69a15c1f78024f000f6d197b/reports/burndown?milestoneId=Z2lkOi8vcmFwdG9yL1NwcmludC80NzA5MjA4&showPRs=false
+https://app.zenhub.com/workspaces/outty-scrum-workspace-69a15c1f78024f000f6d197b/reports/burndown?milestoneId=Z2lkOi8vcmFwdG9yL1NwcmludC80ODEzOTM2&selectedPipelines=Z2lkOi8vcmFwdG9yL1BpcGVsaW5lLzM1NDMyODc&showPRs=false
 
 ## Screenshot
 (Insert screenshot here if required by instructor)
