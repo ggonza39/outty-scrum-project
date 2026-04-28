@@ -109,20 +109,9 @@ export async function GET(request: Request) {
     }
 
     let query = discoverSupabase
-      .from("profiles")
-      .select(
-        `
-        id,
-        display_name,
-        age,
-        bio,
-        interests,
-        gender,
-        skill_level,
-        created_at
-      `
-      )
-      .neq("id", user.id);
+    .from("profiles")
+    .select("*");
+        //.neq("id", user.id);
 
     if (nearbyProfileIds) {
       query = query.in("id", nearbyProfileIds);
