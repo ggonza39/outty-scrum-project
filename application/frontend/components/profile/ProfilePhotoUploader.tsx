@@ -320,8 +320,11 @@ export default function ProfilePhotoUploader({
       setShowDeleteConfirm(false);
       showStatus("Photo deleted successfully.", "success");
     } catch (error) {
-      console.error("Failed to delete photo:", error);
-      showStatus("Failed to delete photo. Please try again.", "error");
+      console.error("DELETE ERROR FULL:", error);
+      showStatus(
+        error?.message || "Failed to delete photo. Please try again.", 
+        "error"
+      );
     }
   };
 
