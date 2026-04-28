@@ -265,41 +265,57 @@ export default function ProfilePhotoUploader({
 
   const handleDeletePhoto = async () => {
     if (selectedPhotoId === null) return;
-
+  
     const photoToDelete = galleryImages.find(
       (image) => image.id === selectedPhotoId
     );
-
+  
     if (!photoToDelete) return;
-
+  
     try {
       setUploadError("");
       setUploadSuccess("");
-
-      // Remove the file from Supabase Storage.
-      const { error: storageDeleteError } = await supabase.storage
-        .from("profile-galleries")
-        .remove([photoToDelete.storage_path]);
-
-      if (storageDeleteError) throw storageDeleteError;
-
-      // Remove the photo record from the photos table.
+  
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+  
+      if (userError) throw userError;
+  
+      if (!user) {
+        throw new Error("You must be signed in to delete a photo.");
+      }
+  
+      // Delete the photo record from the photos table.
       const { error: deleteError } = await supabase
         .from("photos")
         .delete()
-        .eq("id", selectedPhotoId);
-
+        .eq("id", selectedPhotoId)
+        .eq("profile_id", user.id);
+  
       if (deleteError) throw deleteError;
-
+  
+      // Try to remove the file from Supabase Storage.
+      // If storage deletion fails, do not block the UI/database delete.
+      if (photoToDelete.storage_path) {
+        const { error: storageDeleteError } = await supabase.storage
+          .from("profile-galleries")
+          .remove([photoToDelete.storage_path]);
+  
+        if (storageDeleteError) {
+          console.error("Storage delete failed:", storageDeleteError);
+        }
+      }
+  
       setGalleryImages((prev) =>
         prev.filter((image) => image.id !== selectedPhotoId)
       );
-
-      // If the deleted photo was the active main photo, clear the preview.
+  
       if (mainPhoto === photoToDelete.public_url) {
         updateField("mainPhoto", null);
       }
-
+  
       setSelectedPhotoId(null);
       setShowDeleteConfirm(false);
       showStatus("Photo deleted successfully.", "success");
