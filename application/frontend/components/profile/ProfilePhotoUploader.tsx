@@ -294,7 +294,10 @@ export default function ProfilePhotoUploader({
         .eq("id", selectedPhotoId)
         .eq("profile_id", user.id);
   
-      if (deleteError) throw deleteError;
+      if (deleteError) {
+        console.error("DB delete failed:", deleteError);
+        throw deleteError;
+      }
   
       // Try to remove the file from Supabase Storage.
       // If storage deletion fails, do not block the UI/database delete.
@@ -320,11 +323,8 @@ export default function ProfilePhotoUploader({
       setShowDeleteConfirm(false);
       showStatus("Photo deleted successfully.", "success");
     } catch (error) {
-      console.error("DELETE ERROR FULL:", error);
-      showStatus(
-        error?.message || "Failed to delete photo. Please try again.", 
-        "error"
-      );
+      console.error("Failed to delete photo:", error);
+      showStatus("Failed to delete photo. Please try again.", "error");
     }
   };
 
