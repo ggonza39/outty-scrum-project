@@ -20,7 +20,8 @@
 - 
 
 **Takeshia Banks:**  
-- 
+- Complete US7 messaging tasks for the frontend
+- Updated display to match UI wireframe
 
 **Anthony Nguyen:**  
 - 
@@ -44,7 +45,7 @@
 - 
 
 **Takeshia Banks:**  
-- 
+- Fix issues with realtime messaging for US7.
 
 **Anthony Nguyen:**  
 - 
