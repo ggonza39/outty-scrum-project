@@ -50,6 +50,30 @@ function DiscoverPageContent() {
   const [people, setPeople] = useState<Person[]>(initialPeople);
   const [showFilters, setShowFilters] = useState(false);
 
+  useEffect(() => {
+    const loadRealProfiles = async () => {
+      try {
+        const response = await fetch("/api/discover", {
+          cache: "no-store",
+        });
+  
+        if (!response.ok) {
+          return;
+        }
+  
+        const data = await response.json();
+  
+        if (Array.isArray(data.results) && data.results.length > 0) {
+          setPeople(data.results);
+        }
+      } catch (error) {
+        console.error("Failed to load real discover profiles:", error);
+      }
+    };
+  
+    loadRealProfiles();
+  }, []);
+
   const filteredPeople = useMemo(() => {
     return filterPeople(people, filters);
   }, [people, filters]);
