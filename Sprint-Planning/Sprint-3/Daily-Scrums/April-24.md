@@ -24,7 +24,8 @@
 - Updated display to match UI wireframe
 
 **Anthony Nguyen:**  
-- 
+- Conducted a final audit of the Sprint 3 Acceptance Criteria to ensure all functional requirements for the "Outty" discovery engine were met.
+- Double-checking for any bugs or missing features that are restricting the completion of our User Stories.
 
 **Gilberto Gonzalez:**  
 - Conducted documentation audit and submission prep.
@@ -48,7 +49,8 @@
 - Fix issues with realtime messaging for US7.
 
 **Anthony Nguyen:**  
-- 
+- Report any bugs for each update to the app to fix or to create the missing feature
+- Manage and merge each pull request after reviewing the file changes
 
 **Gilberto Gonzalez:**  
 - Revise and finalize Task 13 (Security & Privacy) unit test D.
