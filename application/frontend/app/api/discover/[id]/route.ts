@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import { getExplorerProfileById } from "@/lib/explorerProfiles";
 
 export async function GET(
@@ -7,9 +7,9 @@ export async function GET(
   context: { params: Promise<{ id: string }> }
 ) {
   const { id } = await context.params;
-  const adminSupabase = createAdminClient();
+  const supabase = await createClient();
 
-  const { data: profile, error: profileError } = await adminSupabase
+  const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("id, display_name, age, bio, interests, gender, skill_level")
     .eq("id", id)
@@ -20,7 +20,7 @@ export async function GET(
   }
 
   if (profile) {
-    const { data: photos } = await adminSupabase
+    const { data: photos } = await supabase
       .from("photos")
       .select("public_url, is_primary")
       .eq("profile_id", profile.id)
