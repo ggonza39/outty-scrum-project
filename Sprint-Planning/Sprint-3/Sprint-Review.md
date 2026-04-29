@@ -19,7 +19,6 @@ Brief description of what was demonstrated during the Sprint Review.
 ## Stakeholder Feedback
 - Feedback received
 - Requested adjustments
-- 
 
 ---
 
