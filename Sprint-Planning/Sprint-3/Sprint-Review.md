@@ -8,7 +8,7 @@
 ---
 
 ## Completed Work
-- User Story 7
+- US7 – Send in-app messages – 13 pts
 ---
 
 ## Demonstration Summary
