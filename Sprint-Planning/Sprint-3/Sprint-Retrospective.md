@@ -1,4 +1,6 @@
-# Sprint 3 – Sprint Retrospective
+# Sprint 3 Retrospective
+
+Date: 05-01-2026
 
 ## What Went Well
 
@@ -35,5 +37,4 @@
 ---
 
 ## Action Items for Next Sprint
-- Improve story point calibration
-- Start integration testing earlier
+- N/A
