@@ -1,7 +1,10 @@
-# Sprint 3 Review
+# Sprint 3 Review - May 1-2026
+
+## Recording Link:
+-
 
 ## Sprint Goal
-- 
+- Complete the Outty ecosystem by launching a real-time communication suite, enabling secure in-app messaging, live presence tracking, and instant notifications to bridge the gap between discovery and coordinated adventurer action.
 ---
 
 ## Completed Work
