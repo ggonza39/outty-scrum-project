@@ -16,7 +16,9 @@
 - 
 
 **Takeshia Banks:**  
-- 
+- Fixed US8 gap
+- Added delete functionality to ProfilePhotoUploader component
+- Implemented delete confirmation modal before removing a photo
 
 **Anthony Nguyen:**  
 - 
@@ -39,7 +41,7 @@
 - 
 
 **Takeshia Banks:**  
-- 
+- Fix any bugs or gaps found during testing
 
 **Anthony Nguyen:**  
 - 
