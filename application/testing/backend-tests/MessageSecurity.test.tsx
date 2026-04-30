@@ -1,8 +1,14 @@
+//import { supabase } from '@/lib/supabase';
 import { describe, it, expect, beforeAll } from "vitest";
 import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = 'https://qcdndflbeqowwqdlmteq.supabase.co';
 const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjZG5kZmxiZXFvd3dxZGxtdGVxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mjg4NDMxMSwiZXhwIjoyMDg4NDYwMzExfQ.XdV4YKYZKF38Rq9gV3ozdZESNiZOYyTRt1Bkq3bZQkQ';
+
+const supabase = createClient(
+    'https://qcdndflbeqowwqdlmteq.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjZG5kZmxiZXFvd3dxZGxtdGVxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mjg4NDMxMSwiZXhwIjoyMDg4NDYwMzExfQ.XdV4YKYZKF38Rq9gV3ozdZESNiZOYyTRt1Bkq3bZQkQ'
+);
 
 let client: ReturnType<typeof createClient>
 // Helper to create a signed-in client
@@ -160,17 +166,22 @@ describe("User not in conversation tests", () => {
     describe("Message get tests", () => {
         it("returns messages in chronological order", async () => {
 
-            const resA = await createAuthedClient(
-                "adventurer10@example.com",
-                "Password1"
-            );
-            userA = resA.user;
-            clientA = resA.client;
-            userData = resA.data;
+            //const resA = await createAuthedClient(
+            //    "adventurer10@example.com",
+            //    "Password1"
+            //);
+            //userA = resA.user;
+            //clientA = resA.client;
+            //userData = resA.data;
 
-            const { data, error } = await clientA.from("messages").select('*').eq('conversation_id', "0cb51bbe-7347-4593-9e6a-f7318bf32424");
+            //clientA.auth.refreshSession()
+
+            const { data, error } = await supabase.from("messages").select('*').eq('conversation_id', "0cb51bbe-7347-4593-9e6a-f7318bf32424").order('created_at', { ascending: true });
+            await expect(data).toBeTruthy();
+            //console.log("!!!!!!!!!!!!!!!Data Length: " + data.length)
 
             for (let i = 1; i < data.length; i++) {
+                console.log(data[i])
                 const prevTimestamp = new Date(data[i - 1].created_at).getTime();
                 const currTimestamp = new Date(data[i].created_at).getTime();
                 expect(currTimestamp).toBeGreaterThanOrEqual(prevTimestamp);

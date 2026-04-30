@@ -108,12 +108,18 @@ export async function fetchConversationMessages(conversationId: string) {
  * - input field submit
  * - validation happens in the UI before this function is called
  */
+export function sanitizeString(input: string): string {
+    const truncated = input.length > 2000 ? input.slice(0, 2000) : input
+    return truncated.replace(/<([^>]*)>/g, '$1')
+}
 export async function sendConversationMessage(
   conversationId: string,
   recipientId: string,
   content: string
 ) {
   const user = await getCurrentUser();
+
+  content = sanitizeString(content);
 
   const { data, error } = await supabase
     .from('messages')

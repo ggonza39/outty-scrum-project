@@ -327,7 +327,10 @@ export default function ConversationPage() {
                             });
 
                             if (message.sender_id !== user.id) {
-                                await markConversationAsRead(conversationKey);
+                                setTimeout(() => {
+                                    markConversationAsRead(conversationKey);
+                                }, 500);
+
                                 showIncomingMessageNotification(message);
                             }
                         }
