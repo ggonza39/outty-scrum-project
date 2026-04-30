@@ -20,7 +20,7 @@
 ## Deployment Notes
 
 - **Version Deployed:** (Stable Sprint 2 Release)  
-  - **v2.0.0**
+  - **v1.2.0**
 ---
 
 ## Key Features Included

@@ -19,14 +19,14 @@ import {
     type StoredMockMessage,
 } from '@/lib/mockMessageStore';
 import {
-    createPresenceChannel,
-    createTypingChannel,
-    fetchConversationMessages,
-    getCurrentUser,
-    markConversationAsRead,
-    sendConversationMessage,
-    type ConversationRecord,
-    type MessageRecord,
+  createPresenceChannel,
+  createTypingChannel,
+  fetchConversationMessages,
+  getCurrentUser,
+  markConversationAsRead,
+  sendConversationMessage,
+  type ConversationRecord,
+  type MessageRecord,
 } from '@/lib/supabaseMessages';
 import { supabase } from '@/lib/supabase';
 
@@ -210,206 +210,86 @@ export default function ConversationPage() {
         setOnlineUserIds([]);
         setIsLoading(false);
 
-        return () => {
-            if (typingTimeoutRef.current) {
-                clearTimeout(typingTimeoutRef.current);
-            }
-        };
-    }, [conversationKey, isMockConversation]);
-
-    /**
-     * REAL SUPABASE MODE:
-     * Loads real conversation data, message history, realtime, typing, and presence.
-     *
-     * Gibson test:
-     * - Open /message/[real conversation UUID]
-     * - Messages should load from Supabase
-     * - Sending should insert into Supabase
-     * - Realtime messages should appear without refresh
-     * - Typing indicator should work across tabs/users
-     * - Presence should update online/offline status
-     */
-    useEffect(() => {
-        if (isMockConversation) return;
-
-        let cleanupMessages: (() => void) | undefined;
-        let cleanupPresence: (() => void) | undefined;
-        let cleanupTyping: (() => void) | undefined;
-
-        const loadConversation = async () => {
-            try {
-                setIsLoading(true);
-                setLoadError('');
-
-                const user = await getCurrentUser();
-                setCurrentUserId(user.id);
-
-                // Load the conversation record so the frontend can resolve the recipient.
-                const { data: conversationData, error: conversationError } =
-                    await supabase
-                        .from('conversations')
-                        .select('*')
-                        .eq('id', conversationKey)
-                        .single();
-
-                if (conversationError) throw conversationError;
-
-                const conversation = conversationData as ConversationRecord;
-
-                const otherUserId =
-                    conversation.user1_id === user.id
-                        ? conversation.user2_id
-                        : conversation.user1_id;
-
-                setRecipientId(otherUserId);
-
-                // Load the other user's display name for the header.
-                const { data: profileData } = await supabase
-                    .from('profiles')
-                    .select('display_name')
-                    .eq('id', otherUserId)
-                    .maybeSingle();
-
-                setConversationName(profileData?.display_name || 'Conversation');
-
-                // Real users currently use the first-letter fallback avatar.
-                setAvatarUrl(null);
-
-                // Load message history.
-                const rows = await fetchConversationMessages(conversationKey);
-
-                setMessages(
-                    rows.map((message: MessageRecord) => ({
-                        id: message.id,
-                        text: message.content,
-                        self: message.sender_id === user.id,
-                        timestamp: formatTimestamp(message.created_at),
-                        read: message.is_read,
-                    }))
+        // Subscribe to realtime INSERT and update events using direct Supabase channel
+        const channel = supabase
+          .channel(`messages-${conversationKey}`)
+          .on(
+            'postgres_changes',
+            {
+              event: 'INSERT',
+              schema: 'public',
+              table: 'messages',
+              filter: `conversation_id=eq.${conversationKey}`,
+            },
+            async (payload) => {
+              const message = payload.new as MessageRecord;
+        
+              console.log('Realtime message received:', message);
+        
+              setMessages((current) => {
+                const alreadyExists = current.some(
+                  (currentMessage) => currentMessage.id === message.id
                 );
-
-                // Mark incoming unread messages as read when the thread opens.
-                await markConversationAsRead(conversationKey);
-
-                // Subscribe to realtime INSERT and update events using direct Supabase channel
-                const channel = supabase
-                    .channel(`messages-${conversationKey}`)
-                    .on(
-                        'postgres_changes',
-                        {
-                            event: 'INSERT',
-                            schema: 'public',
-                            table: 'messages',
-                            filter: `conversation_id=eq.${conversationKey}`,
-                        },
-                        async (payload) => {
-                            const message = payload.new as MessageRecord;
-
-                            console.log('Realtime message received:', message);
-
-                            setMessages((current) => {
-                                const alreadyExists = current.some(
-                                    (currentMessage) => currentMessage.id === message.id
-                                );
-
-                                if (alreadyExists) return current;
-
-                                return [
-                                    ...current,
-                                    {
-                                        id: message.id,
-                                        text: message.content,
-                                        self: message.sender_id === user.id,
-                                        timestamp: formatTimestamp(message.created_at),
-                                        read: message.is_read,
-                                    },
-                                ];
-                            });
-
-                            if (message.sender_id !== user.id) {
-                                setTimeout(() => {
-                                    markConversationAsRead(conversationKey);
-                                }, 500);
-
-                                showIncomingMessageNotification(message);
-                            }
-                        }
-                    )
-
-                    // UPDATE = read receipt changes
-                    .on(
-                        'postgres_changes',
-                        {
-                            event: 'UPDATE',
-                            schema: 'public',
-                            table: 'messages',
-                            filter: `conversation_id=eq.${conversationKey}`,
-                        },
-                        (payload) => {
-                            const updatedMessage = payload.new as MessageRecord;
-
-                            console.log('Realtime message updated:', updatedMessage);
-
-                            setMessages((current) =>
-                                current.map((message) =>
-                                    message.id === updatedMessage.id
-                                        ? {
-                                            ...message,
-                                            read: updatedMessage.is_read,
-                                        }
-                                        : message
-                                )
-                            );
-                        }
-                    )
-                    .subscribe();
-
-                // cleanup
-                cleanupMessages = () => {
-                    supabase.removeChannel(channel);
-                };
-                // Typing broadcast channel for Task 10.
-                const typing = createTypingChannel(conversationKey, ({ userId }) => {
-                    if (userId === user.id) return;
-
-                    setIsOtherUserTyping(true);
-
-                    if (typingTimeoutRef.current) {
-                        clearTimeout(typingTimeoutRef.current);
-                    }
-
-                    typingTimeoutRef.current = setTimeout(() => {
-                        setIsOtherUserTyping(false);
-                    }, 3000);
-                });
-
-                typingChannelRef.current = typing;
-                cleanupTyping = typing.cleanup;
-
-                // Presence tracking for online/offline status.
-                cleanupPresence = createPresenceChannel(
-                    conversationKey,
-                    user.id,
-                    setOnlineUserIds
-                );
-            } catch (error) {
-                console.error('Error loading conversation:', error);
-                setLoadError('Unable to load this conversation.');
-            } finally {
-                setIsLoading(false);
+        
+                if (alreadyExists) return current;
+        
+                return [
+                  ...current,
+                  {
+                    id: message.id,
+                    text: message.content,
+                    self: message.sender_id === user.id,
+                    timestamp: formatTimestamp(message.created_at),
+                    read: message.is_read,
+                  },
+                ];
+              });
+        
+              if (message.sender_id !== user.id) {
+                setTimeout(() => {
+                  markConversationAsRead(conversationKey);
+                }, 500);
+                
+                showIncomingMessageNotification(message);
+              }
             }
+          )
+          
+          // UPDATE = read receipt changes
+          .on(
+            'postgres_changes',
+            {
+              event: 'UPDATE',
+              schema: 'public',       
+              table: 'messages',       
+              filter: `conversation_id=eq.${conversationKey}`,        
+            },      
+            (payload) => {       
+              const updatedMessage = payload.new as MessageRecord;
+              
+              console.log('Realtime message updated:', updatedMessage);
+        
+              setMessages((current) =>
+                current.map((message) =>
+                  message.id === updatedMessage.id
+                    ? {
+                        ...message,
+                        read: updatedMessage.is_read,
+                      }
+                    : message
+                )
+              );
+            }
+          )
+          .subscribe();
+        
+        // cleanup
+        cleanupMessages = () => {
+          supabase.removeChannel(channel);
         };
-
-        loadConversation();
-
-        return () => {
-            cleanupMessages?.();
-            cleanupPresence?.();
-            cleanupTyping?.();
-
-            if (typingTimeoutRef.current) {
-                clearTimeout(typingTimeoutRef.current);
-            }
+        // Typing broadcast channel for Task 10.
+        const typing = createTypingChannel(conversationKey, ({ userId }) => {
+          if (userId === user.id) return;
 
             typingChannelRef.current = null;
         };
@@ -531,11 +411,140 @@ export default function ConversationPage() {
 
     const isOtherUserOnline = onlineUserIds.some((id) => id !== currentUserId);
 
-    return (
-        <MobilePage>
-            <main className="content" style={{ paddingTop: 10 }}>
-                <section
-                    className="card"
+      setMessages((current) => [
+        ...current,
+        {
+          id: newMessage.id,
+          text: newMessage.text,
+          self: true,
+          timestamp: newMessage.timestampLabel,
+          read: newMessage.isRead,
+        },
+      ]);
+
+      setDraft('');
+      return;
+    }
+
+    if (!recipientId) {
+      setLoadError('Recipient is not available yet.');
+      return;
+    }
+
+    try {
+      const insertedMessage = await sendConversationMessage(
+        conversationKey,
+        recipientId,
+        trimmed
+      );
+    
+      // Optimistic UI update (shows message immediately for sender)
+      setMessages((current) => {
+        const alreadyExists = current.some(
+          (message) => message.id === insertedMessage.id
+        );
+    
+        if (alreadyExists) return current;
+    
+        return [
+          ...current,
+          {
+            id: insertedMessage.id,
+            text: insertedMessage.content,
+            self: true,
+            timestamp: formatTimestamp(insertedMessage.created_at),
+            read: insertedMessage.is_read,
+          },
+        ];
+      });
+    
+      setDraft('');
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setLoadError('Unable to send message.');
+    }
+  };
+
+  const isOtherUserOnline = onlineUserIds.some((id) => id !== currentUserId);
+
+  return (
+    <MobilePage>
+      <main className="content" style={{ paddingTop: 10 }}>
+        <section
+          className="card"
+          style={{
+            padding: 0,
+            overflow: 'hidden',
+            minHeight: 650,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          {/* Header */}
+          <div
+            style={{
+              padding: '12px 14px 10px',
+              borderBottom: '1px solid #ececec',
+            }}
+          >
+            <Link
+              href="/message"
+              style={{
+                display: 'inline-block',
+                fontSize: '0.85rem',
+                color: '#8a8a8a',
+                textDecoration: 'none',
+                marginBottom: 12,
+              }}
+            >
+              &lt; Back to message board
+            </Link>
+
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 12,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                {/* Avatar */}
+                <div
+                  style={{
+                    width: 42,
+                    height: 42,
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '3px solid #5ea646',
+                    flexShrink: 0,
+                    background: '#ddd',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 800,
+                    color: '#555',
+                  }}
+                >
+                  {avatarUrl ? (
+                    <img
+                      src={avatarUrl}
+                      alt={conversationName}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                  ) : (
+                    conversationName.charAt(0)
+                  )}
+                </div>
+
+                {/* Name + status */}
+                <div>
+                  <div
                     style={{
                         padding: 0,
                         overflow: 'hidden',
