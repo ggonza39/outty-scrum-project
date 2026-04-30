@@ -1,10 +1,22 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import ExplorerProfileClient from './ExplorerProfileClient';
 import React from 'react';
 import { DiscoverPage } from './page';
 import { filterPeople, Person } from "@/lib/filterPeople";
+
+beforeAll(() => {
+    Object.defineProperty(window, 'localStorage', {
+        value: {
+            getItem: vi.fn(),
+            setItem: vi.fn(),
+            removeItem: vi.fn(),
+            clear: vi.fn(),
+        },
+        writable: true,
+    })
+})
 
  //Mock Next.js navigation hooks
 vi.mock('next/navigation', () => ({

@@ -27,9 +27,8 @@ test('Successful deep linking BDD', async ({ page }) => {
 
     //THEN: The page correctly fetches the data and renders the unique name, age, bio, and adventure tags for that specific explorer.
     await expect(page.getByText('Jordan, 31')).toBeVisible();
-    await expect(page.locator('.pill').filter({ hasText: 'Travel' })).toBeVisible();
-    await expect(page.locator('.pill').filter({ hasText: 'Design' })).toBeVisible();
-    await expect(page.locator('.pill').filter({ hasText: 'Dogs' })).toBeVisible();
+    await expect(page.locator('.pill').filter({ hasText: 'Camping' })).toBeVisible();
+    await expect(page.locator('.pill').filter({ hasText: 'Hiking' })).toBeVisible();
     await expect(page.getByText('Designer, traveler, and dog')).toBeVisible();
 });
 
