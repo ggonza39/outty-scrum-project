@@ -7,7 +7,8 @@
 ## 1. What did you do in the last 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Fix photo delete queue insert failure caused by RLS on photo_delete_queue
+- Update queue_deleted_photo_cleanup() trigger function to run as SECURITY DEFINER
 
 **Heidi Wilder:**  
 - 
@@ -32,7 +33,7 @@
 ## 2. What will you do in the next 24 hours to help meet the Sprint Goal?
 
 **Hunter Blake:**  
-- 
+- Continue to support the team on remaining tasks as needed.
 
 **Heidi Wilder:**  
 - 

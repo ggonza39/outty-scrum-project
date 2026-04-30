@@ -17,7 +17,8 @@
 - Worked on final presentation slides for ux/ui.
 
 **Gibson Garner:**  
-- 
+- Completed backend tests
+- Began real-time logic tests
 
 **Takeshia Banks:**  
 - Complete US7 messaging tasks for the frontend
@@ -43,7 +44,8 @@
 - All UX/UI is complete at this time, will remain on standby for any needed support.
 
 **Gibson Garner:**  
-- 
+- Finish real-time logic tests
+- Continue BDD tests
 
 **Takeshia Banks:**  
 - Fix issues with realtime messaging for US7.

@@ -8,6 +8,6 @@ The presentation serves as both a technical deep-dive into our software engineer
 Due to the high-resolution assets and file size, the presentation is hosted on the KSU SharePoint environment to ensure accessibility and version control:
 
 ### Outty V1
-- https://kennesawedu.sharepoint.com/:p:/s/Team-SWE6733_l-i68l/IQDx3Zs_ZFL-T4bYfgrK65ngAdpy9lI2c20GhUrWS-NDc-s?e=WFf5QA
+- [Final Presentation](https://kennesawedu.sharepoint.com/:p:/s/Team-SWE6733_l-i68l/IQD9f8c6i4ysQJMRptqazGOVAVH2jZbu0C7J8unudigfkDU?e=HUbqLt)
 
 ---
