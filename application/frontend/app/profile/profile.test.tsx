@@ -1,6 +1,18 @@
 import { render, waitFor, screen } from '@testing-library/react'
-import { describe, it, vi, expect, beforeEach } from 'vitest'
+import { describe, it, vi, expect, beforeEach, beforeAll } from 'vitest'
 import ProfilePage from './page'
+
+beforeAll(() => {
+    Object.defineProperty(window, 'localStorage', {
+        value: {
+            getItem: vi.fn(),
+            setItem: vi.fn(),
+            removeItem: vi.fn(),
+            clear: vi.fn(),
+        },
+        writable: true,
+    })
+})
 
 // --- mock next/navigation ---
 const mockReplace = vi.fn()

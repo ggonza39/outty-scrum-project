@@ -15,6 +15,7 @@ const defaultData: ProfileFormData = {
     age: "30",
     zipCode: "30067",
     bio: "My bio.",
+    gender: "Female",
     interests: ["Backpacking", "Ice-Fishing", "Bow-Hunting", "Fishing", "Boating", "Hiking", "Skiing", "Rock-Climbing", "Hang-Gliding", "Kayaking", "Camping", "Mountain-Biking", "Trail-Running", "Snowmobiling", "Wildlife-Photography"],
     partnerPreference: "No Preference",
     skillLevel: "Beginner",
@@ -31,6 +32,7 @@ const updatedData: ProfileFormData = {
     age: "31",
     zipCode: "30068",
     bio: "My new bio.",
+    gender: "Male",
     interests: ["Backpacking"],
     partnerPreference: "Female",
     skillLevel: "Expert",
@@ -162,6 +164,7 @@ test('Profile fields can be changed and update in database', async ({ page }) =>
     await page.getByRole('button', { name: 'Save Profile' }).click();
 
     await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/discover');
+    //await page.goto('https://outty-scrum-project.vercel.app/profile-setup');
 
     page.once('dialog', async dialog => {
         expect(dialog.type()).toBe('alert');
@@ -180,7 +183,7 @@ test('Profile fields can be changed and update in database', async ({ page }) =>
     await page.getByRole('textbox', { name: 'Password' }).fill('Password1');
     await page.getByRole('button', { name: 'SIGN IN' }).click();
 
-    await page.waitForURL('https://outty-scrum-project.vercel.app/profile-setup');
+    await page.waitForURL('https://outty-scrum-project.vercel.app/discover');
 
     // 2. Use the Supabase client to check the database directly
     const { data: afterdata, error: aftererror } = await supabase.from('profiles').select().eq('display_name', randomString);
@@ -259,10 +262,8 @@ test('Delete button at profile preview removes profile from database', async ({ 
     });
     await page.getByRole('button', { name: 'Yes, Delete' }).click();
     await page.locator('body').press('Enter');
-    await page.getByRole('button', { name: 'Continue' }).click();
-    await page.getByRole('button', { name: 'Continue' }).click();
 
-    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/profile-setup');
+    await expect(page).toHaveURL('https://outty-scrum-project.vercel.app/signin');
 
     // 2. Use the Supabase client to check the database directly
     const { data: afterData, error: afterError } = await supabase.from('profiles').select().eq('display_name', name);
@@ -418,7 +419,8 @@ test('Invalid updates are not submitted to database', async ({ page }) => {
     await page.getByRole('textbox', { name: 'Password' }).fill('Password1');
     await page.getByRole('button', { name: 'SIGN IN' }).click();
 
-    await page.waitForURL('https://outty-scrum-project.vercel.app/profile-setup');
+    await page.waitForURL('https://outty-scrum-project.vercel.app/discover');
+    await page.goto('https://outty-scrum-project.vercel.app/profile-setup');
 
     // 2. Use the Supabase client to check the database directly
     const { data: afterdata, error: aftererror } = await supabase.from('profiles').select().eq('display_name', randomString);
