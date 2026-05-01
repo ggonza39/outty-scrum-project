@@ -14,7 +14,9 @@
 - 
 
 **Gibson Garner:**  
-- 
+- Wrote real-time sync tests
+- Added input validation to messages
+- Added input validation tests
 
 **Takeshia Banks:**  
 - Fixed US8 gap
@@ -40,7 +42,7 @@
 - 
 
 **Gibson Garner:**  
-- 
+- Write last BDD test
 
 **Takeshia Banks:**  
 - Fix any bugs or gaps found during testing
