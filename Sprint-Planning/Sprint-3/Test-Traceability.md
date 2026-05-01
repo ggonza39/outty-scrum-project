@@ -4,6 +4,9 @@ This document tracks the cumulative test count across all Sprints to ensure the 
 ### Testing Strategy File
 - [Testing Strategy](/Sprint-Planning/Testing-Strategy.md)
 
+### Screenshots of tests passing locally
+- [Test Screenshots](/Sprint-Planning/Sprint-3/Test-Screenshots)
+
 ### Sprint 1 Summary
 - [Sprint 1 Test-Traceability File](/Sprint-Planning/Sprint-1/Test-Traceability.md)
 
