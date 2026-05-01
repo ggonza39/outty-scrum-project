@@ -22,7 +22,8 @@
 - Implemented delete confirmation modal before removing a photo
 
 **Anthony Nguyen:**  
-- 
+- Completed a comprehensive visual and technical audit comparing the V1.0 current stubs against V2.0 desired high-fidelity features.
+- Drafted the Technical Limitations & Gaps slide to address the messaging handshake and notification constraints.
 
 **Gilberto Gonzalez:**  
 - Performed revisions of the project presentation (PPT), ensuring the technical narrative accurately reflects our application's structure and features.
@@ -45,7 +46,8 @@
 - Fix any bugs or gaps found during testing
 
 **Anthony Nguyen:**  
-- 
+- Conduct a final review of all the Sprint 3 acceptance criteria are checked off and that the presentation demo will have the parts needed.
+- Continue to manage any new PR so the app is up-to-date and changes are working as intended.
 
 **Gilberto Gonzalez:**  
 - Initiate preparations for the Sprint Review and Sprint Retrospective final meetings.
