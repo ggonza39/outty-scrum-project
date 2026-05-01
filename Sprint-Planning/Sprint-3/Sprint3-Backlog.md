@@ -78,16 +78,7 @@ Sprint Goal:
   - **F. Notification Dispatch:** Test the utility function that triggers the Browser Notification API to ensure it only fires when the tab is inactive.
 
 
-* **Task 15 (BDD): Scenario – The "First Contact" Workflow**
-
-  - **Given** I am on an Explorer's profile and we have no previous history  
-
-  - **When** I click the "Message" FAB and send "Hey, let's go hiking!"  
-
-  - **Then** a new Conversation ID is generated, I am redirected to the Chat Window, and my message appears with a "Sent" status.
-
-
-* **Task 16 (BDD): Scenario – Real-Time Sync & Status**
+* **Task 15 (BDD): Scenario – Real-Time Sync & Status**
 
   - **Given** I am in an active chat with User B  
 
