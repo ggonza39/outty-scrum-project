@@ -48,8 +48,8 @@ test('Profile fields can be changed and update in database', async ({ page }) =>
     const randomString = Math.random().toString(36).substring(2, 12); // Generates a random 10-character string
     const email = `${randomString}@${'gmail.com'}`
 
-    await page.goto('https://outty-scrum-project.vercel.app/');
-    await page.getByRole('link', { name: 'Sign in' }).click();
+    //await page.goto('https://outty-scrum-project.vercel.app/');
+    //await page.getByRole('link', { name: 'Sign in' }).click();
     await page.goto('https://outty-scrum-project.vercel.app/');
     await page.getByRole('link', { name: 'Create account' }).click();
     await page.getByRole('textbox', { name: 'Name' }).click();
@@ -215,8 +215,8 @@ test('Delete button at profile preview removes profile from database', async ({ 
     const name = `00test${randomString}`
     const email = `${randomString}@${'gmail.com'}`
 
-    await page.goto('https://outty-scrum-project.vercel.app/');
-    await page.getByRole('link', { name: 'Sign in' }).click();
+    //await page.goto('https://outty-scrum-project.vercel.app/');
+    //await page.getByRole('link', { name: 'Sign in' }).click();
     await page.goto('https://outty-scrum-project.vercel.app/');
     await page.getByRole('link', { name: 'Create account' }).click();
     await page.getByRole('textbox', { name: 'Name' }).click();
@@ -283,8 +283,8 @@ test('Invalid updates are not submitted to database', async ({ page }) => {
     const randomString = Math.random().toString(36).substring(2, 12); // Generates a random 10-character string
     const email = `${randomString}@${'gmail.com'}`
 
-    await page.goto('https://outty-scrum-project.vercel.app/');
-    await page.getByRole('link', { name: 'Sign in' }).click();
+    //await page.goto('https://outty-scrum-project.vercel.app/');
+    //await page.getByRole('link', { name: 'Sign in' }).click();
     await page.goto('https://outty-scrum-project.vercel.app/');
     await page.getByRole('link', { name: 'Create account' }).click();
     await page.getByRole('textbox', { name: 'Name' }).click();
