@@ -1,7 +1,7 @@
 ## Test Traceability & Metrics Report
 This document tracks the cumulative test count across all Sprints to ensure the project meets the "Automated Quality Gate" requirements.
 
-### Screenshots of tests passing locally
+### Screenshots of Tests Passing Locally
 - [Test Screenshots](/Sprint-Planning/Sprint-3/Test-Screenshots)
 
 ### Testing Strategy File
