@@ -30,7 +30,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
       - [discover.test.tsx](/application/frontend/app/discover/discover.test.tsx) (7 tests)
       - [profile.test.tsx](/application/frontend/app/profile/profile.test.tsx) (4 tests)
       - [supabaseMessages.test.tsx](/application/frontend/lib/supabaseMessages.test.tsx) (18 tests)
-    - /testing
+    - /testing - 43 Tests excluded from Vercel
       - [ProfileGet.test.tsx](/application/testing/backend-tests/ProfileGET.test.tsx) (7 tests)
       - [ProfileUploadSecurity.test.tsx](/application/testing/backend-tests/ProfileUploadSecurity.test.tsx) (1 test)
       - [MessageSecurity.test.tsx](/application/testing/backend-tests/MessageSecurity.test.tsx) (8 tests)
