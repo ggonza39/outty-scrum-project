@@ -47,5 +47,3 @@
 
 - **N/A – Final Sprint Completed:**  
   This was the final sprint of the project. No further action items are required as development has concluded.
-
-- N/A
