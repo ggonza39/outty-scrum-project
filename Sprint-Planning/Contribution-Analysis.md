@@ -40,7 +40,7 @@ To ensure accurate interpretation of the data, the metrics are defined as follow
 | **Takeshia Banks** | 6,996 | 2,229 | 9,225 | Frontend |
 | **Hunter Blake** | 9,052 | 125 | 9,177 | Backend |
 | **Gibson Garner** | 1,382 | 714 | 2,096 | Testing |
-| **Anthony Nguyen** | 522 | 375 | 897 | Product Owner & Quality Control |
+| **Anthony Nguyen** | 52 | 23 | 75 | Product Owner & Quality Control |
 
 
 ## Data Interpretation & Role Breakdown
