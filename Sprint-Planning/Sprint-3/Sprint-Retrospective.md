@@ -7,25 +7,45 @@
 
 ## What Went Well
 
-- The team completed all acceptance criteria and tasks ahead of the deadline, delivering a fully functional application.
-- Sprint execution was faster and smoother compared to previous sprints, with improved clarity in tasks and user stories.
-- Strong team collaboration across different skill sets (UI/UX, backend, testing) contributed to a high-quality final product.
-- Well-written user stories helped reduce confusion and allowed team members to work more efficiently.
-- The application reached a high level of polish, both in functionality and UI/UX design.
-- Working on a single focused user story (Messaging) improved coordination and reduced context switching.
-- Quick resolution of blockers (e.g., database access and RLS policy issues) minimized delays.
+- **Early Completion of Sprint Goals:**  
+  The team successfully completed all acceptance criteria and development tasks ahead of the deadline, delivering a fully functional messaging system.
+
+- **Improved Task Clarity & Efficiency:**  
+  User stories were clearer and more detailed in this sprint, allowing team members to execute tasks faster with minimal confusion.
+
+- **Strong Team Collaboration:**  
+  The team effectively leveraged individual strengths across frontend, backend, UI/UX, and testing, resulting in a polished and well-integrated final product.
+
+- **Focused Sprint Scope:**  
+  Working on a single user story (Messaging) improved coordination, reduced context switching, and allowed deeper focus on quality and completeness.
+
+- **High-Quality Final Product:**  
+  The application reached a high level of functionality and visual polish, with strong performance across all implemented features.
+
+- **Quick Blocker Resolution:**  
+  Minor issues, such as database access and RLS policy constraints, were identified and resolved quickly, preventing major delays.
 
 ---
 
 ## What Could Be Improved
 
-- Testing could have been started earlier in the sprint to validate acceptance criteria sooner.
-- Limited time availability (approx. 6 hours/week per member) restricted deeper collaboration and extended development opportunities.
-- Closer and more consistent frontend-backend collaboration could have further improved integration efficiency.
-- Some minor blockers related to database access and permissions briefly slowed frontend progress.
+- **Earlier Testing Integration:**  
+  Testing could have been initiated earlier in the sprint to validate functionality and acceptance criteria sooner.
+
+- **Limited Collaboration Time:**  
+  With limited weekly availability (~6 hours per member), there was less opportunity for extended real-time collaboration, especially between frontend and backend development.
+
+- **Frontend/Backend Coordination:**  
+  While overall integration was successful, closer collaboration between frontend and backend teams could have further streamlined development.
+
+- **Handling Minor Blockers:**  
+  Although quickly resolved, temporary issues with database permissions and access briefly slowed frontend progress.
 
 ---
 
 ## Action Items for Next Sprint
+
+- **N/A – Final Sprint Completed:**  
+  This was the final sprint of the project. No further action items are required as development has concluded.
 
 - N/A
