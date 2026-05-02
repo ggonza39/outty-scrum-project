@@ -11,7 +11,8 @@
 - Update queue_deleted_photo_cleanup() trigger function to run as SECURITY DEFINER
 
 **Heidi Wilder:**  
-- 
+
+-was on stand by for needed supoort.
 
 **Gibson Garner:**  
 - Wrote real-time sync tests
@@ -39,7 +40,7 @@
 - Continue to support the team on remaining tasks as needed.
 
 **Heidi Wilder:**  
-- 
+- On standby for any needed support.
 
 **Gibson Garner:**  
 - Write last BDD test
