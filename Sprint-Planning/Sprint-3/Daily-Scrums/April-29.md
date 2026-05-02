@@ -12,7 +12,7 @@
 
 **Heidi Wilder:**  
 
--was on stand by for needed supoort.
+- Remained on standby for needed supoort.
 
 **Gibson Garner:**  
 - Wrote real-time sync tests
