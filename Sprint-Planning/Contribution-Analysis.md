@@ -32,6 +32,16 @@ To ensure accurate interpretation of the data, the metrics are defined as follow
 | **Gibson Garner** | 830 | 186 | 1,016 | Testing |
 | **Anthony Nguyen** | 47 | 21 | 68 | Product Owner & Quality Control |
 
+## Contribution Matrix through Sprint 3
+| Team Member | Added | Removed | Total Impact | Primary Focus |
+| :--- | :---: | :---: | :---: | :--- |
+| **Gilberto Gonzalez** | 31,843 | 10,516 | 42,359 | Scrum Master & 2.0 Architecture |
+| **Heidi Wilder** | 39,148 | 1,342 | 40,490 | UI/UX & Frontend Components |
+| **Takeshia Banks** | 6,996 | 2,229 | 9,225 | Frontend Messaging UI |
+| **Hunter Blake** | 9,052 | 125 | 9,177 | Backend & Messaging Logic |
+| **Gibson Garner** | 1,382 | 714 | 2,096 | QA & Automated Testing |
+| **Anthony Nguyen** | 522 | 375 | 897 | Product Owner & Quality Control |
+
 
 ## Data Interpretation & Role Breakdown
 - **Technical Leadership & 2.0 Infrastructure:** 
