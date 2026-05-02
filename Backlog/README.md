@@ -22,7 +22,7 @@ Enhancement features such as photo uploads, profile editing, and secure logout a
 
 ---
 
-## Refined Backlog - 54 total pts (04/14/2026)
+## Refined Backlog - 54 total pts (05/01/2026)
 
 - **Completed:**
 1. User account creation – 5 pts
