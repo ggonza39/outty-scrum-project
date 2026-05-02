@@ -47,6 +47,5 @@ During the Sprint 3 Review, the team demonstrated the finalized real-time messag
 ---
 
 ## Incomplete Work (if applicable)
-All user stories from the Sprint 3 backlog were completed on time.
-
-There is no incomplete work; the project has officially concluded.
+- All user stories from the Sprint 3 backlog were completed on time.
+- There is no incomplete work; the project has officially concluded.
