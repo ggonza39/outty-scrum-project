@@ -14,6 +14,7 @@
 - **US7 – Send in-app messages – 13 pts**
 
 **Total Completed:** 13 Story Points  
+
 **Carryover Work:** None
 
 ---
