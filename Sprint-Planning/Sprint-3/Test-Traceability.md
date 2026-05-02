@@ -48,7 +48,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
 - https://github.com/ggonza39/outty-scrum-project/actions/runs/24592632056
 
 - **Note on Count Variance:**  
-  - Tier 1 (CI-Gated): Unit and Integration & BDD tests (TBD total) are executed on every Vercel merge/PR. These are headless, fast, and mock external dependencies. These tests are inside the /frontend directory.
+  - Tier 1 (CI-Gated): Unit and Integration & BDD tests (79 total) are executed on every Vercel merge/PR. These are headless, fast, and mock external dependencies. These tests are inside the /frontend directory.
   - Tier 2 (Local/Staging): Playwright E2E tests are executed in a local environment or a dedicated staging branch. These are excluded from the Vercel production build to prevent timeout failures and resource contention during browser-based session simulation. Backend tests are also excluded to prevent backend issues from stopping frontend deployments. Playwright tests are changed from ".test.tsx" to "Test.tsx" for deployment to prevent automatic tests execution with the backend tests. These tests are inside the /testing directory.
 
 ### Vercel Logs
