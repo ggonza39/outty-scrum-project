@@ -45,7 +45,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
       - [RealTimeSyncBDDTest.tsx](/application/testing/e2e-tests/RealTimeSyncBDDTest.tsx) (1 test)
 
 ### GitHub Actions with Vercel Summary Logs
-- https://github.com/ggonza39/outty-scrum-project/actions/runs/25238865613
+- https://github.com/ggonza39/outty-scrum-project/actions/runs/25241177881
 
 - **Note on Count Variance:**  
   - Tier 1 (CI-Gated): Unit and Integration & BDD tests (79 total) are executed on every Vercel merge/PR. These are headless, fast, and mock external dependencies. These tests are inside the /frontend directory.
