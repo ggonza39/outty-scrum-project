@@ -18,7 +18,7 @@ This document tracks the cumulative test count across all Sprints to ensure the 
   - **Actual:** 115 Unit Tests / 7 BDD
   - **Status:** All tests pass
   - **Files:**
-    - /frontend
+    - /frontend - 79 Tests included in Vercel
       - [app.test.ts](https://github.com/ggonza39/outty-scrum-project/blob/main/application/frontend/app.test.ts) (1 test)
       - [validation.test.ts](/application/frontend/lib/validation.test.ts) (12 tests)
       - [signinValidation.test.ts](/application/frontend/lib/signinValidation.test.ts) (4 tests)
